@@ -26,17 +26,17 @@ const testimonialSlides: Testimonial[][] = [
   [
     {
       id: "ravi-1",
-      name: "Ravi Gupta",
+      name: "Rajesh Kumar | Resident, Noida Extension.",
       image: "/assets/testimonial_ravi.png",
       quote:
-        '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."',
+        '"Living in a house of Sanskar Realty is a dream come true. The contemporary facilities, superior construction and fittings, and fine details exceed anything we saw in Noida Extension. "',
     },
     {
       id: "mohit-1",
-      name: "Mohit Sharma",
+      name: "Priya Mehta | Investor, Delhi NCR.",
       image: "/assets/testimonial_mohit.png",
       quote:
-        '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."',
+        '"Our family could not be happier. My investment has paid much more than I could have hoped, plus the quality is there.  The site, layout and credentials of Yatharth Group makes this my smartest NCR real estate investment."',
     },
   ],
   [
@@ -107,11 +107,11 @@ export function TestimonialsSection() {
           data-scroll-reveal
           className={`${quattrocento.className} mt-2 text-center text-[26px] font-normal uppercase leading-[1.2] text-[#111111] sm:mt-3 sm:text-[30px] md:text-[34px] lg:text-[36px]`}
         >
-          What Does Our Customer Say?
+          What Our Customers' Say?
         </h2>
 
         <div data-scroll-reveal className="relative mt-8 sm:mt-10 lg:pr-12">
-          <div className="min-h-[320px] overflow-hidden py-3 sm:min-h-[360px] sm:py-4 md:min-h-[380px] lg:h-[380px]">
+          <div className="min-h-[320px] overflow-hidden py-3 sm:min-h-[360px] sm:py-4 md:min-h-[380px] lg:h-[430px]">
             <div
               className="h-full transition-transform duration-500 ease-out"
               style={{ transform: `translateY(-${activeSlide * 100}%)` }}
@@ -124,7 +124,7 @@ export function TestimonialsSection() {
                   {slide.map((item) => (
                     <div
                       key={item.id}
-                      className="flex min-h-[280px] w-full max-w-[548px] flex-col items-center rounded-[6px] bg-white px-5 py-6 text-center shadow-[0px_4px_20px_rgba(0,0,0,0.08)] sm:min-h-[300px] sm:flex-1 sm:px-6 sm:py-7 md:px-8 lg:h-[314px] lg:min-h-0 lg:w-[min(100%,548px)] lg:flex-none lg:px-10"
+                      className="flex min-h-[280px] w-full max-w-[548px] flex-col items-center rounded-[6px] bg-white px-5 py-6 text-center shadow-[0px_4px_20px_rgba(0,0,0,0.08)] sm:min-h-[300px] sm:flex-1 sm:px-6 sm:py-7 md:px-8 lg:h-[360px] lg:min-h-0 lg:w-[min(100%,548px)] lg:flex-none lg:px-10"
                     >
                       <div className="relative h-[88px] w-[88px] shrink-0 overflow-hidden rounded-full sm:h-[100px] sm:w-[100px] md:h-[120px] md:w-[120px]">
                         <Image src={item.image} alt={item.name} fill className="object-cover" sizes="120px" />

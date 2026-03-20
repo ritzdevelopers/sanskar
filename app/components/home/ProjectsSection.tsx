@@ -55,32 +55,29 @@ export function ProjectsSection() {
 
           <h2
             data-scroll-reveal
-            className={`${quattrocento.className} max-w-[740px] text-[26px] font-normal uppercase leading-[1.2] text-[#111111] sm:text-[30px] md:text-[34px] lg:text-[36px] lg:leading-[46px]`}
+            className={`${quattrocento.className} max-w-[750px] text-[26px] font-normal uppercase leading-[1.2] text-[#111111] sm:text-[30px] md:text-[34px] lg:text-[36px] lg:leading-[46px]`}
           >
-            Building the Perfect Place for Your Life to Grow.
+            Three Projects<br /> One Standard - Extraordinary
+
           </h2>
 
           <p
             data-scroll-reveal
-            className={`${lato.className} max-w-[90%] text-[14px] font-normal leading-6 text-[#00000099] sm:max-w-none sm:text-[15px] md:text-[16px]`}
+            className={`${lato.className} max-w-[760px] text-[14px] font-normal leading-6 text-[#00000099] sm:text-[15px] md:text-[16px]`}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur.
+
+            From luxury 3 & 4 BHK residences in Noida Extension to studio apartments in Greater Noida West and gated forest villas in Ghaziabad, we have it all.
+
           </p>
-        </div>
+        </div>  
 
         <div className="mt-6 w-full max-w-[1284px] sm:mt-8">
           <div className="relative aspect-[4/3] min-h-[220px] w-full overflow-hidden sm:aspect-[16/10] md:aspect-[5/3] md:min-h-[360px] lg:aspect-auto lg:h-[520px] xl:h-[580px] 2xl:h-[611px]">
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
-                className={`absolute inset-0 transition-opacity duration-500 ${
-                  activeSlide === index ? "opacity-100" : "opacity-0"
-                }`}
+                className={`absolute inset-0 transition-opacity duration-500 ${activeSlide === index ? "opacity-100" : "opacity-0"
+                  }`}
               >
                 <Image
                   src={slide.image}
@@ -119,9 +116,8 @@ export function ProjectsSection() {
                 type="button"
                 aria-label={`Go to project ${index + 1}`}
                 onClick={() => setActiveSlide(index)}
-                className={`h-4 w-4 rounded-full transition-colors ${
-                  activeSlide === index ? "bg-[#666666]" : "bg-[#E2E2E2]"
-                }`}
+                className={`h-4 w-4 rounded-full transition-colors ${activeSlide === index ? "bg-[#666666]" : "bg-[#E2E2E2]"
+                  }`}
               />
             ))}
           </div>

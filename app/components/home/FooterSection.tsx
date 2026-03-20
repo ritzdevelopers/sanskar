@@ -28,16 +28,18 @@ export function FooterSection() {
       {/* Top Section */}
       <div className="relative z-10 mx-auto w-full max-w-[1280px] px-4 py-12 sm:px-6 sm:py-16 md:px-8 md:py-16 lg:px-10 lg:py-20 xl:max-w-[1320px] xl:px-12 2xl:px-16">
         <div className="flex flex-col gap-10 sm:gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
-          
+
           {/* Left: Text and Contact */}
           <div className="flex flex-col gap-8 text-center sm:gap-10 lg:w-1/3 lg:gap-12 lg:text-left">
             <h2
               data-scroll-reveal
               className="font-quattrocento text-[28px] font-normal uppercase leading-[1.2] text-[#1A1A1A] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[42px]"
             >
-              WE HAVE HIGH<br />
-              STANDARDS FOR<br />
-              EMAILS TOO.
+              Our Emails Are Crafted With
+              <br />
+              Highest Standards!
+
+
             </h2>
 
             <div className="flex flex-col gap-6">
@@ -123,7 +125,7 @@ export function FooterSection() {
         </a>
 
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:flex lg:flex-row lg:flex-wrap lg:justify-between lg:gap-12">
-          
+
           {/* Column 1: About */}
           <div className="flex flex-col gap-6 sm:col-span-2 lg:col-span-1 lg:w-[23%]">
             <h3 data-scroll-reveal className="font-quattrocento text-[28px] font-bold text-[#1A1A1A]">
@@ -133,7 +135,7 @@ export function FooterSection() {
               data-scroll-reveal
               className="font-lato text-[14px] leading-[24px] text-[#666666] max-w-[300px]"
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna ali...
+              At Sanskar Realty, we believe that every home is more than just four walls—it is a foundation for dreams, growth, and togetherness. With a commitment to integrity, trust, and innovation, we have been shaping inspiring living spaces that bring comfort, convenience, and value to our customers. Guided by our core values of transparency and quality.
             </p>
             <div className="mt-4 flex flex-col gap-4">
               <h4 data-scroll-reveal className="font-quattrocento text-[18px] uppercase text-[#1A1A1A]">

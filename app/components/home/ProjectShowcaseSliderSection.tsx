@@ -22,7 +22,7 @@ const showcaseSlides = [
     subtext: "Construction in full swing",
     projectName: "Project One",
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard text.",
+      "Located at Noida Extension, Eternia by Sanskar Realty offers premium 3BHK and 4BHK apartments. This project promises a luxurious living experience with its contemporary amenities, roomy layouts, and Vastu-compliant design.",
     image: "/assets/project_slider_banner.png",
   },
   {
@@ -31,7 +31,7 @@ const showcaseSlides = [
     subtext: "Premium lifestyle spaces",
     projectName: "Project Two",
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard text.",
+      "In Greater Noida West, High Life offers 1 & 2 BHK studio apartments . High Life 1 is set in a G+26-story tower, while High Life 2 in a G+18-story tower. Both projects are ideally situated along a 130-meter road, views of a 100-meter green belt and come furnished with IKEA. Enjoy quick access to commercial districts, retail establishments, and entertainment venues.",
     image: "/assets/project_slider_banner.png",
   },
   {
@@ -40,7 +40,7 @@ const showcaseSlides = [
     subtext: "Thoughtfully crafted homes",
     projectName: "Project Three",
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard text.",
+      "Ghaziabad's exclusive gated villa community, The Forest Walk, combines urban luxury with a natural lifestyle. With only 97 villas, residents enjoy large green spaces to a forest trail right outside. It is an ideal combination of seclusion and connectivity and is conveniently accessible from Delhi and Noida thanks to its location on NH-24.",
     image: "/assets/project_slider_banner.png",
   },
 ];
@@ -85,9 +85,8 @@ export function ProjectShowcaseSliderSection() {
           {showcaseSlides.map((slide, index) => (
             <div
               key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-500 ${
-                index === activeIndex ? "opacity-100" : "opacity-0"
-              }`}
+              className={`absolute inset-0 transition-opacity duration-500 ${index === activeIndex ? "opacity-100" : "opacity-0"
+                }`}
             >
               <Image
                 src={slide.image}
@@ -146,9 +145,7 @@ export function ProjectShowcaseSliderSection() {
             data-scroll-reveal
             className={`${lato.className} text-center text-[14px] leading-[1.5] text-[#555555] sm:text-[15px] md:text-[16px]`}
           >
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry&apos;s,Lorem Ipsum is
-            simply dummy text.
+            {activeSlide.description}
           </p>
 
           <button

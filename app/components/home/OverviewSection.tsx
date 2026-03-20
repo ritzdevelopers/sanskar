@@ -64,22 +64,31 @@ export function OverviewSection() {
           data-scroll-reveal
           className={`${lato.className} w-full text-sm font-normal leading-7 text-[#111111] uppercase sm:text-[15px] md:text-[16px]`}
         >
-          OVERVIEW
+          Project Overview
         </p>
 
         <h2
           data-scroll-reveal
           className={`${quattrocento.className} max-w-[995px] align-middle text-[26px] font-normal leading-[1.2] text-[#111111] uppercase sm:text-[30px] sm:leading-[1.25] md:text-[34px] md:leading-[1.3] lg:text-[36px] lg:leading-[46px] xl:text-[38px]`}
         >
-          The future belongs to those who believe in the beauty of their dreams.
+          Where Trust Meets Extraordinary Design
+
         </h2>
 
-        <p
+        <div
           data-scroll-reveal
-          className={`${lato.className} max-w-[1180px] text-[14px] font-normal leading-[1.6] text-[#3b3b3b] sm:text-[15px] md:text-[16px] md:leading-6`}
+          className={`${lato.className} max-w-[1180px] space-y-4 text-[14px] font-normal leading-[1.6] text-[#3b3b3b] sm:text-[15px] md:text-[16px] md:leading-6`}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
+          <p>
+            Sanskar Realty, a renowned name in the luxurious NCR real estate region, and comes with a pedigree that matters. As a venture of the Yatharth Group, North India’s 3rd largest public-listed healthcare company, we bring our legacy of care, honesty and community impact into every home we make.
+          </p>
+          <p>
+            With over 17 years of real estate experience, we have been redefining premium living in Noida Extension, Greater Noida West, Ghaziabad since long. Our houses are not built, they are crafted. Each design, material, and amenity has one purpose only: to create a home that betters your life and appreciates in value with passing time.
+          </p>
+          <p>
+            The developer provides a diverse selection of properties from spacious 3 BHK and 4 BHK luxury apartments in Noida Extension, IKEA-furnished studio apartments to exclusive gated villas.
+          </p>
+        </div>
 
         <button
           data-scroll-reveal

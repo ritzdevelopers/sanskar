@@ -17,18 +17,18 @@ const quattrocento = Quattrocento({
 
 const investCards = [
   {
-    title: "World-Class Infrastructure",
-    description: "Seamless metro networks and expressways connecting you to the future",
+    title: "Yatharth Group Reputation",
+    description: "Backed by North India’s third-largest public-listed hospital group with a name that spells trust and community care since 2008",
     image: "/assets/invest_infra.png",
   },
   {
-    title: "High ROI Potential",
-    description: "Seamless metro networks and expressways connecting you to the future",
+    title: "Prime Locations",
+    description: "The three most rapidly appreciating real estate corridors of NCR are Tech Zone-IV, Dream Valley, and NH-24. Always in the right place and time.",
     image: "/assets/invest_roi.png",
   },
   {
-    title: "Strategic Location",
-    description: "Seamless metro networks and expressways connecting you to the future",
+    title: "Green & Vastu-Compliant Homes",
+    description: "All of our homes are Vastu-compliant and made from eco-friendly materials. This is our way of ensuring that your home nurtures you.",
     image: "/assets/invest_location.png",
   },
 ];
@@ -51,9 +51,8 @@ export function WhyInvestSection() {
           data-scroll-reveal
           className={`${lato.className} mx-auto mt-4 max-w-[1054px] text-center text-[15px] font-normal leading-[1.65] text-[#4B4B4B] sm:mt-5 sm:text-[16px] md:mt-6 md:text-[17px] md:leading-[1.75] lg:text-left lg:text-[18px]`}
         >
-          Noida has emerged as one of India&apos;s most progressive cities, driven by world-class infrastructure. With
-          seamless metro networks, expressways, and the upcoming Jewar International Airport, the city is transforming
-          into a global hub. Its rapid growth makes it a hotspot for business, lifestyle, and real estate investment.
+          At Sanskar Realty, we do not just offer properties; we offer opportunities for growth, quality of life, and investment for the future. With our experience in delivering luxury properties and commercial spaces, we can assure you of not only a great lifestyle but also a high return on investment.
+
         </p>
 
         <div className="mt-8 grid grid-cols-1 justify-items-center gap-5 sm:mt-10 sm:grid-cols-2 sm:justify-items-stretch lg:grid-cols-3 lg:gap-6 xl:gap-8">

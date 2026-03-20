@@ -42,23 +42,21 @@ export function StorySection() {
               data-scroll-reveal
               className={`${quattrocento.className} text-[22px] font-normal uppercase leading-[1.08] tracking-[0.01em] text-[#202020] sm:text-[24px] md:text-[26px]`}
             >
-              Building Trust, Creating Homes
+              Building A Legacy of Excellence
+
             </h3>
             <p
               data-scroll-reveal
-              className={`${lato.className} text-[14px] font-normal leading-[1.5] text-[#555555] sm:text-[15px] md:text-[16px] md:leading-[1.45] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:4] overflow-hidden md:[-webkit-line-clamp:3]`}
+              className={`${lato.className} text-[14px] font-normal leading-[1.5] text-[#555555] sm:text-[15px] md:text-[16px] md:leading-[1.45] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:4] overflow-hidden md:[-webkit-line-clamp:3] lg:[display:block] lg:[-webkit-line-clamp:unset] lg:overflow-visible`}
             >
-              Our journey began with a simple vision - to create spaces where
-              people can truly feel at home. With a passion for quality
-              construction and thoughtful design, we set out to redefine modern
-              living.
+              Our mission is to deliver exceptional living spaces with a blend of luxury, comfort and sustainable design. Our organization builds residential and commercial properties which deliver enduring worth through innovative solutions that meet customer needs while setting new standards in the real estate industry.
             </p>
             <button
               data-scroll-reveal
               type="button"
               className={`${lato.className} mx-auto inline-flex w-fit items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] sm:text-[18px] md:text-[20px] lg:mx-0`}
             >
-              <span className="border-b border-[#3A3A3A] pb-1">Our Story</span>
+              <span className="border-b border-[#3A3A3A] pb-1">Our Mission</span>
               <span aria-hidden>›</span>
             </button>
           </div>
@@ -68,24 +66,25 @@ export function StorySection() {
           <div className="flex h-auto w-full flex-col items-center gap-4 text-center sm:gap-[18px] lg:max-w-[507px] lg:items-start lg:justify-center lg:text-left">
             <h3
               data-scroll-reveal
-              className={`${quattrocento.className} text-[22px] font-normal uppercase leading-[1.08] tracking-[0.01em] text-[#202020] sm:text-[24px] md:text-[26px]`}
+              className={`${quattrocento.className} text-[22px] font-normal uppercase leading-[1.08] tracking-[0.01em] text-[#202020] sm:text-[24px] md:text-[26px] lg:whitespace-nowrap`}
             >
-              Creating Communities That Last
+              Redefining Living, Inspiring Futures
+
             </h3>
             <p
               data-scroll-reveal
-              className={`${lato.className} text-[14px] font-normal leading-[1.5] text-[#555555] sm:text-[15px] md:text-[16px] md:leading-[1.45] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:4] overflow-hidden md:[-webkit-line-clamp:3]`}
+              className={`${lato.className} text-[14px] font-normal leading-[1.5] text-[#555555] sm:text-[15px] md:text-[16px] md:leading-[1.45] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:4] overflow-hidden md:[-webkit-line-clamp:3] lg:[display:block] lg:[-webkit-line-clamp:unset] lg:overflow-visible`}
             >
-              Our impact goes beyond building properties - we focus on shaping
-              vibrant communities and improving lifestyles. Through our
-              developments, we have helped many families find their dream home.
+
+              Our vision is to be a trusted leader and reliable real estate company creating sustainable communities and forward-thinking spaces for better customer lifestyles. Our goal is to expand our reach across NCR and beyond, offering high-quality residential and commercial properties that maintain their value throughout time.
+
             </p>
             <button
               data-scroll-reveal
               type="button"
               className={`${lato.className} mx-auto inline-flex w-fit items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] sm:text-[18px] md:text-[20px] lg:mx-0`}
             >
-              <span className="border-b border-[#3A3A3A] pb-1">Our Impact</span>
+              <span className="border-b border-[#3A3A3A] pb-1">Our Vision</span>
               <span aria-hidden>›</span>
             </button>
           </div>
