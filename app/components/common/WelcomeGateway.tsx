@@ -117,6 +117,7 @@ export function WelcomeGateway({ onComplete }: WelcomeGatewayProps) {
             width={520}
             height={158}
             priority
+            fetchPriority="high"
             className="mx-auto h-auto w-full max-w-[260px] sm:max-w-[360px] md:max-w-[440px] lg:max-w-[520px] xl:max-w-[540px]"
           />
         </div>
