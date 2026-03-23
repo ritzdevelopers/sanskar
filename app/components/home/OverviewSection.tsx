@@ -31,7 +31,7 @@ export function OverviewSection() {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[1268px] flex-col items-center gap-6 px-4 py-10 text-center sm:gap-8 sm:px-6 sm:py-12 md:gap-9 md:px-8 md:py-14 lg:items-start lg:gap-[35px] lg:px-10 lg:py-[56px] lg:text-left xl:min-h-[551px] xl:justify-center xl:px-12 2xl:max-w-[1320px] 2xl:px-16">
+      <div className="relative z-10 mx-auto flex w-full max-w-[1268px] flex-col items-center gap-6 px-4 py-10 text-center sm:gap-8 sm:px-6 sm:py-12 md:items-start md:gap-8 md:px-8 md:py-14 md:text-left lg:gap-[35px] lg:px-10 lg:py-[56px] xl:min-h-[551px] xl:justify-center xl:px-12 2xl:max-w-[1320px] 2xl:px-16">
         <p
           data-scroll-reveal
           className={`${lato.className} w-full text-sm font-normal leading-7 text-[#111111] uppercase sm:text-[15px] md:text-[16px]`}

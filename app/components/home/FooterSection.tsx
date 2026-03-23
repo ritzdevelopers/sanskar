@@ -27,10 +27,10 @@ export function FooterSection() {
 
       {/* Top Section */}
       <div className="relative z-10 mx-auto w-full max-w-[1280px] px-4 py-12 sm:px-6 sm:py-16 md:px-8 md:py-16 lg:px-10 lg:py-20 xl:max-w-[1320px] xl:px-12 2xl:px-16">
-        <div className="flex flex-col gap-10 sm:gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+        <div className="flex flex-col gap-10 sm:gap-12 md:flex-row md:flex-wrap md:items-start md:justify-between md:gap-x-8 md:gap-y-10 lg:flex-nowrap lg:items-center lg:gap-8">
 
           {/* Left: Text and Contact */}
-          <div className="flex flex-col gap-8 text-center sm:gap-10 lg:w-1/3 lg:gap-12 lg:text-left">
+          <div className="flex flex-col items-center gap-8 text-center sm:gap-10 md:w-[min(100%,calc(50%-1rem))] md:items-center lg:w-1/3 lg:items-start lg:gap-12 lg:text-left">
             <h2
               data-scroll-reveal
               className="font-quattrocento text-[28px] font-normal uppercase leading-[1.2] text-[#1A1A1A] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[42px]"
@@ -73,7 +73,7 @@ export function FooterSection() {
           </div>
 
           {/* Middle: Form */}
-          <div className="flex flex-col gap-4 lg:w-[35.5%]">
+          <div className="flex w-full flex-col gap-4 md:w-[min(100%,calc(50%-1rem))] lg:w-[35.5%]">
             <input
               data-scroll-reveal
               type="email"
@@ -89,8 +89,8 @@ export function FooterSection() {
             </button>
           </div>
 
-          {/* Right: Image */}
-          <div className="lg:w-[35%]">
+          {/* Right: Image — full width row on tablet, third column on desktop */}
+          <div className="w-full md:basis-full md:order-3 lg:order-none lg:w-[35%] lg:basis-auto">
             <div data-scroll-reveal-img className="relative aspect-[3/4] w-full overflow-hidden">
               <Image
                 src="/assets/footer.png"
@@ -124,16 +124,16 @@ export function FooterSection() {
           />
         </a>
 
-        <div className="grid grid-cols-1 gap-10 text-center sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:flex lg:flex-row lg:flex-wrap lg:justify-between lg:gap-12 lg:text-left">
+        <div className="grid grid-cols-1 justify-items-center gap-10 text-center sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:flex lg:flex-row lg:flex-wrap lg:justify-between lg:gap-12 lg:text-left">
 
           {/* Column 1: About */}
-          <div className="flex flex-col items-center gap-6 sm:col-span-2 lg:col-span-1 lg:w-[23%] lg:items-start">
+          <div className="flex w-full max-w-md flex-col items-center gap-6 text-center sm:col-span-2 lg:col-span-1 lg:w-[23%] lg:max-w-none lg:items-start lg:text-left">
             <h3 data-scroll-reveal className="font-quattrocento text-[28px] font-bold text-[#1A1A1A]">
               About Sanskar
             </h3>
             <p
               data-scroll-reveal
-              className="font-lato text-[14px] leading-[24px] text-[#666666] max-w-[300px]"
+              className="font-lato text-[14px] leading-[24px] text-[#666666] max-w-[min(100%,380px)] lg:max-w-[300px]"
             >
               At Sanskar Realty, we believe that every home is more than just four walls—it is a foundation for dreams, growth, and togetherness. With a commitment to integrity, trust, and innovation, we have been shaping inspiring living spaces that bring comfort, convenience, and value to our customers. Guided by our core values of transparency and quality.
             </p>
@@ -141,7 +141,7 @@ export function FooterSection() {
               <h4 data-scroll-reveal className="font-quattrocento text-[18px] uppercase text-[#1A1A1A]">
                 FOLLOW US ON
               </h4>
-              <div className="flex flex-wrap justify-center gap-3 lg:justify-start">
+              <div className="flex flex-wrap justify-center gap-3 lg:justify-start lg:text-left">
                 <Link
                   data-scroll-reveal-pop
                   href="#"
@@ -182,7 +182,7 @@ export function FooterSection() {
           </div>
 
           {/* Column 2: Work With Us */}
-          <div className="flex flex-col items-center gap-6 lg:items-start">
+          <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
             <Link
               data-scroll-reveal
               href="#"
@@ -207,7 +207,7 @@ export function FooterSection() {
           </div>
 
           {/* Column 3: Our Profile */}
-          <div className="flex flex-col items-center gap-4 lg:items-start">
+          <div className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
             <h4
               data-scroll-reveal
               className="mb-2 font-quattrocento text-[18px] font-bold uppercase text-[#1A1A1A]"
@@ -229,7 +229,7 @@ export function FooterSection() {
           </div>
 
           {/* Column 4: Quick Links */}
-          <div className="flex flex-col items-center gap-4 lg:items-start">
+          <div className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
             <h4
               data-scroll-reveal
               className="mb-2 font-quattrocento text-[18px] font-bold uppercase text-[#1A1A1A]"
@@ -257,7 +257,7 @@ export function FooterSection() {
           </div>
 
           {/* Column 5: NRI Corner */}
-          <div className="flex flex-col items-center gap-4 lg:items-start">
+          <div className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
             <h4
               data-scroll-reveal
               className="mb-2 font-quattrocento text-[18px] font-bold uppercase text-[#1A1A1A]"

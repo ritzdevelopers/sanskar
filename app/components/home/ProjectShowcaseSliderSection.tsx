@@ -90,7 +90,7 @@ export function ProjectShowcaseSliderSection() {
   };
 
   return (
-    <section ref={sectionRef} className="bg-white pb-10 lg:pb-0">
+    <section ref={sectionRef} className="bg-white pb-10 lg:pb-8 xl:pb-0">
       <style>{`
         :root {
           --fill-slider-duration: 1.5s;
@@ -117,8 +117,8 @@ export function ProjectShowcaseSliderSection() {
           to { clip-path: inset(0 0 0 0); }
         }
       `}</style>
-      <div className="relative mx-auto flex w-full max-w-[1440px] flex-col px-4 sm:px-6 md:px-8 lg:px-0">
-        <div className="flex shrink-0 items-center justify-end gap-2 py-3 sm:gap-3 sm:py-4 lg:pr-8">
+      <div className="relative mx-auto flex w-full max-w-[1440px] flex-col px-4 sm:px-6 md:px-8 lg:px-6 xl:px-0">
+        <div className="flex shrink-0 items-center justify-end gap-2 py-3 sm:gap-3 sm:py-4 xl:pr-8">
           <button
             type="button"
             aria-label="Previous slide"
@@ -137,7 +137,7 @@ export function ProjectShowcaseSliderSection() {
           </button>
         </div>
 
-        <div className="relative min-h-[260px] w-full flex-1 overflow-hidden sm:min-h-[340px] md:min-h-[420px] lg:min-h-0 lg:h-[775px] lg:flex-none">
+        <div className="relative min-h-[260px] w-full flex-1 overflow-hidden sm:min-h-[340px] md:min-h-[480px] lg:min-h-0 lg:h-[min(520px,70vh)] lg:rounded-lg xl:h-[775px] xl:rounded-none xl:flex-none">
           <div className="absolute inset-0 z-0">
             <Image
               src={showcaseSlides[activeIndex].image}
@@ -164,23 +164,25 @@ export function ProjectShowcaseSliderSection() {
             </div>
           )}
 
-          <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/75 via-black/30 to-transparent px-4 pb-5 pt-20 sm:px-6 sm:pb-6 sm:pt-24 md:pt-28 lg:inset-x-auto lg:bottom-auto lg:left-6 lg:right-auto lg:top-[26%] lg:block lg:-translate-y-1/2 lg:bg-transparent lg:bg-none lg:px-0 lg:pb-0 lg:pt-0 xl:left-10 2xl:left-16">
+          {/* lg–max-xl: headline on image (bottom, centered). xl+: left, no gradient — wide desktop overlay */}
+          <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 pb-6 pt-16 text-center sm:px-6 sm:pb-8 sm:pt-20 md:px-8 md:pt-24 lg:inset-x-0 lg:bottom-0 lg:left-0 lg:right-0 lg:top-auto lg:translate-y-0 lg:px-8 lg:pb-8 lg:pt-12 xl:inset-x-auto xl:bottom-auto xl:left-8 xl:right-auto xl:top-[26%] xl:block xl:-translate-y-1/2 xl:bg-transparent xl:bg-none xl:px-0 xl:pb-0 xl:pt-0 xl:text-left 2xl:left-16">
             <h3
               data-scroll-reveal
-              className={`${quattrocento.className} text-center text-[22px] font-bold leading-[1.15] text-white sm:text-[26px] md:text-[30px] lg:text-left lg:text-[34px] lg:leading-[100%] xl:text-[36px]`}
+              className={`${quattrocento.className} mx-auto max-w-[20ch] text-center text-[22px] font-bold leading-[1.15] text-white sm:max-w-[24ch] sm:text-[26px] md:max-w-[28ch] md:text-[30px] lg:max-w-[36ch] lg:text-[32px] xl:mx-0 xl:max-w-[min(320px,40vw)] xl:text-left xl:text-[34px] xl:leading-[100%] 2xl:max-w-[380px] 2xl:text-[36px]`}
             >
               {activeSlide.headline}
             </h3>
             <p
               data-scroll-reveal
-              className={`${lato.className} mt-2 text-center text-[16px] font-normal leading-snug text-white/95 sm:text-[18px] md:text-[20px] lg:text-left lg:text-[24px] lg:leading-[100%]`}
+              className={`${lato.className} mx-auto mt-2 max-w-md text-center text-[16px] font-normal leading-snug text-white/95 sm:text-[18px] md:text-[20px] lg:text-[22px] xl:mx-0 xl:max-w-[280px] xl:text-left xl:text-[24px] xl:leading-[100%]`}
             >
               {activeSlide.subtext}
             </p>
           </div>
         </div>
 
-        <div className="relative z-20 mx-auto mt-4 flex w-full max-w-[448px] flex-col gap-3 rounded-[10px] bg-[#F4F4F4] px-5 py-6 sm:mt-5 sm:gap-[10px] sm:px-6 sm:py-8 lg:absolute lg:left-auto lg:right-[134px] lg:top-[110px] lg:mt-0 lg:h-[613px] lg:w-[448px] lg:gap-[10px] lg:px-8 lg:py-[71px]">
+        {/* lg–xl: card stacks under hero with clear spacing; xl+: floats over image (desktop) */}
+        <div className="relative z-20 mx-auto mt-5 flex w-full max-w-[448px] flex-col gap-3 rounded-[10px] bg-[#F4F4F4] px-5 py-6 shadow-sm sm:mt-6 sm:gap-[10px] sm:px-6 sm:py-8 lg:mt-6 lg:shadow-md xl:absolute xl:left-auto xl:right-[min(134px,8vw)] xl:top-[110px] xl:mt-0 xl:h-[613px] xl:w-[min(448px,42vw)] xl:max-w-[448px] xl:gap-[10px] xl:px-8 xl:py-[71px] xl:shadow-none">
           <p
             data-scroll-reveal
             className={`${lato.className} text-center text-[16px] font-normal leading-none text-[#2F2F2F] sm:text-[17px] md:text-[18px]`}

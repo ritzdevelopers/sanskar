@@ -18,8 +18,10 @@ const quattrocento = Quattrocento({
 type LocationImage = {
   id: string;
   image: string;
-  caption: string;
-
+  /** Bold label (black) */
+  title: string;
+  /** Normal body after em dash (black) */
+  description: string;
   width: number;
   height: number;
 };
@@ -28,15 +30,17 @@ const leftColumn: LocationImage[] = [
   {
     id: "metro",
     image: "/assets/Rectangle 45088.png",
-    caption:
-      "Metro Connectivity, Proximity To Delhi & Noida Expressway",
+    title: "Metro",
+    description:
+      "Aqua Line & proposed metro extension within 8–10 mins",
     width: 522,
     height: 365,
   },
   {
     id: "highways",
     image: "/assets/Rectangle 45210 (1).png",
-    caption: "Easy Connectivity To Major Highways And City Centers",
+    title: "Highways",
+    description: "NH-24, Noida Expressway & FNG all within easy reach",
     width: 451,
     height: 379,
   },
@@ -46,16 +50,18 @@ const rightColumn: LocationImage[] = [
   {
     id: "amenities",
     image: "/assets/Rectangle 45210.png",
-    caption:
-      "Close To Reputed Schools, Hospitals, And Shopping Malls",
+    title: "Schools, Hospitals & Malls",
+    description:
+      "Yatharth Hospital (1.2 km), top schools nearby & Gaur City Mall (8 km)",
     width: 451,
     height: 536,
   },
   {
     id: "lifestyle",
     image: "/assets/Rectangle 45210 (2).png",
-    caption:
-      "Surrounded By Parks, Restaurants, And Entertainment Hubs",
+    title: "Dining & Entertainment",
+    description:
+      "Gaur City Mall, Barbeque Nation, Punjab Grill & D-Mart within 15 mins",
     width: 576,
     height: 576,
   },
@@ -84,86 +90,90 @@ export function LocationAdvantageSection() {
       />
 
       <div className="relative z-10 mx-auto w-full max-w-[1280px] px-4 sm:px-6 md:px-8 lg:px-10 xl:max-w-[1320px] xl:px-12 2xl:px-16">
-        <div className="mx-auto mb-10 max-w-[920px] text-center sm:mb-12 md:mb-14">
+        <div className="mx-auto mb-8 max-w-[920px] text-center sm:mb-10 md:mb-12 lg:mb-14">
           <h2
             data-scroll-reveal
-            className={`${quattrocento.className} text-[26px] font-normal uppercase leading-[1.2] tracking-[0.02em] text-[#1A1A1A] sm:text-[30px] md:text-[34px] lg:text-[36px] xl:text-[38px]`}
+            className={`${quattrocento.className} text-[24px] font-normal uppercase leading-[1.2] tracking-[0.02em] text-[#1A1A1A] sm:text-[28px] md:text-[32px] lg:text-[36px] xl:text-[38px]`}
           >
             Location Advantage
           </h2>
           <p
             data-scroll-reveal
-            className={`${lato.className} mx-auto mt-4 max-w-[780px] text-[14px] font-normal leading-[1.65] text-[#555555] sm:mt-5 sm:text-[15px] md:text-[16px]`}
+            className={`${lato.className} mx-auto mt-3 max-w-[780px] px-1 text-center text-[13px] font-normal leading-[1.65] text-[#555555] sm:mt-4 sm:text-[15px] md:mt-5 md:text-[16px] lg:px-0`}
           >
-            Seamlessly linked to essentials, lifestyle, and opportunities — a
-            thriving hub where families, jobs, and businesses converge.
+            Where lifestyle destinations, urban convenience, and seamless connectivity come together in one address.
           </p>
         </div>
 
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-x-12 xl:gap-x-16">
-          {/* Left column — vertical gap between cards matches Figma (~64–72px) */}
-          <div className="flex min-w-0 basis-0 grow flex-col gap-10 sm:gap-12 lg:gap-16 xl:gap-[72px]">
+        {/* md+ = tablet (iPad mini portrait) two-column; images scale with min(100%, design px) */}
+        <div className="flex flex-col gap-8 sm:gap-10 md:flex-row md:items-start md:gap-x-6 md:gap-y-0 lg:gap-x-10 xl:gap-x-16">
+          {/* Left column */}
+          <div className="flex min-w-0 basis-0 grow flex-col gap-8 sm:gap-10 md:gap-12 lg:gap-16 xl:gap-[72px]">
             {leftColumn.map((item) => (
               <article
                 key={item.id}
-                data-scroll-reveal
-                className="flex w-full max-w-full flex-col gap-4 self-start"
+                className="mx-auto flex w-full max-w-full flex-col gap-3 sm:gap-4 md:mx-0 md:max-w-none md:self-start"
               >
                 <div
-                  className="relative w-full overflow-hidden rounded-none"
+                  data-scroll-reveal-img
+                  className="relative w-full max-w-full overflow-hidden rounded-none"
                   style={{
-                    maxWidth: item.width,
+                    maxWidth: `min(100%, ${item.width}px)`,
                     aspectRatio: `${item.width} / ${item.height}`,
                   }}
                 >
                   <Image
                     src={item.image}
-                    alt={item.caption}
+                    alt={`${item.title}: ${item.description}`}
                     fill
-                    className="object-cover"
-                    sizes={`(max-width: 1024px) 100vw, ${item.width}px`}
+                    className="object-cover transition-transform duration-500 hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 46vw, (max-width: 1280px) 42vw, 522px"
                     quality={85}
                   />
                 </div>
                 <p
-                  className={`${lato.className} text-left text-[14px] font-bold uppercase leading-snug tracking-[0.02em] text-[#1A1A1A] sm:text-[15px] md:text-[16px]`}
-                  style={{ maxWidth: item.width }}
+                  data-scroll-reveal
+                  className={`${lato.className} w-full text-left text-[13px] leading-snug text-[#111111] sm:text-[14px] md:text-[15px] lg:text-[16px]`}
+                  style={{ maxWidth: `min(100%, ${item.width}px)` }}
                 >
-                  {item.caption}
+                  <span className="font-bold">{item.title}</span>
+                  <span className="font-normal"> — {item.description}</span>
                 </p>
               </article>
             ))}
           </div>
 
-          {/* Right column — same stack gap as left; offset down on large screens */}
-          <div className="flex min-w-0 basis-0 grow flex-col gap-10 sm:gap-12 lg:gap-16 xl:gap-[72px] lg:pt-16 xl:pt-24 2xl:pt-28">
+          {/* Right column — stagger offset scales by breakpoint (tablet vs desktop) */}
+          <div className="flex min-w-0 basis-0 grow flex-col gap-8 sm:gap-10 md:gap-12 md:pt-10 lg:gap-16 lg:pt-16 xl:gap-[72px] xl:pt-24 2xl:pt-28">
             {rightColumn.map((item) => (
               <article
                 key={item.id}
-                data-scroll-reveal
-                className="flex w-full max-w-full flex-col gap-4 self-start"
+                className="mx-auto flex w-full max-w-full flex-col gap-3 sm:gap-4 md:mx-0 md:max-w-none md:self-start"
               >
                 <div
-                  className="relative w-full overflow-hidden rounded-none"
+                  data-scroll-reveal-img
+                  className="relative w-full max-w-full overflow-hidden rounded-none"
                   style={{
-                    maxWidth: item.width,
+                    maxWidth: `min(100%, ${item.width}px)`,
                     aspectRatio: `${item.width} / ${item.height}`,
                   }}
                 >
                   <Image
                     src={item.image}
-                    alt={item.caption}
+                    alt={`${item.title}: ${item.description}`}
                     fill
-                    className="object-cover"
-                    sizes={`(max-width: 1024px) 100vw, ${item.width}px`}
+                    className="object-cover transition-transform duration-500 hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 46vw, (max-width: 1280px) 42vw, 576px"
                     quality={85}
                   />
                 </div>
                 <p
-                  className={`${lato.className} text-left text-[14px] font-bold uppercase leading-snug tracking-[0.02em] text-[#1A1A1A] sm:text-[15px] md:text-[16px]`}
-                  style={{ maxWidth: item.width }}
+                  data-scroll-reveal
+                  className={`${lato.className} w-full text-left text-[13px] leading-snug text-[#111111] sm:text-[14px] md:text-[15px] lg:text-[16px]`}
+                  style={{ maxWidth: `min(100%, ${item.width}px)` }}
                 >
-                  {item.caption}
+                  <span className="font-bold">{item.title}</span>
+                  <span className="font-normal"> — {item.description}</span>
                 </p>
               </article>
             ))}

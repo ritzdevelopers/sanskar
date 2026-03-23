@@ -25,8 +25,8 @@ export function StorySection() {
       className="bg-[radial-gradient(#ebebeb_1px,transparent_1px)] [background-size:12px_12px] py-10 sm:py-12 md:py-14 md:[background-size:16px_16px] lg:py-20 xl:py-24 2xl:py-28"
     >
       <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-10 px-4 sm:gap-12 sm:px-6 md:gap-14 md:px-8 lg:gap-16 lg:px-10 xl:px-12 2xl:px-16">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-center lg:gap-10 xl:gap-12">
-          <div data-scroll-reveal-img className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10] md:max-h-[420px] lg:aspect-auto lg:h-[450px] lg:max-h-none lg:w-[min(100%,641px)] lg:shrink-0">
+        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-center md:gap-8 lg:gap-10 xl:gap-12">
+          <div data-scroll-reveal-img className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10] md:aspect-auto md:h-[min(420px,48vw)] md:w-1/2 md:min-w-0 md:shrink-0 lg:h-[450px] lg:w-[min(100%,641px)]">
             <Image
               src="/assets/creating_communities.png"
               alt="Building trust visual"
@@ -37,7 +37,7 @@ export function StorySection() {
             />
           </div>
 
-          <div className="flex h-auto w-full flex-col items-center gap-4 text-center sm:gap-[18px] lg:max-w-[507px] lg:items-start lg:justify-center lg:text-left">
+          <div className="flex h-auto w-full min-w-0 flex-col items-center gap-4 text-center sm:gap-[18px] md:w-1/2 md:max-w-[507px] md:items-start md:justify-center md:text-left">
             <h3
               data-scroll-reveal
               className={`${quattrocento.className} text-[22px] font-normal uppercase leading-[1.08] tracking-[0.01em] text-[#202020] sm:text-[24px] md:text-[26px]`}
@@ -55,7 +55,7 @@ export function StorySection() {
             <button
               data-scroll-reveal
               type="button"
-              className={`${lato.className} mx-auto inline-flex w-fit items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] sm:text-[18px] md:text-[20px] lg:mx-0`}
+              className={`${lato.className} mx-auto inline-flex w-fit items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] sm:text-[18px] md:mx-0 md:text-[20px]`}
             >
               <span className="border-b border-[#3A3A3A] pb-1">Our Story</span>
               <Image
@@ -69,11 +69,11 @@ export function StorySection() {
           </div>
         </div>
 
-        <div className="flex flex-col-reverse gap-8 lg:flex-row lg:items-center lg:justify-center lg:gap-10 xl:gap-12">
-          <div className="flex h-auto w-full flex-col items-center gap-4 text-center sm:gap-[18px] lg:max-w-[507px] lg:items-start lg:justify-center lg:text-left">
+        <div className="flex flex-col-reverse gap-8 md:flex-row md:items-center md:justify-center md:gap-8 lg:gap-10 xl:gap-12">
+          <div className="flex h-auto w-full min-w-0 flex-col items-center gap-4 text-center sm:gap-[18px] md:w-1/2 md:max-w-[507px] md:items-start md:justify-center md:text-left">
             <h3
               data-scroll-reveal
-              className={`${quattrocento.className} text-[22px] font-normal uppercase leading-[1.08] tracking-[0.01em] text-[#202020] sm:text-[24px] md:text-[26px] lg:whitespace-nowrap`}
+              className={`${quattrocento.className} text-[22px] font-normal uppercase leading-[1.08] tracking-[0.01em] text-[#202020] sm:text-[24px] md:text-[26px] xl:whitespace-nowrap`}
             >
               CREATING COMMUNITIES THAT LAST
 
@@ -91,7 +91,7 @@ export function StorySection() {
             <button
               data-scroll-reveal
               type="button"
-              className={`${lato.className} mx-auto inline-flex w-fit items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] sm:text-[18px] md:text-[20px] lg:mx-0`}
+              className={`${lato.className} mx-auto inline-flex w-fit items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] sm:text-[18px] md:mx-0 md:text-[20px]`}
             >
               <span className="border-b border-[#3A3A3A] pb-1">Our Impact</span>
               <Image
@@ -104,7 +104,7 @@ export function StorySection() {
             </button>
           </div>
 
-          <div data-scroll-reveal-img className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10] md:max-h-[420px] lg:aspect-auto lg:h-[450px] lg:max-h-none lg:w-[min(100%,641px)] lg:shrink-0">
+          <div data-scroll-reveal-img className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10] md:aspect-auto md:h-[min(420px,48vw)] md:w-1/2 md:min-w-0 md:shrink-0 lg:h-[450px] lg:w-[min(100%,641px)]">
             <Image
               src="/assets/building_trust.png"
               alt="Creating communities visual"

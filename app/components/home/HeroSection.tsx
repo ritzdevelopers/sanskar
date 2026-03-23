@@ -161,15 +161,15 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
 
       <header className="fixed inset-x-0 top-0 z-50">
         <div
-          className={`w-full px-4 py-2.5 transition-all duration-300 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 ${isScrolled ? "bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)]" : "bg-transparent"
+          className={`w-full px-4 pt-[max(14px,env(safe-area-inset-top))] pb-3 transition-all duration-300 sm:px-6 sm:pt-4 sm:pb-3.5 md:px-8 md:pt-5 md:pb-4 lg:px-10 lg:pt-5 lg:pb-4 xl:px-12 2xl:px-16 ${isScrolled ? "bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)]" : "bg-transparent"
             }`}
         >
-          <nav className="mx-auto flex w-full max-w-[1200px] xl:max-w-[1280px] 2xl:max-w-[1360px] items-center justify-between gap-3">
+          <nav className="mx-auto flex min-h-[48px] w-full max-w-[1200px] items-center justify-between gap-3 sm:min-h-[52px] md:min-h-[56px] xl:max-w-[1280px] 2xl:max-w-[1360px]">
             <div
               ref={(el) => {
                 navItemsRef.current[0] = el;
               }}
-              className="min-w-0 shrink cursor-pointer"
+              className="flex min-w-0 shrink cursor-pointer items-center py-0.5"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
               <Image

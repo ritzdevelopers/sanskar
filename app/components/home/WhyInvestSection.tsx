@@ -97,14 +97,14 @@ export function WhyInvestSection() {
       <div className="mx-auto w-full max-w-[1360px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <h2
           data-scroll-reveal
-          className={`${quattrocento.className} text-center text-[32px] font-normal leading-[1.1] text-[#111111] sm:text-[38px] md:text-[44px] lg:text-left lg:text-[48px] xl:text-[52px] 2xl:text-[56px]`}
+          className={`${quattrocento.className} text-center text-[32px] font-normal leading-[1.1] text-[#111111] sm:text-[38px] md:text-left md:text-[44px] lg:text-[48px] xl:text-[52px] 2xl:text-[56px]`}
         >
           Why Invest With Us
         </h2>
 
         <p
           data-scroll-reveal
-          className={`${lato.className} mx-auto mt-4 max-w-[1054px] text-center text-[15px] font-normal leading-[1.65] text-[#4B4B4B] sm:mt-5 sm:text-[16px] md:mt-6 md:text-[17px] md:leading-[1.75] lg:text-left lg:text-[18px]`}
+          className={`${lato.className} mx-auto mt-4 max-w-[1054px] text-center text-[15px] font-normal leading-[1.65] text-[#4B4B4B] sm:mt-5 sm:text-[16px] md:mx-0 md:mt-6 md:text-left md:text-[17px] md:leading-[1.75] lg:text-[18px]`}
         >
           At Sanskar Realty, we do not just offer properties; we offer opportunities for growth, quality of life, and investment for the future. With our experience in delivering luxury properties and commercial spaces, we can assure you of not only a great lifestyle but also a high return on investment.
 
@@ -124,7 +124,7 @@ export function WhyInvestSection() {
           {investCards.map((card) => (
             <article
               key={card.title}
-              className="shrink-0 snap-start flex h-full w-[280px] sm:w-[320px] md:w-[350px] lg:w-[360px] xl:w-[384px] flex-col items-center rounded-2xl border border-[#E7E7E7] bg-[#FFFFFF] p-5 text-center sm:p-6 lg:items-stretch lg:text-left"
+              className="shrink-0 snap-start flex h-full w-[280px] sm:w-[300px] md:w-[340px] lg:w-[360px] xl:w-[384px] flex-col items-center rounded-2xl border border-[#E7E7E7] bg-[#FFFFFF] p-5 text-center sm:p-6 md:items-stretch md:text-left lg:items-stretch"
             >
               <h3
                 data-scroll-reveal

@@ -145,41 +145,28 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
       >
         <div
           ref={contentRef}
-          className="relative flex h-full max-h-[100dvh] min-h-0 w-full min-w-0 max-w-full flex-col overscroll-contain px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[max(0.5rem,env(safe-area-inset-top))] sm:px-6 sm:pb-4 sm:pt-4 md:px-8 md:pt-4 lg:px-10 lg:text-left xl:px-12 2xl:px-16"
+          className="relative flex h-full max-h-[100dvh] min-h-0 w-full min-w-0 max-w-full flex-col overscroll-contain px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[max(0.5rem,env(safe-area-inset-top))] text-center sm:px-6 sm:pb-4 sm:pt-4 md:px-8 md:pt-4 lg:px-10 lg:text-left xl:px-12 2xl:px-16"
         >
-          {/* Top: centered search + close (cross) top-right */}
-          <div className="relative shrink-0 pb-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="absolute right-0 top-1/2 z-20 flex h-11 w-11 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/30 backdrop-blur-sm transition-opacity hover:opacity-80 sm:h-10 sm:w-10 sm:min-h-0 sm:min-w-0"
-              aria-label="Close menu"
-            >
-              <Image
-                src="/assets/cross.png"
-                alt=""
-                width={18}
-                height={18}
-                className="object-contain"
-              />
-            </button>
-            <div className="mx-auto w-full max-w-[min(100%,640px)] pr-12 sm:pr-14 md:pr-12">
+          {/* Top: search + close in one row — flex gap avoids overlap on narrow screens */}
+          <div className="flex w-full shrink-0 items-center gap-3 pb-2 sm:gap-4">
+            <div className="min-w-0 flex-1 max-w-[min(100%,640px)] lg:max-w-[640px]">
               <div className="flex items-center gap-2 rounded-full bg-[#D9D9D9] px-3 py-2.5 sm:gap-3 sm:px-5 sm:py-3">
                 <input
                   type="search"
                   placeholder="Search a project name or location"
-                  className="min-w-0 flex-1 bg-transparent font-lato text-[14px] text-[#1A1A1A] placeholder:text-[#666666] outline-none sm:text-[15px] md:text-base"
+                  className="min-w-0 flex-1 bg-transparent font-lato text-[13px] text-[#1A1A1A] placeholder:text-[#666666] outline-none sm:text-[15px] md:text-base"
                 />
                 <span className="shrink-0 text-[#1A1A1A]" aria-hidden>
                   <svg
-                    width={22}
-                    height={22}
+                    width={20}
+                    height={20}
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    className="h-5 w-5 sm:h-[22px] sm:w-[22px]"
                   >
                     <circle cx="11" cy="11" r="8" />
                     <path d="m21 21-4.35-4.35" />
@@ -187,13 +174,30 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
                 </span>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border border-white/25 bg-black/30 backdrop-blur-sm transition-opacity hover:opacity-80 sm:h-10 sm:w-10"
+              aria-label="Close menu"
+            >
+              <Image
+                src="/assets/cross_menu.svg"
+                alt=""
+                width={13}
+                height={13}
+                className="h-[13px] w-[13px] object-contain"
+              />
+            </button>
           </div>
 
           {/* Nav: scrollable links + fixed footer so Call / Follow Us never clip */}
-          <nav className="mt-4 flex min-h-0 flex-1 flex-col text-center sm:mt-6 lg:text-left">
-            <ul className="min-h-0 flex-1 touch-pan-y overflow-y-auto overscroll-y-contain pr-0 [-webkit-overflow-scrolling:touch] sm:pr-1 space-y-5 sm:space-y-7 md:space-y-8">
+          <nav className="mt-4 flex min-h-0 flex-1 flex-col items-center text-center sm:mt-6 lg:items-stretch lg:text-left">
+            <ul className="min-h-0 w-full max-w-full flex-1 touch-pan-y overflow-y-auto overscroll-y-contain pr-0 [-webkit-overflow-scrolling:touch] sm:pr-1 space-y-5 sm:space-y-7 md:space-y-8 lg:w-auto">
               {NAV_LINKS.map((item) => (
-                <li key={item.label} className="lg:text-left">
+                <li
+                  key={item.label}
+                  className="w-full text-center lg:w-auto lg:text-left"
+                >
                   <Link
                     href={item.href}
                     onClick={onClose}
@@ -202,7 +206,7 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
                     {item.label}
                   </Link>
                   {"sub" in item && item.sub && (
-                    <div className="mt-3 flex flex-wrap items-center justify-center gap-x-1 gap-y-2 text-[10px] font-medium uppercase tracking-[0.08em] text-[#9E9E9E] sm:text-[11px] lg:ml-20 lg:justify-start">
+                    <div className="mt-3 flex flex-wrap items-center justify-center gap-x-1 gap-y-2 text-center text-[10px] font-medium uppercase tracking-[0.08em] text-[#9E9E9E] sm:text-[11px] lg:ml-20 lg:justify-start lg:text-left">
                       {item.sub.map((s, i) => (
                         <span key={s} className="flex items-center gap-1">
                           <Link
