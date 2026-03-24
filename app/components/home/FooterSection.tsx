@@ -294,7 +294,7 @@ export function FooterSection() {
         <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
           <div className="mx-auto w-full max-w-[1280px] text-center xl:max-w-[1320px]">
           <p data-scroll-reveal className="font-lato text-[13px] leading-snug text-[#00000099] sm:text-[14px] md:text-[16px]">
-            © 2026 Sanskar Developers. All rights reserved. digital media planned by Ritz Media World
+            © 2026 Sanskar Realty.. All rights reserved. Digital media planned by Ritz Media World.
           </p>
           </div>
         </div>
