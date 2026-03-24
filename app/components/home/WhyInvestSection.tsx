@@ -51,60 +51,38 @@ const investCards = [
 export function WhyInvestSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  useScrollReveal(sectionRef, { stagger: 0.1 });
 
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
 
-    let intervalId: NodeJS.Timeout;
 
-    const startAutoScroll = () => {
-      intervalId = setInterval(() => {
-        if (!scrollContainer) return;
-        const maxScrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth;
-        if (scrollContainer.scrollLeft >= maxScrollLeft - 10) {
-          scrollContainer.scrollTo({ left: 0, behavior: "smooth" });
-        } else {
-          const cardWidth = (scrollContainer.children[0] as HTMLElement)?.offsetWidth || 300;
-          const gap = 24;
-          scrollContainer.scrollBy({ left: cardWidth + gap, behavior: "smooth" });
-        }
-      }, 3500);
-    };
+  const scrollNext = () => {
+    if (scrollRef.current) {
+      const cardWidth = (scrollRef.current.children[0] as HTMLElement)?.offsetWidth || 300;
+      const gap = 24;
+      scrollRef.current.scrollBy({ left: cardWidth + gap, behavior: "smooth" });
+    }
+  };
 
-    startAutoScroll();
-
-    const pauseScroll = () => clearInterval(intervalId);
-    const resumeScroll = () => startAutoScroll();
-
-    scrollContainer.addEventListener('mouseenter', pauseScroll);
-    scrollContainer.addEventListener('mouseleave', resumeScroll);
-    scrollContainer.addEventListener('touchstart', pauseScroll, { passive: true });
-    scrollContainer.addEventListener('touchend', resumeScroll, { passive: true });
-
-    return () => {
-      clearInterval(intervalId);
-      scrollContainer.removeEventListener('mouseenter', pauseScroll);
-      scrollContainer.removeEventListener('mouseleave', resumeScroll);
-      scrollContainer.removeEventListener('touchstart', pauseScroll);
-      scrollContainer.removeEventListener('touchend', resumeScroll);
-    };
-  }, []);
+  const scrollPrev = () => {
+    if (scrollRef.current) {
+      const cardWidth = (scrollRef.current.children[0] as HTMLElement)?.offsetWidth || 300;
+      const gap = 24;
+      scrollRef.current.scrollBy({ left: -(cardWidth + gap), behavior: "smooth" });
+    }
+  };
 
   return (
     <section id="why-invest" ref={sectionRef} className="bg-[#FFFFFF/95] py-12 sm:py-14 md:py-16 lg:py-20 xl:py-24">
       <div className="mx-auto w-full max-w-[1360px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <h2
           data-scroll-reveal
-          className={`${quattrocento.className} text-center text-[32px] font-normal leading-[1.1] text-[#111111] sm:text-[38px] md:text-left md:text-[44px] lg:text-[48px] xl:text-[52px] 2xl:text-[56px]`}
+          className={`${quattrocento.className} text-center text-[32px] font-[700] leading-[1.1] text-[#111111] sm:text-[38px] md:text-left md:text-[44px] lg:text-[48px] xl:text-[52px] 2xl:text-[56px]`}
         >
           Why Invest With Us
         </h2>
 
         <p
           data-scroll-reveal
-          className={`${lato.className} mx-auto mt-4 max-w-[1054px] text-center text-[15px] font-normal leading-[1.65] text-[#4B4B4B] sm:mt-5 sm:text-[16px] md:mx-0 md:mt-6 md:text-left md:text-[17px] md:leading-[1.75] lg:text-[18px]`}
+          className={`${lato.className} md:mx-auto mt-4 max-w-[1054px] text-center text-[15px] font-normal leading-[1.65] text-[#00000099] sm:mt-5 sm:text-[16px] md:mx-0 md:mt-6 md:text-left md:text-[17px] md:leading-[1.75] lg:text-[18px]`}
         >
           At Sanskar Realty, we do not just offer properties; we offer opportunities for growth, quality of life, and investment for the future. With our experience in delivering luxury properties and commercial spaces, we can assure you of not only a great lifestyle but also a high return on investment.
 
@@ -124,7 +102,8 @@ export function WhyInvestSection() {
           {investCards.map((card) => (
             <article
               key={card.title}
-              className="shrink-0 snap-start flex h-full w-[280px] sm:w-[300px] md:w-[340px] lg:w-[360px] xl:w-[384px] flex-col items-center rounded-2xl border border-[#E7E7E7] bg-[#FFFFFF] p-5 text-center sm:p-6 md:items-stretch md:text-left lg:items-stretch"
+              className="shrink-0 snap-start flex h-full w-[280px] sm:w-[300px] md:w-[340px] lg:w-[360px] xl:w-[384px] flex-col items-center rounded-[16px] border-[0.89px] border-[#F3F4F6] bg-[#FFFFFF] p-5 text-center sm:p-6 md:items-stretch md:text-left lg:items-stretch"
+              style={{ boxShadow: "0px 2px 4px -2px #0000001A, 0px 4px 6px -1px #0000001A" }}
             >
               <h3
                 data-scroll-reveal
@@ -144,6 +123,25 @@ export function WhyInvestSection() {
               </div>
             </article>
           ))}
+        </div>
+
+        <div className="mt-8 flex items-center justify-end gap-2 sm:gap-3">
+          <button
+            type="button"
+            aria-label="Previous cards"
+            onClick={scrollPrev}
+            className="flex h-[70px] w-[70px] shrink-0 items-center justify-center rounded-full border border-[#E2E2E2] bg-[#EDEDED]  transition-colors hover:bg-neutral-200"
+          >
+            <Image src="/assets/left_arrow 2.svg" alt="" width={12} height={20} className="scale-90 sm:scale-100" />
+          </button>
+          <button
+            type="button"
+            aria-label="Next cards"
+            onClick={scrollNext}
+            className="flex h-[70px] w-[70px] shrink-0 items-center justify-center rounded-full border border-[#E2E2E2] bg-[#EDEDED]  transition-colors hover:bg-neutral-200"
+          >
+            <Image src="/assets/right_arrow 2.svg" alt="" width={12} height={20} className="scale-90 sm:scale-100" />
+          </button>
         </div>
       </div>
     </section>

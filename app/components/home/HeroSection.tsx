@@ -122,6 +122,7 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
 
   return (
     <section className="relative min-h-screen overflow-hidden">
+      <h1 className="sr-only">Sanskar Realty - Luxury homes and communities in NCR</h1>
       <div ref={heroImageRef} className="absolute inset-0 opacity-0">
         <Image
           src="/assets/banner (1).png"
@@ -230,8 +231,8 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
                   <Image
                     src="/assets/hamburger_menu.svg"
                     alt=""
-                    width={24}
-                    height={24}
+                    width={52}
+                    height={52}
                     className={`transition duration-300 ${isScrolled ? "brightness-0" : ""
                       }`}
                   />

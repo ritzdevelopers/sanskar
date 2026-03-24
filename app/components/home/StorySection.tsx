@@ -24,6 +24,7 @@ export function StorySection() {
       ref={sectionRef}
       className="bg-[radial-gradient(#ebebeb_1px,transparent_1px)] [background-size:12px_12px] py-10 sm:py-12 md:py-14 md:[background-size:16px_16px] lg:py-20 xl:py-24 2xl:py-28"
     >
+      <h2 className="sr-only">Our Story and Impact</h2>
       <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-10 px-4 sm:gap-12 sm:px-6 md:gap-14 md:px-8 lg:gap-16 lg:px-10 xl:px-12 2xl:px-16">
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-center md:gap-8 lg:gap-10 xl:gap-12">
           <div data-scroll-reveal-img className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10] md:aspect-auto md:h-[min(420px,48vw)] md:w-1/2 md:min-w-0 md:shrink-0 lg:h-[450px] lg:w-[min(100%,641px)]">
@@ -55,7 +56,7 @@ export function StorySection() {
             <button
               data-scroll-reveal
               type="button"
-              className={`${lato.className} mx-auto inline-flex w-fit items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] sm:text-[18px] md:mx-0 md:text-[20px]`}
+              className={`${lato.className} mx-auto inline-flex w-fit items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] sm:text-[18px] md:mx-0 md:text-[16px]`}
             >
               <span className="border-b border-[#3A3A3A] pb-1">Our Story</span>
               <Image

@@ -212,8 +212,11 @@ export function FooterSection() {
               data-scroll-reveal
               className="mb-2 font-quattrocento text-[18px] font-bold uppercase text-[#1A1A1A]"
             >
-              OUR PROFILE
+              Company
             </h4>
+            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+              About Us
+            </Link>
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               Our Story
             </Link>
@@ -221,10 +224,17 @@ export function FooterSection() {
               Mission & Vision
             </Link>
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+             Our Profile
+
+            </Link>
+            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               Leadership
             </Link>
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               Awards & Certifications
+            </Link>
+            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            Careers — Join Us
             </Link>
           </div>
 
@@ -237,20 +247,23 @@ export function FooterSection() {
               QUICK LINKS
             </h4>
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
-              News
+              Projects
+            </Link>
+            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+              Media
             </Link>
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               Blogs
             </Link>
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
-              Press Center
+              Gallery
             </Link>
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
-              Events
+              Our Events
             </Link>
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
-              Join Us
-            </Link>
+            {/* <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+              NRI Corner
+            </Link> */}
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               Contact Us
             </Link>

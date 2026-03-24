@@ -148,8 +148,9 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
           className="relative flex h-full max-h-[100dvh] min-h-0 w-full min-w-0 max-w-full flex-col overscroll-contain px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[max(0.5rem,env(safe-area-inset-top))] text-center sm:px-6 sm:pb-4 sm:pt-4 md:px-8 md:pt-4 lg:px-10 lg:text-left xl:px-12 2xl:px-16"
         >
           {/* Top: search + close in one row — flex gap avoids overlap on narrow screens */}
-          <div className="flex w-full shrink-0 items-center gap-3 pb-2 sm:gap-4">
-            <div className="min-w-0 flex-1 max-w-[min(100%,640px)] lg:max-w-[640px]">
+          <div className="flex w-full shrink-0 items-center justify-between gap-3 pb-2 sm:gap-4">
+            <div className="hidden lg:block lg:flex-1" />
+            <div className="min-w-0 flex-1 max-w-[min(100%,640px)] lg:flex-none lg:w-[640px] lg:max-w-[640px]">
               <div className="flex items-center gap-2 rounded-full bg-[#D9D9D9] px-3 py-2.5 sm:gap-3 sm:px-5 sm:py-3">
                 <input
                   type="search"
@@ -174,20 +175,22 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
                 </span>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border border-white/25 bg-black/30 backdrop-blur-sm transition-opacity hover:opacity-80 sm:h-10 sm:w-10"
-              aria-label="Close menu"
-            >
-              <Image
-                src="/assets/cross_menu.svg"
-                alt=""
-                width={13}
-                height={13}
-                className="h-[13px] w-[13px] object-contain"
-              />
-            </button>
+            <div className="flex shrink-0 items-center lg:flex-1 lg:justify-end">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 bg-black/30 backdrop-blur-sm transition-opacity hover:opacity-80 sm:h-10 sm:w-10"
+                aria-label="Close menu"
+              >
+                <Image
+                  src="/assets/cross_menu.svg"
+                  alt=""
+                  width={13}
+                  height={13}
+                  className="h-[13px] w-[13px] object-contain"
+                />
+              </button>
+            </div>
           </div>
 
           {/* Nav: scrollable links + fixed footer so Call / Follow Us never clip */}

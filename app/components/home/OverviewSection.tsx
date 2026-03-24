@@ -23,11 +23,12 @@ export function OverviewSection() {
   return (
     <section ref={sectionRef} className="relative overflow-x-hidden bg-white pt-2 sm:pt-3">
       <div className="pointer-events-none absolute inset-0 hidden xl:block">
-        <div className="absolute left-1/2 top-0 h-[551px] w-full max-w-[1440px] -translate-x-1/2 2xl:max-w-[1600px]">
-          <span className="absolute left-[429px] top-0 h-[551px] w-px bg-[#F1F1F1]" />
-          <span className="absolute left-[643px] top-0 h-[551px] w-px bg-[#F1F1F1]" />
-          <span className="absolute left-[857px] top-0 h-[551px] w-px bg-[#F1F1F1]" />
-          <span className="absolute left-[1071px] top-0 h-[551px] w-px bg-[#F1F1F1]" />
+        <div className="absolute left-1/2 top-0 flex h-full w-full max-w-[1440px] -translate-x-1/2 justify-center gap-[280px] 2xl:max-w-[1600px]">
+          <span className="h-full w-px shrink-0 bg-[#F1F1F1]" />
+          <span className="h-full w-px shrink-0 bg-[#F1F1F1]" />
+          <span className="h-full w-px shrink-0 bg-[#F1F1F1]" />
+          <span className="h-full w-px shrink-0 bg-[#F1F1F1]" />
+          <span className="h-full w-px shrink-0 bg-[#F1F1F1]" />
         </div>
       </div>
 

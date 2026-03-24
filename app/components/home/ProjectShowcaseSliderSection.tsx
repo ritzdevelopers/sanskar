@@ -1,244 +1,310 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useRef } from "react";
-import { useScrollReveal } from "../common/useScrollReveal";
+import { useEffect, useRef, useState } from "react";
 import { Lato, Quattrocento } from "next/font/google";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const lato = Lato({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+gsap.registerPlugin(ScrollTrigger);
 
-const quattrocento = Quattrocento({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
+const quattrocento = Quattrocento({ subsets: ["latin"], weight: ["400", "700"] });
 
 const showcaseSlides = [
   {
     id: 1,
     headline: "Towering at a Trailblazing Pace",
     subtext: "Construction in full swing",
-    projectName: "Project One",
+    projectName: "Eternia",
     description: (
       <>
-        Located at <strong>Noida Extension</strong>, Eternia by Sanskar Realty offers premium <strong>3BHK and 4BHK apartments</strong>. This project promises a luxurious living experience with its <strong>world-class amenities, roomy layouts, and Vastu-compliant design.</strong>
+        Located at <strong>Noida Extension</strong>, Eternia by Sanskar Realty offers premium{" "}
+        <strong>3BHK and 4BHK apartments</strong>. This project promises a luxurious living
+        experience with its{" "}
+        <strong>world-class amenities, roomy layouts, and Vastu-compliant design.</strong>
       </>
     ),
-    image: "/assets/project_slider_banner.png",
+    image: "/assets/eternia.webp",
   },
   {
     id: 2,
     headline: "Modern Living, Elevated Daily",
     subtext: "Premium lifestyle spaces",
-    projectName: "Project Two",
+    projectName: "High Life",
     description: (
       <>
-        High Life In <strong>Greater Noida West</strong>, has <strong>1 & 2 BHK studio apartments</strong> within a <strong>mixed-use development</strong>. Located along a <strong>130-meter road</strong> with <strong>100-meter green belt</strong> views, these homes come <strong>furnished with IKEA</strong>.
+        High Life In <strong>Greater Noida West</strong>, has{" "}
+        <strong>1 &amp; 2 BHK studio apartments</strong> within a{" "}
+        <strong>mixed-use development</strong>. Located along a <strong>130-meter road</strong> with{" "}
+        <strong>100-meter green belt</strong> views, these homes come{" "}
+        <strong>furnished with IKEA</strong>.
       </>
     ),
-    image: "/assets/projects_main.png",
+    image: "/assets/high_life.jpg",
   },
   {
     id: 3,
     headline: "Built for Tomorrow's Urban Life",
     subtext: "Thoughtfully crafted homes",
-    projectName: "Project Three",
+    projectName: "Forest Walk",
     description: (
       <>
-        The Forest Walk in <strong>Ghaziabad</strong> is an exclusive gated villa community that blends urban luxury with nature. With only <strong>97 villas</strong>, large <strong>green spaces</strong> and a <strong>forest trail</strong>, it offers easy connectivity to Delhi and Noida via <strong>NH-24</strong>.
+        The Forest Walk in <strong>Ghaziabad</strong> is an exclusive gated villa community that
+        blends urban luxury with nature. With only <strong>97 villas</strong>, large{" "}
+        <strong>green spaces</strong> and a <strong>forest trail</strong>, it offers easy
+        connectivity to Delhi and Noida via <strong>NH-24</strong>.
       </>
     ),
-    image: "/assets/banner%20(1).png",
+    image: "/assets/forest_walk.png",
   },
 ];
 
 export function ProjectShowcaseSliderSection() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [overlay, setOverlay] = useState<{ index: number; direction: "next" | "prev" } | null>(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const sectionRef = useRef<HTMLElement>(null);
-  useScrollReveal(sectionRef);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  // Background image layers
+  const bgLayersRef = useRef<(HTMLDivElement | null)[]>([]);
+  // Thumbnail image layers inside the card
+  const thumbLayersRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  const displayIndex = overlay ? overlay.index : activeIndex;
-  const activeSlide = showcaseSlides[displayIndex];
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    const sticky = stickyRef.current;
+    if (!wrapper || !sticky) return;
 
-  const goPrev = () => {
-    if (isTransitioning) return;
-    const prevIndex = (activeIndex - 1 + showcaseSlides.length) % showcaseSlides.length;
-    setOverlay({ index: prevIndex, direction: "prev" });
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setActiveIndex(prevIndex);
-      setOverlay(null);
-      setIsTransitioning(false);
-    }, 1500);
-  };
+    const totalSlides = showcaseSlides.length;
+    const SCROLL_PER_SLIDE = window.innerHeight;
 
-  const goNext = () => {
-    if (isTransitioning) return;
-    const nextIndex = (activeIndex + 1) % showcaseSlides.length;
-    setOverlay({ index: nextIndex, direction: "next" });
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setActiveIndex(nextIndex);
-      setOverlay(null);
-      setIsTransitioning(false);
-    }, 1500);
-  };
+    // BG images: first is visible, rest start below
+    bgLayersRef.current.forEach((el, i) => {
+      if (!el) return;
+      gsap.set(el, { yPercent: i === 0 ? 0 : 100 });
+    });
+
+    // Thumbnail images: first visible, rest start below (clipped by overflow-hidden on parent)
+    thumbLayersRef.current.forEach((el, i) => {
+      if (!el) return;
+      gsap.set(el, { yPercent: i === 0 ? 0 : 100 });
+    });
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: wrapper,
+          start: "top top",
+          end: () => `+=${SCROLL_PER_SLIDE * (totalSlides - 1)}`,
+          pin: sticky,
+          pinSpacing: true,
+          scrub: 1,
+          anticipatePin: 1,
+          onUpdate(self) {
+            const idx = Math.min(
+              totalSlides - 1,
+              Math.floor(self.progress * totalSlides + 0.01)
+            );
+            setActiveIndex(idx);
+          },
+        },
+      });
+
+      for (let i = 1; i < totalSlides; i++) {
+        const step = i - 1;
+
+        // Background image slides up from bottom
+        tl.fromTo(
+          bgLayersRef.current[i],
+          { yPercent: 100 },
+          { yPercent: 0, ease: "none", duration: 1 },
+          step
+        );
+
+        // Card thumbnail slides up from bottom (same timing, synced)
+        tl.fromTo(
+          thumbLayersRef.current[i],
+          { yPercent: 100 },
+          { yPercent: 0, ease: "none", duration: 1 },
+          step
+        );
+      }
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  const activeSlide = showcaseSlides[activeIndex];
 
   return (
-    <section ref={sectionRef} className="bg-white pb-10 lg:pb-8 xl:pb-0">
+    <section
+      aria-labelledby="project-showcase-heading"
+      ref={wrapperRef}
+      style={{ height: `${showcaseSlides.length * 100}vh` }}
+    >
+      <h2 id="project-showcase-heading" className="sr-only">Project showcase</h2>
+      {/* Sticky viewport pinned by GSAP */}
+      <div ref={stickyRef} className="relative h-screen w-full overflow-hidden bg-black">
+
+        {/* ── STACKED BACKGROUND IMAGES (slide bottom-to-top) ── */}
+        {showcaseSlides.map((slide, index) => (
+          <div
+            key={`bg-${slide.id}`}
+            ref={(el) => { bgLayersRef.current[index] = el; }}
+            className="absolute inset-0 will-change-transform"
+            style={{ zIndex: index + 1 }}
+          >
+            <Image
+              src={slide.image}
+              alt={slide.projectName}
+              fill
+              className="object-cover object-center"
+              quality={100}
+              priority={index === 0}
+              sizes="100vw"
+            />
+            {/* Stronger gradient on mobile for legibility */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent md:from-black/70 md:via-black/20" />
+          </div>
+        ))}
+
+        {/* ── HEADLINE + SUBTEXT ── */}
+        {/* Mobile: sits just above the card at bottom-left, width-capped to avoid overlap */}
+        {/* lg+: vertically centred on the left */}
+        <div className="absolute z-50 text-left
+          bottom-[58%] left-4 max-w-[70vw]
+          sm:bottom-[55%] sm:left-8 sm:max-w-[65vw]
+          md:bottom-[40%] md:left-10 md:max-w-[42vw]
+          lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:left-12 lg:max-w-[40vw]
+          xl:left-14 xl:max-w-[38vw]
+          2xl:left-20 2xl:max-w-[34vw]
+        ">
+          <h3
+            key={`h-${activeIndex}`}
+            className={`${quattrocento.className} animate-fadeSlideUp font-bold leading-[1.15] text-white
+              text-[18px] sm:text-[22px] md:text-[27px] lg:text-[32px] xl:text-[36px] xl:leading-[1.1] 2xl:text-[42px]
+            `}
+          >
+            {activeSlide.headline}
+          </h3>
+          <p
+            key={`p-${activeIndex}`}
+            className={`${lato.className} animate-fadeSlideUp mt-1.5 leading-snug text-white/80
+              text-[12px] sm:text-[14px] md:text-[16px] xl:text-[18px] 2xl:text-[20px]
+            `}
+            style={{ animationDelay: "80ms" }}
+          >
+            {activeSlide.subtext}
+          </p>
+        </div>
+
+        {/* ── KEEP SCROLLING HINT — hidden on small screens ── */}
+        <div className={`${lato.className}
+          hidden md:block
+          absolute bottom-5 left-1/2 z-50 -translate-x-1/2
+          text-[10px] tracking-[0.22em] uppercase text-white/50
+          lg:left-12 lg:translate-x-0 xl:left-14 2xl:left-20
+        `}>
+          &#123; Keep Scrolling &#125;
+        </div>
+
+        {/* ── FLOATING INFO CARD ── */}
+        {/* Mobile: compact card anchored bottom-right */}
+        {/* lg+: vertically centred on the right */}
+        <div className="absolute z-50
+          bottom-4 left-1/2 -translate-x-1/2 w-[min(260px,80vw)]
+          sm:bottom-6 sm:w-[min(290px,75vw)]
+          md:left-auto md:translate-x-0 md:right-8 md:w-[min(310px,38vw)]
+          lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:right-10 lg:w-[min(360px,34vw)]
+          xl:right-[min(80px,6vw)] xl:w-[min(380px,32vw)]
+          2xl:right-[min(100px,7vw)]
+        ">
+          <div className="flex flex-col rounded-[12px] bg-[#F4F4F4] shadow-2xl
+            gap-2 px-3 py-3
+            sm:gap-3 sm:px-4 sm:py-4
+            md:gap-3 md:rounded-[14px] md:px-5 md:py-6
+            lg:gap-4 lg:px-6 lg:py-8
+            xl:px-8 xl:py-[52px]
+          ">
+
+            {/* Counter */}
+            <p className={`${lato.className} text-center font-normal leading-none text-[#2F2F2F]
+              text-[11px] sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[16px]
+            `}>
+              {String(activeIndex + 1).padStart(2, "0")} — {String(showcaseSlides.length).padStart(2, "0")}
+            </p>
+
+            {/* Project name */}
+            <h4 className={`${quattrocento.className} text-center font-normal uppercase tracking-widest leading-[1.1] text-[#1A1A1A]
+              text-[14px] sm:text-[16px] md:text-[17px] lg:text-[19px] xl:text-[21px] 2xl:text-[24px]
+            `}>
+              {activeSlide.projectName}
+            </h4>
+
+            {/* Thumbnail */}
+            <div className="relative w-full overflow-hidden rounded-[6px]
+              h-[100px] sm:h-[120px] md:h-[135px] lg:h-[155px] xl:h-[175px]
+            ">
+              {showcaseSlides.map((slide, index) => (
+                <div
+                  key={`thumb-${slide.id}`}
+                  ref={(el) => { thumbLayersRef.current[index] = el; }}
+                  className="absolute inset-0 will-change-transform"
+                  style={{ zIndex: index + 1 }}
+                >
+                  <Image
+                    src={slide.image}
+                    alt={slide.projectName}
+                    fill
+                    className="object-cover"
+                    quality={80}
+                    sizes="(max-width: 640px) 210px, (max-width: 1024px) 310px, 380px"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Description — hidden on mobile to keep card compact; shown md+ */}
+            <p className={`${lato.className} hidden md:block text-center leading-[1.55] text-[#555555]
+              text-[11px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px]
+            `}>
+              {activeSlide.description}
+            </p>
+
+            {/* Arrow button */}
+            <button
+              type="button"
+              className="group mx-auto flex items-center justify-center rounded-full
+                border border-[#8C8C8C] transition-all duration-300
+                hover:border-[#111] hover:bg-[#111]
+                h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10 lg:h-11 lg:w-11 xl:h-[48px] xl:w-[48px]
+              "
+              aria-label="Open project"
+            >
+              <Image
+                src="/assets/diagonal_arrow.png"
+                alt=""
+                width={18}
+                height={18}
+                className="transition-all duration-300 group-hover:invert
+                  h-[11px] w-[11px] sm:h-[12px] sm:w-[12px] md:h-[14px] md:w-[14px] xl:h-[18px] xl:w-[18px]
+                "
+              />
+            </button>
+          </div>
+        </div>
+
+      </div>
+
       <style>{`
-        :root {
-          --fill-slider-duration: 1.5s;
-          --fill-slider-easing: cubic-bezier(0.34, 1.35, 0.64, 1);
+        @keyframes fadeSlideUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
-        .fill-slider-overlay {
-          position: absolute;
-          inset: 0;
-          z-index: 10;
-          pointer-events: none;
-        }
-        .fill-slider-overlay--next {
-          clip-path: inset(0 0 0 100%);
-          animation: fillSliderFromRight var(--fill-slider-duration) var(--fill-slider-easing) forwards;
-        }
-        @keyframes fillSliderFromRight {
-          to { clip-path: inset(0 0 0 0); }
-        }
-        .fill-slider-overlay--prev {
-          clip-path: inset(0 100% 0 0);
-          animation: fillSliderFromLeft var(--fill-slider-duration) var(--fill-slider-easing) forwards;
-        }
-        @keyframes fillSliderFromLeft {
-          to { clip-path: inset(0 0 0 0); }
+        .animate-fadeSlideUp {
+          animation: fadeSlideUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
         }
       `}</style>
-      <div className="relative mx-auto flex w-full max-w-[1440px] flex-col px-4 sm:px-6 md:px-8 lg:px-6 xl:px-0">
-        <div className="flex shrink-0 items-center justify-end gap-2 py-3 sm:gap-3 sm:py-4 xl:pr-8">
-          <button
-            type="button"
-            aria-label="Previous slide"
-            onClick={goPrev}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#E2E2E2] bg-[#EDEDED] sm:h-[52px] sm:w-[52px]"
-          >
-            <Image src="/assets/left_arrow.svg" alt="" width={13} height={21} className="scale-90 sm:scale-100" />
-          </button>
-          <button
-            type="button"
-            aria-label="Next slide"
-            onClick={goNext}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#E2E2E2] bg-[#EDEDED] sm:h-[52px] sm:w-[52px]"
-          >
-            <Image src="/assets/right_arrow.svg" alt="" width={13} height={21} className="scale-90 sm:scale-100" />
-          </button>
-        </div>
-
-        <div className="relative min-h-[260px] w-full flex-1 overflow-hidden sm:min-h-[340px] md:min-h-[480px] lg:min-h-0 lg:h-[min(520px,70vh)] lg:rounded-lg xl:h-[775px] xl:rounded-none xl:flex-none">
-          <div className="absolute inset-0 z-0">
-            <Image
-              src={showcaseSlides[activeIndex].image}
-              alt={showcaseSlides[activeIndex].projectName}
-              fill
-              className="object-cover"
-              quality={100}
-              priority
-              sizes="(max-width: 1024px) 100vw, 1440px"
-            />
-          </div>
-
-          {overlay && (
-            <div className={`fill-slider-overlay fill-slider-overlay--${overlay.direction}`}>
-              <Image
-                src={showcaseSlides[overlay.index].image}
-                alt={showcaseSlides[overlay.index].projectName}
-                fill
-                className="object-cover"
-                quality={100}
-                priority
-                sizes="(max-width: 1024px) 100vw, 1440px"
-              />
-            </div>
-          )}
-
-          {/* lg–max-xl: headline on image (bottom, centered). xl+: left, no gradient — wide desktop overlay */}
-          <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 pb-6 pt-16 text-center sm:px-6 sm:pb-8 sm:pt-20 md:px-8 md:pt-24 lg:inset-x-0 lg:bottom-0 lg:left-0 lg:right-0 lg:top-auto lg:translate-y-0 lg:px-8 lg:pb-8 lg:pt-12 xl:inset-x-auto xl:bottom-auto xl:left-8 xl:right-auto xl:top-[26%] xl:block xl:-translate-y-1/2 xl:bg-transparent xl:bg-none xl:px-0 xl:pb-0 xl:pt-0 xl:text-left 2xl:left-16">
-            <h3
-              data-scroll-reveal
-              className={`${quattrocento.className} mx-auto max-w-[20ch] text-center text-[22px] font-bold leading-[1.15] text-white sm:max-w-[24ch] sm:text-[26px] md:max-w-[28ch] md:text-[30px] lg:max-w-[36ch] lg:text-[32px] xl:mx-0 xl:max-w-[min(320px,40vw)] xl:text-left xl:text-[34px] xl:leading-[100%] 2xl:max-w-[380px] 2xl:text-[36px]`}
-            >
-              {activeSlide.headline}
-            </h3>
-            <p
-              data-scroll-reveal
-              className={`${lato.className} mx-auto mt-2 max-w-md text-center text-[16px] font-normal leading-snug text-white/95 sm:text-[18px] md:text-[20px] lg:text-[22px] xl:mx-0 xl:max-w-[280px] xl:text-left xl:text-[24px] xl:leading-[100%]`}
-            >
-              {activeSlide.subtext}
-            </p>
-          </div>
-        </div>
-
-        {/* lg–xl: card stacks under hero with clear spacing; xl+: floats over image (desktop) */}
-        <div className="relative z-20 mx-auto mt-5 flex w-full max-w-[448px] flex-col gap-3 rounded-[10px] bg-[#F4F4F4] px-5 py-6 shadow-sm sm:mt-6 sm:gap-[10px] sm:px-6 sm:py-8 lg:mt-6 lg:shadow-md xl:absolute xl:left-auto xl:right-[min(134px,8vw)] xl:top-[110px] xl:mt-0 xl:h-[613px] xl:w-[min(448px,42vw)] xl:max-w-[448px] xl:gap-[10px] xl:px-8 xl:py-[71px] xl:shadow-none">
-          <p
-            data-scroll-reveal
-            className={`${lato.className} text-center text-[16px] font-normal leading-none text-[#2F2F2F] sm:text-[17px] md:text-[18px]`}
-          >
-            {String(activeIndex + 1).padStart(2, "0")} - {String(showcaseSlides.length).padStart(2, "0")}
-          </p>
-          <h4
-            data-scroll-reveal
-            className={`${quattrocento.className} text-center text-[20px] font-normal uppercase leading-[1.1] text-[#1A1A1A] sm:text-[22px] md:text-[24px]`}
-          >
-            {activeSlide.projectName}
-          </h4>
-
-          <div className="relative aspect-[16/10] w-full overflow-hidden sm:max-h-[240px] sm:aspect-auto sm:h-[200px] md:max-h-none">
-            <div className="absolute inset-0 z-0">
-              <Image
-                src={showcaseSlides[activeIndex].image}
-                alt={showcaseSlides[activeIndex].projectName}
-                fill
-                className="object-cover"
-                quality={100}
-                sizes="(max-width:1024px) 90vw, 448px"
-              />
-            </div>
-
-            {overlay && (
-              <div className={`fill-slider-overlay fill-slider-overlay--${overlay.direction}`}>
-                <Image
-                  src={showcaseSlides[overlay.index].image}
-                  alt={showcaseSlides[overlay.index].projectName}
-                  fill
-                  className="object-cover"
-                  quality={100}
-                  sizes="(max-width:1024px) 90vw, 448px"
-                />
-              </div>
-            )}
-          </div>
-
-          <p
-            data-scroll-reveal
-            className={`${lato.className} text-center text-[14px] leading-[1.5] text-[#555555] sm:text-[15px] md:text-[16px]`}
-          >
-            {activeSlide.description}
-          </p>
-
-          <button
-            data-scroll-reveal
-            type="button"
-            className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#8C8C8C] sm:h-[52px] sm:w-[52px]"
-            aria-label="Open project"
-          >
-            <Image src="/assets/diagonal_arrow.png" alt="" width={20} height={20} className="h-[18px] w-[18px] sm:h-[20px] sm:w-[20px]" />
-          </button>
-        </div>
-      </div>
     </section>
   );
 }
