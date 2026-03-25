@@ -246,10 +246,10 @@ export function ProjectShowcaseSliderSection() {
         <div className="absolute z-50
           inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))] w-auto max-w-none
           sm:inset-x-4 sm:bottom-[max(1.25rem,env(safe-area-inset-bottom,0px))]
-          md:inset-x-auto md:bottom-auto md:left-auto md:right-8 md:top-1/2 md:w-[min(310px,38vw)] md:-translate-y-1/2
-          lg:right-10 lg:w-[min(360px,34vw)]
-          xl:right-[min(80px,6vw)] xl:w-[min(380px,32vw)]
-          2xl:right-[min(100px,7vw)]
+          md:inset-x-auto md:bottom-auto md:left-auto md:right-8 md:top-[calc(50%+1.25rem)] md:w-[min(310px,38vw)] md:-translate-y-1/2
+          lg:top-[calc(50%+1.5rem)] lg:right-10 lg:w-[min(360px,34vw)]
+          xl:top-[calc(50%+1.75rem)] xl:right-[min(80px,6vw)] xl:w-[min(380px,32vw)]
+          2xl:top-[calc(50%+2rem)] 2xl:right-[min(100px,7vw)]
         ">
           <div className="mx-auto flex w-full max-w-[400px] flex-col rounded-[12px] bg-[#F4F4F4] shadow-2xl
             min-h-[min(52dvh,480px)] gap-3 px-4 pb-4 pt-2
