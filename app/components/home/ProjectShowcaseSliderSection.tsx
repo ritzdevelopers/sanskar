@@ -81,16 +81,15 @@ export function ProjectShowcaseSliderSection() {
     const totalSlides = showcaseSlides.length;
     const scrollPerSlide = () => sticky.offsetHeight || window.innerHeight;
 
-    // BG images: first is visible, rest start below
+    // BG: vertical reveal (incoming slide moves up); force3D + backface-hidden = cleaner edges while scrolling
     bgLayersRef.current.forEach((el, i) => {
       if (!el) return;
-      gsap.set(el, { yPercent: i === 0 ? 0 : 100 });
+      gsap.set(el, { yPercent: i === 0 ? 0 : 100, force3D: true });
     });
 
-    // Thumbnail images: first visible, rest start below (clipped by overflow-hidden on parent)
     thumbLayersRef.current.forEach((el, i) => {
       if (!el) return;
-      gsap.set(el, { yPercent: i === 0 ? 0 : 100 });
+      gsap.set(el, { yPercent: i === 0 ? 0 : 100, force3D: true });
     });
 
     const ctx = gsap.context(() => {
@@ -101,7 +100,7 @@ export function ProjectShowcaseSliderSection() {
           end: () => `+=${scrollPerSlide() * (totalSlides - 1)}`,
           pin: sticky,
           pinSpacing: true,
-          scrub: 1,
+          scrub: 0.65,
           anticipatePin: 1,
           onUpdate(self) {
             const idx = Math.min(
@@ -115,20 +114,18 @@ export function ProjectShowcaseSliderSection() {
 
       for (let i = 1; i < totalSlides; i++) {
         const step = i - 1;
+        const slideEase = { ease: "none" as const, duration: 1, force3D: true };
 
-        // Background image slides up from bottom
         tl.fromTo(
           bgLayersRef.current[i],
           { yPercent: 100 },
-          { yPercent: 0, ease: "none", duration: 1 },
+          { yPercent: 0, ...slideEase },
           step
         );
-
-        // Card thumbnail slides up from bottom (same timing, synced)
         tl.fromTo(
           thumbLayersRef.current[i],
           { yPercent: 100 },
-          { yPercent: 0, ease: "none", duration: 1 },
+          { yPercent: 0, ...slideEase },
           step
         );
       }
@@ -172,22 +169,22 @@ export function ProjectShowcaseSliderSection() {
       {/* Sticky viewport pinned by GSAP */}
       <div
         ref={stickyRef}
-        className="relative h-[100dvh] min-h-[100dvh] w-full max-w-none overflow-hidden bg-[#f2f2f2] md:bg-black md:mx-auto md:max-w-[1500px]"
+        className="relative isolate h-[100dvh] min-h-[100dvh] w-full max-w-none overflow-hidden bg-[#f2f2f2] md:bg-black md:mx-auto md:max-w-[1500px]"
       >
 
-        {/* ── STACKED BACKGROUND IMAGES (slide bottom-to-top) ── */}
+        {/* ── STACKED BACKGROUND IMAGES (slide up from bottom, scroll-scrubbed) ── */}
         {showcaseSlides.map((slide, index) => (
           <div
             key={`bg-${slide.id}`}
             ref={(el) => { bgLayersRef.current[index] = el; }}
-            className="absolute inset-0 will-change-transform max-md:pointer-events-none max-md:[&_img]:pointer-events-none"
+            className="pointer-events-none absolute inset-0 backface-hidden will-change-transform max-md:[&_img]:pointer-events-none"
             style={{ zIndex: index + 1 }}
           >
             <Image
               src={slide.image}
               alt={slide.projectName}
               fill
-              className="object-cover object-center"
+              className="object-cover object-center [transform:translateZ(0)]"
               quality={100}
               priority={index === 0}
               sizes="100vw"
@@ -275,20 +272,20 @@ export function ProjectShowcaseSliderSection() {
             </div>
 
             {/* Thumbnail */}
-            <div className="relative h-[132px] w-full shrink-0 overflow-hidden rounded-[6px] sm:h-[148px] md:h-[135px] lg:h-[155px] xl:h-[175px]
+            <div className="relative h-[132px] w-full shrink-0 overflow-hidden rounded-[6px] sm:h-[148px] md:h-[135px] lg:h-[155px] xl:h-[175px] [contain:paint]
             ">
               {showcaseSlides.map((slide, index) => (
                 <div
                   key={`thumb-${slide.id}`}
                   ref={(el) => { thumbLayersRef.current[index] = el; }}
-                  className="absolute inset-0 will-change-transform"
+                  className="absolute inset-0 backface-hidden will-change-transform"
                   style={{ zIndex: index + 1 }}
                 >
                   <Image
                     src={slide.image}
                     alt={slide.projectName}
                     fill
-                    className="object-cover object-center"
+                    className="object-cover object-center [transform:translateZ(0)]"
                     quality={80}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 310px, 380px"
                   />
