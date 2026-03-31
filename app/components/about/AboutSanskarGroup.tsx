@@ -22,7 +22,7 @@ export function AboutSanskarGroup() {
     return (
         <section
             ref={sectionRef}
-            className="relative w-full h-auto lg:h-[816px] min-h-[816px] bg-white flex items-center py-16 lg:py-0"
+            className="relative flex h-auto w-full items-center bg-white py-12 sm:py-16 lg:h-[816px] lg:min-h-[816px] lg:py-0"
             style={{
                 backgroundImage: "radial-gradient(#e5e7eb 1px, transparent 1px)",
                 backgroundSize: "24px 24px",

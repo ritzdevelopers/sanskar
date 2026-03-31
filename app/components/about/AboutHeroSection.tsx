@@ -22,7 +22,7 @@ export function AboutHeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-[683px] w-full flex items-center justify-center overflow-hidden">
+    <section className="relative flex min-h-[min(100dvh,620px)] w-full items-center justify-center overflow-hidden sm:min-h-[640px] lg:min-h-[683px]">
       <div className="absolute inset-0 z-0">
         <Image
           src="/assets/about_us.jpg"
@@ -99,11 +99,11 @@ export function AboutHeroSection() {
         </div>
       </header>
 
-      <div className="relative z-10 flex flex-col items-center justify-center text-center text-white px-4 pt-16 w-full max-w-[900px]">
-        <h2 className="font-lato font-semibold text-[18px] leading-[28px] mb-4">
+      <div className="relative z-10 flex w-full max-w-[900px] flex-col items-center justify-center px-4 pb-10 pt-20 text-center text-white sm:pb-12 sm:pt-24 md:pt-16">
+        <h2 className="font-lato mb-3 text-[16px] font-semibold leading-[24px] sm:mb-4 sm:text-[18px] sm:leading-[28px]">
           About Us
         </h2>
-        <h1 className="font-quattrocento font-normal text-[36px] leading-[100%] uppercase tracking-normal">
+        <h1 className="font-quattrocento text-[28px] font-normal uppercase leading-[1.1] tracking-normal sm:text-[32px] md:text-[36px] md:leading-[100%]">
           Turning Spaces into Stories
         </h1>
       </div>

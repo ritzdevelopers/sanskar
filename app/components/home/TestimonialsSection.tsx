@@ -13,13 +13,15 @@ type Testimonial = {
   name: string;
   image: string;
   quote: string;
+  /** Fine-tune circular crop (`object-position`) — second photo often needs a higher focus */
+  avatarObjectPosition?: string;
 };
 
 const testimonials: Testimonial[] = [
   {
     id: "ravi-1",
     name: "Rajesh Kumar | Resident, Noida Extension.",
-    image: "/assets/testimonial_ravi.png",
+    image: "/assets/rahul%20gupta.png",
     quote:
       '"Living in a house of Sanskar Realty is a dream come true. The contemporary facilities, superior construction and fittings, and fine details exceed anything we saw in Noida Extension."',
   },
@@ -27,13 +29,14 @@ const testimonials: Testimonial[] = [
     id: "mohit-1",
     name: "Priya Mehta | Investor, Delhi NCR.",
     image: "/assets/testimonial_mohit.png",
+    avatarObjectPosition: "center 18%",
     quote:
       '"Our family could not be happier. My investment has paid much more than I could have hoped, plus the quality is there. The site, layout and credentials of Yatharth Group makes this my smartest NCR real estate investment."',
   },
   {
     id: "ravi-2",
     name: "Rajesh Kumar | Resident, Noida Extension.",
-    image: "/assets/testimonial_ravi.png",
+    image: "/assets/rahul%20gupta.png",
     quote:
       '"Living in a house of Sanskar Realty is a dream come true. The contemporary facilities, superior construction and fittings, and fine details exceed anything we saw in Noida Extension."',
   },
@@ -41,6 +44,7 @@ const testimonials: Testimonial[] = [
     id: "mohit-2",
     name: "Priya Mehta | Investor, Delhi NCR.",
     image: "/assets/testimonial_mohit.png",
+    avatarObjectPosition: "center 18%",
     quote:
       '"Our family could not be happier. My investment has paid much more than I could have hoped, plus the quality is there. The site, layout and credentials of Yatharth Group makes this my smartest NCR real estate investment."',
   },
@@ -52,16 +56,101 @@ for (let i = 0; i < testimonials.length; i += 2) {
   desktopSlides.push(testimonials.slice(i, i + 2));
 }
 
-function TestimonialCard({ item }: { item: Testimonial }) {
+/** Inactive: small solid dot. Active: same dot inside a thin outer ring (matches design). */
+function TestimonialSliderDot({
+  active,
+  onClick,
+  ariaLabel,
+}: {
+  active: boolean;
+  onClick: () => void;
+  ariaLabel: string;
+}) {
   return (
-    <div className="flex h-full min-w-0 w-full max-w-full flex-col items-center rounded-[6px] bg-white px-5 py-6 text-center shadow-[0px_4px_20px_rgba(0,0,0,0.08)] sm:px-6 sm:py-7 md:px-8 lg:px-10">
-      <div className="relative h-[88px] w-[88px] shrink-0 overflow-hidden rounded-full sm:h-[100px] sm:w-[100px] md:h-[120px] md:w-[120px]">
-        <Image src={item.image} alt={item.name} fill className="object-cover" sizes="120px" />
+    <button
+      type="button"
+      aria-label={ariaLabel}
+      onClick={onClick}
+      className="relative flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full transition-opacity duration-200 hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3D3D3D]"
+    >
+      {active ? (
+        <>
+          <span
+            className="pointer-events-none absolute inset-0 rounded-full border border-[#3D3D3D]"
+            aria-hidden
+          />
+          <span className="relative z-10 h-1.5 w-1.5 rounded-full bg-[#3D3D3D]" aria-hidden />
+        </>
+      ) : (
+        <span className="h-1.5 w-1.5 rounded-full bg-[#3D3D3D]" aria-hidden />
+      )}
+    </button>
+  );
+}
+
+function TestimonialName({ name, className }: { name: string; className: string }) {
+  const parts = name
+    .split("|")
+    .map((p) => p.trim())
+    .filter(Boolean);
+  if (parts.length < 2) {
+    return <h3 className={className}>{name}</h3>;
+  }
+  return (
+    <h3 className={className}>
+      <span className="mx-auto inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 sm:gap-x-3 md:gap-x-4">
+        <span className="text-center">{parts[0]}</span>
+        <span
+          className={`${lato.className} shrink-0 px-0.5 text-[12px] font-normal text-[#B0B0B0] sm:text-[13px]`}
+          aria-hidden
+        >
+          |
+        </span>
+        <span className="text-center">{parts.slice(1).join(" · ")}</span>
+      </span>
+    </h3>
+  );
+}
+
+function TestimonialCard({ item, compact = false }: { item: Testimonial; compact?: boolean }) {
+  return (
+    <div
+      className={`flex min-h-0 min-w-0 w-full max-w-full flex-col items-center rounded-[6px] bg-white text-center ${
+        compact
+          ? "border border-[#ECECEC] px-5 py-5 shadow-[0_8px_30px_rgba(0,0,0,0.1)] sm:px-6 sm:py-6"
+          : "h-full border border-transparent px-4 py-5 shadow-[0px_4px_20px_rgba(0,0,0,0.08)] sm:px-6 sm:py-7 md:px-5 md:py-6 lg:px-8 xl:px-10"
+      }`}
+    >
+      <div
+        className={`relative shrink-0 overflow-hidden rounded-full ring-2 ring-black/[0.04] ${
+          compact
+            ? "h-20 w-20 sm:h-[88px] sm:w-[88px]"
+            : "h-[80px] w-[80px] sm:h-[96px] sm:w-[96px] md:h-[100px] md:w-[100px] lg:h-[120px] lg:w-[120px]"
+        }`}
+      >
+        <Image
+          src={item.image}
+          alt={item.name}
+          fill
+          quality={90}
+          className="object-cover"
+          sizes="(max-width: 1280px) 96px, (max-width: 1536px) 120px, 128px"
+          style={{
+            objectPosition: item.avatarObjectPosition ?? "center center",
+          }}
+        />
       </div>
-      <h3 className={`${quattrocento.className} mt-3 text-[16px] font-bold text-[#111111] sm:text-[17px] md:text-[18px]`}>
-        {item.name}
-      </h3>
-      <p className={`${lato.className} mt-4 w-full max-w-[387px] break-words text-[14px] leading-[1.55] text-[#5A5A5A] sm:mt-5 sm:text-[15px] md:mt-6 md:text-[16px]`}>
+      <TestimonialName
+        name={item.name}
+        className={`${quattrocento.className} mt-3 w-full max-w-full text-[15px] font-bold leading-snug text-[#111111] sm:mt-4 sm:text-[16px] sm:leading-snug md:text-[16px] lg:text-[17px] xl:text-[18px]`}
+      />
+      <p
+        className={
+          compact
+            ? `${lato.className} mt-3 w-full max-w-full break-words text-[13px] leading-[1.62] text-[#5A5A5A] sm:mt-4 sm:text-[14px]`
+            : `${lato.className} mt-2 w-full max-w-full shrink-0 break-words text-[13px] leading-relaxed text-[#5A5A5A] sm:mt-3 sm:text-[14px] md:mt-4 md:text-[14px] md:leading-[1.55] lg:mt-5 lg:text-[15px] xl:text-[16px]`
+        }
+      >
         {item.quote}
       </p>
     </div>
@@ -113,49 +202,43 @@ export function TestimonialsSection() {
           What Our Customers&apos; Say?
         </h2>
 
-        {/* ── MOBILE SLIDER (< md): one card, horizontal translateX ── */}
-        <div data-scroll-reveal className="relative mt-8 md:hidden">
-          {/* Track */}
-          <div className="overflow-hidden rounded-[6px]">
+        {/* ── Single-card slider (mobile + tablet): compact card, horizontal slide ── */}
+        <div data-scroll-reveal className="relative mt-8 xl:hidden">
+          {/* Vertical padding so card shadow isn’t clipped; horizontal overflow hidden for slide */}
+          <div className="-mx-1 overflow-hidden px-1 py-2 sm:py-3">
             <div
               className="flex transition-transform duration-500 ease-out"
               style={{ transform: `translateX(-${mobileIndex * 100}%)` }}
             >
               {testimonials.map((item) => (
-                <div key={item.id} className="w-full shrink-0 px-1">
-                  <TestimonialCard item={item} />
+                <div key={item.id} className="flex w-full shrink-0 justify-center px-2 sm:px-4 md:px-5">
+                  <div className="w-full max-w-[440px] sm:max-w-[500px] md:max-w-[540px]">
+                    <TestimonialCard item={item} compact />
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Dots */}
-          <div className="mt-5 flex items-center justify-center gap-2.5">
+          <div className="mt-5 flex flex-row items-center justify-center gap-3">
             {testimonials.map((_, i) => (
-              <button
+              <TestimonialSliderDot
                 key={i}
-                type="button"
-                aria-label={`Go to testimonial ${i + 1}`}
+                active={mobileIndex === i}
                 onClick={() => setMobileIndex(i)}
-                className={`h-[10px] w-[10px] rounded-full border transition-all duration-200 ${
-                  mobileIndex === i
-                    ? "border-[#1F1F1F] bg-transparent"
-                    : "border-transparent bg-[#1F1F1F]"
-                }`}
-              >
-                {mobileIndex === i && (
-                  <span className="block h-full w-full flex items-center justify-center">
-                    <span className="h-[4px] w-[4px] rounded-full bg-[#1F1F1F]" />
-                  </span>
-                )}
-              </button>
+                ariaLabel={`Go to testimonial ${i + 1}`}
+              />
             ))}
           </div>
         </div>
 
-        {/* ── DESKTOP SLIDER (md+): 2 cards per row, vertical translateY ── */}
-        <div data-scroll-reveal className="relative mt-8 hidden w-full max-w-full md:block sm:mt-10">
-          <div className="h-[430px] w-full max-w-full overflow-hidden py-3 sm:py-4">
+        {/* ── xl+: two cards per slide, vertical track; dots on the right ── */}
+        <div
+          data-scroll-reveal
+          className="relative mt-8 hidden w-full max-w-full sm:mt-10 xl:flex xl:flex-row xl:items-stretch xl:gap-6"
+        >
+          {/* Taller on md (stacked 1-col) so copy never clips; compact 2-col from lg */}
+          <div className="h-[460px] min-h-0 min-w-0 flex-1 overflow-hidden py-2 sm:py-3 md:h-[min(760px,82dvh)] md:py-3 lg:h-[540px] lg:py-4 xl:h-[500px] 2xl:h-[480px]">
             <div
               className="h-full w-full transition-transform duration-500 ease-out"
               style={{ transform: `translateY(-${desktopIndex * 100}%)` }}
@@ -163,13 +246,10 @@ export function TestimonialsSection() {
               {desktopSlides.map((slide, slideIndex) => (
                 <div
                   key={slideIndex}
-                  className="grid h-full w-full max-w-full grid-cols-2 items-stretch gap-6 px-1 pb-6 sm:px-0 lg:gap-[60px]"
+                  className="grid h-full w-full min-w-0 max-w-full grid-cols-1 content-start items-stretch gap-6 px-0 pb-2 sm:gap-8 md:gap-8 md:pb-4 lg:grid-cols-2 lg:content-center lg:gap-8 lg:pb-6 xl:gap-[60px]"
                 >
                   {slide.map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex h-[360px] min-h-0 min-w-0"
-                    >
+                    <div key={item.id} className="flex min-h-0 min-w-0 w-full">
                       <TestimonialCard item={item} />
                     </div>
                   ))}
@@ -178,24 +258,15 @@ export function TestimonialsSection() {
             </div>
           </div>
 
-          {/* Desktop dots — vertical on the right */}
-          <div className="mt-4 flex flex-row flex-wrap items-center justify-center gap-2 sm:mt-6 lg:absolute lg:right-2 lg:top-1/2 lg:mt-0 lg:-translate-y-1/2 lg:flex-col lg:items-center lg:gap-2 xl:right-3">
+          {/* Desktop dots — vertical column at the right edge of the slider row */}
+          <div className="flex shrink-0 flex-col items-center justify-center gap-3 self-stretch py-3 sm:py-4">
             {desktopSlides.map((_, index) => (
-              <button
+              <TestimonialSliderDot
                 key={index}
-                type="button"
-                aria-label={`Go to testimonial slide ${index + 1}`}
+                active={desktopIndex === index}
                 onClick={() => setDesktopIndex(index)}
-                className={`relative h-[12px] w-[12px] rounded-full border ${
-                  desktopIndex === index
-                    ? "border-[#1F1F1F] bg-transparent"
-                    : "border-transparent bg-[#1F1F1F]"
-                }`}
-              >
-                {desktopIndex === index && (
-                  <span className="absolute left-1/2 top-1/2 h-[4px] w-[4px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1F1F1F]" />
-                )}
-              </button>
+                ariaLabel={`Go to testimonial slide ${index + 1}`}
+              />
             ))}
           </div>
         </div>

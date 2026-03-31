@@ -4,6 +4,9 @@ import { AboutHeroSection } from "../components/about/AboutHeroSection";
 import { WhoWeAre } from "../components/about/WhoWeAre";
 import { AboutSanskarGroup } from "../components/about/AboutSanskarGroup";
 import { OurJourney } from "../components/about/OurJourney";
+import { FindDreamHomeSection } from "../components/about/FindDreamHomeSection";
+import { TestimonialsSection } from "../components/home/TestimonialsSection";
+import { PressReleasesSection } from "../components/home/PressReleasesSection";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,6 +33,9 @@ export default function AboutUsPage() {
       <AboutSanskarGroup />
       <WhoWeAre />
       <OurJourney />
+      <FindDreamHomeSection />
+      <TestimonialsSection />
+      <PressReleasesSection />
       <FooterSection />
     </main>
   );

@@ -112,14 +112,14 @@ export function WhoWeAre() {
                 </div>
 
                 {/* Description Paragraphs */}
-                <div data-scroll-reveal className={`text-center w-full max-w-[1040px] mx-auto space-y-4 md:space-y-6 ${lato.className} text-[18px] leading-[32px] tracking-normal align-middle text-[#666666] mb-10 md:mb-16`}>
+                <div data-scroll-reveal className={`mx-auto mb-10 w-full max-w-[1040px] space-y-4 text-center align-middle text-[#666666] sm:mb-12 md:mb-16 md:space-y-6 ${lato.className} text-[15px] leading-[26px] sm:text-[17px] sm:leading-[30px] md:text-[18px] md:leading-[32px] tracking-normal`}>
                     <p>
                         Sanskar Realty is not merely another name in the overcrowded Delhi NCR real estate market. We are the real estate venture of <span className="text-[#F7A51D] font-bold">the Yatharth Family Office</span> – which is the strategic investment branch of <span className="text-[#F7A51D] font-bold">Yatharth Group</span> and <span className="text-[#F7A51D] font-bold">North India's third largest public-listed healthcare company</span> founded in 2008 and relied on by millions throughout the area.
                     </p>
                     <p>
                         The same values that built one of India's most respected hospital networks — <span className="text-[#F7A51D] font-bold">care, integrity, transparency,</span> and a <span className="text-[#F7A51D] font-bold">commitment</span> to human wellbeing — now shape every residential community we create. The product of a healthcare pioneer building homes is no ordinary real estate. Security, dignity, and value per square foot are the measured outcomes of the sanctuary.
                     </p>
-                    <p className="w-[1000px]">
+                    <p className="mx-auto w-full max-w-[1000px]">
                         Sanskar Realty has been excelling in delivering top-notch projects in <span className="text-[#F7A51D] font-bold">Noida Extension, Greater Noida West</span>, and <span className="text-[#F7A51D] font-bold">Ghaziabad</span> for over 17 years, constantly reshaping the standards of luxury lifestyle in Delhi NCR, one meticulously designed home at a time.
                     </p>
                 </div>
@@ -155,62 +155,62 @@ export function WhoWeAre() {
                     Hospital Yatharth Group Support – Yatharth Group of Hospitals – 8 Hospitals and 2,500+ Beds – NABH Accredited – 4 States
                 </p>
 
-                {/* --- Stats Section --- */}
-                <div className="flex flex-wrap lg:flex-nowrap justify-between items-start gap-y-12 lg:gap-y-0 w-full mt-24 md:mt-32 lg:mt-[160px] relative">
-                    <div data-scroll-reveal className="flex flex-col items-center text-center px-4 w-1/2 lg:w-1/4 lg:mt-0">
-                        <span className={`${quattrocento.className} text-[40px] md:text-[50px] lg:text-[56px] font-bold text-[#111111] leading-none mb-3`}>
+                {/* --- Stats Section: even 2×2 gaps on mobile; desktop stagger unchanged --- */}
+                <div className="relative mt-20 grid w-full grid-cols-2 gap-x-3 gap-y-10 sm:mt-24 sm:gap-x-6 sm:gap-y-12 md:mt-28 md:gap-y-14 lg:mt-[160px] lg:flex lg:max-w-none lg:flex-nowrap lg:items-start lg:justify-between lg:gap-x-0 lg:gap-y-0">
+                    <div data-scroll-reveal className="flex min-w-0 flex-col items-center px-2 text-center sm:px-3 lg:w-1/4 lg:px-4 lg:pt-0">
+                        <span className={`${quattrocento.className} mb-4 text-[40px] font-bold leading-none text-[#111111] md:text-[50px] lg:mb-3 lg:text-[56px]`}>
                             <AnimatedNumber end={17} suffix="+" />
                         </span>
-                        <span className={`${lato.className} text-[15px] md:text-[16px] text-[#555555] font-normal`}>Years of Real Estate Excellence</span>
+                        <span className={`${lato.className} max-w-[155px] text-[14px] font-normal leading-snug text-[#555555] sm:max-w-[170px] sm:text-[15px] md:text-[16px] lg:max-w-none`}>Years of Real Estate Excellence</span>
                     </div>
-                    <div data-scroll-reveal className="flex flex-col items-center text-center px-4 w-1/2 lg:w-1/4 lg:mt-16">
-                        <span className={`${quattrocento.className} text-[40px] md:text-[50px] lg:text-[56px] font-bold text-[#111111] leading-none mb-3`}>
+                    <div data-scroll-reveal className="flex min-w-0 flex-col items-center px-2 text-center sm:px-3 lg:mt-16 lg:w-1/4 lg:px-4">
+                        <span className={`${quattrocento.className} mb-4 text-[40px] font-bold leading-none text-[#111111] md:text-[50px] lg:mb-3 lg:text-[56px]`}>
                             <AnimatedNumber end={3} />
                         </span>
-                        <span className={`${lato.className} text-[15px] md:text-[16px] text-[#555555] font-normal`}>Landmark Residential<br className="hidden lg:block" /> Projects</span>
+                        <span className={`${lato.className} max-w-[155px] text-[14px] font-normal leading-snug text-[#555555] sm:max-w-[170px] sm:text-[15px] md:text-[16px] lg:max-w-none`}>Landmark Residential<br className="hidden lg:block" /> Projects</span>
                     </div>
-                    <div data-scroll-reveal className="flex flex-col items-center text-center px-4 w-1/2 lg:w-1/4 lg:mt-32">
-                        <span className={`${quattrocento.className} text-[40px] md:text-[50px] lg:text-[56px] font-bold text-[#111111] leading-none mb-3`}>
+                    <div data-scroll-reveal className="flex min-w-0 flex-col items-center px-2 text-center sm:px-3 lg:mt-32 lg:w-1/4 lg:px-4">
+                        <span className={`${quattrocento.className} mb-4 text-[40px] font-bold leading-none text-[#111111] md:text-[50px] lg:mb-3 lg:text-[56px]`}>
                             <AnimatedNumber end={100} suffix="%" />
                         </span>
-                        <span className={`${lato.className} text-[15px] md:text-[16px] text-[#555555] font-normal`}>RERA Compliant — Zero<br className="hidden lg:block" /> Compromise</span>
+                        <span className={`${lato.className} max-w-[155px] text-[14px] font-normal leading-snug text-[#555555] sm:max-w-[170px] sm:text-[15px] md:text-[16px] lg:max-w-none`}>RERA Compliant — Zero<br className="hidden lg:block" /> Compromise</span>
                     </div>
-                    <div data-scroll-reveal className="flex flex-col items-center text-center px-4 w-1/2 lg:w-1/4 lg:mt-48">
-                        <span className={`${quattrocento.className} text-[40px] md:text-[50px] lg:text-[56px] font-bold text-[#111111] leading-none mb-3`}>
+                    <div data-scroll-reveal className="flex min-w-0 flex-col items-center px-2 text-center sm:px-3 lg:mt-48 lg:w-1/4 lg:px-4">
+                        <span className={`${quattrocento.className} mb-4 text-[40px] font-bold leading-none text-[#111111] md:text-[50px] lg:mb-3 lg:text-[56px]`}>
                             <AnimatedNumber end={4} />
                         </span>
-                        <span className={`${lato.className} text-[15px] md:text-[16px] text-[#555555] font-normal`}>States Covered</span>
+                        <span className={`${lato.className} text-[14px] font-normal leading-snug text-[#555555] sm:text-[15px] md:text-[16px]`}>States Covered</span>
                     </div>
                 </div>
 
                 {/* --- Mission & Vision Section --- */}
-                <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 xl:gap-[90px] items-center w-full mb-10 relative">
+                <div className="relative mb-10 mt-14 flex w-full flex-col items-center gap-12 sm:mt-16 sm:gap-14 md:mt-20 lg:mt-24 lg:flex-row lg:gap-14 xl:gap-[90px]">
 
                     {/* Left side: Cards */}
-                    <div className="flex flex-col gap-10 w-full lg:w-[555px] relative z-10 mx-auto lg:mx-0">
+                    <div className="relative z-10 mx-auto flex w-full max-w-full flex-col gap-10 sm:gap-12 lg:mx-0 lg:w-[555px]">
 
                         {/* Mission Card */}
-                        <div data-scroll-reveal className="border border-[#E5E5E5] bg-white p-8 md:p-10 w-full lg:w-[555px] h-auto lg:h-[316px] hover:shadow-[0_10px_40px_rgba(0,0,0,0.06)] transition-all duration-300 flex flex-col justify-center">
-                            <span className={`${lato.className} text-[15px] md:text-[16px] font-medium text-[#111111] block mb-4`}>
+                        <div data-scroll-reveal className="flex h-auto w-full flex-col justify-center border border-[#E5E5E5] bg-white p-6 transition-all duration-300 hover:shadow-[0_10px_40px_rgba(0,0,0,0.06)] sm:p-8 md:p-10 lg:h-[316px] lg:w-[555px]">
+                            <span className={`${lato.className} mb-3 block text-[15px] font-medium text-[#111111] sm:mb-4 md:text-[16px]`}>
                                 Our Mission
                             </span>
-                            <h2 className={`${quattrocento.className} text-[24px] md:text-[28px] lg:text-[32px] font-normal uppercase text-[#111111] leading-[1.3] mb-5`}>
+                            <h2 className={`${quattrocento.className} mb-4 text-[22px] font-normal uppercase leading-[1.3] text-[#111111] sm:mb-5 sm:text-[24px] md:text-[28px] lg:mb-5 lg:text-[32px]`}>
                                 BUILDING A LEGACY OF EXCELLENCE
                             </h2>
-                            <p className={`${lato.className} text-[15px] md:text-[16px] text-[#666666] leading-[1.8]`}>
+                            <p className={`${lato.className} text-[15px] leading-[1.75] text-[#666666] md:text-[16px] md:leading-[1.8]`}>
                                 To deliver exceptional living spaces with a blend of luxury, comfort and sustainable design. Our organization builds residential and commercial properties which deliver enduring worth through innovative solutions that meet customer needs while setting new standards in the real estate industry.
                             </p>
                         </div>
 
                         {/* Vision Card */}
-                        <div data-scroll-reveal className="border border-[#E5E5E5] bg-white p-8 md:p-10 w-full lg:w-[555px] h-auto lg:h-[316px] hover:shadow-[0_10px_40px_rgba(0,0,0,0.06)] transition-all duration-300 flex flex-col justify-center">
-                            <span className={`${lato.className} text-[15px] md:text-[16px] font-medium text-[#111111] block mb-4`}>
+                        <div data-scroll-reveal className="flex h-auto w-full flex-col justify-center border border-[#E5E5E5] bg-white p-6 transition-all duration-300 hover:shadow-[0_10px_40px_rgba(0,0,0,0.06)] sm:p-8 md:p-10 lg:h-[316px] lg:w-[555px]">
+                            <span className={`${lato.className} mb-3 block text-[15px] font-medium text-[#111111] sm:mb-4 md:text-[16px]`}>
                                 Our Vision
                             </span>
-                            <h2 className={`${quattrocento.className} text-[24px] md:text-[28px] lg:text-[32px] font-normal uppercase text-[#111111] leading-[1.3] mb-5`}>
+                            <h2 className={`${quattrocento.className} mb-4 text-[22px] font-normal uppercase leading-[1.3] text-[#111111] sm:mb-5 sm:text-[24px] md:text-[28px] lg:mb-5 lg:text-[32px]`}>
                                 REDEFINING LIVING, INSPIRING FUTURES
                             </h2>
-                            <p className={`${lato.className} text-[15px] md:text-[16px] text-[#666666] leading-[1.8]`}>
+                            <p className={`${lato.className} text-[15px] leading-[1.75] text-[#666666] md:text-[16px] md:leading-[1.8]`}>
                                 We aim to be a trusted leader and reliable real estate company creating vibrant communities and modern living spaces for better customer lifestyles. Our goal is to expand across NCR region and beyond, providing premium residential and commercial properties that are quality-driven and timeless.
                             </p>
                         </div>
@@ -218,7 +218,7 @@ export function WhoWeAre() {
                     </div>
 
                     {/* Right side: Image */}
-                    <div data-scroll-reveal className="w-full relative min-h-[400px] lg:min-h-0 lg:w-[593.26px] lg:h-[436.51px] mt-10 lg:mt-0">
+                    <div data-scroll-reveal className="relative aspect-[593/436] w-full max-w-[593px] overflow-hidden lg:mx-0 lg:h-[436.51px] lg:w-[593.26px] lg:max-w-none lg:shrink-0 lg:aspect-auto">
                         <Image
                             src="/assets/mission.png"
                             alt="Mission & Vision"
