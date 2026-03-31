@@ -31,7 +31,7 @@ const timelineData: TimelineItem[] = [
     label: "2008",
     title: "Incorporation & operations",
     description:
-      "Incorporation of Company and Commencement of operations.",
+      "The company, Sanskar Realty, was incorporated with a vision to establish a strong presence in the real estate sector. From the beginning, it has focused on building a solid operational foundation. The company aims to create sustainable and long-term investment opportunities. With a commitment to quality and innovation, it strives to contribute to modern infrastructure development.",
     image: "/assets/footer.png",
   },
   {
@@ -39,7 +39,7 @@ const timelineData: TimelineItem[] = [
     label: "2010",
     title: "First hospital",
     description:
-      "Established our first hospital in Greater Noida.",
+      "The company established its first hospital in Greater Noida, marking the beginning of its journey in the healthcare sector. This milestone laid a strong foundation for its future growth and expansion. The hospital was built with a vision to provide accessible, high-quality medical services to the community. With its patient-centric approach and dedicated care, it quickly gained the trust and confidence of people in the region.",
     image: "/assets/footer.png",
   },
   {
@@ -47,7 +47,7 @@ const timelineData: TimelineItem[] = [
     label: "2013",
     title: "Second hospital",
     description:
-      "Established our second hospital, a 250-bed hospital in Noida.",
+      "The company established its second hospital in Noida, a well-equipped 250-bed facility. This expansion significantly enhanced its ability to cater to a larger population. With a focus on compassionate care, advanced infrastructure, and skilled professionals, the hospital strengthened the company’s presence in the region. It played a vital role in improving accessibility to quality healthcare services.",
     image: "/assets/footer.png",
   },
   {
@@ -55,7 +55,7 @@ const timelineData: TimelineItem[] = [
     label: "2018",
     title: "Greater Noida expansion",
     description:
-      "Expansion of our first hospital in Greater Noida, with a 350-bed hospital.",
+      "The first hospital in Greater Noida was expanded to 400 beds to meet the increasing demand for medical services. This strategic move reflected the company’s commitment to growth and patient care. The expansion allowed the hospital to accommodate more patients and offer a wider range of treatments. It also reinforced the company’s dedication to continuous improvement and service excellence.",
     image: "/assets/footer.png",
   },
   {
@@ -63,7 +63,7 @@ const timelineData: TimelineItem[] = [
     label: "2019",
     title: "Noida Extension Hospital",
     description:
-      "Commencement of our third hospital, Noida Extension Hospital.",
+      "The company launched its third hospital, Noida Extension Hospital, further expanding its regional footprint. This development enabled the company to reach new communities and provide high-quality healthcare services. With modern facilities and a patient-first approach, the hospital contributed to strengthening the company’s reputation. It marked another step forward in its growth journey.",
     image: "/assets/footer.png",
   },
   {
@@ -71,7 +71,7 @@ const timelineData: TimelineItem[] = [
     label: "2022",
     title: "Fourth hospital",
     description:
-      "Acquisition of 305-bedded hospital in Noida Extension; fourth hospital of the company.",
+      "The company acquired a 305-bedded hospital in Noida Extension, making it its fourth hospital, Jhansi Orccha Hospital. This acquisition was a major milestone in the company’s expansion strategy. It strengthened its position in the highly competitive healthcare industry. The move also enhanced its capacity to deliver advanced and specialized medical services.",
     image: "/assets/footer.png",
   },
   {
@@ -79,7 +79,7 @@ const timelineData: TimelineItem[] = [
     label: "2023",
     title: "IPO & listing",
     description:
-      "Launch of IPO & Company's Listing on NSE & BSE.",
+      "The company successfully launched its IPO and got listed on NSE & BSE. This achievement marked a significant milestone in its corporate journey. It boosted investor confidence and provided new opportunities for expansion. The listing also reflected the company’s strong growth trajectory and market credibility.",
     image: "/assets/footer.png",
   },
   {
@@ -87,7 +87,7 @@ const timelineData: TimelineItem[] = [
     label: "2024",
     title: "Strategic acquisitions",
     description:
-      "Acquisition of a 200-bedded hospital in Greater Faridabad. Acquisition of a 300-bedded hospital in New Delhi. Acquisition of a 250-bedded hospital in Sector 20, Faridabad.",
+      "The company acquired three new hospitals, further expanding its network and capabilities. These included a 200-bedded hospital in Greater Faridabad, a 300-bedded hospital in New Delhi, and a 250-bedded hospital in Sector 20, Faridabad. This expansion strengthened its presence across key locations. It also enabled the company to serve a wider population with enhanced healthcare services.",
     image: "/assets/footer.png",
   },
   {
@@ -95,14 +95,27 @@ const timelineData: TimelineItem[] = [
     label: "2025",
     title: "Healthcare milestone",
     description:
-      "Acquired a 250-bedded hospital in the region, marking another milestone in our healthcare journey.",
+      "The company acquired a 250-bedded hospital in Agra, Uttar Pradesh, marking its eighth hospital. This milestone further strengthened its presence in the northern region. The acquisition aligned with the company’s vision of expanding access to quality healthcare. It also reinforced its commitment to delivering excellence and building trust among patients.",
     image: "/assets/footer.png",
   },
 ];
 
+const INITIAL_TIMELINE_YEAR = "2008";
+
+function getInitialTimelineIndex() {
+    const idx = timelineData.findIndex((item) => item.year === INITIAL_TIMELINE_YEAR);
+    return idx >= 0 ? idx : 0;
+}
+
+/** Progress line width (%) — ends at the active dot’s center; avoids 0% when first year (2008) is active */
+function timelineTrackPercent(activeIndex: number, count: number) {
+    if (count <= 1) return 100;
+    return ((activeIndex + 0.5) / count) * 100;
+}
+
 export function OurJourney() {
     const sectionRef = useRef<HTMLElement>(null);
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [activeIndex, setActiveIndex] = useState(getInitialTimelineIndex);
 
     useScrollReveal(sectionRef);
 
@@ -154,7 +167,9 @@ export function OurJourney() {
                         {/* The Active Track filling */}
                         <div 
                             className="absolute left-0 bottom-[7px] md:bottom-[8px] h-[2px] bg-[#111111] -z-10 transition-all duration-500 ease-out"
-                            style={{ width: `${(activeIndex / (timelineData.length - 1)) * 100}%` }}
+                            style={{
+                                width: `${timelineTrackPercent(activeIndex, timelineData.length)}%`,
+                            }}
                         />
 
                         {/* Nodes — equal columns so spacing is even (flex+justify-between caused uneven gaps) */}
