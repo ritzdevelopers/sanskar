@@ -8,6 +8,7 @@ import { useScrollReveal } from "../common/useScrollReveal";
 const lato = Lato({
     subsets: ["latin"],
     weight: ["400", "700"],
+    
     style: ["normal", "italic"]
 });
 
