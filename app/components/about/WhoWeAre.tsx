@@ -4,7 +4,10 @@ import Image from "next/image";
 import { Lato, Quattrocento } from "next/font/google";
 import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useScrollReveal } from "../common/useScrollReveal";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const lato = Lato({
     subsets: ["latin"],
@@ -24,26 +27,31 @@ function AnimatedNumber({ end, suffix = "", duration = 2.5 }: { end: number, suf
         const el = ref.current;
         if (!el) return;
 
-        let hasAnimated = false;
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !hasAnimated) {
-                hasAnimated = true;
-                const obj = { val: 0 };
-                gsap.to(obj, {
-                    val: end,
-                    duration: duration,
-                    ease: "power2.out",
-                    onUpdate: () => {
-                        if (ref.current) {
-                            ref.current.innerText = Math.floor(obj.val) + suffix;
-                        }
-                    }
-                });
-            }
-        }, { threshold: 0.1 });
+        const ctx = gsap.context(() => {
+            const obj = { val: 0 };
+            ScrollTrigger.create({
+                trigger: el,
+                start: "top 88%",
+                once: true,
+                onEnter: () => {
+                    obj.val = 0;
+                    if (ref.current) ref.current.textContent = "0" + suffix;
+                    gsap.to(obj, {
+                        val: end,
+                        duration,
+                        ease: "power2.out",
+                        onUpdate: () => {
+                            if (ref.current) {
+                                ref.current.textContent = Math.floor(obj.val) + suffix;
+                            }
+                        },
+                    });
+                },
+            });
+            requestAnimationFrame(() => ScrollTrigger.refresh());
+        }, el);
 
-        observer.observe(el);
-        return () => observer.disconnect();
+        return () => ctx.revert();
     }, [end, suffix, duration]);
 
     return <span ref={ref}>0{suffix}</span>;

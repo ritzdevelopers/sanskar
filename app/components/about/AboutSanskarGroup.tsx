@@ -65,13 +65,13 @@ export function AboutSanskarGroup() {
                         {/* Right Column (Text Content) */}
                         <div data-scroll-reveal className={`flex-1 flex flex-col justify-center space-y-5 md:space-y-6 ${lato.className} text-[15px] md:text-[16px] text-[#555555] leading-[1.8] lg:pt-10`}>
                             <p>
-                                At Sanskar, we are dedicated to helping individuals, families, and investors navigate the real estate market with confidence. With a deep understanding of local trends and a commitment to personalized service, we turn property goals into successful outcomes.
+                                Sanskar Realty is an extension of the Yatharth Group of Hospitals&apos; legacy, a name rooted in care, trust, and commitment since 2008. Over the years, Yatharth Hospitals has grown into the third-largest public-listed hospital chain in North India, operating seven hospitals across four states and touching countless lives with compassionate care.
                             </p>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                Building on this foundation of trust and excellence, Sanskar Realty embarks on a new chapter, focusing on strategic and long-term real estate investments with a vision to build lasting value and foster growth beyond healthcare.
                             </p>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                Rooted in the same principles that have guided our healthcare journey—integrity, foresight, and a deep sense of responsibility—Sanskar Realty aims to create a legacy of sustainable real estate investments that enrich the communities we serve.
                             </p>
                         </div>
                     </div>

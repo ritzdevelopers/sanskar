@@ -23,78 +23,79 @@ type TimelineItem = {
     title: string;
     description: string;
     image: string;
-    bullets?: string[];
 };
 
 const timelineData: TimelineItem[] = [
   {
-    year:"1970 - 1990",
-    label: "1970 - 1990",
-    title: "The Beginning",
-    description: "Diversified manufacturing roots building a strong industrial foundation.",
-    image: "/assets/footer.png"
-  },
-  {
-    year: "1994",
-    label: "1994",
-    title: "GVF Established",
-    description: "Strengthened financial presence with Great Value Finance.",
-    image: "/assets/footer.png" 
-  },
-  {
     year: "2008",
     label: "2008",
-    title: "Great Value Realty Launched",
-    description: "Entered real estate with a vision to build modern communities.",
-    image: "/assets/footer.png"
-  },
-  {
-    year: "2009 - 2013",
-    label: "2009 - 2013",
-    title: "Early Developments",
-    description: "",
-    bullets: [
-      "2009: Sharanam, Noida",
-      "2011: Great Value Mall, Aligarh",
-      "2013: Casa Uday, New Delhi",
-    ],
-    image: "/assets/footer.png"
-  },
-  {
-    year: "2015 – 2019",
-    label: "2015 – 2019",
-    title: "Expansion Phase",
-    description: "",
-    bullets: [
-      "2015: Commercial Complex, Modinagar",
-      "2017: Vilasa Residences, Gurgaon",
-      "2018: Entry into industrial real estate",
-      "2019: Anandam, Noida",
-    ],
+    title: "Incorporation & operations",
+    description:
+      "Incorporation of Company and Commencement of operations.",
     image: "/assets/footer.png",
   },
   {
-    year: "2020 – 2021",
-    label: "2020 – 2021",
-    title: "Modern Growth",
-    description: "",
-    bullets: [
-      "2020: Delivered The View, Mumbai",
-      "2021: Revitalized Hindon River Mill, Ghaziabad",
-    ],
+    year: "2010",
+    label: "2010",
+    title: "First hospital",
+    description:
+      "Established our first hospital in Greater Noida.",
     image: "/assets/footer.png",
   },
   {
-    year: "2025 & Beyond",
-    label: "2025 & Beyond",
-    title: "The Future Ahead",
-    description: "",
-    bullets: [
-      "Eternia, Greater Noida (W) (Ongoing)",
-      "High Life I & II, Greater Noida (W) (Ongoing)",
-      "Code 107, Noida (Upcoming)",
-      "4.5M+ sq.ft. warehousing expansion (Upcoming)",
-    ],
+    year: "2013",
+    label: "2013",
+    title: "Second hospital",
+    description:
+      "Established our second hospital, a 250-bed hospital in Noida.",
+    image: "/assets/footer.png",
+  },
+  {
+    year: "2018",
+    label: "2018",
+    title: "Greater Noida expansion",
+    description:
+      "Expansion of our first hospital in Greater Noida, with a 350-bed hospital.",
+    image: "/assets/footer.png",
+  },
+  {
+    year: "2019",
+    label: "2019",
+    title: "Noida Extension Hospital",
+    description:
+      "Commencement of our third hospital, Noida Extension Hospital.",
+    image: "/assets/footer.png",
+  },
+  {
+    year: "2022",
+    label: "2022",
+    title: "Fourth hospital",
+    description:
+      "Acquisition of 305-bedded hospital in Noida Extension; fourth hospital of the company.",
+    image: "/assets/footer.png",
+  },
+  {
+    year: "2023",
+    label: "2023",
+    title: "IPO & listing",
+    description:
+      "Launch of IPO & Company's Listing on NSE & BSE.",
+    image: "/assets/footer.png",
+  },
+  {
+    year: "2024",
+    label: "2024",
+    title: "Strategic acquisitions",
+    description:
+      "Acquisition of a 200-bedded hospital in Greater Faridabad. Acquisition of a 300-bedded hospital in New Delhi. Acquisition of a 250-bedded hospital in Sector 20, Faridabad.",
+    image: "/assets/footer.png",
+  },
+  {
+    year: "2025",
+    label: "2025",
+    title: "Healthcare milestone",
+    description:
+      "Acquired a 250-bedded hospital in the region, marking another milestone in our healthcare journey.",
     image: "/assets/footer.png",
   },
 ];
@@ -170,14 +171,14 @@ export function OurJourney() {
                                     onClick={() => setActiveIndex(idx)}
                                 >
                                     <div
-                                        className={`mb-2 inline-flex max-w-full min-h-7 shrink-0 items-center justify-center rounded-none border bg-[#FAFAFA] px-1.5 py-0 sm:mb-3 sm:min-h-7 sm:px-2 sm:py-0 md:mb-5 md:px-2 md:py-0.5 ${
+                                        className={`mb-2 inline-flex max-w-full min-h-9 shrink-0 items-center justify-center rounded-none border bg-[#FAFAFA] px-2 py-1 sm:mb-3 sm:min-h-9 sm:px-2.5 sm:py-1 md:mb-5 md:px-3 md:py-1 ${
                                             idx === activeIndex
                                                 ? "border-[#111111] text-[#111111]"
                                                 : "border-[#CCCCCC] text-[#666666]"
                                         } `}
                                     >
                                         <span
-                                            className={`${lato.className} whitespace-nowrap text-center text-[9px] font-medium leading-none tracking-normal sm:text-[10px] md:text-[10px] lg:text-[11px]`}
+                                            className={`${lato.className} whitespace-nowrap text-center text-[16px] font-medium leading-tight tracking-normal`}
                                         >
                                             {item.label}
                                         </span>
@@ -239,22 +240,9 @@ export function OurJourney() {
                             <h4 className={`${quattrocento.className} mb-4 text-[18px] leading-[1.3] text-[#111111] sm:mb-5 sm:text-[20px] md:mb-6 md:text-[26px] lg:text-[28px]`}>
                                 {timelineData[activeIndex].title}
                             </h4>
-                            {timelineData[activeIndex].description ? (
-                                <p className={`${lato.className} mx-auto max-w-[500px] text-[15px] font-normal leading-[26px] tracking-[0] text-[#666666] align-middle sm:text-[16px] sm:leading-[29px] lg:mx-0`}>
-                                    {timelineData[activeIndex].description}
-                                </p>
-                            ) : null}
-                            {timelineData[activeIndex].bullets?.length ? (
-                                <ul
-                                    className={`${lato.className} mx-auto mt-0 max-w-[500px] list-disc space-y-2 pl-5 text-left text-[15px] font-normal leading-[26px] tracking-[0] text-[#666666] marker:text-[#666666] sm:text-[16px] sm:leading-[29px] lg:mx-0`}
-                                >
-                                    {timelineData[activeIndex].bullets!.map((line) => (
-                                        <li key={line} className="pl-1">
-                                            {line}
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : null}
+                            <p className={`${lato.className} mx-auto max-w-[500px] text-[15px] font-normal leading-[26px] tracking-[0] text-[#666666] align-middle sm:text-[16px] sm:leading-[29px] lg:mx-0`}>
+                                {timelineData[activeIndex].description}
+                            </p>
                         </div>
                     </div>
 
