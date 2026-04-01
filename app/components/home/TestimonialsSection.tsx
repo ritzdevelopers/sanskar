@@ -21,30 +21,32 @@ const testimonials: Testimonial[] = [
   {
     id: "ravi-1",
     name: "Rajesh Kumar | Resident, Noida Extension.",
-    image: "/assets/rahul%20gupta.png",
+    image: "/assets/testimonial-image.jpg",
+    avatarObjectPosition: "center 20%",
     quote:
       '"Living in a house of Sanskar Realty is a dream come true. The contemporary facilities, superior construction and fittings, and fine details exceed anything we saw in Noida Extension."',
   },
   {
     id: "mohit-1",
     name: "Priya Mehta | Investor, Delhi NCR.",
-    image: "/assets/testimonial_mohit.png",
-    avatarObjectPosition: "center 18%",
+    image: "/assets/testimonial-image2.jpg",
+    avatarObjectPosition: "center 20%",
     quote:
       '"Our family could not be happier. My investment has paid much more than I could have hoped, plus the quality is there. The site, layout and credentials of Yatharth Group makes this my smartest NCR real estate investment."',
   },
   {
     id: "ravi-2",
     name: "Rajesh Kumar | Resident, Noida Extension.",
-    image: "/assets/rahul%20gupta.png",
+    image: "/assets/testimonial-image3.jpg",
+    avatarObjectPosition: "center 20%",
     quote:
       '"Living in a house of Sanskar Realty is a dream come true. The contemporary facilities, superior construction and fittings, and fine details exceed anything we saw in Noida Extension."',
   },
   {
     id: "mohit-2",
     name: "Priya Mehta | Investor, Delhi NCR.",
-    image: "/assets/testimonial_mohit.png",
-    avatarObjectPosition: "center 18%",
+    image: "/assets/testimonial-image4.jpg",
+    avatarObjectPosition: "center 20%",
     quote:
       '"Our family could not be happier. My investment has paid much more than I could have hoped, plus the quality is there. The site, layout and credentials of Yatharth Group makes this my smartest NCR real estate investment."',
   },

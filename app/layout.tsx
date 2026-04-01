@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { SmoothScrollProvider } from "./components/common/SmoothScrollProvider";
 import "./globals.css";
+import "remixicon/fonts/remixicon.css";
 
 export const viewport: Viewport = {
   width: "device-width",

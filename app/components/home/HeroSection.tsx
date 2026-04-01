@@ -208,15 +208,14 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
                 }}
                 className="hidden md:block"
               >
-                <button
-                  type="button"
-                  onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                <Link
+                  href="/project"
                   className={`group relative text-center text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] cursor-pointer ${isScrolled ? "text-black" : "text-white"
                     }`}
                 >
                   Projects
                   <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-[#F5AC00] transition-all duration-300 group-hover:w-full"></span>
-                </button>
+                </Link>
               </div>
               <div
                 ref={(el) => {
