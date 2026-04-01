@@ -249,7 +249,7 @@ export function FooterSection() {
             >
               QUICK LINKS
             </h4>
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link data-scroll-reveal href="/project" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               Projects
             </Link>
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
@@ -267,7 +267,7 @@ export function FooterSection() {
             {/* <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               NRI Corner
             </Link> */}
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link data-scroll-reveal href="/contact-us" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               Contact Us
             </Link>
           </div>

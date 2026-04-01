@@ -26,7 +26,7 @@ const NAV_LINKS = [
   { label: "Careers", href: "#" },
   { label: "Media", href: "#" },
   { label: "Blogs", href: "#" },
-  { label: "Contact Us", href: "#" },
+  { label: "Contact Us", href: "/contact-us" },
 ];
 
 const SOCIAL_LINKS = [
@@ -203,7 +203,10 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
                 >
                   <Link
                     href={item.href}
-                    onClick={onClose}
+                    scroll={item.href.startsWith("#") ? false : true}
+                    onClick={() => {
+                      window.setTimeout(onClose, 0);
+                    }}
                     className="block font-lato text-[26px] font-medium leading-tight text-white hover:opacity-90 sm:text-[30px] md:text-[34px]"
                   >
                     {item.label}
