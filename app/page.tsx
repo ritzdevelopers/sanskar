@@ -37,10 +37,10 @@ export default function Home() {
         <ProjectsSection />
         <StorySection />
         <WhyInvestSection />
-        <ProjectShowcaseSliderSection />
+        <ProjectShowcaseSliderSection2 />
+        {/* <ProjectShowcaseSliderSection /> */}
         {/* <LocationAdvantageSection /> */}
         <TestimonialsSection />
-        <ProjectShowcaseSliderSection2 />
         <PressReleasesSection />
       
         <FooterSection />
