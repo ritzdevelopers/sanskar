@@ -27,6 +27,7 @@ const showcaseSlides = [
         ),
         image: "/assets/eternia.webp",
         url: "https://eternia.greatvaluerealty.com/",
+        mapUrl: "https://maps.app.goo.gl/2sN8jEspDHpbvyBeA",
         mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14013.836802936377!2d77.41845003955078!3d28.585997900000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cef25407d8d75%3A0x7c8b0b102e9204b1!2sEternia%20Residences!5e0!3m2!1sen!2sin!4v1774602648191!5m2!1sen!2sin",
     },
     {
@@ -45,6 +46,7 @@ const showcaseSlides = [
         ),
         image: "/assets/highlife.jpg",
         url: "https://highlife.greatvaluerealty.com/",
+        mapUrl: "https://maps.app.goo.gl/7SfwKnXB2Apoinz17",
         mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.2773864514766!2d77.4496027!3d28.591454199999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cee8cfa617849%3A0xf40451d474c9f11f!2sHCRX%2BHV3%2C%20Amrapali%20Dream%20Valley%2C%20Greater%20Noida%2C%20Ithaira%2C%20Uttar%20Pradesh%20201318!5e0!3m2!1sen!2sin!4v1774603471602!5m2!1sen!2sin",
     },
     {
@@ -62,6 +64,7 @@ const showcaseSlides = [
         ),
         image: "/assets/forest_walk 2.png",
         url: "https://theforestwalk.com/",
+        mapUrl: "https://maps.app.goo.gl/ZMaHTrzAVjxL871R7",
         mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500.13283160441!2d77.52133707509397!3d28.685672875635618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf300103123d9%3A0xa99dd668fb818e5f!2sForest%20Walk%20Villa%20Dasna!5e0!3m2!1sen!2sin!4v1774603531167!5m2!1sen!2sin",
     },
 ];
@@ -144,6 +147,7 @@ export function ProjectShowcaseSliderSection2() {
     }, []);
 
     const activeSlide = showcaseSlides[activeIndex];
+    const activeGoogleMapsHref = activeSlide.mapUrl;
 
     return (
         <section
@@ -186,7 +190,7 @@ export function ProjectShowcaseSliderSection2() {
 
                 {/* ── Mobile: sirf map pin icon → Google Maps ── */}
                 <a
-                    href={`https://www.google.com/maps?q=${encodeURIComponent(activeSlide.projectName)}`}
+                    href={activeGoogleMapsHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="pointer-events-auto absolute bottom-[max(1.25rem,env(safe-area-inset-bottom,0px))] left-5 top-auto z-[60] flex items-center justify-center md:hidden"
@@ -246,7 +250,7 @@ export function ProjectShowcaseSliderSection2() {
 
                         {/* ── Footer bar — links to active slide's map ── */}
                         <a
-                            href={`https://www.google.com/maps?q=${encodeURIComponent(activeSlide.projectName)}`}
+                            href={activeGoogleMapsHref}
                             target="_blank"
                             rel="noopener noreferrer"
                             className={`${lato.className} flex items-center justify-center bg-black/70 px-3 py-1.5 text-[8px] font-normal uppercase tracking-[0.12em] text-white/50 backdrop-blur-md transition-colors hover:text-white/80 sm:text-[9px]`}
@@ -283,13 +287,40 @@ export function ProjectShowcaseSliderSection2() {
                                 {String(activeIndex + 1).padStart(2, "0")} — {String(showcaseSlides.length).padStart(2, "0")}
                             </p>
 
-                            <h4 className={`${quattrocento.className} text-center font-normal uppercase tracking-wider leading-[1.1] text-[#1A1A1A] text-[15px] sm:text-[16px] md:text-[17px] lg:text-[19px] xl:text-[21px] 2xl:text-[24px]`}>
-                                {activeSlide.projectName}
-                            </h4>
+                            <a
+                                href={activeGoogleMapsHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={`View ${activeSlide.projectName} on Google Maps`}
+                                className="group flex items-center gap-1.5"
+                            >
+                                <h4 className={`${quattrocento.className} text-center font-normal uppercase tracking-wider leading-[1.1] text-[#1A1A1A] transition-colors group-hover:text-[#C9A227] text-[15px] sm:text-[16px] md:text-[17px] lg:text-[19px] xl:text-[21px] 2xl:text-[24px]`}>
+                                    {activeSlide.projectName}
+                                </h4>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    className="shrink-0 text-[#C9A227] transition-transform duration-300 group-hover:scale-125 h-[12px] w-[12px] sm:h-[13px] sm:w-[13px] md:h-[14px] md:w-[14px] lg:h-[15px] lg:w-[15px]"
+                                    aria-hidden
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-2.013 3.5-4.751 3.5-8.136a6.79 6.79 0 00-13.58 0c0 3.385 1.555 6.123 3.5 8.136a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                            </a>
                         </div>
 
-                        {/* Thumbnail */}
-                        <div className="relative h-[132px] w-full shrink-0 overflow-hidden rounded-[6px] sm:h-[148px] md:h-[135px] lg:h-[155px] xl:h-[175px] [contain:paint]">
+                        {/* Thumbnail — same Maps URL as “View on Google Maps” / map embed */}
+                        <a
+                            href={activeGoogleMapsHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`View ${activeSlide.projectName} location on Google Maps`}
+                            className="group relative block h-[132px] w-full shrink-0 overflow-hidden rounded-[6px] sm:h-[148px] md:h-[135px] lg:h-[155px] xl:h-[175px] [contain:paint]"
+                        >
                             {showcaseSlides.map((slide, index) => (
                                 <div
                                     key={`thumb-${slide.id}`}
@@ -301,13 +332,13 @@ export function ProjectShowcaseSliderSection2() {
                                         src={slide.image}
                                         alt={slide.projectName}
                                         fill
-                                        className="object-cover object-center [transform:translateZ(0)]"
+                                        className="object-cover object-center [transform:translateZ(0)] transition-transform duration-500 group-hover:scale-105"
                                         quality={80}
                                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 310px, 380px"
                                     />
                                 </div>
                             ))}
-                        </div>
+                        </a>
 
                         {/* Description */}
                         <p className={`${lato.className} flex-1 text-center leading-[1.55] text-[#555555] min-h-0 overflow-y-auto overscroll-y-contain text-[11px] sm:text-[12px] md:flex-none md:overflow-visible md:text-[11px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px]`}>

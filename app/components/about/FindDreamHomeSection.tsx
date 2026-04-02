@@ -61,21 +61,21 @@ export function FindDreamHomeSection({
                 <button
                   data-scroll-reveal-pop
                   type="button"
-                  className={`${lato.className} group relative mx-auto mt-5 inline-flex items-center overflow-hidden rounded-[50px] border border-[#111111] pl-3 pr-1 py-1 text-[14px] leading-none lg:mx-0`}
+                  className={`${lato.className} group relative mx-auto mt-5 inline-flex h-11 cursor-pointer items-center overflow-hidden rounded-full border border-[#111111] bg-transparent px-5 text-[14px] font-semibold capitalize leading-[100%] tracking-normal sm:h-12 sm:pr-3 sm:pl-6 lg:mx-0`}
                 >
                   <span
                     className="pointer-events-none absolute inset-0 origin-left scale-x-0 bg-[#111111] transition-transform duration-500 ease-out group-hover:scale-x-100"
                     aria-hidden
                   />
-                  <span className="relative z-10 inline-flex items-center gap-2 text-[#111111] transition-colors duration-300 group-hover:text-white">
+                  <span className="relative z-10 inline-flex items-center gap-2.5 text-[#333333] transition-colors duration-300 group-hover:text-white">
                     Let Connect
-                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-current">
+                    <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-current  transition-[background,border-color] group-hover:border-white group-hover:bg-transparent">
                       <Image
                         src="/assets/diagonal_icon.svg"
                         alt=""
-                        width={8}
-                        height={8}
-                        className="h-2 w-2 object-contain transition-[filter] duration-300 group-hover:brightness-0 group-hover:invert"
+                        width={14}
+                        height={14}
+                        className="h-3.5 w-3.5 transition-[filter] duration-300 group-hover:brightness-0 group-hover:invert"
                         aria-hidden
                       />
                     </span>

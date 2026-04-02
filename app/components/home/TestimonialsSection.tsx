@@ -90,31 +90,20 @@ function TestimonialSliderDot({
   );
 }
 
-function TestimonialName({ name, className }: { name: string; className: string }) {
-  const parts = name
+function parseTestimonialAttribution(fullName: string) {
+  const parts = fullName
     .split("|")
     .map((p) => p.trim())
     .filter(Boolean);
   if (parts.length < 2) {
-    return <h3 className={className}>{name}</h3>;
+    return { person: fullName, designation: null as string | null };
   }
-  return (
-    <h3 className={className}>
-      <span className="mx-auto inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 sm:gap-x-3 md:gap-x-4">
-        <span className="text-center">{parts[0]}</span>
-        <span
-          className={`${lato.className} shrink-0 px-0.5 text-[12px] font-normal text-[#B0B0B0] sm:text-[13px]`}
-          aria-hidden
-        >
-          |
-        </span>
-        <span className="text-center">{parts.slice(1).join(" · ")}</span>
-      </span>
-    </h3>
-  );
+  return { person: parts[0], designation: parts.slice(1).join(" · ") };
 }
 
 function TestimonialCard({ item, compact = false }: { item: Testimonial; compact?: boolean }) {
+  const { person, designation } = parseTestimonialAttribution(item.name);
+
   return (
     <div
       className={`flex min-h-0 min-w-0 w-full max-w-full flex-col items-center rounded-[6px] bg-white text-center ${
@@ -132,7 +121,7 @@ function TestimonialCard({ item, compact = false }: { item: Testimonial; compact
       >
         <Image
           src={item.image}
-          alt={item.name}
+          alt={person}
           fill
           quality={90}
           className="object-cover"
@@ -142,21 +131,31 @@ function TestimonialCard({ item, compact = false }: { item: Testimonial; compact
           }}
         />
       </div>
+      <h3
+        className={`${quattrocento.className} mt-3 w-full max-w-full text-[15px] font-bold leading-snug text-[#111111] sm:mt-4 sm:text-[16px] sm:leading-snug md:text-[16px] lg:text-[17px] xl:text-[18px]`}
+      >
+        {person}
+      </h3>
       <p
         className={
           compact
-            ? `${lato.className} mt-3 w-full max-w-full break-words text-[13px] leading-[1.62] text-[#5A5A5A] sm:mt-4 sm:text-[14px]`
-            : `${lato.className} mt-3 w-full max-w-full shrink-0 break-words text-[13px] leading-relaxed text-[#5A5A5A] sm:mt-4 sm:text-[14px] md:text-[14px] md:leading-[1.55] lg:text-[15px] xl:text-[16px]`
+            ? `${lato.className} mt-2 w-full max-w-full break-words text-[13px] leading-[1.62] text-[#5A5A5A] sm:mt-3 sm:text-[14px]`
+            : `${lato.className} mt-2 w-full max-w-full shrink-0 break-words text-[13px] leading-relaxed text-[#5A5A5A] sm:mt-3 sm:text-[14px] md:mt-3 md:text-[14px] md:leading-[1.55] lg:mt-4 lg:text-[15px] xl:text-[16px]`
         }
       >
         {item.quote}
       </p>
-      <TestimonialName
-        name={item.name}
-        className={`${quattrocento.className} w-full max-w-full text-[15px] font-bold leading-snug text-[#111111] sm:text-[16px] sm:leading-snug md:text-[16px] lg:text-[17px] xl:text-[18px] ${
-          compact ? "mt-3 sm:mt-4" : "mt-2 sm:mt-3 md:mt-4 lg:mt-5"
-        }`}
-      />
+      {designation ? (
+        <p
+          className={
+            compact
+              ? `${lato.className} mt-2 w-full max-w-full text-[12px] font-normal leading-snug text-[#5A5A5A] sm:mt-3 sm:text-[13px]`
+              : `${lato.className} mt-2 w-full max-w-full text-[12px] font-normal leading-snug text-[#5A5A5A] sm:mt-3 sm:text-[13px] md:mt-4 md:text-[13px] lg:text-[14px]`
+          }
+        >
+          <i className="italic">{designation}</i>
+        </p>
+      ) : null}
     </div>
   );
 }

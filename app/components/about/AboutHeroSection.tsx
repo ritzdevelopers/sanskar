@@ -82,7 +82,7 @@ export function AboutHeroSection() {
                 </div>
                 <div className="hidden md:block">
                   <Link
-                    href="/#projects"
+                    href="/projects"
                     className={`group relative text-center text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] cursor-pointer ${isScrolled ? "text-black" : "text-white"
                       }`}
                   >
