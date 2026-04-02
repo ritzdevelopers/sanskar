@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { Lato, Quattrocento } from "next/font/google";
+import { STORY_IMPACT_SECTION_ID } from "../common/aboutNavigation";
 import { useScrollReveal } from "../common/useScrollReveal";
 
 const lato = Lato({
@@ -21,8 +22,9 @@ export function StorySection() {
 
   return (
     <section
+      id={STORY_IMPACT_SECTION_ID}
       ref={sectionRef}
-      className="bg-[radial-gradient(#ebebeb_1.5px,transparent_1.5px)] [background-size:14px_14px] py-10 sm:py-12 md:py-14 md:[background-size:18px_18px] lg:py-20"
+      className="scroll-mt-[min(5rem,12vh)] bg-[radial-gradient(#ebebeb_1.5px,transparent_1.5px)] [background-size:14px_14px] py-10 sm:py-12 md:py-14 md:[background-size:18px_18px] lg:py-20"
     >
       <h2 className="sr-only">Our Story and Impact</h2>
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">

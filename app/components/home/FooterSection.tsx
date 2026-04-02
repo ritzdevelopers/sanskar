@@ -2,10 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useRef } from "react";
+import {
+  handleMissionVisionNavClick,
+  MISSION_VISION_HREF,
+  scrollAboutUsToTopIfSamePage,
+} from "../common/aboutNavigation";
 import { useScrollReveal } from "../common/useScrollReveal";
 
 export function FooterSection() {
+  const pathname = usePathname() ?? "";
   const footerRef = useRef<HTMLElement>(null);
   useScrollReveal(footerRef, { stagger: 0.06, duration: 0.65 });
 
@@ -217,23 +224,54 @@ export function FooterSection() {
             >
               Company
             </h4>
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link
+              data-scroll-reveal
+              href="/about-us"
+              onClick={() => scrollAboutUsToTopIfSamePage()}
+              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+            >
               About Us
             </Link>
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link
+              data-scroll-reveal
+              href="/about-us"
+              onClick={() => scrollAboutUsToTopIfSamePage()}
+              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+            >
               Our Story
             </Link>
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link
+              data-scroll-reveal
+              href={MISSION_VISION_HREF}
+              scroll={false}
+              onClick={(e) => handleMissionVisionNavClick(e, pathname)}
+              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+            >
               Mission & Vision
             </Link>
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link
+              data-scroll-reveal
+              href="/about-us"
+              onClick={() => scrollAboutUsToTopIfSamePage()}
+              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+            >
              Our Profile
 
             </Link>
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link
+              data-scroll-reveal
+              href="/about-us"
+              onClick={() => scrollAboutUsToTopIfSamePage()}
+              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+            >
               Leadership
             </Link>
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link
+              data-scroll-reveal
+              href="/about-us"
+              onClick={() => scrollAboutUsToTopIfSamePage()}
+              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+            >
               Awards & Certifications
             </Link>
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
@@ -249,7 +287,7 @@ export function FooterSection() {
             >
               QUICK LINKS
             </h4>
-            <Link data-scroll-reveal href="/project" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link data-scroll-reveal href="/projects" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               Projects
             </Link>
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">

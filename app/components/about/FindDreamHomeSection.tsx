@@ -16,11 +16,11 @@ const quattrocento = Quattrocento({
 });
 
 export function FindDreamHomeSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  useScrollReveal(sectionRef);
+  // const sectionRef = useRef<HTMLElement>(null);
+  // useScrollReveal(sectionRef);
 
   return (
-    <section ref={sectionRef} className="w-full bg-white">
+    <section  className="w-full bg-white">
       <div className="mx-auto h-full min-h-[280px] sm:min-h-[340px] md:min-h-[394px]">
         <div
           data-scroll-reveal-img

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { HeroSection } from "../home/HeroSection";
+import { ScrollToStorySectionOnHash } from "./ScrollToStorySectionOnHash";
 import { WelcomeGateway } from "./WelcomeGateway";
 
 type HomePageWithGatewayProps = {
@@ -29,6 +30,7 @@ export function HomePageWithGateway({ children }: HomePageWithGatewayProps) {
 
   return (
     <>
+      <ScrollToStorySectionOnHash />
       {isHydrated && shouldShowGateway && <WelcomeGateway onComplete={handleGatewayComplete} />}
       <HeroSection startIntroAnimation={gatewayDone} />
       {children}

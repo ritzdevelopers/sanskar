@@ -6,27 +6,27 @@ import { useState } from "react";
 const FAQS = [
   {
     id: "01",
-    question: "What is the property rate in greater Noida?",
+    question: "How can I arrange a property site visit?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+      "By completing the form on our website or getting in touch with us directly by phone or email, you can arrange a site visit. Our staff will assist you in scheduling a time that works for you.",
   },
   {
     id: "02",
-    question: "What documents do I need to book a unit?",
+    question: "Can i book a property online?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Yes, you can use our website to make reservations for a few properties. For additional information and instructions on how to secure your unit, please visit the project page.",
   },
   {
     id: "03",
-    question: "Are there any ready-to-move-in options available?",
+    question: "What are the amenities included in Sanskar Realty projects?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+      "Our projects include a multipurpose hall, indoor games area, gym, yoga and meditation room, and children's play area. In addition, we have four high-speed lifts, a 100-meter green belt, commercial stores, gated security, and plenty of parking.",
   },
   {
     id: "04",
-    question: "How can I schedule a site visit?",
+    question: "How can I find out if a property is for sale?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "You can use the form or give our customer service team a call to inquire about the availability of properties. We'll keep you informed about available units in real time.",
   },
 ];
 

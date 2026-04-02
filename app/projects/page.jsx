@@ -1,11 +1,11 @@
 import { Poppins, Lato, Quattrocento } from "next/font/google";
-import { ProjectHeroSection } from "../components/project/projectherosection";
-import { DreamHomeSection } from "../components/project/dream-home";
-import { TestimonialSection } from "../components/project/testiomonial";
-import { ReleaseSection } from "../components/project/release";
+import { ProjectHeroSection } from "../components/projects/projectherosection";
+import { DreamHomeSection } from "../components/projects/dream-home";
+import { TestimonialSection } from "../components/projects/testiomonial";
+import { ReleaseSection } from "../components/projects/release";
 import { FooterSection } from "../components/home/FooterSection";
-import { OverviewSection } from "../components/project/overview";
-import { ProjectSection } from "../components/project/project";
+import { OverviewSection } from "../components/projects/overview";
+import { ProjectSection } from "../components/projects/projects";
 
 const poppins = Poppins({
   subsets: ["latin"],

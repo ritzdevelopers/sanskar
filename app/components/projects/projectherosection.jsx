@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { NavOverlay } from "../common/NavOverlay";
+import { scrollAboutUsToTopIfSamePage } from "../common/aboutNavigation";
 
 export function ProjectHeroSection() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -45,13 +46,19 @@ export function ProjectHeroSection() {
       <header className="fixed inset-x-0 top-0 z-50">
         <div className="mx-auto w-full">
           <div
-            className={`w-full px-4 pt-[max(14px,env(safe-area-inset-top))] pb-3 transition-all duration-300 sm:px-6 sm:pt-4 sm:pb-3.5 md:px-8 md:pt-5 md:pb-4 lg:px-10 lg:pt-5 lg:pb-4 xl:px-12 2xl:px-16 ${
+            className={`w-full px-4 transition-all duration-300 ease-out sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 ${
               isScrolled
-                ? "bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
-                : "bg-transparent"
+                ? "pt-[max(8px,env(safe-area-inset-top))] pb-2 sm:pt-2.5 sm:pb-2 md:pt-3 md:pb-2.5 lg:pt-3 lg:pb-2.5 bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+                : "pt-[max(14px,env(safe-area-inset-top))] pb-3 sm:pt-4 sm:pb-3.5 md:pt-5 md:pb-4 lg:pt-5 lg:pb-4 bg-transparent"
             }`}
           >
-            <nav className="mx-auto flex min-h-[48px] w-full max-w-[1280px] items-center justify-between gap-3 sm:min-h-[52px] md:min-h-[56px] xl:max-w-[1320px]">
+            <nav
+              className={`mx-auto flex w-full max-w-[1280px] items-center justify-between gap-3 transition-all duration-300 ease-out xl:max-w-[1320px] ${
+                isScrolled
+                  ? "min-h-[40px] sm:min-h-[42px] md:min-h-[44px]"
+                  : "min-h-[48px] sm:min-h-[52px] md:min-h-[56px]"
+              }`}
+            >
               <Link
                 href="/"
                 className="flex min-w-0 shrink cursor-pointer items-center py-0.5"
@@ -63,8 +70,10 @@ export function ProjectHeroSection() {
                   height={50}
                   priority
                   quality={100}
-                  className={`h-9 w-auto max-w-[120px] object-contain transition duration-300 sm:h-10 sm:max-w-[140px] md:h-11 md:max-w-[153px] lg:h-[50px] ${
-                    isScrolled ? "brightness-0" : ""
+                  className={`w-auto object-contain transition-all duration-300 ease-out ${
+                    isScrolled
+                      ? "h-8 max-w-[104px] sm:h-9 sm:max-w-[122px] md:h-9 md:max-w-[132px] lg:h-[42px] lg:max-w-[136px] brightness-0"
+                      : "h-9 max-w-[120px] sm:h-10 sm:max-w-[140px] md:h-11 md:max-w-[153px] lg:h-[50px]"
                   }`}
                 />
               </Link>
@@ -72,6 +81,7 @@ export function ProjectHeroSection() {
                 <div className="hidden md:block">
                   <Link
                     href="/about-us"
+                    onClick={() => scrollAboutUsToTopIfSamePage()}
                     className={`group relative cursor-pointer text-center text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] ${
                       isScrolled ? "text-black" : "text-white"
                     }`}
@@ -82,7 +92,7 @@ export function ProjectHeroSection() {
                 </div>
                 <div className="hidden md:block">
                   <Link
-                    href="/project"
+                    href="/projects"
                     className={`group relative cursor-pointer text-center text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] ${
                       isScrolled ? "text-black" : "text-white"
                     }`}

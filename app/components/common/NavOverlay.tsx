@@ -3,7 +3,13 @@
 import { gsap } from "gsap";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import {
+  handleMissionVisionNavClick,
+  MISSION_VISION_HREF,
+  scrollAboutUsToTopIfSamePage,
+} from "./aboutNavigation";
 
 type NavOverlayProps = {
   isOpen: boolean;
@@ -16,11 +22,11 @@ const NAV_LINKS = [
     label: "About Us",
     href: "/about-us",
     sub: [
-      "OUR PROFILE",
-      "OUR STORY",
-      "MISSION & VISION",
-      "LEADERSHIP",
-      "AWARDS & CERTIFICATIONS",
+      { label: "OUR PROFILE", href: "/about-us" },
+      { label: "OUR STORY", href: "/about-us" },
+      { label: "MISSION & VISION", href: MISSION_VISION_HREF },
+      { label: "LEADERSHIP", href: "/about-us" },
+      { label: "AWARDS & CERTIFICATIONS", href: "/about-us" },
     ],
   },
   { label: "Careers", href: "#" },
@@ -38,6 +44,7 @@ const SOCIAL_LINKS = [
 ];
 
 export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
+  const pathname = usePathname() ?? "";
   const panelRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const navFooterRef = useRef<HTMLDivElement>(null);
@@ -205,6 +212,7 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
                     href={item.href}
                     scroll={item.href.startsWith("#") ? false : true}
                     onClick={() => {
+                      if (item.href === "/about-us") scrollAboutUsToTopIfSamePage();
                       window.setTimeout(onClose, 0);
                     }}
                     className="block font-lato text-[26px] font-medium leading-tight text-white hover:opacity-90 sm:text-[30px] md:text-[34px]"
@@ -214,13 +222,21 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
                   {"sub" in item && item.sub && (
                     <div className="mt-3 flex flex-wrap items-center justify-center gap-x-1 gap-y-2 text-center text-[10px] font-medium uppercase tracking-[0.08em] text-[#9E9E9E] sm:text-[11px] lg:ml-20 lg:justify-start lg:text-left">
                       {item.sub.map((s, i) => (
-                        <span key={s} className="flex items-center gap-1">
+                        <span key={s.label} className="flex items-center gap-1">
                           <Link
-                            href="#"
-                            onClick={onClose}
+                            href={s.href}
+                            scroll={!s.href.includes("#")}
+                            onClick={(e) => {
+                              if (s.href === MISSION_VISION_HREF) {
+                                handleMissionVisionNavClick(e, pathname);
+                              } else {
+                                scrollAboutUsToTopIfSamePage();
+                              }
+                              window.setTimeout(onClose, 0);
+                            }}
                             className="hover:text-white"
                           >
-                            {s}
+                            {s.label}
                           </Link>
                           {i < item.sub!.length - 1 && (
                             <span className="text-[#5C5C5C]">|</span>

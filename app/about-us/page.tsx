@@ -1,4 +1,5 @@
 import { Poppins, Lato, Quattrocento } from "next/font/google";
+import { AboutUsScrollToTop } from "../components/common/AboutUsScrollToTop";
 import { FooterSection } from "../components/home/FooterSection";
 import { AboutHeroSection } from "../components/about/AboutHeroSection";
 import { WhoWeAre } from "../components/about/WhoWeAre";
@@ -28,6 +29,7 @@ const quattrocento = Quattrocento({
 export default function AboutUsPage() {
   return (
     <main className={`${poppins.className} ${lato.variable} ${quattrocento.variable} w-full min-w-0 overflow-x-hidden`}>
+      <AboutUsScrollToTop />
       <AboutHeroSection />
 
       <AboutSanskarGroup />
