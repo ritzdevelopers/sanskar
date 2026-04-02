@@ -59,34 +59,13 @@ function AnimatedNumber({ end, suffix = "", duration = 2.5 }: { end: number, suf
 
 export function WhoWeAre() {
     const sectionRef = useRef<HTMLElement>(null);
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [showYoutubePlayer, setShowYoutubePlayer] = useState(false);
 
     useScrollReveal(sectionRef);
 
-    const togglePlay = () => {
-        if (videoRef.current) {
-            if (videoRef.current.paused) {
-                videoRef.current.play();
-                setIsPlaying(true);
-            } else {
-                videoRef.current.pause();
-                setIsPlaying(false);
-            }
-        }
+    const handlePlayClick = () => {
+        setShowYoutubePlayer(true);
     };
-
-    useEffect(() => {
-        const videoElement = videoRef.current;
-        if (!videoElement) return;
-
-        const handleEnded = () => setIsPlaying(false);
-        videoElement.addEventListener("ended", handleEnded);
-
-        return () => {
-            videoElement.removeEventListener("ended", handleEnded);
-        };
-    }, []);
 
     return (
         <section ref={sectionRef} className="relative w-full min-w-0 overflow-x-hidden pt-16 md:pt-24">
@@ -133,28 +112,41 @@ export function WhoWeAre() {
                 </div>
 
                 {/* Video Container */}
-                <div data-scroll-reveal className="relative w-full max-w-[1024px] aspect-video  rounded-[12px] overflow-hidden shadow-[0_24px_50px_rgba(0,0,0,0.08)] cursor-pointer bg-black/5 mx-auto border border-black/5" onClick={togglePlay}>
-                    <video
-                        ref={videoRef}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        src="/assets/who_we_are.mp4"
-                        playsInline
-                        controls={isPlaying}
-                    />
-
-                    {/* Play Button Overlay */}
-                    {!isPlaying && (
-                        <div className="absolute inset-0 bg-black/10 flex items-center justify-center transition-all duration-300 hover:bg-black/20">
-                            <div className="flex items-center justify-center w-[96px] h-[96px] rounded-full bg-[rgba(255,255,255,0.8)] drop-shadow-xl transition-transform duration-300 hover:scale-[1.05]">
-                                <Image
-                                    src="/assets/play_button.svg"
-                                    alt="Play Video"
-                                    width={40}
-                                    height={40}
-                                    className="w-[35px] h-[35px] object-contain translate-x-1"
-                                />
+                <div data-scroll-reveal className="relative w-full max-w-[1024px] aspect-video rounded-[12px] overflow-hidden shadow-[0_24px_50px_rgba(0,0,0,0.08)] bg-black/5 mx-auto border border-black/5">
+                    {!showYoutubePlayer ? (
+                        <button
+                            type="button"
+                            onClick={handlePlayClick}
+                            className="absolute inset-0 w-full h-full cursor-pointer"
+                            aria-label="Play company video"
+                        >
+                            <Image
+                                src="https://img.youtube.com/vi/P21m5c6PUH8/maxresdefault.jpg"
+                                alt="Watch Sanskar Realty video"
+                                fill
+                                className="object-cover"
+                            />
+                            <div className="absolute inset-0 bg-black/10 flex items-center justify-center transition-all duration-300 hover:bg-black/20">
+                                <div className="flex items-center justify-center w-[96px] h-[96px] rounded-full bg-[rgba(255,255,255,0.8)] drop-shadow-xl transition-transform duration-300 hover:scale-[1.05]">
+                                    <Image
+                                        src="/assets/play_button.svg"
+                                        alt="Play Video"
+                                        width={40}
+                                        height={40}
+                                        className="w-[35px] h-[35px] object-contain translate-x-1"
+                                    />
+                                </div>
                             </div>
-                        </div>
+                        </button>
+                    ) : (
+                        <iframe
+                            className="absolute inset-0 h-full w-full"
+                            src="https://www.youtube.com/embed/P21m5c6PUH8?autoplay=1&rel=0"
+                            title="Sanskar Realty video"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                        />
                     )}
                 </div>
 
