@@ -55,19 +55,19 @@ function ProjectRow({
           aria-hidden
         />
         <div className="mx-auto grid w-full grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-14">
-          <div className="flex flex-col items-start text-left lg:col-span-5 xl:col-span-4">
+          <div className="flex flex-col items-center text-center md:items-start md:text-left lg:col-span-5 xl:col-span-4">
             <h2
-              className="font-quattrocento text-[36px] font-normal uppercase leading-[46px] tracking-normal text-[#111111]"
+              className="font-quattrocento w-full max-w-[480px] text-[28px] font-normal uppercase leading-[46px] tracking-normal text-[#111111] md:max-w-none md:text-[36px]"
             >
               {title}
             </h2>
             <p
-              className="font-quattrocento mt-2 text-[18px] leading-normal lg:leading-normal xl:leading-[100%] font-normal uppercase leading-[100%] tracking-normal text-[#111111] sm:mt-3 max-w-[400px]"
+              className="font-quattrocento mt-2 max-w-[400px] text-[18px] font-normal uppercase leading-[25px] tracking-normal text-[#111111] sm:mt-3 lg:leading-normal xl:leading-[25px]"
             >
               {location}
             </p>
             <p
-              className="font-lato  max-w-[480px] text-[16px] font-normal leading-[24px] tracking-normal text-[#00000099] mt-3 md:mt-3"
+              className="font-lato mt-3 max-w-[480px] text-[16px] font-normal leading-[24px] tracking-normal text-[#00000099] md:mt-3"
             >
               {description}
             </p>
@@ -75,7 +75,7 @@ function ProjectRow({
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative font-lato mt-3 inline-flex h-11 cursor-pointer items-center overflow-hidden rounded-full border border-[#111111] bg-transparent px-5 text-[14px] font-semibold capitalize leading-[100%] tracking-normal sm:mt-6 sm:h-12 sm:pr-3 sm:pl-6"
+              className="group relative mx-auto mt-3 inline-flex h-11 cursor-pointer items-center overflow-hidden rounded-full border border-[#111111] bg-transparent px-5 text-[14px] font-semibold capitalize leading-[100%] tracking-normal sm:mt-6 sm:h-12 sm:pr-3 sm:pl-6 md:mx-0"
             >
               <span
                 className="pointer-events-none absolute inset-0 origin-left scale-x-0 bg-[#111111] transition-transform duration-500 ease-out group-hover:scale-x-100"

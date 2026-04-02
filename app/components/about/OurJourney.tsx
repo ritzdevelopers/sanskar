@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Lato, Quattrocento } from "next/font/google";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useScrollReveal } from "../common/useScrollReveal";
 
 const lato = Lato({
@@ -23,71 +23,17 @@ type TimelineItem = {
     title: string;
     description: string;
     image: string;
+    subtitle?: string;
 };
 
 const timelineData: TimelineItem[] = [
   {
-    year: "2008",
-    label: "2008",
-    title: "Incorporation & operations",
-    description:
-      "The company, Sanskar Realty, was incorporated with a vision to establish a strong presence in the real estate sector. From the beginning, it has focused on building a solid operational foundation. The company aims to create sustainable and long-term investment opportunities. With a commitment to quality and innovation, it strives to contribute to modern infrastructure development.",
-    image: "/assets/footer.png",
-  },
-  {
-    year: "2010",
-    label: "2010",
-    title: "First hospital",
-    description:
-      "The company established its first hospital in Greater Noida, marking the beginning of its journey in the healthcare sector. This milestone laid a strong foundation for its future growth and expansion. The hospital was built with a vision to provide accessible, high-quality medical services to the community. With its patient-centric approach and dedicated care, it quickly gained the trust and confidence of people in the region.",
-    image: "/assets/footer.png",
-  },
-  {
-    year: "2013",
-    label: "2013",
-    title: "Second hospital",
-    description:
-      "The company established its second hospital in Noida, a well-equipped 250-bed facility. This expansion significantly enhanced its ability to cater to a larger population. With a focus on compassionate care, advanced infrastructure, and skilled professionals, the hospital strengthened the company’s presence in the region. It played a vital role in improving accessibility to quality healthcare services.",
-    image: "/assets/footer.png",
-  },
-  {
-    year: "2018",
-    label: "2018",
-    title: "Greater Noida expansion",
-    description:
-      "The first hospital in Greater Noida was expanded to 400 beds to meet the increasing demand for medical services. This strategic move reflected the company’s commitment to growth and patient care. The expansion allowed the hospital to accommodate more patients and offer a wider range of treatments. It also reinforced the company’s dedication to continuous improvement and service excellence.",
-    image: "/assets/footer.png",
-  },
-  {
-    year: "2019",
-    label: "2019",
-    title: "Noida Extension Hospital",
-    description:
-      "The company launched its third hospital, Noida Extension Hospital, further expanding its regional footprint. This development enabled the company to reach new communities and provide high-quality healthcare services. With modern facilities and a patient-first approach, the hospital contributed to strengthening the company’s reputation. It marked another step forward in its growth journey.",
-    image: "/assets/footer.png",
-  },
-  {
-    year: "2022",
-    label: "2022",
-    title: "Fourth hospital",
-    description:
-      "The company acquired a 305-bedded hospital in Noida Extension, making it its fourth hospital, Jhansi Orccha Hospital. This acquisition was a major milestone in the company’s expansion strategy. It strengthened its position in the highly competitive healthcare industry. The move also enhanced its capacity to deliver advanced and specialized medical services.",
-    image: "/assets/footer.png",
-  },
-  {
     year: "2023",
     label: "2023",
-    title: "IPO & listing",
+    title: "Laying the Foundation",
+    subtitle: "FOREST WALK: 52 Acres | Dasna, Ghaziabad",
     description:
-      "The company successfully launched its IPO and got listed on NSE & BSE. This achievement marked a significant milestone in its corporate journey. It boosted investor confidence and provided new opportunities for expansion. The listing also reflected the company’s strong growth trajectory and market credibility.",
-    image: "/assets/footer.png",
-  },
-  {
-    year: "2024",
-    label: "2024",
-    title: "Strategic acquisitions",
-    description:
-      "The company acquired three new hospitals, further expanding its network and capabilities. These included a 200-bedded hospital in Greater Faridabad, a 300-bedded hospital in New Delhi, and a 250-bedded hospital in Sector 20, Faridabad. This expansion strengthened its presence across key locations. It also enabled the company to serve a wider population with enhanced healthcare services.",
+      "Secured 52 acres of prime land, setting the stage for our vision of luxury villa developments.",
     image: "/assets/footer.png",
   },
   {
@@ -98,26 +44,57 @@ const timelineData: TimelineItem[] = [
       "The company acquired a 250-bedded hospital in Agra, Uttar Pradesh, marking its eighth hospital. This milestone further strengthened its presence in the northern region. The acquisition aligned with the company’s vision of expanding access to quality healthcare. It also reinforced its commitment to delivering excellence and building trust among patients.",
     image: "/assets/footer.png",
   },
+  {
+    year: "2026",
+    label: "2026",
+    title: "Growth & vision ahead",
+    description:
+      "Building on its public listing and healthcare footprint, Sanskar Realty continues to deepen its presence in Delhi NCR real estate and allied sectors. The focus remains on disciplined growth, quality delivery, and long-term value for stakeholders as the organisation scales its next chapter.",
+    image: "/assets/footer.png",
+  },
 ];
 
-const INITIAL_TIMELINE_YEAR = "2008";
+const INITIAL_TIMELINE_YEAR = "2023";
 
 function getInitialTimelineIndex() {
     const idx = timelineData.findIndex((item) => item.year === INITIAL_TIMELINE_YEAR);
     return idx >= 0 ? idx : 0;
 }
 
-/** Progress line width (%) — ends at the active dot’s center; avoids 0% when first year (2008) is active */
-function timelineTrackPercent(activeIndex: number, count: number) {
-    if (count <= 1) return 100;
-    return ((activeIndex + 0.5) / count) * 100;
+/** Active underline: narrower than grid column, centered on the dot */
+function timelineActiveBarPercent(activeIndex: number, count: number) {
+    if (count <= 0) return { left: "0%", width: "0%" };
+    const colPct = 100 / count;
+    const widthPct = colPct * 0.48;
+    const leftPct = (activeIndex + 0.5) * colPct - widthPct / 2;
+    return { left: `${leftPct}%`, width: `${widthPct}%` };
 }
 
 export function OurJourney() {
     const sectionRef = useRef<HTMLElement>(null);
+    const timelineScrollRef = useRef<HTMLDivElement>(null);
+    const timelineNodeRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const skipTimelineScroll = useRef(true);
     const [activeIndex, setActiveIndex] = useState(getInitialTimelineIndex);
 
     useScrollReveal(sectionRef);
+
+    useEffect(() => {
+        if (skipTimelineScroll.current) {
+            skipTimelineScroll.current = false;
+            return;
+        }
+        const scroller = timelineScrollRef.current;
+        const node = timelineNodeRefs.current[activeIndex];
+        if (!scroller || !node) return;
+        if (scroller.scrollWidth <= scroller.clientWidth) return;
+
+        const scrollerRect = scroller.getBoundingClientRect();
+        const nodeRect = node.getBoundingClientRect();
+        const delta =
+            nodeRect.left + nodeRect.width / 2 - (scrollerRect.left + scrollerRect.width / 2);
+        scroller.scrollBy({ left: delta, behavior: "smooth" });
+    }, [activeIndex]);
 
     const handleNext = () => {
         setActiveIndex((prev) => (prev + 1) % timelineData.length);
@@ -159,20 +136,20 @@ export function OurJourney() {
 
                 {/* Timeline Dots — horizontal scroll on small screens so labels do not collide */}
                 <div data-scroll-reveal className="relative mx-auto mb-16 w-full max-w-[1200px] md:mb-24">
-                    <div className="-mx-4 overflow-x-auto overflow-y-visible px-4 pb-2 sm:-mx-0 sm:px-0 md:overflow-visible md:px-[5%] lg:px-8 [scrollbar-width:thin]">
+                    <div
+                        ref={timelineScrollRef}
+                        className="-mx-4 scroll-smooth overflow-x-auto overflow-y-visible px-4 pb-2 sm:-mx-0 sm:px-0 md:overflow-visible md:px-[5%] lg:px-8 [scrollbar-width:thin]"
+                    >
                     <div className="relative w-full min-w-[820px] md:min-w-0">
                         {/* The background Track */}
                         <div className="absolute left-0 right-0 bottom-[7px] md:bottom-[8px] h-[2px] bg-[#E5E5E5] -z-10" />
-                        
-                        {/* The Active Track filling */}
-                        <div 
-                            className="absolute left-0 bottom-[7px] md:bottom-[8px] h-[2px] bg-[#111111] -z-10 transition-all duration-500 ease-out"
-                            style={{
-                                width: `${timelineTrackPercent(activeIndex, timelineData.length)}%`,
-                            }}
-                        />
 
-                        {/* Nodes — equal columns so spacing is even (flex+justify-between caused uneven gaps) */}
+                        {/* Active segment — single bar animates left/width for smooth motion */}
+                        <div
+                            aria-hidden
+                            className="pointer-events-none absolute bottom-[7px] z-[0] h-[2px] bg-[#111111] transition-[left,width] duration-500 ease-out md:bottom-[8px]"
+                            style={timelineActiveBarPercent(activeIndex, timelineData.length)}
+                        />
                         <div
                             className="relative z-10 grid w-full place-items-end justify-items-center gap-x-2 px-0.5 sm:gap-x-3 sm:px-1 md:gap-x-4 md:px-0 lg:gap-x-5 xl:gap-x-6"
                             style={{
@@ -182,11 +159,14 @@ export function OurJourney() {
                             {timelineData.map((item, idx) => (
                                 <div 
                                     key={item.year} 
-                                    className="group flex min-w-0 w-full cursor-pointer flex-col items-center px-0.5 sm:px-0.5"
+                                    ref={(el) => {
+                                        timelineNodeRefs.current[idx] = el;
+                                    }}
+                                    className="group relative flex min-w-0 w-full cursor-pointer flex-col items-center px-0.5 sm:px-0.5"
                                     onClick={() => setActiveIndex(idx)}
                                 >
                                     <div
-                                        className={`mb-2 inline-flex max-w-full min-h-9 shrink-0 items-center justify-center rounded-none border bg-[#FAFAFA] px-2 py-1 sm:mb-3 sm:min-h-9 sm:px-2.5 sm:py-1 md:mb-5 md:px-3 md:py-1 ${
+                                        className={`mb-2 inline-flex max-w-full min-h-9 min-w-[5.25rem] shrink-0 items-center justify-center rounded-none border bg-[#FAFAFA] px-4 py-1 transition-colors duration-300 ease-out sm:mb-3 sm:min-h-9 sm:min-w-[6rem] sm:px-5 sm:py-1 md:mb-5 md:min-w-[6.75rem] md:px-6 md:py-1 ${
                                             idx === activeIndex
                                                 ? "border-[#111111] text-[#111111]"
                                                 : "border-[#CCCCCC] text-[#666666]"
@@ -199,7 +179,7 @@ export function OurJourney() {
                                         </span>
                                     </div>
                                     <div
-                                        className={`h-[14px] w-[14px] shrink-0 rounded-full transition-colors duration-500 md:h-4 md:w-4 ${idx <= activeIndex ? "bg-[#111111]" : "bg-[#E5E5E5]"}`}
+                                        className={`h-[14px] w-[14px] shrink-0 rounded-full transition-colors duration-500 ease-out md:h-4 md:w-4 ${idx === activeIndex ? "bg-[#111111]" : "bg-[#E5E5E5]"}`}
                                     />
                                 </div>
                             ))}
@@ -208,30 +188,14 @@ export function OurJourney() {
                     </div>
                 </div>
 
-                {/* Slider: mobile/tablet = flex row + side arrows; lg+ = full-width slide + absolute arrows */}
+                {/* Slider: mobile = content then arrows bottom row; lg+ = absolute side arrows */}
                 <div
                     data-scroll-reveal
-                    className="relative mx-auto flex w-full max-w-[1100px] flex-row items-center justify-center gap-2 sm:gap-3 md:gap-4"
+                    className="relative mx-auto flex w-full max-w-[1100px] flex-col items-center lg:flex-row lg:items-center lg:justify-center"
                 >
-                    <button
-                        onClick={handlePrev}
-                        type="button"
-                        aria-label="Previous timeline slide"
-                        className="relative z-20 flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[#CCCCCC] bg-[#FAFAFA] shadow-sm transition-colors hover:bg-gray-100 active:scale-[0.97] sm:h-12 sm:w-12 md:h-[52px] md:w-[52px] lg:absolute lg:top-1/2 lg:h-12 lg:w-12 lg:-translate-y-1/2 lg:shadow-none lg:-left-10 xl:-left-16 2xl:-left-24"
-                    >
-                        <Image
-                            src="/assets/left_slider.svg"
-                            alt=""
-                            width={24}
-                            height={24}
-                            className="h-5 w-5 object-contain sm:h-[22px] sm:w-[22px] lg:h-6 lg:w-6"
-                            aria-hidden
-                        />
-                    </button>
-
                     {/* Active Slide Wrapper */}
                     <div
-                        className="flex min-w-0 w-full max-w-full flex-1 flex-col items-center gap-8 overflow-hidden px-1 transition-opacity duration-300 sm:gap-10 sm:px-2 md:gap-12 md:px-4 lg:flex-row lg:items-start lg:gap-16 lg:px-12 xl:gap-20 xl:px-16 2xl:px-8"
+                        className="order-1 flex min-w-0 w-full max-w-full flex-1 flex-col items-center gap-8 overflow-hidden px-1 transition-opacity duration-500 ease-out sm:gap-10 sm:px-2 md:gap-12 md:px-4 lg:order-2 lg:flex-row lg:items-start lg:gap-16 lg:px-12 xl:gap-20 xl:px-16 2xl:px-8"
                         key={activeIndex}
                     >
                         {/* Left side Image */}
@@ -255,27 +219,52 @@ export function OurJourney() {
                             <h4 className={`${quattrocento.className} mb-4 text-[18px] leading-[1.3] text-[#111111] sm:mb-5 sm:text-[20px] md:mb-6 md:text-[26px] lg:text-[28px]`}>
                                 {timelineData[activeIndex].title}
                             </h4>
+                            {timelineData[activeIndex].subtitle ? (
+                                <p
+                                    className={`${lato.className} mx-auto mb-4 max-w-[500px] text-center text-[15px] font-normal leading-[26px] tracking-[0] text-[#666666] sm:mb-5 sm:text-[16px] sm:leading-[29px] md:mb-6 lg:mx-0 lg:text-left`}
+                                >
+                                    {timelineData[activeIndex].subtitle}
+                                </p>
+                            ) : null}
                             <p className={`${lato.className} mx-auto max-w-[500px] text-[15px] font-normal leading-[26px] tracking-[0] text-[#666666] align-middle sm:text-[16px] sm:leading-[29px] lg:mx-0`}>
                                 {timelineData[activeIndex].description}
                             </p>
                         </div>
                     </div>
 
-                    <button
-                        onClick={handleNext}
-                        type="button"
-                        aria-label="Next timeline slide"
-                        className="relative z-20 flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[#CCCCCC] bg-[#FAFAFA] shadow-sm transition-colors hover:bg-gray-100 active:scale-[0.97] sm:h-12 sm:w-12 md:h-[52px] md:w-[52px] lg:absolute lg:top-1/2 lg:h-12 lg:w-12 lg:-translate-y-1/2 lg:shadow-none lg:-right-10 xl:-right-16 2xl:-right-24"
-                    >
-                        <Image
-                            src="/assets/right_slider.svg"
-                            alt=""
-                            width={24}
-                            height={24}
-                            className="h-5 w-5 object-contain sm:h-[22px] sm:w-[22px] lg:h-6 lg:w-6"
-                            aria-hidden
-                        />
-                    </button>
+                    <div className="order-2 mt-2 flex flex-row items-center justify-center gap-2 sm:mt-3 sm:gap-3 md:mt-4 md:gap-4 lg:contents">
+                        <button
+                            onClick={handlePrev}
+                            type="button"
+                            aria-label="Previous timeline slide"
+                            className="relative z-20 flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[#CCCCCC] bg-[#FAFAFA] shadow-sm transition-colors hover:bg-gray-100 active:scale-[0.97] sm:h-12 sm:w-12 md:h-[52px] md:w-[52px] lg:order-1 lg:absolute lg:top-1/2 lg:h-12 lg:w-12 lg:-translate-y-1/2 lg:shadow-none lg:-left-10 xl:-left-16 2xl:-left-24"
+                        >
+                            <Image
+                                src="/assets/left_slider.svg"
+                                alt=""
+                                width={24}
+                                height={24}
+                                className="h-5 w-5 object-contain sm:h-[22px] sm:w-[22px] lg:h-6 lg:w-6"
+                                aria-hidden
+                            />
+                        </button>
+
+                        <button
+                            onClick={handleNext}
+                            type="button"
+                            aria-label="Next timeline slide"
+                            className="relative z-20 flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[#CCCCCC] bg-[#FAFAFA] shadow-sm transition-colors hover:bg-gray-100 active:scale-[0.97] sm:h-12 sm:w-12 md:h-[52px] md:w-[52px] lg:order-3 lg:absolute lg:top-1/2 lg:h-12 lg:w-12 lg:-translate-y-1/2 lg:shadow-none lg:-right-10 xl:-right-16 2xl:-right-24"
+                        >
+                            <Image
+                                src="/assets/right_slider.svg"
+                                alt=""
+                                width={24}
+                                height={24}
+                                className="h-5 w-5 object-contain sm:h-[22px] sm:w-[22px] lg:h-6 lg:w-6"
+                                aria-hidden
+                            />
+                        </button>
+                    </div>
                 </div>
 
             </div>
