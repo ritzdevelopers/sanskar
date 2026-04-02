@@ -12,15 +12,6 @@ const OFFICES = [
     address:
       "3, Plot No. GH-09, Greater Noida W Rd, Techzone 4, Amrapali Leisure Valley, Greater Noida, Uttar Pradesh 201318",
   },
-  {
-    name: "Highlife Office",
-    address:
-      "HCRX+HV3, Amrapali Dream Valley, Greater Noida, Uttar Pradesh 201318",
-  },
-  {
-    name: "Theforestwalk Office",
-    address: "Mayur Vihar Dasna, Dasna, Ghaziabad, Uttar Pradesh 201015",
-  },
 ];
 
 export function ContactFormSection() {
@@ -185,7 +176,7 @@ export function ContactFormSection() {
 
       <div className="relative z-10 bg-[#111111] pb-[35px] lg:pb-[75px]">
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
-          <div className="mx-auto grid w-full max-w-[1480px] grid-cols-1 items-stretch justify-items-start gap:0 md:gap-[30px] md:grid-cols-2 xl:grid-cols-3 xl:max-w-[1520px]">
+          <div className="mx-auto grid w-full max-w-[1480px] grid-cols-1 items-stretch justify-items-start gap-0 xl:max-w-[1520px]">
             {OFFICES.map((office) => (
               <div
                 key={office.name}

@@ -94,25 +94,30 @@ export function WhoWeAre() {
                         Who We Are
                     </p>
                     <h2 className={`${quattrocento.className} text-[26px] leading-[1.2] text-[#111111] uppercase sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[42px]`}>
-                        HEALTH-FIRST APPROACH TO MODERN LIVING
+                    Creating Spaces That Inspire Modern Living
                     </h2>
                 </div>
 
                 {/* Description Paragraphs */}
                 <div data-scroll-reveal className={`mx-auto mb-10 w-full max-w-[1040px] space-y-4 text-center align-middle text-[#666666] sm:mb-12 md:mb-16 md:space-y-6 ${lato.className} text-[15px] leading-[26px] sm:text-[17px] sm:leading-[30px] md:text-[18px] md:leading-[32px] tracking-normal`}>
-                    <p>
+                    {/* <p>
                         Sanskar Realty is not merely another name in the overcrowded Delhi NCR real estate market. We are the real estate venture of <span className="text-[#F7A51D] font-bold">the Yatharth Family Office</span> – which is the strategic investment branch of <span className="text-[#F7A51D] font-bold">Yatharth Group</span> and <span className="text-[#F7A51D] font-bold">North India's third largest public-listed healthcare company</span> founded in 2008 and relied on by millions throughout the area.
-                    </p>
-                    <p>
+                    </p> */}
+
+                    <p>Sanskar Realty, a leading real estate developer in Delhi NCR, dedicated to delivering quality and thoughtfully designed homes that fit modern living standards. With over <span className="text-[#F7A51D] font-bold"> 17 years of legacy</span>, we have been crafting residential and commercial spaces emphasizing trust, integrity and quality that holds lasting value and comfort.</p>
+                    {/* <p>
                         The same values that built one of India's most respected hospital networks — <span className="text-[#F7A51D] font-bold">care, integrity, transparency,</span> and a <span className="text-[#F7A51D] font-bold">commitment</span> to human wellbeing — now shape every residential community we create. The product of a healthcare pioneer building homes is no ordinary real estate. Security, dignity, and value per square foot are the measured outcomes of the sanctuary.
+                    </p> */}
+                    <p>Our portfolio encompasses <span className="text-[#F7A51D] font-bold"> Noida Extension, Greater Noida West </span> and <span className="text-[#F7A51D] font-bold"> Ghaziabad</span>  , with projects that offer prime location, world-class  amenities and innovative designs. Our premium <span className="text-[#F7A51D] font-bold">  spacious  1 & 2 BHK apartments, studio homes</span>, and <span className="text-[#F7A51D] font-bold"> gated villas</span> are designed to enhance your lifestyle through effortless living, socializing, and health.
                     </p>
-                    <p className="mx-auto w-full max-w-[1000px]">
+                    {/* <p className="mx-auto w-full max-w-[1000px]">
                         Sanskar Realty has been excelling in delivering top-notch projects in <span className="text-[#F7A51D] font-bold">Noida Extension, Greater Noida West</span>, and <span className="text-[#F7A51D] font-bold">Ghaziabad</span> for over 17 years, constantly reshaping the standards of luxury lifestyle in Delhi NCR, one meticulously designed home at a time.
-                    </p>
+                    </p> */}
+                    <p>At Sanskar Realty, we always consider a home as an investment for the future and not just a living space. Our homes are made to appreciate over time, offering comfort, safety, and a legacy for future generations to enjoy.</p>
                 </div>
 
                 {/* Video Container */}
-                <div data-scroll-reveal className="relative w-full max-w-[1024px] aspect-video rounded-[12px] overflow-hidden shadow-[0_24px_50px_rgba(0,0,0,0.08)] bg-black/5 mx-auto border border-black/5">
+                {/* <div data-scroll-reveal className="relative w-full max-w-[1024px] aspect-video rounded-[12px] overflow-hidden shadow-[0_24px_50px_rgba(0,0,0,0.08)] bg-black/5 mx-auto border border-black/5">
                     {!showYoutubePlayer ? (
                         <button
                             type="button"
@@ -148,12 +153,12 @@ export function WhoWeAre() {
                             allowFullScreen
                         />
                     )}
-                </div>
+                </div> */}
 
                 {/* Bottom Subtitle text */}
-                <p data-scroll-reveal className={`${lato.className} italic font-normal text-[14px] leading-[21px] tracking-normal text-center align-middle capitalize text-[#00000099] mt-6 md:mt-8 max-w-[600px]`}>
+                {/* <p data-scroll-reveal className={`${lato.className} italic font-normal text-[14px] leading-[21px] tracking-normal text-center align-middle capitalize text-[#00000099] mt-6 md:mt-8 max-w-[600px]`}>
                     Hospital Yatharth Group Support – Yatharth Group of Hospitals – 8 Hospitals and 2,500+ Beds – NABH Accredited – 4 States
-                </p>
+                </p> */}
 
                 {/* --- Stats Section: even 2×2 gaps on mobile; desktop stagger unchanged --- */}
                 <div className="relative mt-20 grid w-full grid-cols-2 gap-x-3 gap-y-10 sm:mt-24 sm:gap-x-6 sm:gap-y-12 md:mt-28 md:gap-y-14 lg:mt-[160px] lg:flex lg:max-w-none lg:flex-nowrap lg:items-start lg:justify-between lg:gap-x-0 lg:gap-y-0">
@@ -190,7 +195,7 @@ export function WhoWeAre() {
                     <div className="relative z-10 mx-auto flex w-full max-w-full flex-col gap-10 sm:gap-12 lg:mx-0 lg:w-[555px]">
 
                         {/* Mission Card */}
-                        <div data-scroll-reveal className="flex h-auto w-full flex-col justify-center border border-[#E5E5E5] bg-white p-6 transition-all duration-300 hover:shadow-[0_10px_40px_rgba(0,0,0,0.06)] sm:p-8 md:p-10 lg:h-[316px] lg:w-[555px]">
+                        <div data-scroll-reveal className="flex h-auto w-full flex-col justify-center border border-[#E5E5E5] bg-white p-6 transition-all duration-300 hover:-translate-y-[50px] hover:shadow-[0px_4px_20px_rgba(0,0,0,0.08)] sm:p-8 md:p-10 lg:h-[316px] lg:w-[555px]">
                             <span className={`${lato.className} mb-3 block text-[15px] font-medium text-[#111111] sm:mb-4 md:text-[16px]`}>
                                 Our Mission
                             </span>
@@ -203,7 +208,7 @@ export function WhoWeAre() {
                         </div>
 
                         {/* Vision Card */}
-                        <div data-scroll-reveal className="flex h-auto w-full flex-col justify-center border border-[#E5E5E5] bg-white p-6 transition-all duration-300 hover:shadow-[0_10px_40px_rgba(0,0,0,0.06)] sm:p-8 md:p-10 lg:h-[316px] lg:w-[555px]">
+                        <div data-scroll-reveal className="flex h-auto w-full flex-col justify-center border border-[#E5E5E5] bg-white p-6 transition-all duration-300 hover:-translate-y-[10px] hover:shadow-[0px_4px_20px_rgba(0,0,0,0.08)] sm:p-8 md:p-10 lg:h-[316px] lg:w-[555px]">
                             <span className={`${lato.className} mb-3 block text-[15px] font-medium text-[#111111] sm:mb-4 md:text-[16px]`}>
                                 Our Vision
                             </span>
