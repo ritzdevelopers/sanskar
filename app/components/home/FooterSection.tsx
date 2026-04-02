@@ -11,10 +11,31 @@ import {
 } from "../common/aboutNavigation";
 import { useScrollReveal } from "../common/useScrollReveal";
 
-export function FooterSection() {
+type FooterSectionProps = {
+  alignWithHeader?: boolean;
+};
+
+export function FooterSection({ alignWithHeader = false }: FooterSectionProps = {}) {
   const pathname = usePathname() ?? "";
   const footerRef = useRef<HTMLElement>(null);
   useScrollReveal(footerRef, { stagger: 0.06, duration: 0.65 });
+
+  const topOuter = alignWithHeader
+    ? "relative z-10 w-full px-4 py-12 sm:px-6 sm:py-16 md:px-8 md:py-16 lg:px-10 lg:py-20 xl:px-12 2xl:px-16"
+    : "relative z-10 mx-auto w-full max-w-[1500px] px-4 py-12 sm:px-6 sm:py-16 md:px-8 md:py-16 lg:px-10 lg:py-20 xl:px-12 2xl:px-16";
+  const topInner = alignWithHeader
+    ? "mx-auto w-full max-w-[1480px] xl:max-w-[1520px]"
+    : "mx-auto w-full max-w-[1280px] xl:max-w-[1320px]";
+
+  const bottomOuter = alignWithHeader
+    ? "relative z-10 w-full px-4 py-12 sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10 xl:px-12 2xl:px-16"
+    : "relative z-10 mx-auto w-full max-w-[1500px] px-4 py-12 sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10 xl:px-12 2xl:px-16";
+  const bottomInner = topInner;
+
+  const copyrightOuter = alignWithHeader
+    ? "mx-auto w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16"
+    : "mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16";
+  const copyrightInner = topInner;
 
   return (
     <footer
@@ -32,9 +53,9 @@ export function FooterSection() {
         }}
       />
 
-      {/* Top Section — same shell as Hero header: max-w-[1500px] → padding → max-w-[1280px]/[1320px] */}
-      <div className="relative z-10 mx-auto w-full max-w-[1500px] px-4 py-12 sm:px-6 sm:py-16 md:px-8 md:py-16 lg:px-10 lg:py-20 xl:px-12 2xl:px-16">
-        <div className="mx-auto w-full max-w-[1280px] xl:max-w-[1320px]">
+      {/* Top Section — optional shell aligned with contact hero header (1480/1520) */}
+      <div className={topOuter}>
+        <div className={topInner}>
           <div className="flex flex-col gap-10 sm:gap-12 md:flex-row md:flex-wrap md:items-start md:justify-between md:gap-x-8 md:gap-y-10 lg:flex-nowrap lg:items-center lg:gap-8">
 
           {/* Left: Text and Contact */}
@@ -116,8 +137,8 @@ export function FooterSection() {
       <div className="border-t border-[#EAEAEA]"></div>
 
       {/* Bottom Section */}
-      <div className="relative z-10 mx-auto w-full max-w-[1500px] px-4 py-12 sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10 xl:px-12 2xl:px-16">
-        <div className="relative mx-auto w-full max-w-[1280px] xl:max-w-[1320px]">
+      <div className={bottomOuter}>
+        <div className={`relative ${bottomInner}`}>
         {/* WhatsApp Icon positioned absolutely at bottom left of the section */}
         <a
           data-scroll-reveal-pop
@@ -293,7 +314,7 @@ export function FooterSection() {
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               Media
             </Link>
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link data-scroll-reveal href="/blog" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               Blogs
             </Link>
             <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
@@ -329,8 +350,8 @@ export function FooterSection() {
 
       {/* Copyright */}
       <div className="relative z-10 border-t border-[#EAEAEA] py-5 sm:py-6">
-        <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
-          <div className="mx-auto w-full max-w-[1280px] text-center xl:max-w-[1320px]">
+        <div className={copyrightOuter}>
+          <div className={`${copyrightInner} text-center`}>
           <p data-scroll-reveal className="font-lato text-[13px] leading-snug text-[#00000099] sm:text-[14px] md:text-[16px]">
             © 2026 Sanskar Realty.. All rights reserved. Digital media planned by Ritz Media World.
           </p>
