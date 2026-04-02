@@ -20,27 +20,27 @@ type Testimonial = {
 const testimonials: Testimonial[] = [
   {
     id: "ravi-1",
-    name: "Rajesh Kumar | Resident, Noida Extension.",
+    name: "Mayank Bhatt | Resident, Noida Extension.",
     image: "/assets/testimonial-image.jpg",
     avatarObjectPosition: "center 20%",
     quote:
-      '"Living in a house of Sanskar Realty is a dream come true. The contemporary facilities, superior construction and fittings, and fine details exceed anything we saw in Noida Extension."',
+      '"Our family could not be happier. My investment has paid much more than I could have hoped, plus the quality is there.  The site, layout and credentials of Yatharth Group makes this my smartest NCR real estate investment."',
   },
   {
     id: "mohit-1",
-    name: "Rahul Gupta | Investor, Delhi NCR.",
+    name: "Varun Kumar| Investor, Delhi NCR.",
     image: "/assets/testimonial-image2.jpg",
     avatarObjectPosition: "center 20%",
     quote:
-      '"Our family could not be happier. My investment has paid much more than I could have hoped, plus the quality is there. The site, layout and credentials of Yatharth Group makes this my smartest NCR real estate investment."',
+      '"I have invested in one of the projects with Sanskar Realty based on their reputation in the market and the potential of the location. I am confident about the value it will create in the future. Their transparent approach towards their work has given me full trust in my investment."',
   },
   {
     id: "ravi-2",
-    name: "Rajesh Kumar | Resident, Noida Extension.",
+    name: "Yash Sagar | Resident, Noida Extension.",
     image: "/assets/testimonial-image3.jpg",
     avatarObjectPosition: "center 20%",
     quote:
-      '"Living in a house of Sanskar Realty is a dream come true. The contemporary facilities, superior construction and fittings, and fine details exceed anything we saw in Noida Extension."',
+      '"I am excited about my future home with Sanskar Realty. Despite the fact that the project is soon to be ready, I feel confident about purchasing a home with them because of the regular updates and timelines. I am excited to move into a home that has such great prospects."',
   },
   {
     id: "mohit-2",
@@ -48,7 +48,7 @@ const testimonials: Testimonial[] = [
     image: "/assets/testimonial-image4.jpg",
     avatarObjectPosition: "center 20%",
     quote:
-      '"Our family could not be happier. My investment has paid much more than I could have hoped, plus the quality is there. The site, layout and credentials of Yatharth Group makes this my smartest NCR real estate investment."',
+      '"I have already invested in my future home at Sanskar Realty. As I am looking forward to occupying my home soon, the promise of my home is exactly what I have been looking for."',
   },
 ];
 
@@ -142,19 +142,21 @@ function TestimonialCard({ item, compact = false }: { item: Testimonial; compact
           }}
         />
       </div>
-      <TestimonialName
-        name={item.name}
-        className={`${quattrocento.className} mt-3 w-full max-w-full text-[15px] font-bold leading-snug text-[#111111] sm:mt-4 sm:text-[16px] sm:leading-snug md:text-[16px] lg:text-[17px] xl:text-[18px]`}
-      />
       <p
         className={
           compact
             ? `${lato.className} mt-3 w-full max-w-full break-words text-[13px] leading-[1.62] text-[#5A5A5A] sm:mt-4 sm:text-[14px]`
-            : `${lato.className} mt-2 w-full max-w-full shrink-0 break-words text-[13px] leading-relaxed text-[#5A5A5A] sm:mt-3 sm:text-[14px] md:mt-4 md:text-[14px] md:leading-[1.55] lg:mt-5 lg:text-[15px] xl:text-[16px]`
+            : `${lato.className} mt-3 w-full max-w-full shrink-0 break-words text-[13px] leading-relaxed text-[#5A5A5A] sm:mt-4 sm:text-[14px] md:text-[14px] md:leading-[1.55] lg:text-[15px] xl:text-[16px]`
         }
       >
         {item.quote}
       </p>
+      <TestimonialName
+        name={item.name}
+        className={`${quattrocento.className} w-full max-w-full text-[15px] font-bold leading-snug text-[#111111] sm:text-[16px] sm:leading-snug md:text-[16px] lg:text-[17px] xl:text-[18px] ${
+          compact ? "mt-3 sm:mt-4" : "mt-2 sm:mt-3 md:mt-4 lg:mt-5"
+        }`}
+      />
     </div>
   );
 }

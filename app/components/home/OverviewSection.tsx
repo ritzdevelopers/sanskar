@@ -45,7 +45,7 @@ export function OverviewSection() {
 
         <h2
           data-scroll-reveal
-          className={`${quattrocento.className} max-w-[995px] align-middle text-[26px] font-normal leading-[1.2] text-[#111111] uppercase sm:text-[30px] sm:leading-[1.25] md:text-[34px] md:leading-[1.3] lg:text-[36px] lg:leading-[46px] xl:text-[38px]`}
+          className={`${quattrocento.className} max-w-[995px] align-middle text-[20px] font-normal leading-[1.2] text-[#111111] uppercase sm:text-[30px] sm:leading-[1.25] md:text-[34px] md:leading-[1.3] lg:text-[36px] lg:leading-[46px] xl:text-[38px]`}
         >
           Where Trust Meets Extraordinary Design
 
@@ -89,7 +89,7 @@ export function OverviewSection() {
                 alt=""
                 width={9}
                 height={9}
-                className="relative z-10 h-[9px] w-[9px] origin-center scale-0 opacity-0 transition-[transform,opacity,filter] duration-[850ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100 group-hover:delay-[140ms] group-hover:duration-[850ms] group-hover:brightness-0 group-hover:invert"
+                className="relative z-10 h-[9px] w-[9px] origin-center opacity-100 brightness-0 transition-[filter] duration-[850ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:invert"
                 aria-hidden
               />
             </span>

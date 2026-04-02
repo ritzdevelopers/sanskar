@@ -118,7 +118,7 @@ export function ContactFormSection() {
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
           <div className="mx-auto grid w-full max-w-[1480px] grid-cols-1 gap-y-14 xl:max-w-[1520px] lg:grid-cols-2 lg:gap-x-12 lg:gap-y-0 xl:gap-x-16">
             <div className="flex flex-col lg:pr-4">
-              <h1 className="text-center font-quattrocento text-[24px] md:text-[86px] font-normal leading-[100%] tracking-normal text-[#ffffff] md:text-left">
+              <h1 className="text-center font-quattrocento text-[24px] md:text-[36px] font-normal leading-[100%] tracking-normal text-[#ffffff] md:text-left">
                 Contact Us
               </h1>
               <p className="mx-auto mt-6 max-w-[726px] text-center font-lato text-[16px] font-normal leading-[28px] tracking-normal text-[#ffffff] md:mx-0 md:text-left xl:max-w-[550px]">
