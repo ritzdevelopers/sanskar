@@ -20,15 +20,19 @@ export function ProjectHeroSection() {
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
-      <HeroPageHeader projectsLinkCurrent />
+      <HeroPageHeader contactPageStyle projectsLinkCurrent />
 
-      <div className="relative z-10 flex w-full max-w-[900px] flex-col items-center justify-center px-4 pb-10 pt-20 text-center text-white sm:pb-12 sm:pt-24 md:pt-16">
-        <p className="font-lato text-[16px] font-semibold leading-[28px] tracking-normal text-white">
-          Your Next Move Starts Here
-        </p>
-        <h1 className="font-quattrocento mt-3 text-[36px] font-normal uppercase leading-[100%] tracking-normal text-white sm:mt-4">
-          Featured Properties
-        </h1>
+      <div className="relative z-10 w-full px-4 pb-10 pt-20 sm:px-6 sm:pb-12 sm:pt-24 md:px-8 md:pt-16 lg:px-10 xl:px-12 2xl:px-16">
+        <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
+          <div className="mx-auto flex w-full max-w-[900px] flex-col items-center justify-center text-center text-white">
+            <p className="font-lato text-[16px] font-semibold leading-[28px] tracking-normal text-white">
+              Your Next Move Starts Here
+            </p>
+            <h1 className="font-quattrocento mt-3 text-[36px] font-normal uppercase leading-[100%] tracking-normal text-white sm:mt-4">
+              Featured Properties
+            </h1>
+          </div>
+        </div>
       </div>
     </section>
   );

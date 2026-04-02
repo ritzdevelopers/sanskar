@@ -44,7 +44,7 @@ const showcaseSlides = [
         <strong>furnished with IKEA</strong>.
       </>
     ),
-    image: "/assets/high_life.jpg",
+    image: "/assets/highlife.jpg",
     url: "https://highlife.greatvaluerealty.com/",
     mapUrl: "https://maps.app.goo.gl/7SfwKnXB2Apoinz17",
   },

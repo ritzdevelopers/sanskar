@@ -35,7 +35,7 @@ export default function ProjectPage() {
       <DreamHomeSection />
       <TestimonialSection />
       <ReleaseSection />
-      <FooterSection />
+      <FooterSection alignWithHeader />
     </main>
   );
 }

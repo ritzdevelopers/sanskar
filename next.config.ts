@@ -4,7 +4,10 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   async redirects() {
-    return [{ source: "/project", destination: "/projects", permanent: true }];
+    return [
+      { source: "/project", destination: "/projects", permanent: true },
+      { source: "/blog", destination: "/blogs", permanent: true },
+    ];
   },
   images: {
     qualities: [75, 85, 100],
