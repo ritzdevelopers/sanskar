@@ -64,11 +64,9 @@ export function HeroPageHeader({
           <div className={headerShellClass}>
             <nav className={navClass}>
               {contactPageStyle ? (
-                <div
+                <Link
+                  href="/"
                   className="flex min-w-0 shrink cursor-pointer items-center py-0.5"
-                  onClick={() =>
-                    window.scrollTo({ top: 0, behavior: "smooth" })
-                  }
                 >
                   <Image
                     src="/assets/sanskar_logo.png"
@@ -79,7 +77,7 @@ export function HeroPageHeader({
                     quality={100}
                     className={logoImgClass}
                   />
-                </div>
+                </Link>
               ) : (
                 <Link
                   href="/"

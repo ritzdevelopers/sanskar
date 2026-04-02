@@ -12,6 +12,7 @@ const PROJECTS = [
       "Experience luxury 3 & 4 BHK apartments at Eternia, with world-class amenities. Luxury & convenience at your best!",
     image: "/assets/eternia.jpg",
     imageAlt: "Eternia residences",
+    url: "https://eternia.greatvaluerealty.com/",
   },
   {
     id: "highlife",
@@ -21,6 +22,7 @@ const PROJECTS = [
       "Enjoy spacious 1 & 2 BHK apartments with modern amenities at HighLife, located near business hubs.",
     image: "/assets/highlife.jpg",
     imageAlt: "HighLife residences",
+    url: "https://highlife.greatvaluerealty.com/",
   },
   {
     id: "forest-walk",
@@ -30,6 +32,7 @@ const PROJECTS = [
       "Enjoy a gated community lifestyle with luxury and nature at Forest Walk. Connects you with serenity and nature both!",
     image: "/assets/Forest%20Walk.jpg",
     imageAlt: "Forest Walk",
+    url: "https://theforestwalk.com/",
   },
 ];
 
@@ -39,6 +42,7 @@ function ProjectRow({
   description,
   image,
   imageAlt,
+  url,
 }) {
   return (
     <section
@@ -67,8 +71,10 @@ function ProjectRow({
             >
               {description}
             </p>
-            <button
-              type="button"
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group relative font-lato mt-3 inline-flex h-11 cursor-pointer items-center overflow-hidden rounded-full border border-[#111111] bg-transparent px-5 text-[14px] font-semibold capitalize leading-[100%] tracking-normal sm:mt-6 sm:h-12 sm:pr-3 sm:pl-6"
             >
               <span
@@ -87,7 +93,7 @@ function ProjectRow({
                   />
                 </span>
               </span>
-            </button>
+            </a>
           </div>
 
           <div
@@ -101,19 +107,30 @@ function ProjectRow({
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, (max-width: 1279px) 58vw, 66vw"
               />
-              <button
-                type="button"
-                className="absolute right-3 top-3 z-10 inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-transform hover:scale-105 sm:right-4 sm:top-6 sm:h-12 sm:w-12"
-                aria-label={title}
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View ${title} project`}
+                className="group absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-white text-lg text-[#111111] transition-transform hover:scale-105 sm:right-6 sm:top-6 sm:h-11 sm:w-11 sm:text-xl md:right-8 md:top-8"
               >
                 <Image
                   src="/assets/diagonal_icon.svg"
                   alt=""
-                  width={16}
-                  height={16}
-                  className="h-4 w-4"
+                  width={15}
+                  height={15}
+                  className="absolute transition-transform duration-[400ms] ease-in-out group-hover:translate-x-[200%] group-hover:-translate-y-[200%]"
+                  aria-hidden="true"
                 />
-              </button>
+                <Image
+                  src="/assets/diagonal_icon.svg"
+                  alt=""
+                  width={15}
+                  height={15}
+                  className="absolute -translate-x-[200%] translate-y-[200%] transition-transform duration-[400ms] ease-in-out group-hover:translate-x-0 group-hover:translate-y-0"
+                  aria-hidden="true"
+                />
+              </a>
             </div>
           </div>
         </div>
@@ -133,6 +150,7 @@ export function ProjectSection() {
           description={p.description}
           image={p.image}
           imageAlt={p.imageAlt}
+          url={p.url}
         />
       ))}
     </>

@@ -184,16 +184,30 @@ export function ProjectShowcaseSliderSection2() {
                     </div>
                 ))}
 
-                {/* ── MAP WIDGET — bottom-left premium card ── */}
+                {/* ── Mobile: sirf map pin icon → Google Maps ── */}
+                <a
+                    href={`https://www.google.com/maps?q=${encodeURIComponent(activeSlide.projectName)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pointer-events-auto absolute bottom-[max(1.25rem,env(safe-area-inset-bottom,0px))] left-5 top-auto z-[60] flex items-center justify-center md:hidden"
+                    aria-label={`Open ${activeSlide.projectName} in Google Maps`}
+                >
+                    <i
+                        className="ri-map-pin-line text-[32px] leading-none text-black drop-shadow-[0_1px_3px_rgba(255,255,255,0.7)] not-italic sm:text-[36px]"
+                        aria-hidden
+                    />
+                </a>
+
+                {/* ── MAP WIDGET — md+ bottom-left premium card + iframe ── */}
                 <div
-                    className="pointer-events-auto absolute z-30"
+                    className="pointer-events-auto absolute z-30 hidden md:block"
                     style={{
                         bottom: "max(1.25rem, env(safe-area-inset-bottom, 0px))",
                         left: "1.25rem",
                     }}
                 >
                     {/* Outer premium card frame */}
-                    <div className="overflow-hidden rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.55)] ring-[1.5px] ring-[#C9A227]/50 w-[190px] sm:w-[220px] md:w-[255px] lg:w-[275px]">
+                    <div className="overflow-hidden rounded-1xl shadow-[0_12px_40px_rgba(0,0,0,0.55)] ring-[1.5px] ring-[#C9A227]/50 w-[255px] lg:w-[275px]">
 
                         {/* ── Header bar ── */}
                         <div className="flex items-center gap-2 bg-black/75 px-3 py-2 backdrop-blur-md">
