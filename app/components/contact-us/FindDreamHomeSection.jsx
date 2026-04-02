@@ -3,7 +3,7 @@ import { FindDreamHomeSection as AboutFindDreamHomeSection } from "../about/Find
 export function FindDreamHomeSection() {
   return (
     <div>
-      <AboutFindDreamHomeSection />
+      <AboutFindDreamHomeSection alignWithHeader />
     </div>
   );
 }

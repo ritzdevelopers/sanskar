@@ -17,8 +17,9 @@ export function OverviewSection() {
         backgroundSize: "30px 30px",
       }}
     >
-      <div className="relative z-10 mx-auto w-full max-w-[1500px] px-4 py-12 sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10 lg:py-[72px] xl:px-12 2xl:px-16 ">
-        <div className="mx-auto w-full max-w-[1280px] text-center sm:text-left xl:max-w-[1320px] xl:pl-[100px]">
+      <div className="relative z-10 w-full px-4 py-12 sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10 lg:py-[72px] xl:px-12 2xl:px-16 ">
+        <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
+          <div className="w-full text-center sm:text-left xl:pl-[100px]">
           <p
             data-scroll-reveal
             className="font-lato text-[18px] font-normal uppercase leading-[100%] tracking-[0.05em] text-[#111111]"
@@ -41,6 +42,7 @@ export function OverviewSection() {
             projects feature world-class brands, exceptional interiors, top-notch
             facilities, and premium amenities, transforming the way you live.
           </p>
+          </div>
         </div>
       </div>
     </section>

@@ -61,18 +61,24 @@ export function FindDreamHomeSection({
                 <button
                   data-scroll-reveal-pop
                   type="button"
-                  className={`${lato.className} mx-auto mt-5 inline-flex items-center gap-2 border border-[#111111] px-4 py-2 text-[14px] leading-none text-[#111111] transition-colors hover:bg-black hover:text-white lg:mx-0`}
+                  className={`${lato.className} group relative mx-auto mt-5 inline-flex items-center overflow-hidden rounded-[50px] border border-[#111111] pl-3 pr-1 py-1 text-[14px] leading-none lg:mx-0`}
                 >
-                  Let Connect
-                  <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-current">
-                    <Image
-                      src="/assets/diagonal_icon.svg"
-                      alt=""
-                      width={8}
-                      height={8}
-                      className="h-2 w-2 object-contain"
-                      aria-hidden
-                    />
+                  <span
+                    className="pointer-events-none absolute inset-0 origin-left scale-x-0 bg-[#111111] transition-transform duration-500 ease-out group-hover:scale-x-100"
+                    aria-hidden
+                  />
+                  <span className="relative z-10 inline-flex items-center gap-2 text-[#111111] transition-colors duration-300 group-hover:text-white">
+                    Let Connect
+                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-current">
+                      <Image
+                        src="/assets/diagonal_icon.svg"
+                        alt=""
+                        width={8}
+                        height={8}
+                        className="h-2 w-2 object-contain transition-[filter] duration-300 group-hover:brightness-0 group-hover:invert"
+                        aria-hidden
+                      />
+                    </span>
                   </span>
                 </button>
               </div>

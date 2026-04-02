@@ -52,9 +52,9 @@ export function ContactFormSection() {
                   : "min-h-[48px] sm:min-h-[52px] md:min-h-[56px]"
                 }`}
             >
-              <div
+              <Link
+                href="/"
                 className="flex min-w-0 shrink cursor-pointer items-center py-0.5"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 <Image
                   src="/assets/sanskar_logo.png"
@@ -68,7 +68,7 @@ export function ContactFormSection() {
                       : "h-9 max-w-[120px] sm:h-10 sm:max-w-[140px] md:h-11 md:max-w-[153px] lg:h-[50px]"
                     }`}
                 />
-              </div>
+              </Link>
               <div className="flex shrink-0 items-center gap-3 sm:gap-6 md:gap-8 lg:gap-10">
                 <div className="hidden md:block">
                   <Link
@@ -83,7 +83,7 @@ export function ContactFormSection() {
                 </div>
                 <div className="hidden md:block">
                   <Link
-                    href="/#projects"
+                    href="/project"
                     className={`group relative text-center text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] cursor-pointer ${isScrolled ? "text-black" : "text-white"
                       }`}
                   >
@@ -185,11 +185,11 @@ export function ContactFormSection() {
 
       <div className="relative z-10 bg-[#111111] pb-[35px] lg:pb-[75px]">
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
-          <div className="mx-auto grid w-full max-w-[1480px] grid-cols-1 items-stretch justify-items-center gap-x-8 gap-y-14 md:grid-cols-2 md:justify-items-stretch xl:grid-cols-3 xl:max-w-[1520px] xl:gap-y-12">
+          <div className="mx-auto grid w-full max-w-[1480px] grid-cols-1 items-stretch justify-items-start gap:0 md:gap-[30px] md:grid-cols-2 xl:grid-cols-3 xl:max-w-[1520px]">
             {OFFICES.map((office) => (
               <div
                 key={office.name}
-                className="flex min-w-0 w-full max-w-md flex-col items-center text-center md:max-w-none md:h-full md:items-stretch md:text-left"
+                className="flex min-w-0 w-full max-w-md flex-col items-start text-left md:max-w-none md:h-full"
               >
                 <h2 className="mt-9 font-quattrocento text-[30px] font-normal capitalize leading-[100%] tracking-normal text-[#FFFFFF] md:mt-14 lg:mt-14 xl:mt-0 xl:text-[36px]">
                   {office.name}
@@ -197,8 +197,8 @@ export function ContactFormSection() {
                 <p className="mt-1 min-h-0 flex-none font-quattrocento text-[20px] font-normal leading-[34px] tracking-normal text-[#FFFFFF] md:mt-3 md:flex-1 md:text-[18px] lg:mt-5 lg:text-[20px]">
                   {office.address}
                 </p>
-                <div className="mt-6 flex w-full flex-col space-y-4 md:mt-8 md:flex-none lg:space-y-5">
-                  <div className="flex flex-wrap items-center justify-center gap-x-4 font-quattrocento text-[14px] font-normal leading-[100%] tracking-normal text-[#FFFFFF] sm:gap-x-5 md:justify-start">
+                <div className="mt-3 flex w-full flex-col space-y-4 md:mt-8 md:flex-none lg:space-y-5">
+                  <div className="flex flex-wrap items-center justify-center gap-x-4 font-quattrocento text-[14px] font-normal leading-[100%] tracking-normal text-[#FFFFFF] sm:gap-x-5 justify-start">
                     <span>Monday - Friday</span>
                     <span
                       className="h-[14px] w-px shrink-0 bg-[#FFFFFF]/45 sm:h-4"
@@ -208,7 +208,7 @@ export function ContactFormSection() {
                   </div>
                   <a
                     href="tel:+919876543210"
-                    className="mx-auto inline-flex max-w-full items-center gap-[15px] font-quattrocento text-[20px] font-normal leading-[28px] tracking-normal text-[#FFFFFF] transition-opacity hover:opacity-80 md:mx-0 md:text-[18px]"
+                    className="inline-flex max-w-full items-center gap-[15px] font-quattrocento text-[20px] font-normal leading-[28px] tracking-normal text-[#FFFFFF] transition-opacity hover:opacity-80 md:text-[18px]"
                   >
                     <span>+91 98765 43210</span>
                     <i
@@ -218,7 +218,7 @@ export function ContactFormSection() {
                   </a>
                   <a
                     href="mailto:contact@sanskar.in"
-                    className="mx-auto inline-flex max-w-full items-center gap-[15px] font-quattrocento text-[20px] font-normal leading-[28px] tracking-normal text-[#FFFFFF] transition-opacity hover:opacity-80 md:mx-0 md:text-[18px]"
+                    className="inline-flex max-w-full items-center gap-[15px] font-quattrocento text-[20px] font-normal leading-[28px] tracking-normal text-[#FFFFFF] transition-opacity hover:opacity-80 md:text-[18px]"
                   >
                     <span>contact@sanskar.in</span>
                     <i

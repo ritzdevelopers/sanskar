@@ -159,7 +159,13 @@ function TestimonialCard({ item, compact = false }: { item: Testimonial; compact
   );
 }
 
-export function TestimonialsSection() {
+type TestimonialsSectionProps = {
+  alignWithHeader?: boolean;
+};
+
+export function TestimonialsSection({
+  alignWithHeader = false,
+}: TestimonialsSectionProps = {}) {
   // Mobile: one card at a time (horizontal)
   const [mobileIndex, setMobileIndex] = useState(0);
   // Desktop: one paired slide at a time (vertical)
@@ -186,11 +192,17 @@ export function TestimonialsSection() {
     return () => clearInterval(t);
   }, [nextMobile, nextDesktop]);
 
+  const outerShell = alignWithHeader
+    ? "w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16"
+    : "w-full max-w-none px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 min-[1440px]:mx-auto min-[1440px]:max-w-[1500px]";
+  const innerShell = alignWithHeader
+    ? "relative mx-auto w-full max-w-[1480px] xl:max-w-[1520px]"
+    : "relative w-full max-w-none min-[1440px]:mx-auto min-[1440px]:max-w-[1280px] min-[1536px]:max-w-[1320px]";
+
   return (
     <section ref={sectionRef} className="overflow-x-hidden bg-white py-10 sm:py-12 md:py-14">
-      {/* Below 1440px: full-width content (padding only); 1440px+: same outer/inner shell as PR/Footer */}
-      <div className="w-full max-w-none px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 min-[1440px]:mx-auto min-[1440px]:max-w-[1500px]">
-        <div className="relative w-full max-w-none min-[1440px]:mx-auto min-[1440px]:max-w-[1280px] min-[1536px]:max-w-[1320px]">
+      <div className={outerShell}>
+        <div className={innerShell}>
         <p
           data-scroll-reveal
           className={`${lato.className} text-center text-[15px] font-normal uppercase tracking-[0.08em] text-[#111111] sm:text-[16px] md:text-[18px]`}

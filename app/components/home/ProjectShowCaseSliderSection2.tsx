@@ -43,7 +43,7 @@ const showcaseSlides = [
                 <strong>furnished with IKEA</strong>.
             </>
         ),
-        image: "/assets/high_life.jpg",
+        image: "/assets/highlife.jpg",
         url: "https://highlife.greatvaluerealty.com/",
         mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.2773864514766!2d77.4496027!3d28.591454199999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cee8cfa617849%3A0xf40451d474c9f11f!2sHCRX%2BHV3%2C%20Amrapali%20Dream%20Valley%2C%20Greater%20Noida%2C%20Ithaira%2C%20Uttar%20Pradesh%20201318!5e0!3m2!1sen!2sin!4v1774603471602!5m2!1sen!2sin",
     },

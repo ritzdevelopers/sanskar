@@ -19,19 +19,19 @@ const slides = [
   {
     id: 1,
     title: "Eternia Project",
-    image: "/assets/eternia.webp",
+    image: "/assets/eternia-home.jpg",
     url: "https://eternia.greatvaluerealty.com/",
   },
   {
     id: 2,
     title: "High Life",
-    image: "/assets/high_life.jpg",
+    image: "/assets/highlife.jpg",
     url: "https://highlife.greatvaluerealty.com/",
   },
   {
     id: 3,
     title: "Forest Walk",
-    image: "/assets/forest_walk 2.png",
+    image: "/assets/forest.jpg",
     url: "https://theforestwalk.com/",
   },
 ];
@@ -48,10 +48,6 @@ export function ProjectsSection() {
 
     return () => clearInterval(intervalId);
   }, []);
-
-  const nextSlide = () => {
-    setActiveSlide((prev) => (prev + 1) % slides.length);
-  };
 
   return (
     <section id="projects" ref={sectionRef} className="relative z-10">
@@ -96,9 +92,9 @@ export function ProjectsSection() {
                   src={slide.image}
                   alt={slide.title}
                   fill
-                  className={`object-cover ${slide.id === 2 ? "scale-[1.02]" : ""}`}
+                  className="object-cover"
                   priority={index === 0}
-                  quality={60}
+                  quality={75}
                   sizes="(max-width: 1284px) 100vw, 1284px"
                 />
 

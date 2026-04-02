@@ -54,8 +54,8 @@ export function HeroPageHeader({
     isScrolled ? "text-black" : "text-white"
   }`;
 
-  const projectsHref = contactPageStyle ? "/#projects" : "/project";
-  const useProjectsCurrent = !contactPageStyle && projectsLinkCurrent;
+  const projectsHref = "/project";
+  const useProjectsCurrent = projectsLinkCurrent;
 
   return (
     <>

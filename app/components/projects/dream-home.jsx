@@ -5,7 +5,7 @@ export function DreamHomeSection() {
   return (
   <div className="mt-10 md:mt-20">
 
-    <FindDreamHomeSection />
+    <FindDreamHomeSection alignWithHeader />
   </div>
 
 );
