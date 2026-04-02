@@ -28,7 +28,7 @@ const testimonials: Testimonial[] = [
   },
   {
     id: "mohit-1",
-    name: "Priya Mehta | Investor, Delhi NCR.",
+    name: "Rahul Gupta | Investor, Delhi NCR.",
     image: "/assets/testimonial-image2.jpg",
     avatarObjectPosition: "center 20%",
     quote:
@@ -44,7 +44,7 @@ const testimonials: Testimonial[] = [
   },
   {
     id: "mohit-2",
-    name: "Priya Mehta | Investor, Delhi NCR.",
+    name: "Nikhil Mehta | Investor, Delhi NCR.",
     image: "/assets/testimonial-image4.jpg",
     avatarObjectPosition: "center 20%",
     quote:
@@ -199,7 +199,7 @@ export function TestimonialsSection() {
         </p>
         <h2
           data-scroll-reveal
-          className={`${quattrocento.className} mt-2 text-center text-[26px] font-normal uppercase leading-[1.2] text-[#111111] sm:mt-3 sm:text-[30px] md:text-[34px] lg:text-[36px]`}
+          className={`${quattrocento.className} mt-2 text-center text-[20px] md:text-[26px] font-normal uppercase leading-[1.2] text-[#111111] sm:mt-3 sm:text-[30px] md:text-[34px] lg:text-[36px]`}
         >
           What Our Customers&apos; Say?
         </h2>

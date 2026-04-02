@@ -37,9 +37,9 @@ export function FaqsSection() {
     <section className="bg-[#FAFAFA] py-10 md:py-12">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
-          <h2 className="align-middle font-quattrocento text-[36px] font-normal leading-[100%] tracking-normal text-[#111111]">
-            FAQs
-          </h2>
+        <h2 className="align-middle font-quattrocento text-[36px] font-normal leading-[100%] tracking-normal text-[#111111] text-center md:text-left">
+  FAQs
+</h2>
 
           <div className="mt-6 flex flex-col gap-3 md:mt-8 md:gap-6">
             {FAQS.map((item, index) => {
