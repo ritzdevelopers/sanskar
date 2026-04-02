@@ -2,5 +2,11 @@ import React from "react";
 import { FindDreamHomeSection } from "../about/FindDreamHomeSection";
 
 export function DreamHomeSection() {
-  return <FindDreamHomeSection />;
+  return (
+  <div className="mt-10 md:mt-20">
+
+    <FindDreamHomeSection />
+  </div>
+
+);
 }
