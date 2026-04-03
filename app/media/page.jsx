@@ -1,9 +1,15 @@
-import React from 'react'
+import MediaBanner from "../components/media/mediabanner";
+import { FooterSection } from "../components/home/FooterSection";
+import PressRelease from "../components/media/pressrelease";
 
-const Media = () => {
+export default function MediaPage() {
   return (
-    <div>Media</div>
-  )
+    <>
+      <main className="min-w-0">
+        <MediaBanner />
+        <PressRelease />
+      <FooterSection alignWithHeader />
+      </main>
+    </>
+  );
 }
-
-export default Media
