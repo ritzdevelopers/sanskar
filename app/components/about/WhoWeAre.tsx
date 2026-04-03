@@ -68,9 +68,9 @@ export function WhoWeAre() {
     };
 
     return (
-        <section ref={sectionRef} className="relative w-full min-w-0 overflow-x-hidden py-[35px] ml:py-[75px]">
+        <section ref={sectionRef} className="relative w-full min-w-0 overflow-x-hidden pt-[35px] lg:pt-[75px] pb-[40px]">
             {/* Subtle two-tone background to match the split look */}
-            <div className="absolute inset-x-0 top-0 h-[38%] bg-[#FAFAFA] -z-20" />
+            <div className="absolute inset-x-0 top-0 h-[29%] bg-[#FAFAFA] -z-20" />
             <div className="absolute inset-x-0 bottom-0 h-[50%] lg:h-[45%] bg-white -z-20" />
 
             {/* Background vertical line grid */}
@@ -99,7 +99,7 @@ export function WhoWeAre() {
                 </div>
 
                 {/* Description Paragraphs */}
-                <div data-scroll-reveal className={`mx-auto mb-10 w-full max-w-[1040px] space-y-4 text-center align-middle text-[#666666] sm:mb-12 md:mb-16 md:space-y-6 ${lato.className} text-[15px] leading-[26px] sm:text-[17px] sm:leading-[30px] md:text-[18px] md:leading-[32px] tracking-normal`}>
+                <div data-scroll-reveal className={`mx-auto mb-10 w-full max-w-[1040px] space-y-2 text-center align-middle text-[#666666] sm:mb-12 md:mb-16 md:space-y-2 ${lato.className} text-[15px] leading-[26px] sm:text-[17px] sm:leading-[30px] md:text-[18px] md:leading-[32px] tracking-normal`}>
                     {/* <p>
                         Sanskar Realty is not merely another name in the overcrowded Delhi NCR real estate market. We are the real estate venture of <span className="text-[#F7A51D] font-bold">the Yatharth Family Office</span> – which is the strategic investment branch of <span className="text-[#F7A51D] font-bold">Yatharth Group</span> and <span className="text-[#F7A51D] font-bold">North India's third largest public-listed healthcare company</span> founded in 2008 and relied on by millions throughout the area.
                     </p> */}
@@ -222,13 +222,13 @@ export function WhoWeAre() {
 
                     </div>
 
-                    {/* Right side: Image */}
-                    <div data-scroll-reveal className="relative aspect-[593/436] w-full max-w-[593px] overflow-hidden lg:mx-0 lg:min-w-0 lg:flex-1 lg:self-start lg:max-w-none xl:self-center xl:h-[436.51px] xl:w-[593.26px] xl:shrink-0 xl:aspect-auto">
+                    {/* Right side: Image — hover: image shifts up on Y (toward top) inside the crop */}
+                    <div data-scroll-reveal className="group relative aspect-[593/436] w-full max-w-[593px] overflow-hidden lg:mx-0 lg:min-w-0 lg:flex-1 lg:self-start lg:max-w-none xl:self-center xl:h-[436.51px] xl:w-[593.26px] xl:shrink-0 xl:aspect-auto">
                         <Image
                             src="/assets/mission.png"
                             alt="Mission & Vision"
                             fill
-                            className="object-cover object-center"
+                            className="object-cover object-center transition-transform duration-300 ease-out will-change-transform group-hover:-translate-y-[5px]"
                         />
                     </div>
 

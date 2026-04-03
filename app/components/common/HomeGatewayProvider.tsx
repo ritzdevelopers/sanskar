@@ -9,15 +9,22 @@ function pathIsHome(path: string) {
 }
 
 const HomeGatewayIntroContext = createContext(false);
+const HomeHeroMountKeyContext = createContext(0);
 
 export function useHomeGatewayIntroReady() {
   return useContext(HomeGatewayIntroContext);
+}
+
+export function useHomeHeroMountKey() {
+  return useContext(HomeHeroMountKeyContext);
 }
 
 type GatewaySession = {
   open: boolean;
   introReady: boolean;
   key: number;
+  /** Bumps on client navigations landing on `/` so the hero remounts and its GSAP intro runs reliably. */
+  homeHeroKey: number;
 };
 
 function shouldShowGatewayOnFullPageLoad(): boolean {
@@ -37,6 +44,7 @@ export function HomeGatewayProvider({ children }: { children: React.ReactNode })
     open: false,
     introReady: !pathIsHome(pathname),
     key: 0,
+    homeHeroKey: 0,
   }));
 
   useLayoutEffect(() => {
@@ -48,6 +56,7 @@ export function HomeGatewayProvider({ children }: { children: React.ReactNode })
 
       if (shouldShowGatewayOnFullPageLoad()) {
         setSession((s) => ({
+          ...s,
           open: true,
           introReady: nowHome ? false : true,
           key: s.key + 1,
@@ -64,10 +73,12 @@ export function HomeGatewayProvider({ children }: { children: React.ReactNode })
 
     if (prevStored !== pathname) {
       prevPathRef.current = pathname;
+      const landedOnHome = pathIsHome(pathname);
       setSession((s) => ({
         ...s,
         open: false,
         introReady: true,
+        homeHeroKey: landedOnHome ? s.homeHeroKey + 1 : s.homeHeroKey,
       }));
     }
   }, [pathname]);
@@ -78,8 +89,10 @@ export function HomeGatewayProvider({ children }: { children: React.ReactNode })
 
   return (
     <HomeGatewayIntroContext.Provider value={session.introReady}>
-      {children}
-      {session.open && <WelcomeGateway key={session.key} onComplete={onGatewayComplete} />}
+      <HomeHeroMountKeyContext.Provider value={session.homeHeroKey}>
+        {children}
+        {session.open && <WelcomeGateway key={session.key} onComplete={onGatewayComplete} />}
+      </HomeHeroMountKeyContext.Provider>
     </HomeGatewayIntroContext.Provider>
   );
 }

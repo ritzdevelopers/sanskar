@@ -22,7 +22,7 @@ export function AboutSanskarGroup() {
     return (
         <section
             ref={sectionRef}
-            className="relative flex h-auto w-full items-center bg-white py-12 sm:py-16 lg:h-[816px] lg:min-h-[816px] lg:py-0"
+            className="relative flex h-auto w-full items-center bg-white pb-12 sm:pb-16 lg:h-[816px] lg:min-h-[816px] lg:py-0"
             style={{
                 backgroundImage: "radial-gradient(#e5e7eb 1px, transparent 1px)",
                 backgroundSize: "24px 24px",
@@ -65,13 +65,15 @@ export function AboutSanskarGroup() {
                         {/* Right Column (Text Content) */}
                         <div data-scroll-reveal className={`flex-1 flex flex-col text-center lg:text-left justify-center space-y-5 md:space-y-6 ${lato.className} text-[15px] md:text-[16px] text-[#555555] leading-[1.8] lg:pt-10`}>
                             <p>
-                                Sanskar Realty is an extension of the Yatharth Group of Hospitals&apos; legacy, a name rooted in care, trust, and commitment since 2008. Over the years, Yatharth Hospitals has grown into the third-largest public-listed hospital chain in North India, operating seven hospitals across four states and touching countless lives with compassionate care.
+                            Led by our directors, <span className="text-[#F7A51D] font-bold"> Mr. Sanskar Tyagi </span> and <span className="text-[#F7A51D] font-bold"> Mr.Kuldeep Tyagi</span>, the team brings unparalleled expertise in real estate strategy and development, driving the company's vision forward. From identifying priority projects to ensuring their seamless execution, their leadership is our key to operational success.
+
                             </p>
                             <p>
-                                Building on this foundation of trust and excellence, Sanskar Realty embarks on a new chapter, focusing on strategic and long-term real estate investments with a vision to build lasting value and foster growth beyond healthcare.
+                            With over 17 years of legacy, we are committed to delivering <span className="text-[#F7A51D] font-bold"> landmarks residential</span> and <span className="text-[#F7A51D] font-bold"> commercial spaces</span>, reshaping the real estate landscape. Our vision is to create sustainable, value-driven developments enhancing the quality of life in every community we serve.
+
                             </p>
                             <p>
-                                Rooted in the same principles that have guided our healthcare journey—integrity, foresight, and a deep sense of responsibility—Sanskar Realty aims to create a legacy of sustainable real estate investments that enrich the communities we serve.
+                            As we move forward, our aim is to set new benchmarks in the real estate industry while fostering trust and building long-term relationships with our clients.
                             </p>
                         </div>
                     </div>

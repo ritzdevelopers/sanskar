@@ -17,9 +17,9 @@ export function OverviewSection() {
         backgroundSize: "30px 30px",
       }}
     >
-      <div className="relative z-10 w-full px-4 py-12 sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10 lg:py-[72px] xl:px-12 2xl:px-16 ">
+      <div className="relative z-10 w-full px-4  sm:px-6  md:px-8 lg:px-10 pt-[35px] lg:pt-[70px] xl:px-12 2xl:px-16 ">
         <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
-          <div className="w-full text-center sm:text-left xl:pl-[100px]">
+          <div className="w-full text-center lg:text-left xl:pl-[100px]">
           <p
             data-scroll-reveal
             className="font-lato text-[18px] font-normal uppercase leading-[100%] tracking-[0.05em] text-[#111111]"
@@ -28,19 +28,15 @@ export function OverviewSection() {
           </p>
           <h2
             data-scroll-reveal
-            className="font-quattrocento mx-auto mt-5 max-w-[1100px] text-[24px] font-normal uppercase sm:leading-normal leading-[35px] tracking-normal text-[#111111] sm:mx-0 sm:mt-6 sm:text-[36px] md:leading-[46px]"
+            className="font-quattrocento mx-auto mt-5 max-w-[1100px] text-[20px] font-normal uppercase leading-[35px] tracking-normal text-[#111111] sm:mt-6 md:text-[36px] leading-normal md:leading-[46px] lg:mx-0"
           >
-            Innovation in Every Detail A Collection of Our Best Creations
+        Find Your Dream Home with Our Luxury Real Estate Projects
           </h2>
           <p
             data-scroll-reveal
-            className="font-lato mx-auto mt-3 max-w-[900px] text-[16px] font-normal leading-normal tracking-normal text-[#00000099] sm:mx-0 sm:mt-6 md:mt-6 md:leading-[30px]"
+            className="font-lato mx-auto mt-3 max-w-[1000px] text-[16px] font-normal leading-normal tracking-normal text-[#00000099] sm:mt-6 md:mt-6 md:leading-[30px] lg:mx-0"
           >
-            Experience the epitome of luxury living with Ambience Group.
-            Redefining residential development in India, we craft magnificent
-            edifices, delivering on our promises of quality and timeliness. Our
-            projects feature world-class brands, exceptional interiors, top-notch
-            facilities, and premium amenities, transforming the way you live.
+          At Sanskar Realty, we are redefining residential spaces in India by creating iconic projects that are all about elegance, quality, and innovation. With our projects boasting premium brands, innovative designs, and world-class amenities, elevating your lifestyle to new heights.
           </p>
           </div>
         </div>

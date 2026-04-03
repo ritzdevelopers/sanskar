@@ -68,7 +68,7 @@ export function FindDreamHomeSection({
                     aria-hidden
                   />
                   <span className="relative z-10 inline-flex items-center gap-2.5 text-[#333333] transition-colors duration-300 group-hover:text-white">
-                    Let Connect
+                     Let's Connect
                     <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-current  transition-[background,border-color] group-hover:border-white group-hover:bg-transparent">
                       <Image
                         src="/assets/diagonal_icon.svg"

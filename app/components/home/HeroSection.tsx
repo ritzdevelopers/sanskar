@@ -2,10 +2,11 @@
 
 import { gsap } from "gsap";
 import Image from "next/image";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { NavOverlay } from "../common/NavOverlay";
 import { scrollAboutUsToTopIfSamePage } from "../common/aboutNavigation";
+import { getLenisInstance } from "../common/lenisInstance";
 
 type HeroSectionProps = {
   startIntroAnimation?: boolean;
@@ -18,92 +19,17 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
   const heroImageRef = useRef<HTMLDivElement | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const introRanRef = useRef(false);
-
-  useLayoutEffect(() => {
-    const navItems = navItemsRef.current.filter(Boolean) as HTMLDivElement[];
-    const pieces = pieceRefs.current.filter(Boolean) as HTMLDivElement[];
-    const pieceContainer = piecesContainerRef.current;
-    const heroImage = heroImageRef.current;
-
-    if (navItems.length && pieces.length && pieceContainer && heroImage) {
-      gsap.set(navItems, { y: 80, opacity: 0 });
-      gsap.set(heroImage, { autoAlpha: 0, scale: 1.05 });
-      gsap.set(pieceContainer, { autoAlpha: 1 });
-      pieces.forEach((el, i) => {
-        gsap.set(el, { x: 260, y: Math.sin(i * 0.9) * 24, opacity: 0 });
-      });
-    }
-
-    if (!startIntroAnimation) {
-      introRanRef.current = false;
-      return;
-    }
-
-    if (introRanRef.current) return;
-    introRanRef.current = true;
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
-
-      tl.fromTo(
-        pieces,
-        {
-          x: 260,
-          y: (index) => Math.sin(index * 0.9) * 24,
-          opacity: 0,
-        },
-        {
-          x: 0,
-          y: 0,
-          opacity: 1,
-          duration: 1.05,
-          ease: "power3.out",
-          stagger: { each: 0.08, from: "end" },
-        }
-      )
-        .to(
-          heroImage,
-          {
-            autoAlpha: 1,
-            scale: 1,
-            duration: 0.75,
-            ease: "power2.out",
-          },
-          "-=0.6"
-        )
-        .to(
-          pieceContainer,
-          {
-            autoAlpha: 0,
-            duration: 0.35,
-            ease: "power2.out",
-          },
-          "<0.15"
-        )
-        .to(
-          navItems,
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: "power3.out",
-          },
-          "-=0.75"
-        );
-    });
-
-    return () => {
-      ctx.revert();
-    };
-  }, [startIntroAnimation]);
 
   useEffect(() => {
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
-    window.scrollTo(0, 0);
+    const lenis = getLenisInstance();
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
 
     const onScroll = () => {
       setIsScrolled(window.scrollY > 40);
@@ -115,6 +41,101 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    let ctx: gsap.Context | null = null;
+    let raf = 0;
+    let attempts = 0;
+    const maxAttempts = 90;
+
+    const tick = () => {
+      if (cancelled) return;
+      const navItems = navItemsRef.current.filter(Boolean) as HTMLDivElement[];
+      const pieces = pieceRefs.current.filter(Boolean) as HTMLDivElement[];
+      const pieceContainer = piecesContainerRef.current;
+      const heroImage = heroImageRef.current;
+
+      if (
+        !(navItems.length && pieces.length && pieceContainer && heroImage) &&
+        attempts < maxAttempts
+      ) {
+        attempts += 1;
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+
+      if (!(navItems.length && pieces.length && pieceContainer && heroImage)) return;
+
+      gsap.set(navItems, { y: 80, opacity: 0 });
+      gsap.set(heroImage, { autoAlpha: 0, scale: 1.05 });
+      gsap.set(pieceContainer, { autoAlpha: 1 });
+      pieces.forEach((el, i) => {
+        gsap.set(el, { x: 260, y: Math.sin(i * 0.9) * 24, opacity: 0 });
+      });
+
+      if (!startIntroAnimation) return;
+
+      ctx = gsap.context(() => {
+        const tl = gsap.timeline();
+
+        tl.fromTo(
+          pieces,
+          {
+            x: 260,
+            y: (index) => Math.sin(index * 0.9) * 24,
+            opacity: 0,
+          },
+          {
+            x: 0,
+            y: 0,
+            opacity: 1,
+            duration: 1.05,
+            ease: "power3.out",
+            stagger: { each: 0.08, from: "end" },
+          }
+        )
+          .to(
+            heroImage,
+            {
+              autoAlpha: 1,
+              scale: 1,
+              duration: 0.75,
+              ease: "power2.out",
+            },
+            "-=0.6"
+          )
+          .to(
+            pieceContainer,
+            {
+              autoAlpha: 0,
+              duration: 0.35,
+              ease: "power2.out",
+            },
+            "<0.15"
+          )
+          .to(
+            navItems,
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.8,
+              stagger: 0.1,
+              ease: "power3.out",
+            },
+            "-=0.75"
+          );
+      });
+    };
+
+    raf = requestAnimationFrame(tick);
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+      ctx?.revert();
+    };
+  }, [startIntroAnimation]);
 
   const pieceClips = [
     "polygon(0% 0%, 12.5% 0%, 12.5% 100%, 0% 100%)",

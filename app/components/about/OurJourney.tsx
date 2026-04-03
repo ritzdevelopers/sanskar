@@ -32,11 +32,11 @@ const timelineData: TimelineItem[] = [
     year: "2023",
     label: "2023",
     title: "Laying the Foundation",
-    subtitle: "FOREST WALK: 52 Acres | Dasna, Ghaziabad",
+    subtitle: "FOREST WALK: 52 Acres | Dasna, Ghaziabad secured 52 acres of prime land, setting the stage for our vision of luxury villa developments.",
     subtitle2:
       "Strategic Land Acquisition: 205 Acres | Noida (Former Daewoo Motors Site) Acquired 205 acres of industrial land in Noida, formerly home to Daewoo Motors, significantly expanding our presence in the region.",
-    description:
-      "Secured 52 acres of prime land, setting the stage for our vision of luxury villa developments.",
+    // description:
+    //   "Secured 52 acres of prime land, setting the stage for our vision of luxury villa developments.",
     image: "/assets/footer.png",
   },
   {
@@ -138,7 +138,7 @@ export function OurJourney() {
     };
 
     return (
-        <section ref={sectionRef} className="relative w-full min-w-0 overflow-x-hidden pt-8 md:pt-12 lg:pt-24 pb-20 lg:py-18 bg-[#FAFAFA]">
+        <section ref={sectionRef} className="relative w-full min-w-0 overflow-x-hidden py-[35px] lg:py-[75px] bg-[#FAFAFA]">
             {/* Background vertical line grid */}
             <div className="absolute inset-0 -z-10 pointer-events-none hidden xl:block">
                 <div className="absolute left-1/2 top-0 h-full w-full max-w-[1500px] -translate-x-1/2 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
