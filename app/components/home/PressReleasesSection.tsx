@@ -38,7 +38,7 @@ export function PressReleasesSection() {
   ];
 
   return (
-    <section ref={sectionRef} className="bg-[#FAFAFA] py-16 sm:py-20 md:py-24 lg:py-[100px]">
+    <section ref={sectionRef} className="bg-[#FAFAFA] py-[35px] md:py-[75px]">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
         <h2

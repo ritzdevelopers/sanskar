@@ -92,7 +92,7 @@ export function NriHomeLoansSection() {
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1280px] xl:max-w-[1320px]">
           <h2
-            className={`${quattrocento.className} text-left align-middle text-[36px] font-normal uppercase leading-[100%] tracking-normal text-[#111111] max-w-[700px]`}
+            className={`${quattrocento.className} text-left align-middle text-[36px] font-normal uppercase lg:leading-[50px] leading-[100%] tracking-normal text-[#111111] max-w-[700px]`}
           >
             NRI Home Loans - Helping Your India Investment Work for You
           </h2>
