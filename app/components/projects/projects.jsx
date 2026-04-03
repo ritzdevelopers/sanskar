@@ -30,7 +30,7 @@ const PROJECTS = [
     location: "NH-24, Eastern Peripheral Expressway, Ghaziabad",
     description:
       "Enjoy a gated community lifestyle with luxury and nature at Forest Walk. Connects you with serenity and nature both!",
-    image: "/assets/Forest%20Walk.jpg",
+    image: "/assets/projectforestwalk.png",
     imageAlt: "Forest Walk",
     url: "https://theforestwalk.com/",
   },

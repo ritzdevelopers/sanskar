@@ -5,7 +5,7 @@ export function FindoutSection() {
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
           <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
             <h2 className="m-0 font-quattrocento text-[24px] md:text-[36px] font-normal text-center md:text-left uppercase leading-[100%] tracking-normal text-[#111111]">
-              HOW TO FIND US
+              Our Locations
             </h2>
           </div>
         </div>

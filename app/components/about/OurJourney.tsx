@@ -32,34 +32,34 @@ const timelineData: TimelineItem[] = [
     year: "2023",
     label: "2023",
     title: "Laying the Foundation",
-    subtitle: "FOREST WALK: 52 Acres | Dasna, Ghaziabad secured 52 acres of prime land, setting the stage for our vision of luxury villa developments.",
+    subtitle: "FOREST WALK: Secured 52 acres of prime land at  Dasna, Ghaziabad, setting the stage for our vision of luxury villa developments.",
     subtitle2:
-      "Strategic Land Acquisition: 205 Acres | Noida (Former Daewoo Motors Site) Acquired 205 acres of industrial land in Noida, formerly home to Daewoo Motors, significantly expanding our presence in the region.",
+      "Strategic Land Acquisition:  Acquired 205 acres of industrial land in Noida (Former Daewoo Motors Site),  significantly expanding our presence in the region.",
     // description:
     //   "Secured 52 acres of prime land, setting the stage for our vision of luxury villa developments.",
-    image: "/assets/footer.png",
+    image: "/assets/2023.png",
   },
   {
     year: "2025",
     label: "2025",
     title: "Expanding Our Vision",
     subtitle:
-      "ETERNIA: 6 Acres | Tech Zone-4, Greater Noida West Unveiling Eternia – a premium group housing project offering spacious 3 & 4 BHK residences, designed for luxurious living.",
+      "Unveiling Eternia – A premium group housing project of 6 acres, offering spacious 3 & 4 BHK residences, designed for luxurious living at  Tech Zone-4, Greater Noida West",
     subtitle2:
-      "HIGH LIFE: 2.5 Acres | Tech Zone-4, Greater Noida West Introducing Highlife – thoughtfully designed modern 1 & 2 BHK studio apartments, created for the smart, urban lifestyle.",
-    image: "/assets/footer.png",
+      "Introducing Highlife: Thoughtfully designed modern 1 & 2 BHK studio apartments, created for the smart, urban lifestyle, 2.5 Acres at Tech Zone-4, Greater Noida West.",
+    image: "/assets/2025.png",
   },
   {
     year: "2026",
     label: "2026",
     title: "Strategic Expansion",
     description:
-      "Acquired 74 premium flats in Jaypee Wish Town, Sector-128, Noida, through a bank auction, reinforcing our residential portfolio in one of Noida’s most iconic townships.",
-    image: "/assets/footer.png",
+      " Acquired 74 premium flats in Jaypee Wish Town, Sector-128, Noida, through a bank auction, reinforcing our residential portfolio in one of Noida’s most iconic townships.",
+    image: "/assets/2026.png",
   },
   {
     year: "",
-    label: "Up Coming",
+    label: "Upcoming",
     title:
       "From Vision to Reality – A Commitment to Excellence, Shaping Iconic Landmarks for the Future.",
     image: "/assets/footer.png",
@@ -76,17 +76,37 @@ function getInitialTimelineIndex() {
 const SUBTITLE_BOLD_PREFIXES = [
     "FOREST WALK:",
     "Strategic Land Acquisition:",
-    "ETERNIA:",
-    "HIGH LIFE:",
+    "Unveiling Eternia –",
+    "Introducing Highlife:",
+] as const;
+
+const SUBTITLE_ITALIC_PHRASES = [
+    "Dasna, Ghaziabad",
+    "Noida (Former Daewoo Motors Site)",
+    "Tech Zone-4, Greater Noida West",
 ] as const;
 
 function renderTimelineSubtitle(subtitle: string) {
     for (const prefix of SUBTITLE_BOLD_PREFIXES) {
         if (subtitle.startsWith(prefix)) {
+            const rest = subtitle.slice(prefix.length);
+            for (const phrase of SUBTITLE_ITALIC_PHRASES) {
+                const idx = rest.indexOf(phrase);
+                if (idx >= 0) {
+                    return (
+                        <>
+                            <span className="font-bold text-[#111111]">{prefix}</span>
+                            {rest.slice(0, idx)}
+                            <i>{phrase}</i>
+                            {rest.slice(idx + phrase.length)}
+                        </>
+                    );
+                }
+            }
             return (
                 <>
                     <span className="font-bold text-[#111111]">{prefix}</span>
-                    {subtitle.slice(prefix.length)}
+                    {rest}
                 </>
             );
         }
@@ -228,7 +248,7 @@ export function OurJourney() {
                 >
                     {/* Active Slide Wrapper */}
                     <div
-                        className="order-1 flex min-w-0 w-full max-w-full flex-1 flex-col items-center gap-8 overflow-hidden px-1 transition-opacity duration-500 ease-out sm:gap-10 sm:px-2 md:gap-12 md:px-4 lg:order-2 lg:flex-row lg:items-center lg:gap-16 lg:px-12 xl:gap-20 xl:px-16 2xl:px-8"
+                        className="animate-our-journey-slide order-1 flex min-w-0 w-full max-w-full flex-1 flex-col items-center gap-8 overflow-hidden px-1 sm:gap-10 sm:px-2 md:gap-12 md:px-4 lg:order-2 lg:flex-row lg:items-center lg:gap-16 lg:px-12 xl:gap-20 xl:px-16 2xl:px-8"
                         key={activeIndex}
                     >
                         {/* Left side Image */}
