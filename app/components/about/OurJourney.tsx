@@ -21,9 +21,10 @@ type TimelineItem = {
     year: string;
     label: string;
     title: string;
-    description: string;
+    description?: string;
     image: string;
     subtitle?: string;
+    subtitle2?: string;
 };
 
 const timelineData: TimelineItem[] = [
@@ -32,6 +33,8 @@ const timelineData: TimelineItem[] = [
     label: "2023",
     title: "Laying the Foundation",
     subtitle: "FOREST WALK: 52 Acres | Dasna, Ghaziabad",
+    subtitle2:
+      "Strategic Land Acquisition: 205 Acres | Noida (Former Daewoo Motors Site) Acquired 205 acres of industrial land in Noida, formerly home to Daewoo Motors, significantly expanding our presence in the region.",
     description:
       "Secured 52 acres of prime land, setting the stage for our vision of luxury villa developments.",
     image: "/assets/footer.png",
@@ -39,17 +42,26 @@ const timelineData: TimelineItem[] = [
   {
     year: "2025",
     label: "2025",
-    title: "Healthcare milestone",
-    description:
-      "The company acquired a 250-bedded hospital in Agra, Uttar Pradesh, marking its eighth hospital. This milestone further strengthened its presence in the northern region. The acquisition aligned with the company’s vision of expanding access to quality healthcare. It also reinforced its commitment to delivering excellence and building trust among patients.",
+    title: "Expanding Our Vision",
+    subtitle:
+      "ETERNIA: 6 Acres | Tech Zone-4, Greater Noida West Unveiling Eternia – a premium group housing project offering spacious 3 & 4 BHK residences, designed for luxurious living.",
+    subtitle2:
+      "HIGH LIFE: 2.5 Acres | Tech Zone-4, Greater Noida West Introducing Highlife – thoughtfully designed modern 1 & 2 BHK studio apartments, created for the smart, urban lifestyle.",
     image: "/assets/footer.png",
   },
   {
     year: "2026",
     label: "2026",
-    title: "Growth & vision ahead",
+    title: "Strategic Expansion",
     description:
-      "Building on its public listing and healthcare footprint, Sanskar Realty continues to deepen its presence in Delhi NCR real estate and allied sectors. The focus remains on disciplined growth, quality delivery, and long-term value for stakeholders as the organisation scales its next chapter.",
+      "Acquired 74 premium flats in Jaypee Wish Town, Sector-128, Noida, through a bank auction, reinforcing our residential portfolio in one of Noida’s most iconic townships.",
+    image: "/assets/footer.png",
+  },
+  {
+    year: "",
+    label: "Up Coming",
+    title:
+      "From Vision to Reality – A Commitment to Excellence, Shaping Iconic Landmarks for the Future.",
     image: "/assets/footer.png",
   },
 ];
@@ -59,6 +71,27 @@ const INITIAL_TIMELINE_YEAR = "2023";
 function getInitialTimelineIndex() {
     const idx = timelineData.findIndex((item) => item.year === INITIAL_TIMELINE_YEAR);
     return idx >= 0 ? idx : 0;
+}
+
+const SUBTITLE_BOLD_PREFIXES = [
+    "FOREST WALK:",
+    "Strategic Land Acquisition:",
+    "ETERNIA:",
+    "HIGH LIFE:",
+] as const;
+
+function renderTimelineSubtitle(subtitle: string) {
+    for (const prefix of SUBTITLE_BOLD_PREFIXES) {
+        if (subtitle.startsWith(prefix)) {
+            return (
+                <>
+                    <span className="font-bold text-[#111111]">{prefix}</span>
+                    {subtitle.slice(prefix.length)}
+                </>
+            );
+        }
+    }
+    return subtitle;
 }
 
 /** Active underline: narrower than grid column, centered on the dot */
@@ -105,7 +138,7 @@ export function OurJourney() {
     };
 
     return (
-        <section ref={sectionRef} className="relative w-full min-w-0 overflow-x-hidden pt-16 md:pt-24 pb-20 lg:pb-32 bg-[#FAFAFA]">
+        <section ref={sectionRef} className="relative w-full min-w-0 overflow-x-hidden pt-8 md:pt-12 lg:pt-24 pb-20 lg:py-18 bg-[#FAFAFA]">
             {/* Background vertical line grid */}
             <div className="absolute inset-0 -z-10 pointer-events-none hidden xl:block">
                 <div className="absolute left-1/2 top-0 h-full w-full max-w-[1500px] -translate-x-1/2 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
@@ -138,20 +171,20 @@ export function OurJourney() {
                 <div data-scroll-reveal className="relative mx-auto mb-16 w-full max-w-[1200px] md:mb-24">
                     <div
                         ref={timelineScrollRef}
-                        className="-mx-4 scroll-smooth overflow-x-auto overflow-y-visible px-4 pb-2 sm:-mx-0 sm:px-0 md:overflow-visible md:px-[5%] lg:px-8 [scrollbar-width:thin]"
+                        className="-mx-4 scroll-smooth overflow-x-auto overflow-y-visible px-1.5 pb-1.5 sm:-mx-0 sm:px-0 sm:pb-2 md:overflow-visible md:px-[5%] lg:px-8 [scrollbar-width:thin]"
                     >
-                    <div className="relative w-full min-w-[820px] md:min-w-0">
+                    <div className="relative w-full min-w-[460px] sm:min-w-[540px] md:min-w-0">
                         {/* The background Track */}
-                        <div className="absolute left-0 right-0 bottom-[7px] md:bottom-[8px] h-[2px] bg-[#E5E5E5] -z-10" />
+                        <div className="absolute left-0 right-0 bottom-[6px] h-[2px] bg-[#E5E5E5] -z-10 sm:bottom-[7px] md:bottom-[8px]" />
 
                         {/* Active segment — single bar animates left/width for smooth motion */}
                         <div
                             aria-hidden
-                            className="pointer-events-none absolute bottom-[7px] z-[0] h-[2px] bg-[#111111] transition-[left,width] duration-500 ease-out md:bottom-[8px]"
+                            className="pointer-events-none absolute bottom-[6px] z-[0] h-[2px] bg-[#111111] transition-[left,width] duration-500 ease-out sm:bottom-[7px] md:bottom-[8px]"
                             style={timelineActiveBarPercent(activeIndex, timelineData.length)}
                         />
                         <div
-                            className="relative z-10 grid w-full place-items-end justify-items-center gap-x-2 px-0.5 sm:gap-x-3 sm:px-1 md:gap-x-4 md:px-0 lg:gap-x-5 xl:gap-x-6"
+                            className="relative z-10 grid w-full place-items-end justify-items-center gap-x-0 px-0 sm:gap-x-px sm:px-0 md:gap-x-4 md:px-0 lg:gap-x-5 xl:gap-x-6"
                             style={{
                                 gridTemplateColumns: `repeat(${timelineData.length}, minmax(0, 1fr))`,
                             }}
@@ -162,24 +195,24 @@ export function OurJourney() {
                                     ref={(el) => {
                                         timelineNodeRefs.current[idx] = el;
                                     }}
-                                    className="group relative flex min-w-0 w-full cursor-pointer flex-col items-center px-0.5 sm:px-0.5"
+                                    className="group relative flex min-w-0 w-full cursor-pointer flex-col items-center px-0 sm:px-0.5"
                                     onClick={() => setActiveIndex(idx)}
                                 >
                                     <div
-                                        className={`mb-2 inline-flex max-w-full min-h-9 min-w-[5.25rem] shrink-0 items-center justify-center rounded-none border bg-[#FAFAFA] px-4 py-1 transition-colors duration-300 ease-out sm:mb-3 sm:min-h-9 sm:min-w-[6rem] sm:px-5 sm:py-1 md:mb-5 md:min-w-[6.75rem] md:px-6 md:py-1 ${
+                                        className={`mb-1 inline-flex max-w-full min-h-7 min-w-[3.75rem] shrink-0 items-center justify-center rounded-none border bg-[#FAFAFA] px-2 py-0.5 transition-colors duration-300 ease-out sm:mb-3 sm:min-h-9 sm:min-w-[5.25rem] sm:px-4 sm:py-1 md:mb-5 md:min-w-[6.75rem] md:px-6 md:py-1 ${
                                             idx === activeIndex
                                                 ? "border-[#111111] text-[#111111]"
                                                 : "border-[#CCCCCC] text-[#666666]"
                                         } `}
                                     >
                                         <span
-                                            className={`${lato.className} whitespace-nowrap text-center text-[16px] font-medium leading-tight tracking-normal`}
+                                            className={`${lato.className} whitespace-nowrap text-center text-[13px] font-medium leading-tight tracking-normal sm:text-[15px] md:text-[16px]`}
                                         >
                                             {item.label}
                                         </span>
                                     </div>
                                     <div
-                                        className={`h-[14px] w-[14px] shrink-0 rounded-full transition-colors duration-500 ease-out md:h-4 md:w-4 ${idx === activeIndex ? "bg-[#111111]" : "bg-[#E5E5E5]"}`}
+                                        className={`h-3 w-3 shrink-0 rounded-full transition-colors duration-500 ease-out sm:h-[14px] sm:w-[14px] md:h-4 md:w-4 ${idx === activeIndex ? "bg-[#111111]" : "bg-[#E5E5E5]"}`}
                                     />
                                 </div>
                             ))}
@@ -195,7 +228,7 @@ export function OurJourney() {
                 >
                     {/* Active Slide Wrapper */}
                     <div
-                        className="order-1 flex min-w-0 w-full max-w-full flex-1 flex-col items-center gap-8 overflow-hidden px-1 transition-opacity duration-500 ease-out sm:gap-10 sm:px-2 md:gap-12 md:px-4 lg:order-2 lg:flex-row lg:items-start lg:gap-16 lg:px-12 xl:gap-20 xl:px-16 2xl:px-8"
+                        className="order-1 flex min-w-0 w-full max-w-full flex-1 flex-col items-center gap-8 overflow-hidden px-1 transition-opacity duration-500 ease-out sm:gap-10 sm:px-2 md:gap-12 md:px-4 lg:order-2 lg:flex-row lg:items-center lg:gap-16 lg:px-12 xl:gap-20 xl:px-16 2xl:px-8"
                         key={activeIndex}
                     >
                         {/* Left side Image */}
@@ -212,23 +245,32 @@ export function OurJourney() {
                    
 
                         {/* Right side Text */}
-                        <div className="flex w-full min-w-0 flex-col justify-center pt-0 text-center lg:w-1/2 lg:pt-4 lg:text-left">
-                            <h3 className={`${quattrocento.className} mb-3 text-[32px] font-normal leading-[100%] tracking-[0] text-[#111111] sm:mb-4 sm:text-[40px] md:mb-6 md:text-[48px] lg:text-[56px]`}>
+                        <div className="flex w-full min-w-0 flex-col justify-center pt-0 text-center lg:w-1/2 lg:text-left">
+                            <h3 className={`${quattrocento.className} mb-3 text-[32px] font-normal leading-[100%] tracking-[0] text-[#111111] sm:mb-4 sm:text-[40px] md:mb-2 md:text-[48px] lg:text-[56px]`}>
                                 {timelineData[activeIndex].year}
                             </h3>
-                            <h4 className={`${quattrocento.className} mb-4 text-[18px] leading-[1.3] text-[#111111] sm:mb-5 sm:text-[20px] md:mb-6 md:text-[26px] lg:text-[28px]`}>
+                            <h4 className={`${quattrocento.className} mb-4 text-[18px] leading-[1.3] text-[#111111] sm:mb-5 sm:text-[20px] md:mb-3 md:text-[26px] lg:text-[28px]`}>
                                 {timelineData[activeIndex].title}
                             </h4>
                             {timelineData[activeIndex].subtitle ? (
                                 <p
-                                    className={`${lato.className} mx-auto mb-4 max-w-[500px] text-center text-[15px] font-normal leading-[26px] tracking-[0] text-[#666666] sm:mb-5 sm:text-[16px] sm:leading-[29px] md:mb-6 lg:mx-0 lg:text-left`}
+                                    className={`${lato.className} mx-auto mb-2 max-w-[500px] text-center text-[15px] font-normal leading-[26px] tracking-[0] text-[#666666] sm:mb-5 sm:text-[16px] sm:leading-[29px] md:mb-1 lg:mx-0 lg:text-left`}
                                 >
-                                    {timelineData[activeIndex].subtitle}
+                                    {renderTimelineSubtitle(timelineData[activeIndex].subtitle!)}
                                 </p>
                             ) : null}
-                            <p className={`${lato.className} mx-auto max-w-[500px] text-[15px] font-normal leading-[26px] tracking-[0] text-[#666666] align-middle sm:text-[16px] sm:leading-[29px] lg:mx-0`}>
-                                {timelineData[activeIndex].description}
-                            </p>
+                            {timelineData[activeIndex].subtitle2 ? (
+                                <p
+                                    className={`${lato.className} mx-auto mb-4 max-w-[500px] text-center text-[15px] font-normal leading-[26px] tracking-[0] text-[#666666] sm:mb-5 sm:text-[16px] sm:leading-[29px] md:mb-3 lg:mx-0 lg:text-left`}
+                                >
+                                    {renderTimelineSubtitle(timelineData[activeIndex].subtitle2!)}
+                                </p>
+                            ) : null}
+                            {timelineData[activeIndex].description ? (
+                                <p className={`${lato.className} mx-auto max-w-[500px] text-[15px] font-normal leading-[26px] tracking-[0] text-[#666666] align-middle sm:text-[16px] sm:leading-[29px] lg:mx-0`}>
+                                    {timelineData[activeIndex].description}
+                                </p>
+                            ) : null}
                         </div>
                     </div>
 
@@ -239,12 +281,8 @@ export function OurJourney() {
                             aria-label="Previous timeline slide"
                             className="relative z-20 flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[#CCCCCC] bg-[#FAFAFA] shadow-sm transition-colors hover:bg-gray-100 active:scale-[0.97] sm:h-12 sm:w-12 md:h-[52px] md:w-[52px] lg:order-1 lg:absolute lg:top-1/2 lg:h-12 lg:w-12 lg:-translate-y-1/2 lg:shadow-none lg:-left-10 xl:-left-16 2xl:-left-24"
                         >
-                            <Image
-                                src="/assets/left_slider.svg"
-                                alt=""
-                                width={24}
-                                height={24}
-                                className="h-5 w-5 object-contain sm:h-[22px] sm:w-[22px] lg:h-6 lg:w-6"
+                            <i
+                                className="ri-arrow-left-line text-[20px] leading-none text-[#111111] sm:text-[22px] lg:text-2xl"
                                 aria-hidden
                             />
                         </button>
@@ -255,12 +293,8 @@ export function OurJourney() {
                             aria-label="Next timeline slide"
                             className="relative z-20 flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[#CCCCCC] bg-[#FAFAFA] shadow-sm transition-colors hover:bg-gray-100 active:scale-[0.97] sm:h-12 sm:w-12 md:h-[52px] md:w-[52px] lg:order-3 lg:absolute lg:top-1/2 lg:h-12 lg:w-12 lg:-translate-y-1/2 lg:shadow-none lg:-right-10 xl:-right-16 2xl:-right-24"
                         >
-                            <Image
-                                src="/assets/right_slider.svg"
-                                alt=""
-                                width={24}
-                                height={24}
-                                className="h-5 w-5 object-contain sm:h-[22px] sm:w-[22px] lg:h-6 lg:w-6"
+                            <i
+                                className="ri-arrow-right-line text-[20px] leading-none text-[#111111] sm:text-[22px] lg:text-2xl"
                                 aria-hidden
                             />
                         </button>

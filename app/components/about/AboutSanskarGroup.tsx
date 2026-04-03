@@ -32,17 +32,17 @@ export function AboutSanskarGroup() {
                 <div className="mx-auto flex w-full max-w-[1280px] flex-col xl:max-w-[1320px]">
 
                     {/* Header Part */}
-                    <div data-scroll-reveal className="w-full text-left mb-10 md:mb-[50px]">
+                    <div data-scroll-reveal className="w-full  text-center lg:text-left mb-10 md:mb-[50px]">
                         <p className={`${lato.className} mb-4 text-[#4A4A4A] text-[15px] font-medium sm:text-[16px] md:text-[18px]`}>
                             About Sanskar Group
                         </p>
-                        <h2 className={`${quattrocento.className} text-[26px] leading-[1.2] text-[#111111] uppercase sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[46px]`}>
+                        <h2 className={`${quattrocento.className} text-[20px] md:text-[26px] leading-[1.2] text-[#111111] uppercase sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[46px]`}>
                             BUILDING TRUST. CREATING VALUE. DELIVERING RESULTS.
                         </h2>
                     </div>
 
                     {/* Columns */}
-                    <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10 md:gap-14 lg:gap-[60px] xl:gap-[80px]">
+                    <div className="flex flex-col lg:flex-row items-center lg:items-start gap-3 md:gap-3 lg:gap-[60px] xl:gap-[80px]">
                         {/* Left Column (Image & Name) */}
                         <div data-scroll-reveal className="flex flex-col items-center shrink-0 w-full lg:w-[480px]">
                             <div className="relative w-[300px] h-[300px] sm:w-[360px] sm:h-[360px] md:w-[420px] md:h-[420px] lg:w-[506px] lg:h-[476px] rounded-full overflow-hidden mb-6">
@@ -63,7 +63,7 @@ export function AboutSanskarGroup() {
                         </div>
 
                         {/* Right Column (Text Content) */}
-                        <div data-scroll-reveal className={`flex-1 flex flex-col justify-center space-y-5 md:space-y-6 ${lato.className} text-[15px] md:text-[16px] text-[#555555] leading-[1.8] lg:pt-10`}>
+                        <div data-scroll-reveal className={`flex-1 flex flex-col text-center lg:text-left justify-center space-y-5 md:space-y-6 ${lato.className} text-[15px] md:text-[16px] text-[#555555] leading-[1.8] lg:pt-10`}>
                             <p>
                                 Sanskar Realty is an extension of the Yatharth Group of Hospitals&apos; legacy, a name rooted in care, trust, and commitment since 2008. Over the years, Yatharth Hospitals has grown into the third-largest public-listed hospital chain in North India, operating seven hospitals across four states and touching countless lives with compassionate care.
                             </p>

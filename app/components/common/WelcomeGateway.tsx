@@ -2,7 +2,7 @@
 
 import { gsap } from "gsap";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 const VENTURE_LINE = "A VENTURE OF YATHARTH GROUP";
 
@@ -21,7 +21,7 @@ export function WelcomeGateway({ onComplete }: WelcomeGatewayProps) {
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const overlay = overlayRef.current;
     const logo = logoRef.current;
     const line = lineRef.current;
@@ -30,11 +30,15 @@ export function WelcomeGateway({ onComplete }: WelcomeGatewayProps) {
 
     if (!overlay || !logo || !line || !topGold || !bottomGold) return;
 
+    gsap.killTweensOf([overlay, logo, line, topGold, bottomGold]);
+
     let typingTimeout: ReturnType<typeof setTimeout> | undefined;
     let hideTimeout: ReturnType<typeof setTimeout> | undefined;
     let charIndex = 0;
+    let cancelled = false;
 
     const typeNextChar = () => {
+      if (cancelled) return;
       if (charIndex >= VENTURE_LINE.length) {
         gsap.to(bottomGold, {
           scaleX: 1,
@@ -42,6 +46,7 @@ export function WelcomeGateway({ onComplete }: WelcomeGatewayProps) {
           ease: "power2.inOut",
         });
         hideTimeout = setTimeout(() => {
+          if (cancelled) return;
           gsap.to(overlay, {
             autoAlpha: 0,
             duration: 1.15,
@@ -61,6 +66,8 @@ export function WelcomeGateway({ onComplete }: WelcomeGatewayProps) {
     };
 
     const ctx = gsap.context(() => {
+      gsap.set(overlay, { autoAlpha: 1 });
+      gsap.set(logo, { autoAlpha: 0, y: 32, scale: 0.95 });
       gsap.set(line, { autoAlpha: 0, y: 8 });
       gsap.set([topGold, bottomGold], {
         scaleX: 0,
@@ -96,9 +103,10 @@ export function WelcomeGateway({ onComplete }: WelcomeGatewayProps) {
           undefined,
           "<0.55"
         );
-    });
+    }, overlay);
 
     return () => {
+      cancelled = true;
       if (typingTimeout) clearTimeout(typingTimeout);
       if (hideTimeout) clearTimeout(hideTimeout);
       ctx.revert();

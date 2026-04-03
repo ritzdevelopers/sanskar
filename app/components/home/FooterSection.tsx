@@ -339,7 +339,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             >
               NRI CORNER
             </h4>
-            <Link data-scroll-reveal href="#" className="font-lato text-[14px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link data-scroll-reveal href="/nri-corner" className="font-lato text-[14px] text-[#666666] hover:text-[#1A1A1A]">
               NRI
             </Link>
           </div>

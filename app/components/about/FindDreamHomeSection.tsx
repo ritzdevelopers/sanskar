@@ -30,7 +30,7 @@ export function FindDreamHomeSection({
   // useScrollReveal(sectionRef);
 
   return (
-    <section className="w-full bg-white pt-8">
+    <section className="w-full bg-white ">
       <div className="mx-auto h-full min-h-[280px] sm:min-h-[340px] md:min-h-[394px]">
         <div
           data-scroll-reveal-img

@@ -35,7 +35,12 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
       });
     }
 
-    if (!startIntroAnimation || introRanRef.current) return;
+    if (!startIntroAnimation) {
+      introRanRef.current = false;
+      return;
+    }
+
+    if (introRanRef.current) return;
     introRanRef.current = true;
 
     const ctx = gsap.context(() => {

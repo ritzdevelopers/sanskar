@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { FloatingBottomActions } from "./components/common/FloatingBottomActions";
+import { HomeGatewayProvider } from "./components/common/HomeGatewayProvider";
 import { SmoothScrollProvider } from "./components/common/SmoothScrollProvider";
 import "./globals.css";
 import "remixicon/fonts/remixicon.css";
@@ -25,7 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-full bg-white antialiased" suppressHydrationWarning>
-        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+        <SmoothScrollProvider>
+          <HomeGatewayProvider>
+            {children}
+            <FloatingBottomActions />
+          </HomeGatewayProvider>
+        </SmoothScrollProvider>
       </body>
     </html>
   );
