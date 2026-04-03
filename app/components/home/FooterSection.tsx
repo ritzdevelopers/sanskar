@@ -28,8 +28,8 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
     : "mx-auto w-full max-w-[1280px] xl:max-w-[1320px]";
 
   const bottomOuter = alignWithHeader
-    ? "relative z-10 w-full px-4 py-12 sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10 xl:px-12 2xl:px-16"
-    : "relative z-10 mx-auto w-full max-w-[1500px] px-4 py-12 sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10 xl:px-12 2xl:px-16";
+    ? "relative z-10 w-full px-4 pt-0 pb-12 sm:px-6 sm:pb-14 md:px-8 md:pb-16 lg:px-10 xl:px-12 2xl:px-16"
+    : "relative z-10 mx-auto w-full max-w-[1500px] px-4 pt-0 pb-12 sm:px-6 sm:pb-14 md:px-8 md:pb-16 lg:px-10 xl:px-12 2xl:px-16";
   const bottomInner = topInner;
 
   const copyrightOuter = alignWithHeader
@@ -62,7 +62,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
           <div className="flex flex-col items-center gap-8 text-center sm:gap-10 md:w-[min(100%,calc(50%-1rem))] md:items-center lg:w-1/3 lg:items-start lg:gap-12 lg:text-left">
             <h2
               data-scroll-reveal
-              className="font-quattrocento text-[28px] font-normal uppercase leading-[1.2] text-[#1A1A1A] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[42px]"
+              className="font-quattrocento text-[28px] font-normal uppercase leading-[1.2] text-[#1A1A1A] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[36px]"
             >
               Our Emails Are Crafted With
               <br />
@@ -133,9 +133,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
         </div>
       </div>
 
-      {/* Separator */}
-      <div className="border-t border-[#EAEAEA]"></div>
-
+  
       {/* Bottom Section */}
       <div className={bottomOuter}>
         <div className={`relative ${bottomInner}`}>
@@ -295,8 +293,12 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             >
               Awards & Certifications
             </Link>
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
-            Careers — Join Us
+            <Link
+              data-scroll-reveal
+              href="/carrer"
+              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+            >
+              Careers — Join Us
             </Link>
           </div>
 
@@ -353,7 +355,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
         <div className={copyrightOuter}>
           <div className={`${copyrightInner} text-center`}>
           <p data-scroll-reveal className="font-lato text-[13px] leading-snug text-[#00000099] sm:text-[14px] md:text-[16px]">
-            © 2026 Sanskar Realty.. All rights reserved. Digital media planned by Ritz Media World.
+            © 2026 Sanskar Realty.  All rights reserved. Digital media planned by Ritz Media World.
           </p>
           </div>
         </div>

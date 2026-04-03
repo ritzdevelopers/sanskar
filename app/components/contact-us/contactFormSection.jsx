@@ -107,7 +107,7 @@ export function ContactFormSection() {
 
       <div className="relative z-10 mx-auto w-full pb-16 pt-[max(7.5rem,calc(4.5rem+env(safe-area-inset-top)))] sm:pb-20 sm:pt-[max(8rem,calc(5rem+env(safe-area-inset-top)))] md:pb-10 lg:pb-6 xl:pb-28 lg:pt-[max(8.5rem,calc(5.25rem+env(safe-area-inset-top)))]">
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
-          <div className="mx-auto grid w-full max-w-[1480px] grid-cols-1 gap-y-14 xl:max-w-[1520px] lg:grid-cols-2 lg:gap-x-12 lg:gap-y-0 xl:gap-x-16">
+          <div className="mx-auto grid w-full max-w-[1480px] grid-cols-1 gap-y-14 xl:max-w-[1520px] lg:grid-cols-2 lg:gap-x-12 lg:gap-y-0 xl:gap-x-[40px]">
             <div className="flex flex-col lg:pr-4">
               <h1 className="text-center font-quattrocento text-[24px] md:text-[36px] font-normal leading-[100%] tracking-normal text-[#ffffff] md:text-left">
                 Contact Us

@@ -58,12 +58,12 @@ export function NriFaqSection() {
   return (
     <section
       id="nri-faq"
-      className="w-full scroll-mt-28 bg-[#FAFAFA] py-10 pb-12 sm:scroll-mt-32 sm:pb-16 md:py-14 md:pb-20 lg:py-16 lg:pb-24"
+      className="w-full scroll-mt-[50px] bg-[#FAFAFA] py-[35px] lg:py-[75px]"
     >
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1280px] xl:max-w-[1320px]">
           <h2
-            className={`${quattrocento.className} text-left align-middle text-[36px] font-normal leading-[100%] tracking-normal text-[#111111]`}
+            className={`${quattrocento.className} text-center lg:text-left  align-middle text-[20px] md:text-[36px] font-normal leading-[100%] tracking-normal text-[#111111]`}
           >
             NRIs FAQ
           </h2>
@@ -84,12 +84,12 @@ export function NriFaqSection() {
                   >
                     <span className="flex min-w-0 flex-1 items-start gap-3 md:gap-4">
                       <span
-                        className={`${lato.className} shrink-0 pt-0.5 text-[20px] font-normal leading-snug tracking-normal text-[#111111]`}
+                        className={`${lato.className} shrink-0 pt-0.5 text-[16px] font-normal leading-snug tracking-normal text-[#111111] md:text-[20px]`}
                       >
                         {item.id}
                       </span>
                       <span
-                        className={`${lato.className} min-w-0 break-words text-[20px] font-normal leading-snug tracking-normal text-[#111111]`}
+                        className={`${lato.className} min-w-0 break-words text-[16px] font-normal leading-snug tracking-normal text-[#111111] md:text-[20px]`}
                       >
                         {item.title}
                       </span>
@@ -122,13 +122,13 @@ export function NriFaqSection() {
                     >
                       <div className="flex items-start gap-3 pt-3 pb-1 md:gap-4 md:pt-4 md:pb-2">
                         <span
-                          className={`${lato.className} invisible shrink-0 select-none pt-0.5 text-[20px] font-normal leading-snug`}
+                          className={`${lato.className} invisible shrink-0 select-none pt-0.5 text-[16px] font-normal leading-snug md:text-[20px]`}
                           aria-hidden
                         >
                           {item.id}
                         </span>
                         <p
-                          className={`${lato.className} min-w-0 max-w-full flex-1 break-words pb-0.5 text-[16px] font-normal leading-[24px] tracking-normal text-[#00000099]`}
+                          className={`${lato.className} min-w-0 max-w-full flex-1 break-words pb-0.5 text-[16px] font-normal leading-snug tracking-normal text-[#00000099] md:text-[20px]`}
                         >
                           {item.body}
                         </p>

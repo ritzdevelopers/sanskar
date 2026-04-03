@@ -18,7 +18,7 @@ const quattrocento = Quattrocento({
 const investCards = [
   {
     title: "Yatharth Legacy",
-    description: "Backed by North India’s third-largest public-listed hospital group with a name that spells trust and community care since 2008",
+    description: "Backed by North India’s third-largest public-listed hospital group with a name that spells trust and community care since 2008.",
     image: "/assets/invest_infra.png",
   },
   {
@@ -102,7 +102,7 @@ export function WhyInvestSection() {
           {investCards.map((card) => (
             <article
               key={card.title}
-              className="flex w-[280px] shrink-0 snap-start flex-col items-stretch rounded-[16px] border-[0.89px] border-[#F3F4F6] bg-white p-5 text-center sm:w-[300px] sm:p-6 md:w-[340px] md:text-left lg:w-[360px] xl:w-[384px]"
+              className="flex w-[280px] shrink-0  flex-col items-stretch rounded-[16px] border-[0.89px] border-[#F3F4F6] bg-white p-5 text-center sm:w-[300px] sm:p-6 md:w-[340px] md:text-left lg:w-[360px] xl:w-[384px]"
               style={{ boxShadow: "0px 2px 4px -2px #0000001A, 0px 4px 6px -1px #0000001A" }}
             >
               <h3
@@ -113,7 +113,7 @@ export function WhyInvestSection() {
               </h3>
               <p
                 data-scroll-reveal
-                className={`${lato.className} mt-2 max-w-none text-[14px] font-normal leading-[1.45] text-[#626262] sm:mt-3 sm:text-[15px] md:max-w-[288px] md:text-[16px] line-clamp-3 min-h-[calc(3*1.45em)]`}
+                className={`${lato.className} mt-2 max-w-none text-[14px] font-normal leading-[1.45] text-[#626262] sm:mt-3 sm:text-[15px] md:max-w-[288px] md:text-[16px]  min-h-[calc(3*1.45em)]`}
               >
                 {card.description}
               </p>

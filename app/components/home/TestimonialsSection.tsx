@@ -201,7 +201,7 @@ export function TestimonialsSection({
     : "relative w-full max-w-none min-[1440px]:mx-auto min-[1440px]:max-w-[1280px] min-[1536px]:max-w-[1320px]";
 
   return (
-    <section ref={sectionRef} className="overflow-x-hidden bg-white py-10 sm:py-12 md:py-14">
+    <section ref={sectionRef} className="overflow-x-hidden bg-white py-[35px] lg:py-[75px]">
       <div className={outerShell}>
         <div className={innerShell}>
         <p

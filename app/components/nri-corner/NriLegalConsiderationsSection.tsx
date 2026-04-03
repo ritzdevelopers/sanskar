@@ -50,7 +50,7 @@ export function NriLegalConsiderationsSection() {
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1280px] xl:max-w-[1320px]">
           <h2
-            className={`${quattrocento.className} align-middle text-[36px] font-normal leading-[100%] tracking-normal text-[#111111]`}
+            className={`${quattrocento.className} align-middle text-center text-[20px] font-normal leading-[100%] tracking-normal text-[#111111] md:text-[36px] lg:text-left`}
           >
             Key Legal Considerations for NRIs
           </h2>
@@ -61,22 +61,22 @@ export function NriLegalConsiderationsSection() {
               return (
                 <div
                   key={item.id}
-                  className="overflow-visible bg-white px-4 py-4 pb-5 shadow-[0px_4px_20px_0px_#7272721F] md:px-6 md:py-5 md:pb-6"
+                  className="overflow-visible rounded-[12px] bg-white px-4 py-4 pb-5 shadow-[0px_4px_20px_0px_#7272721F] md:px-6 md:py-5 md:pb-6"
                 >
                   <button
                     type="button"
-                    className="flex w-full items-start gap-3 text-left md:gap-4"
+                    className="flex w-full cursor-pointer items-start gap-3 text-left md:gap-4"
                     onClick={() => setOpenIndex(isOpen ? null : index)}
                     aria-expanded={isOpen}
                   >
                     <span className="flex min-w-0 flex-1 items-start gap-3 md:gap-4">
                       <span
-                        className={`${lato.className} shrink-0 pt-0.5 text-[20px] font-normal leading-snug tracking-normal text-[#111111]`}
+                        className={`${lato.className} shrink-0 pt-0.5 text-[16px] font-normal leading-snug tracking-normal text-[#111111] md:text-[20px]`}
                       >
                         {item.id}
                       </span>
                       <span
-                        className={`${lato.className} min-w-0 text-[20px] font-normal leading-snug tracking-normal text-[#111111]`}
+                        className={`${lato.className} min-w-0 break-words text-[16px] font-normal leading-snug tracking-normal text-[#111111] md:text-[20px]`}
                       >
                         {item.title}
                       </span>
@@ -94,7 +94,7 @@ export function NriLegalConsiderationsSection() {
                         alt=""
                         width={24}
                         height={24}
-                        className="block h-6 w-6"
+                        className="block h-6 w-6 brightness-0"
                       />
                     </span>
                   </button>
@@ -109,13 +109,13 @@ export function NriLegalConsiderationsSection() {
                     >
                       <div className="flex items-start gap-3 pt-3 pb-1 md:gap-4 md:pt-4 md:pb-2">
                         <span
-                          className={`${lato.className} invisible shrink-0 select-none pt-0.5 text-[20px] font-normal leading-snug`}
+                          className={`${lato.className} invisible shrink-0 select-none pt-0.5 text-[16px] font-normal leading-snug md:text-[20px]`}
                           aria-hidden
                         >
                           {item.id}
                         </span>
                         <p
-                          className={`${lato.className} min-w-0 flex-1 pb-0.5 text-[16px] font-normal leading-[24px] tracking-normal text-[#111111]`}
+                          className={`${lato.className} min-w-0 max-w-full flex-1 break-words pb-0.5 text-[16px] font-normal leading-snug tracking-normal text-[#00000099] md:text-[20px]`}
                         >
                           {item.body}
                         </p>

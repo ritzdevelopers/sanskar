@@ -75,7 +75,7 @@ export function ProjectsSection() {
             className={`${lato.className} max-w-[760px] text-[14px] font-normal leading-6 text-[#00000099] sm:text-[15px] md:text-[16px]`}
           >
 
-            From luxury 3 & 4 BHK residences in Noida Extension to studio apartments in Greater Noida West and gated forest villas in Ghaziabad, we have it all.
+From Luxury 3 & 4 BHK Residences in Noida Extension to Studio Apartments in Greater Noida West and Gated Forest Villas in Ghaziabad, we have it all.
 
           </p>
         </div>

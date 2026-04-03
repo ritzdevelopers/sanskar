@@ -15,7 +15,9 @@ const lato = Lato({
   weight: ["400"],
 });
 
-const bodyClass = `${lato.className} text-[16px] font-normal leading-[24px] tracking-normal text-[#00000099]`;
+const bodyClass = `${lato.className} text-[16px] font-normal leading-snug tracking-normal text-[#00000099] md:text-[20px]`;
+
+const listClass = `${lato.className} list-disc space-y-2 pl-5 text-[16px] font-normal leading-snug text-[#00000099] md:text-[20px]`;
 
 const ITEMS: { id: string; title: string; content: ReactNode }[] = [
   {
@@ -39,9 +41,7 @@ const ITEMS: { id: string; title: string; content: ReactNode }[] = [
           Eligibility criteria same as for the Indian Residents, also certain
           parameters to be considered:
         </p>
-        <ul
-          className={`${lato.className} list-disc space-y-2 pl-5 text-[16px] font-normal leading-[24px] text-[#00000099]`}
-        >
+        <ul className={listClass}>
           <li>Employment Status - Salaried or Self-Employed</li>
           <li>Income level - Your monthly earnings</li>
           <li>
@@ -56,9 +56,7 @@ const ITEMS: { id: string; title: string; content: ReactNode }[] = [
     id: "03",
     title: "Property Documents You'll Need",
     content: (
-      <ul
-        className={`${lato.className} list-disc space-y-2 pl-5 text-[16px] font-normal leading-[24px] text-[#00000099]`}
-      >
+      <ul className={listClass}>
         <li>Sale Deed</li>
         <li>Title Deed</li>
         <li>Proof of property ownership</li>
@@ -70,9 +68,7 @@ const ITEMS: { id: string; title: string; content: ReactNode }[] = [
     id: "04",
     title: "Additional Requirements for Persons of Indian Origin (PIOs)",
     content: (
-      <ul
-        className={`${lato.className} list-disc space-y-2 pl-5 text-[16px] font-normal leading-[24px] text-[#00000099]`}
-      >
+      <ul className={listClass}>
         <li>Proof of Indian origin</li>
         <li>Copies of valid passports</li>
         <li>Additional KYC documents</li>
@@ -87,12 +83,12 @@ export function NriHomeLoansSection() {
   return (
     <section
       id="nri-home-loans"
-      className="w-full scroll-mt-28 bg-[#FFFFFF] py-10 pb-12 sm:scroll-mt-32 sm:pb-16 md:py-14 md:pb-20 lg:py-16 lg:pb-24"
+      className="w-full scroll-mt-[50px] bg-[#FFFFFF] py-[35px] lg:py-[75px]"
     >
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1280px] xl:max-w-[1320px]">
           <h2
-            className={`${quattrocento.className} text-left align-middle text-[36px] font-normal uppercase lg:leading-[50px] leading-[100%] tracking-normal text-[#111111] max-w-[700px]`}
+            className={`${quattrocento.className} mx-auto max-w-[700px] text-center align-middle text-[20px] font-normal uppercase leading-normal tracking-normal text-[#111111] md:text-[36px] lg:mx-0 lg:text-left lg:leading-[50px]`}
           >
             NRI Home Loans - Helping Your India Investment Work for You
           </h2>
@@ -113,12 +109,12 @@ export function NriHomeLoansSection() {
                   >
                     <span className="flex min-w-0 flex-1 items-start gap-3 md:gap-4">
                       <span
-                        className={`${lato.className} shrink-0 pt-0.5 text-[20px] font-normal leading-snug tracking-normal text-[#111111]`}
+                        className={`${lato.className} shrink-0 pt-0.5 text-[16px] font-normal leading-snug tracking-normal text-[#111111] md:text-[20px]`}
                       >
                         {item.id}
                       </span>
                       <span
-                        className={`${lato.className} min-w-0 text-[20px] font-normal leading-snug tracking-normal text-[#111111]`}
+                        className={`${lato.className} min-w-0 text-[16px] font-normal leading-snug tracking-normal text-[#111111] md:text-[20px]`}
                       >
                         {item.title}
                       </span>
@@ -151,7 +147,7 @@ export function NriHomeLoansSection() {
                     >
                       <div className="flex items-start gap-3 pt-3 pb-1 md:gap-4 md:pt-4 md:pb-2">
                         <span
-                          className={`${lato.className} invisible shrink-0 select-none pt-0.5 text-[20px] font-normal leading-snug`}
+                          className={`${lato.className} invisible shrink-0 select-none pt-0.5 text-[16px] font-normal leading-snug md:text-[20px]`}
                           aria-hidden
                         >
                           {item.id}

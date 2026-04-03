@@ -29,7 +29,7 @@ const NAV_LINKS = [
       { label: "AWARDS & CERTIFICATIONS", href: "/about-us" },
     ],
   },
-  { label: "Careers", href: "#" },
+  { label: "Careers", href: "/carrer" },
   { label: "Media", href: "#" },
   { label: "Blogs", href: "/blogs" },
   { label: "Contact Us", href: "/contact-us" },
