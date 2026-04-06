@@ -42,15 +42,15 @@ export function AboutSanskarGroup() {
                     </div>
 
                     {/* Columns */}
-                    <div className="flex flex-col lg:flex-row items-center lg:items-start gap-3 md:gap-3 lg:gap-[60px] xl:gap-[80px]">
+                    <div className="flex flex-col items-center gap-3 md:gap-3 lg:flex-row lg:items-stretch lg:gap-[60px] xl:gap-[80px]">
                         {/* Left Column (Image & Name) */}
-                        <div data-scroll-reveal className="flex flex-col items-center shrink-0 w-full lg:w-[480px]">
-                            <div className="relative w-[300px] h-[300px] sm:w-[360px] sm:h-[360px] md:w-[420px] md:h-[420px] lg:w-[506px] lg:h-[476px] rounded-full overflow-hidden mb-6">
+                        <div data-scroll-reveal className="flex w-full shrink-0 flex-col items-center lg:w-[506px] lg:max-w-[506px]">
+                            <div className="relative mb-6 aspect-square w-[300px] max-w-[min(100vw-2rem,506px)] shrink-0 overflow-hidden rounded-[50%] sm:w-[360px] md:w-[420px] lg:w-[506px] lg:max-w-none">
                                 <Image
                                     src="/assets/Owner.png"
                                     alt="Owner Name - Chairman and Managing Director"
                                     fill
-                                    sizes="(max-width: 768px) 300px, (max-width: 1024px) 420px, 460px"
+                                    sizes="(max-width: 768px) 300px, (max-width: 1024px) 420px, 506px"
                                     className="object-cover"
                                 />
                             </div>
@@ -62,8 +62,11 @@ export function AboutSanskarGroup() {
                             </p>
                         </div>
 
-                        {/* Right Column (Text Content) */}
-                        <div data-scroll-reveal className={`flex-1 flex flex-col text-center lg:text-left justify-center space-y-5 md:space-y-6 ${lato.className} text-[15px] md:text-[16px] text-[#555555] leading-[1.8] lg:pt-10`}>
+                        {/* Right Column (Text Content) — vertically centered beside left column on lg */}
+                        <div
+                            data-scroll-reveal
+                            className={`flex flex-1 flex-col justify-center space-y-5 text-center md:space-y-2 lg:text-left ${lato.className} text-[15px] text-[#555555] leading-[1.8] md:text-[16px] lg:mt-[-100px] mt-[0]`}
+                        >
                             <p>
                             Led by our directors, <span className="text-[#F7A51D] font-bold"> Mr. Sanskar Tyagi </span> and <span className="text-[#F7A51D] font-bold"> Mr.Kuldeep Tyagi</span>, the team brings unparalleled expertise in real estate strategy and development, driving the company's vision forward. From identifying priority projects to ensuring their seamless execution, their leadership is our key to operational success.
 

@@ -34,8 +34,9 @@ export default function PressRelease() {
       className="relative w-full min-w-0 overflow-x-hidden bg-[#FAFAFA] py-12 sm:py-14 md:py-16 lg:py-20"
     >
       <div className="w-full border-b border-[#E0E0E0]">
-        <div className="mx-auto w-full max-w-[1480px] px-4 pb-8 sm:px-6 sm:pb-10 md:px-8 lg:px-10 xl:max-w-[1520px] xl:px-12 2xl:px-16">
-          <header className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
+        <div className="relative z-10 w-full px-4 pb-8 sm:px-6 sm:pb-10 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
+          <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
+          <header className="flex flex-col items-center gap-6 text-center sm:gap-8 lg:flex-row lg:items-end lg:justify-between lg:text-left lg:gap-8">
             <div className="min-w-0">
               <p
                 data-scroll-reveal
@@ -45,7 +46,7 @@ export default function PressRelease() {
               </p>
               <h2
                 data-scroll-reveal
-                className={`${quattrocento.className} mt-3 align-middle text-[36px] font-normal uppercase leading-[46px] tracking-normal text-[#111111] sm:mt-4`}
+                className={`${quattrocento.className} mt-3 align-middle text-[20px] md:text-[36px] font-normal uppercase leading-[46px] tracking-normal text-[#111111] sm:mt-4`}
               >
                 Press Releases
               </h2>
@@ -59,10 +60,12 @@ export default function PressRelease() {
               <i className="ri-arrow-right-up-line text-[20px] leading-none" aria-hidden="true" />
             </Link>
           </header>
+          </div>
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-[1480px] px-4 sm:px-6 md:px-8 lg:px-10 xl:max-w-[1520px] xl:px-12 2xl:px-16">
+      <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
+        <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
         <ul className="divide-y divide-[#E0E0E0]">
           {entries.map((item) => (
             <li
@@ -100,6 +103,7 @@ export default function PressRelease() {
             </li>
           ))}
         </ul>
+        </div>
       </div>
     </section>
   );
