@@ -31,7 +31,7 @@ export default function PressRelease() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-w-0 overflow-x-hidden bg-[#FAFAFA] py-12 sm:py-14 md:py-16 lg:py-20"
+      className="relative w-full min-w-0 overflow-x-hidden bg-[#FAFAFA] pt-[35px] lg:pt-[75px]"
     >
       <div className="w-full border-b border-[#E0E0E0]">
         <div className="relative z-10 w-full px-4 pb-8 sm:px-6 sm:pb-10 md:px-8 lg:px-10 xl:px-12 2xl:px-16">

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Quattrocento } from "next/font/google";
+import { MEDIA_GALLERY_SECTION_ID } from "../common/mediaNavigation";
 
 const quattrocento = Quattrocento({
   subsets: ["latin"],
@@ -67,11 +68,14 @@ export default function Gallery() {
   const [leftIdx, rightIdx] = slidePairs[activeSlide];
 
   return (
-    <section className="relative w-full min-w-0 overflow-x-hidden pt-[35px] lg:pt-[75px]">
+    <section
+      id={MEDIA_GALLERY_SECTION_ID}
+      className="relative w-full min-w-0 scroll-mt-[88px] overflow-x-hidden pt-[35px] lg:pt-[75px]"
+    >
       <div className="relative z-10 w-full px-4 pb-[35px] sm:px-6 md:px-8 md:pb-[75px] lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
         <h2
-          className={`${quattrocento.className} mb-8 text-center align-middle text-[20px] font-normal uppercase leading-[100%] tracking-normal text-[#111111] md:mb-10 md:text-left md:text-[36px] lg:mb-12`}
+          className={`${quattrocento.className} mb-8 text-center align-middle text-[20px] font-normal uppercase leading-[100%] tracking-normal text-[#111111] md:mb-10 lg:text-left md:text-[36px] lg:mb-12`}
         >
           Gallery
         </h2>
