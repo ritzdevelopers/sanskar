@@ -7,9 +7,20 @@ import { usePathname } from "next/navigation";
 import { useRef } from "react";
 import {
   handleMissionVisionNavClick,
+  handleOurProfileNavClick,
   MISSION_VISION_HREF,
+  OUR_PROFILE_HREF,
   scrollAboutUsToTopIfSamePage,
 } from "../common/aboutNavigation";
+import {
+  AWARDS_CERTIFICATIONS_HREF,
+  handleAwardsCertificationsNavClick,
+  handleMediaGalleryNavClick,
+  MEDIA_GALLERY_HREF,
+} from "../common/mediaNavigation";
+import { useEnquireModal } from "../common/EnquireModalProvider";
+import { useSiteVisitModal } from "../common/SiteVisitModalProvider";
+import { useWorkWithUsModal } from "../common/WorkWithUsModalProvider";
 import { useScrollReveal } from "../common/useScrollReveal";
 
 const lato = Lato({
@@ -28,6 +39,9 @@ type FooterSectionProps = {
 
 export function FooterSection({ alignWithHeader = false }: FooterSectionProps = {}) {
   const pathname = usePathname() ?? "";
+  const { openEnquireModal } = useEnquireModal();
+  const { openWorkWithUsModal } = useWorkWithUsModal();
+  const { openSiteVisitModal } = useSiteVisitModal();
   const footerRef = useRef<HTMLElement>(null);
   useScrollReveal(footerRef, { stagger: 0.06, duration: 0.65 });
 
@@ -73,7 +87,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
           <div className="flex flex-col items-center gap-8 text-center sm:gap-10 md:w-[min(100%,calc(50%-1rem))] md:items-center lg:w-1/3 lg:items-start lg:gap-12 lg:text-left">
             <h2
               data-scroll-reveal
-              className={`${quattrocento.className} text-[28px] font-normal uppercase leading-[69px] text-[#1A1A1A] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[36px]`}
+              className={`${quattrocento.className} text-[28px] font-normal uppercase leading-[50px] text-[#1A1A1A] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[36px]`}
             >
               Our Emails Are Crafted With
               <br />
@@ -184,35 +198,45 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
               <div className="flex flex-wrap justify-center gap-3 lg:justify-start lg:text-left">
                 <Link
                   data-scroll-reveal-pop
-                  href="#"
+                  href="https://www.facebook.com/profile.php?id=61579314733681"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex transition-transform hover:scale-110"
                 >
                   <Image src="/assets/Frame 105725.svg" alt="Facebook" width={35} height={35} />
                 </Link>
                 <Link
                   data-scroll-reveal-pop
-                  href="#"
+                  href="https://x.com/SanskarRealty"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex transition-transform hover:scale-110"
                 >
                   <Image src="/assets/Frame 105726.svg" alt="X" width={35} height={35} />
                 </Link>
                 <Link
                   data-scroll-reveal-pop
-                  href="#"
+                  href="https://www.linkedin.com/company/108393396/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex transition-transform hover:scale-110"
                 >
                   <Image src="/assets/Frame 105727.svg" alt="LinkedIn" width={35} height={35} />
                 </Link>
                 <Link
                   data-scroll-reveal-pop
-                  href="#"
+                  href="https://www.instagram.com/sanskar.realty/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex transition-transform hover:scale-110"
                 >
                   <Image src="/assets/Frame 105728.svg" alt="Instagram" width={35} height={35} />
                 </Link>
                 <Link
                   data-scroll-reveal-pop
-                  href="#"
+                  href="https://www.youtube.com/@SanskarRealty"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex transition-transform hover:scale-110"
                 >
                   <Image src="/assets/Frame 105729.svg" alt="YouTube" width={35} height={35} />
@@ -223,27 +247,30 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
 
           {/* Column 2: Work With Us */}
           <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
-            <Link
+            <button
+              type="button"
               data-scroll-reveal
-              href="#"
-              className={`${quattrocento.className} text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline`}
+              onClick={openWorkWithUsModal}
+              className={`${quattrocento.className} cursor-pointer border-0 bg-transparent text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline`}
             >
               WORK WITH US
-            </Link>
-            <Link
+            </button>
+            <button
+              type="button"
               data-scroll-reveal
-              href="#"
-              className={`${quattrocento.className} text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline`}
+              onClick={openEnquireModal}
+              className={`${quattrocento.className} cursor-pointer border-0 bg-transparent text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline`}
             >
               ENQUIRE NOW
-            </Link>
-            <Link
+            </button>
+            <button
+              type="button"
               data-scroll-reveal
-              href="#"
-              className={`${quattrocento.className} text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline`}
+              onClick={openSiteVisitModal}
+              className={`${quattrocento.className} cursor-pointer border-0 bg-transparent text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline`}
             >
               SCHEDULE A SITE VISIT
-            </Link>
+            </button>
           </div>
 
           {/* Column 3: Our Profile */}
@@ -262,14 +289,14 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             >
               About Us
             </Link>
-            <Link
+            {/* <Link
               data-scroll-reveal
               href="/about-us"
               onClick={() => scrollAboutUsToTopIfSamePage()}
               className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
               Our Story
-            </Link>
+            </Link> */}
             <Link
               data-scroll-reveal
               href={MISSION_VISION_HREF}
@@ -281,25 +308,26 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             </Link>
             <Link
               data-scroll-reveal
-              href="/about-us"
-              onClick={() => scrollAboutUsToTopIfSamePage()}
+              href={OUR_PROFILE_HREF}
+              scroll={false}
+              onClick={(e) => handleOurProfileNavClick(e, pathname)}
               className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
-             Our Profile
-
+              Our Profile
             </Link>
-            <Link
+            {/* <Link
               data-scroll-reveal
               href="/about-us"
               onClick={() => scrollAboutUsToTopIfSamePage()}
               className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
               Leadership
-            </Link>
+            </Link> */}
             <Link
               data-scroll-reveal
-              href="/about-us"
-              onClick={() => scrollAboutUsToTopIfSamePage()}
+              href={AWARDS_CERTIFICATIONS_HREF}
+              scroll={false}
+              onClick={(e) => handleAwardsCertificationsNavClick(e, pathname)}
               className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
               Awards & Certifications
@@ -309,7 +337,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
               href="/carrer"
               className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
-              Careers — Join Us
+              Careers
             </Link>
           </div>
 
@@ -330,12 +358,18 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             <Link data-scroll-reveal href="/blogs" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Blogs
             </Link>
-            <Link data-scroll-reveal href="#" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
+            <Link
+              data-scroll-reveal
+              href={MEDIA_GALLERY_HREF}
+              scroll={false}
+              onClick={(e) => handleMediaGalleryNavClick(e, pathname)}
+              className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
+            >
               Gallery
             </Link>
-            <Link data-scroll-reveal href="#" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
+            {/* <Link data-scroll-reveal href="#" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Our Events
-            </Link>
+            </Link> */}
             {/* <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               NRI Corner
             </Link> */}

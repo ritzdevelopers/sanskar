@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Lato, Quattrocento } from "next/font/google";
 import { useRef } from "react";
+import { ABOUT_SANSKAR_GROUP_SECTION_ID } from "../common/aboutNavigation";
 import { useScrollReveal } from "../common/useScrollReveal";
 
 const lato = Lato({
@@ -21,8 +22,9 @@ export function AboutSanskarGroup() {
 
     return (
         <section
+            id={ABOUT_SANSKAR_GROUP_SECTION_ID}
             ref={sectionRef}
-            className="relative flex h-auto w-full items-center bg-white pb-12 sm:pb-16 lg:h-[816px] lg:min-h-[816px] lg:py-0"
+            className="relative flex h-auto w-full scroll-mt-[88px] items-center bg-white pb-12 sm:pb-16 lg:h-[816px] lg:min-h-[816px] lg:py-0"
             style={{
                 backgroundImage: "radial-gradient(#e5e7eb 1px, transparent 1px)",
                 backgroundSize: "24px 24px",

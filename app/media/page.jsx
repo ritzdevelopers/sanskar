@@ -1,4 +1,5 @@
 import MediaBanner from "../components/media/mediabanner";
+import { MediaHashScroll } from "../components/common/MediaHashScroll";
 import { FooterSection } from "../components/home/FooterSection";
 import PressRelease from "../components/media/pressrelease";
 import DreamHome from "../components/media/dreamHome";
@@ -12,6 +13,7 @@ export default function MediaPage() {
   return (
     <>
       <main className="min-w-0">
+        <MediaHashScroll />
         <MediaBanner />
         <PressRelease />
         <Gallery />

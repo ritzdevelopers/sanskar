@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Quattrocento } from "next/font/google";
+import { AWARDS_CERTIFICATIONS_SECTION_ID } from "../common/mediaNavigation";
 
 const quattrocento = Quattrocento({
   subsets: ["latin"],
@@ -50,19 +51,22 @@ export default function OurEvents() {
   }, [n]);
 
   const cardShell =
-    "overflow-hidden bg-white p-1 shadow-[0_4px_24px_rgba(0,0,0,0.08)] ring-1 ring-black/[0.04]";
+    "overflow-hidden bg-white p-1  ring-1 ring-black/[0.04]";
   const cardShellActive =
-    "overflow-hidden bg-white p-1 shadow-[0_8px_32px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.04]";
+    "overflow-hidden bg-white p-1  ring-1 ring-black/[0.04]";
 
   /** 4 tiles: prev, current (only one “active” / large), next, next+1 */
   const slotIndex = (offset) => (activeIndex + offset - 1 + n) % n;
 
   return (
-    <section className="relative w-full min-w-0 overflow-x-hidden ">
+    <section
+      id={AWARDS_CERTIFICATIONS_SECTION_ID}
+      className="relative w-full min-w-0 scroll-mt-[88px] overflow-x-hidden"
+    >
       <div className="relative z-10 w-full pb-[35px] md:pb-[75px]">
         <div className="mx-auto w-full max-w-[1480px] px-4 sm:px-6 md:px-8 lg:px-10 xl:max-w-[1520px] xl:px-12 2xl:px-16">
           <h2
-            className={`${quattrocento.className} mb-8 text-center align-middle text-[20px] font-normal uppercase leading-[100%] tracking-normal text-[#111111] md:mb-10 md:text-left md:text-[36px] lg:mb-12`}
+            className={`${quattrocento.className} mb-8 text-center align-middle text-[20px] font-normal uppercase leading-[100%] tracking-normal text-[#111111] md:mb-10 md:text-[36px] lg:mb-12 lg:text-left`}
           >
             Awards & Certifications
           </h2>
@@ -70,57 +74,80 @@ export default function OurEvents() {
 
         {/* Full-bleed strip: images align to viewport left / right */}
         <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-hidden">
-          {/* Mobile — edge-to-edge; crossfade between slides */}
+          {/* Mobile — height auto (intrinsic image); crossfade via stacked grid */}
           <div className="w-full md:hidden">
-            <div className={`relative h-[200px] w-full sm:h-[220px] ${cardShell}`}>
+            <div className={`grid w-full ${cardShell}`}>
               {eventImages.map((item, i) => (
                 <div
                   key={item.src}
-                  className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
+                  className={`col-start-1 row-start-1 w-full transition-opacity duration-500 ease-in-out ${
                     i === activeIndex ? "z-[1] opacity-100" : "z-0 opacity-0 pointer-events-none"
                   }`}
                   aria-hidden={i !== activeIndex}
                 >
-                  <div className="box-border h-full w-full border border-[#EDEDED] p-[10px]">
-                    <div className="relative h-full w-full overflow-hidden">
-                      <Image
-                        src={item.src}
-                        alt={item.alt}
-                        fill
-                        className="object-cover"
-                        sizes="100vw"
-                      />
-                    </div>
+                  <div className="box-border w-full border border-[#EDEDED] p-[10px]">
+                    <Image
+                      src={item.src}
+                      alt={item.alt}
+                      width={1200}
+                      height={750}
+                      className="h-auto w-full object-cover"
+                      sizes="100vw"
+                    />
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* md–lg: single centered tile so active image is fully visible (no horizontal clip) */}
-          <div className="hidden w-full justify-center md:flex lg:hidden">
-            <div className={`relative mx-auto h-[400px] w-[400px] max-w-full ${cardShell}`}>
+          {/* md–lg: two images (active + next), height auto from image */}
+          <div className="hidden w-full items-start justify-center gap-3 px-4 sm:gap-4 md:flex lg:hidden">
+            <div className={`grid min-w-0 flex-1 ${cardShell}`}>
               {eventImages.map((item, i) => (
                 <div
                   key={item.src}
-                  className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
+                  className={`col-start-1 row-start-1 w-full transition-opacity duration-500 ease-in-out ${
                     i === activeIndex ? "z-[1] opacity-100" : "z-0 opacity-0 pointer-events-none"
                   }`}
                   aria-hidden={i !== activeIndex}
                 >
-                  <div className="box-border h-full w-full border border-[#EDEDED] p-[10px]">
-                    <div className="relative h-full w-full overflow-hidden">
-                      <Image
-                        src={item.src}
-                        alt={item.alt}
-                        fill
-                        className="object-cover"
-                        sizes="400px"
-                      />
-                    </div>
+                  <div className="box-border w-full border border-[#EDEDED] p-[10px]">
+                    <Image
+                      src={item.src}
+                      alt={item.alt}
+                      width={1200}
+                      height={750}
+                      className="h-auto w-full object-cover"
+                      sizes="(max-width: 1023px) 45vw, 400px"
+                    />
                   </div>
                 </div>
               ))}
+            </div>
+            <div className={`grid min-w-0 flex-1 ${cardShell}`}>
+              {eventImages.map((item, i) => {
+                const nextIdx = (activeIndex + 1) % n;
+                return (
+                  <div
+                    key={item.src}
+                    className={`col-start-1 row-start-1 w-full transition-opacity duration-500 ease-in-out ${
+                      i === nextIdx ? "z-[1] opacity-100" : "z-0 opacity-0 pointer-events-none"
+                    }`}
+                    aria-hidden={i !== nextIdx}
+                  >
+                    <div className="box-border w-full border border-[#EDEDED] p-[10px]">
+                      <Image
+                        src={item.src}
+                        alt={item.alt}
+                        width={1200}
+                        height={750}
+                        className="h-auto w-full object-cover"
+                        sizes="(max-width: 1023px) 45vw, 400px"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 

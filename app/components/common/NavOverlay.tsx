@@ -7,9 +7,15 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
   handleMissionVisionNavClick,
+  handleOurProfileNavClick,
   MISSION_VISION_HREF,
+  OUR_PROFILE_HREF,
   scrollAboutUsToTopIfSamePage,
 } from "./aboutNavigation";
+import {
+  AWARDS_CERTIFICATIONS_HREF,
+  handleAwardsCertificationsNavClick,
+} from "./mediaNavigation";
 
 type NavOverlayProps = {
   isOpen: boolean;
@@ -22,11 +28,10 @@ const NAV_LINKS = [
     label: "About Us",
     href: "/about-us",
     sub: [
-      { label: "OUR PROFILE", href: "/about-us" },
-      { label: "OUR STORY", href: "/about-us" },
+      { label: "OUR PROFILE", href: OUR_PROFILE_HREF },
+      { label: "OUR STORY", href: OUR_PROFILE_HREF },
       { label: "MISSION & VISION", href: MISSION_VISION_HREF },
-      { label: "LEADERSHIP", href: "/about-us" },
-      { label: "AWARDS & CERTIFICATIONS", href: "/about-us" },
+      { label: "AWARDS & CERTIFICATIONS", href: AWARDS_CERTIFICATIONS_HREF },
     ],
   },
   { label: "Careers", href: "/carrer" },
@@ -36,11 +41,27 @@ const NAV_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { src: "/assets/Frame 105725.svg", alt: "Facebook", href: "#" },
-  { src: "/assets/Frame 105726.svg", alt: "X", href: "#" },
-  { src: "/assets/Frame 105727.svg", alt: "LinkedIn", href: "#" },
-  { src: "/assets/Frame 105728.svg", alt: "Instagram", href: "#" },
-  { src: "/assets/Frame 105729.svg", alt: "YouTube", href: "#" },
+  {
+    src: "/assets/Frame 105725.svg",
+    alt: "Facebook",
+    href: "https://www.facebook.com/profile.php?id=61579314733681",
+  },
+  { src: "/assets/Frame 105726.svg", alt: "X", href: "https://x.com/SanskarRealty" },
+  {
+    src: "/assets/Frame 105727.svg",
+    alt: "LinkedIn",
+    href: "https://www.linkedin.com/company/108393396/",
+  },
+  {
+    src: "/assets/Frame 105728.svg",
+    alt: "Instagram",
+    href: "https://www.instagram.com/sanskar.realty/",
+  },
+  {
+    src: "/assets/Frame 105729.svg",
+    alt: "YouTube",
+    href: "https://www.youtube.com/@SanskarRealty",
+  },
 ];
 
 export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
@@ -229,6 +250,10 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
                             onClick={(e) => {
                               if (s.href === MISSION_VISION_HREF) {
                                 handleMissionVisionNavClick(e, pathname);
+                              } else if (s.href === OUR_PROFILE_HREF) {
+                                handleOurProfileNavClick(e, pathname);
+                              } else if (s.href === AWARDS_CERTIFICATIONS_HREF) {
+                                handleAwardsCertificationsNavClick(e, pathname);
                               } else {
                                 scrollAboutUsToTopIfSamePage();
                               }

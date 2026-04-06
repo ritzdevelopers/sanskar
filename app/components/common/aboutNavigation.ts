@@ -4,10 +4,21 @@ import {
   LENIS_PROGRAMMATIC_DURATION,
 } from "./lenisInstance";
 
-/** `id` on `StorySection` — Mission & Vision links scroll here on the home page. */
+/** `id` on `StorySection` — deep link scroll on the home page. */
 export const STORY_IMPACT_SECTION_ID = "our-story-impact";
 
-export const MISSION_VISION_HREF = `/#${STORY_IMPACT_SECTION_ID}`;
+/** `id` on About Us — Mission & Vision (footer / nav). */
+export const MISSION_VISION_SECTION_ID = "mission-vision";
+
+export const MISSION_VISION_HREF = `/about-us#${MISSION_VISION_SECTION_ID}`;
+
+/** `id` on `AboutSanskarGroup` — Our Profile (footer / nav). */
+export const ABOUT_SANSKAR_GROUP_SECTION_ID = "about-sanskar-group";
+
+export const OUR_PROFILE_HREF = `/about-us#${ABOUT_SANSKAR_GROUP_SECTION_ID}`;
+
+/** Lenis ignores CSS scroll-margin; keep section clear of fixed header. */
+const ABOUT_PAGE_SECTION_LENIS_OFFSET_PX = -80;
 
 function smoothScrollToTop() {
   const lenis = getLenisInstance();
@@ -44,12 +55,61 @@ export function smoothScrollToStoryImpactSection() {
   el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+export function smoothScrollToMissionVisionSection() {
+  const el = document.getElementById(MISSION_VISION_SECTION_ID);
+  if (!el) return;
+  const lenis = getLenisInstance();
+  if (lenis) {
+    lenis.scrollTo(el, {
+      duration: LENIS_PROGRAMMATIC_DURATION,
+      force: true,
+      offset: ABOUT_PAGE_SECTION_LENIS_OFFSET_PX,
+    });
+    return;
+  }
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+export function smoothScrollToAboutSanskarGroupSection() {
+  const el = document.getElementById(ABOUT_SANSKAR_GROUP_SECTION_ID);
+  if (!el) return;
+  const lenis = getLenisInstance();
+  if (lenis) {
+    lenis.scrollTo(el, {
+      duration: LENIS_PROGRAMMATIC_DURATION,
+      force: true,
+      offset: ABOUT_PAGE_SECTION_LENIS_OFFSET_PX,
+    });
+    return;
+  }
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 export function handleMissionVisionNavClick(
   e: MouseEvent<HTMLAnchorElement>,
   pathname: string,
 ) {
-  if (pathname !== "/") return;
+  if (pathname !== "/about-us") return;
   e.preventDefault();
-  smoothScrollToStoryImpactSection();
-  window.history.replaceState(null, "", `/#${STORY_IMPACT_SECTION_ID}`);
+  smoothScrollToMissionVisionSection();
+  window.history.replaceState(
+    null,
+    "",
+    `/about-us#${MISSION_VISION_SECTION_ID}`,
+  );
 }
+
+export function handleOurProfileNavClick(
+  e: MouseEvent<HTMLAnchorElement>,
+  pathname: string,
+) {
+  if (pathname !== "/about-us") return;
+  e.preventDefault();
+  smoothScrollToAboutSanskarGroupSection();
+  window.history.replaceState(
+    null,
+    "",
+    `/about-us#${ABOUT_SANSKAR_GROUP_SECTION_ID}`,
+  );
+}
+

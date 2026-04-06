@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { Lato } from "next/font/google";
 import { useCallback, useState } from "react";
+import { useEnquireModal } from "./EnquireModalProvider";
 import { ScrollToTopButton } from "./ScrollToTopButton";
 
 const lato = Lato({
@@ -11,6 +11,7 @@ const lato = Lato({
 });
 
 export function FloatingBottomActions() {
+    const { openEnquireModal } = useEnquireModal();
     const [scrollTopShown, setScrollTopShown] = useState(false);
     const onScrollTopVisibility = useCallback((visible: boolean) => {
         setScrollTopShown(visible);
@@ -24,12 +25,13 @@ export function FloatingBottomActions() {
                 top: "auto",
             }}
         >
-            <Link
-                href="/contact-us"
-                className={`${lato.className} pointer-events-auto absolute left-1/2 inline-flex -translate-x-1/2 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-none bg-black px-5 py-3.5 text-[14px] font-bold uppercase leading-none tracking-normal text-white no-underline shadow-[0_4px_14px_rgba(0,0,0,0.35)] transition-[background-color,box-shadow,transform,margin] duration-300 ease-out hover:bg-[#1a1a1a] hover:shadow-[0_6px_18px_rgba(0,0,0,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 active:scale-[0.98] md:static md:translate-x-0`}
+            <button
+                type="button"
+                onClick={openEnquireModal}
+                className={`${lato.className} pointer-events-auto absolute left-1/2 inline-flex -translate-x-1/2 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-none border-0 bg-black px-5 py-3.5 text-[14px] font-bold uppercase leading-none tracking-normal text-white shadow-[0_4px_14px_rgba(0,0,0,0.35)] transition-[background-color,box-shadow,transform,margin] duration-300 ease-out hover:bg-[#1a1a1a] hover:shadow-[0_6px_18px_rgba(0,0,0,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 active:scale-[0.98] md:static md:translate-x-0`}
             >
                 Enquire Now
-            </Link>
+            </button>
             <div
                 className={`pointer-events-auto flex shrink-0 overflow-hidden transition-[max-width,opacity,margin-left] duration-300 ease-out ${
                     scrollTopShown

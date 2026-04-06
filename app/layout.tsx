@@ -1,4 +1,7 @@
 import type { Metadata, Viewport } from "next";
+import { EnquireModalProvider } from "./components/common/EnquireModalProvider";
+import { SiteVisitModalProvider } from "./components/common/SiteVisitModalProvider";
+import { WorkWithUsModalProvider } from "./components/common/WorkWithUsModalProvider";
 import { FloatingBottomActions } from "./components/common/FloatingBottomActions";
 import { HomeGatewayProvider } from "./components/common/HomeGatewayProvider";
 import { SmoothScrollProvider } from "./components/common/SmoothScrollProvider";
@@ -28,10 +31,16 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-full bg-white antialiased" suppressHydrationWarning>
         <SmoothScrollProvider>
-          <HomeGatewayProvider>
-            {children}
-            <FloatingBottomActions />
-          </HomeGatewayProvider>
+          <EnquireModalProvider>
+            <WorkWithUsModalProvider>
+              <SiteVisitModalProvider>
+                <HomeGatewayProvider>
+                  {children}
+                  <FloatingBottomActions />
+                </HomeGatewayProvider>
+              </SiteVisitModalProvider>
+            </WorkWithUsModalProvider>
+          </EnquireModalProvider>
         </SmoothScrollProvider>
       </body>
     </html>

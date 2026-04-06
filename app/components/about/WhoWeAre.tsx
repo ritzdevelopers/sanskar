@@ -5,6 +5,7 @@ import { Lato, Quattrocento } from "next/font/google";
 import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MISSION_VISION_SECTION_ID } from "../common/aboutNavigation";
 import { useScrollReveal } from "../common/useScrollReveal";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -70,7 +71,7 @@ export function WhoWeAre() {
     return (
         <section ref={sectionRef} className="relative w-full min-w-0 overflow-x-hidden pt-[35px] lg:pt-[75px] pb-[40px]">
             {/* Subtle two-tone background to match the split look */}
-            <div className="absolute inset-x-0 top-0 h-[29%] bg-[#FAFAFA] -z-20" />
+            <div className="absolute inset-x-0 top-0 lg:h-[30%] bg-[#FAFAFA] -z-20 md:h-[28%]  h-[32%]" />
             <div className="absolute inset-x-0 bottom-0 h-[50%] lg:h-[45%] bg-white -z-20" />
 
             {/* Background vertical line grid */}
@@ -161,7 +162,7 @@ export function WhoWeAre() {
                 </p> */}
 
                 {/* --- Stats Section: even 2×2 gaps on mobile; desktop stagger unchanged --- */}
-                <div className="relative mt-20 grid w-full grid-cols-2 gap-x-3 gap-y-10 sm:mt-24 sm:gap-x-6 sm:gap-y-12 md:mt-0 md:gap-y-14  lg:flex lg:max-w-none lg:flex-nowrap lg:items-start lg:justify-between lg:gap-x-0 lg:gap-y-0">
+                <div className="relative mt-14 grid w-full grid-cols-2 gap-x-3 gap-y-10 sm:mt-24 sm:gap-x-6 sm:gap-y-12 md:mt-[50px] lg:mt-[100px] md:gap-y-14  lg:flex lg:max-w-none lg:flex-nowrap lg:items-start lg:justify-between lg:gap-x-0 lg:gap-y-0">
                     <div data-scroll-reveal className="flex min-w-0 flex-col items-center px-2 text-center sm:px-3 lg:w-1/4 lg:px-4 lg:pt-0">
                         <span className={`${quattrocento.className} mb-4 text-[40px] font-bold leading-none text-[#111111] md:text-[50px] lg:mb-3 lg:text-[56px]`}>
                             <AnimatedNumber end={17} suffix="+" />
@@ -189,7 +190,10 @@ export function WhoWeAre() {
                 </div>
 
                 {/* --- Mission & Vision Section --- */}
-                <div className="relative mb-10 mt-14 flex w-full max-w-full flex-col items-center gap-12 sm:mt-16 sm:gap-14 md:mt-20 lg:mt-24 lg:flex-row lg:items-stretch lg:gap-6 xl:gap-[90px]">
+                <div
+                    id={MISSION_VISION_SECTION_ID}
+                    className="relative mb-10 mt-14 flex w-full max-w-full scroll-mt-[88px] flex-col items-center gap-12 sm:mt-16 sm:gap-14 md:mt-20 lg:mt-24 lg:flex-row lg:items-stretch lg:gap-6 xl:gap-[90px]"
+                >
 
                     {/* Left side: Cards */}
                     <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-full flex-col gap-10 sm:gap-12 lg:mx-0 lg:flex-1">
