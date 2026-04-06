@@ -75,7 +75,7 @@ export function WhyInvestSection() {
         <div className="mx-auto w-full max-w-[1280px] xl:max-w-[1320px]">
         <h2
           data-scroll-reveal
-          className={`${quattrocento.className} text-center text-[32px] font-[700] leading-[1.1] text-[#111111] sm:text-[38px] md:text-left md:text-[44px] lg:text-[48px] xl:text-[52px] 2xl:text-[56px]`}
+          className={`${quattrocento.className} text-center text-[32px]  leading-[1.1] text-[#111111] sm:text-[38px] md:text-left md:text-[44px] lg:text-[48px] xl:text-[52px] 2xl:text-[56px]`}
         >
           Why Invest With Us
         </h2>

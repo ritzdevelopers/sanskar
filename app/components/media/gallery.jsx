@@ -32,9 +32,14 @@ const slidePairs = [
 
 const AUTO_SLIDE_MS = 5000;
 
+const slideTrackClass =
+  "flex h-full transition-transform duration-500 ease-out motion-reduce:transition-none";
+
 export default function Gallery() {
   const [activeSlide, setActiveSlide] = useState(2);
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const nSlides = slidePairs.length;
+  const nImages = galleryImages.length;
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -88,23 +93,33 @@ export default function Gallery() {
               aria-label={`Open large view: ${galleryImages[leftIdx].alt}`}
               onClick={() => setLightboxIndex(leftIdx)}
             >
-              {galleryImages.map((img, i) => (
-                <div
-                  key={img.src}
-                  className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
-                    i === leftIdx ? "z-[1] opacity-100" : "z-0 opacity-0 pointer-events-none"
-                  }`}
-                  aria-hidden={i !== leftIdx}
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
-              ))}
+              <div
+                className={slideTrackClass}
+                style={{
+                  width: `${nSlides * 100}%`,
+                  transform: `translateX(-${(activeSlide / nSlides) * 100}%)`,
+                }}
+              >
+                {slidePairs.map((pair, i) => {
+                  const img = galleryImages[pair[0]];
+                  return (
+                    <div
+                      key={i}
+                      className="relative h-full shrink-0"
+                      style={{ width: `${100 / nSlides}%` }}
+                      aria-hidden={i !== activeSlide}
+                    >
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </button>
             <button
               type="button"
@@ -112,23 +127,33 @@ export default function Gallery() {
               aria-label={`Open large view: ${galleryImages[rightIdx].alt}`}
               onClick={() => setLightboxIndex(rightIdx)}
             >
-              {galleryImages.map((img, i) => (
-                <div
-                  key={img.src}
-                  className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
-                    i === rightIdx ? "z-[1] opacity-100" : "z-0 opacity-0 pointer-events-none"
-                  }`}
-                  aria-hidden={i !== rightIdx}
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    className="object-cover"
-                    sizes="50vw"
-                  />
-                </div>
-              ))}
+              <div
+                className={slideTrackClass}
+                style={{
+                  width: `${nSlides * 100}%`,
+                  transform: `translateX(-${(activeSlide / nSlides) * 100}%)`,
+                }}
+              >
+                {slidePairs.map((pair, i) => {
+                  const img = galleryImages[pair[1]];
+                  return (
+                    <div
+                      key={i}
+                      className="relative h-full shrink-0"
+                      style={{ width: `${100 / nSlides}%` }}
+                      aria-hidden={i !== activeSlide}
+                    >
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        className="object-cover"
+                        sizes="50vw"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </button>
           </div>
 
@@ -153,7 +178,7 @@ export default function Gallery() {
 
       {lightboxIndex !== null ? (
         <div
-          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 p-4 backdrop-blur-[2px]"
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 p-4"
           role="dialog"
           aria-modal="true"
           aria-label="Gallery image preview"
@@ -184,25 +209,32 @@ export default function Gallery() {
             >
               <i className="ri-arrow-left-s-line text-xl leading-none sm:text-2xl" aria-hidden="true" />
             </button>
-            <div className="relative aspect-[16/10] w-full max-h-[min(58vh,480px)] md:max-h-[min(62vh,520px)]">
-              {galleryImages.map((img, i) => (
-                <div
-                  key={img.src}
-                  className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
-                    i === lightboxIndex ? "z-[1] opacity-100" : "z-0 opacity-0 pointer-events-none"
-                  }`}
-                  aria-hidden={i !== lightboxIndex}
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 768px) 85vw, 720px"
-                    priority={i === lightboxIndex}
-                  />
-                </div>
-              ))}
+            <div className="relative aspect-[16/10] w-full max-h-[min(58vh,480px)] overflow-hidden md:max-h-[min(62vh,520px)]">
+              <div
+                className={slideTrackClass}
+                style={{
+                  width: `${nImages * 100}%`,
+                  transform: `translateX(-${(lightboxIndex / nImages) * 100}%)`,
+                }}
+              >
+                {galleryImages.map((img, i) => (
+                  <div
+                    key={img.src}
+                    className="relative h-full shrink-0"
+                    style={{ width: `${100 / nImages}%` }}
+                    aria-hidden={i !== lightboxIndex}
+                  >
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 85vw, 720px"
+                      priority={i === lightboxIndex}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
             <button
               type="button"
