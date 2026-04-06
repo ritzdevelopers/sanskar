@@ -1,6 +1,12 @@
 import MediaBanner from "../components/media/mediabanner";
 import { FooterSection } from "../components/home/FooterSection";
 import PressRelease from "../components/media/pressrelease";
+import DreamHome from "../components/media/dreamHome";
+import Testimonial from "../components/media/testimonial";
+import Prrelease from "../components/media/prrelease";
+import Gallery from "../components/media/gallery";
+import Event from "../components/media/event";
+import Faqs from "../components/media/faqs";
 
 export default function MediaPage() {
   return (
@@ -8,7 +14,13 @@ export default function MediaPage() {
       <main className="min-w-0">
         <MediaBanner />
         <PressRelease />
-      <FooterSection alignWithHeader />
+        <Gallery />
+        <Event />
+        <Faqs />
+        <DreamHome />
+        <Testimonial />
+        <Prrelease />
+        <FooterSection alignWithHeader />
       </main>
     </>
   );

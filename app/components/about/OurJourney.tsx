@@ -183,7 +183,7 @@ export function OurJourney() {
                         A LEGACY CRAFTED OVER 17 YEARS
                     </h2>
                     <p className={`${lato.className} text-[#666666] text-[15px] md:text-[16px] leading-[1.6] max-w-[800px]`}>
-                        From a healthcare vision to a Delhi NCR real estate force, here's how Sanskar Realty came to be.
+                    Redefining Delhi NCR real estate with a legacy of trust, vision, and quality.
                     </p>
                 </div>
 

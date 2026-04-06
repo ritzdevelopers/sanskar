@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Lato, Quattrocento } from "next/font/google";
 import { usePathname } from "next/navigation";
 import { useRef } from "react";
 import {
@@ -10,6 +11,16 @@ import {
   scrollAboutUsToTopIfSamePage,
 } from "../common/aboutNavigation";
 import { useScrollReveal } from "../common/useScrollReveal";
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+const quattrocento = Quattrocento({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 type FooterSectionProps = {
   alignWithHeader?: boolean;
@@ -62,7 +73,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
           <div className="flex flex-col items-center gap-8 text-center sm:gap-10 md:w-[min(100%,calc(50%-1rem))] md:items-center lg:w-1/3 lg:items-start lg:gap-12 lg:text-left">
             <h2
               data-scroll-reveal
-              className="font-quattrocento text-[28px] font-normal uppercase leading-[1.2] text-[#1A1A1A] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[36px]"
+              className={`${quattrocento.className} text-[28px] font-normal uppercase leading-[69px] text-[#1A1A1A] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[36px]`}
             >
               Our Emails Are Crafted With
               <br />
@@ -81,7 +92,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
                     height={59}
                   />
                 </span>
-                <span data-scroll-reveal className="font-lato text-[15px] text-[#555555] sm:text-[16px] md:text-[18px]">
+                <span data-scroll-reveal className={`${lato.className} text-[15px] text-[#555555] sm:text-[16px] md:text-[18px]`}>
                   +91-011 1111 2222
                 </span>
               </div>
@@ -94,7 +105,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
                     height={59}
                   />
                 </span>
-                <span data-scroll-reveal className="font-lato text-[15px] text-[#555555] sm:text-[16px] md:text-[18px] break-all sm:break-normal">
+                <span data-scroll-reveal className={`${lato.className} text-[15px] text-[#555555] sm:text-[16px] md:text-[18px] break-all sm:break-normal`}>
                   info@sanskarrealty.co.in
                 </span>
               </div>
@@ -107,12 +118,12 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
               data-scroll-reveal
               type="email"
               placeholder="ENTER YOUR EMAIL"
-              className="w-full border border-[#E5E5E5] bg-white px-4 py-4 font-lato text-[14px] text-[#1A1A1A] outline-none focus:border-[#1A1A1A]"
+              className={`${lato.className} w-full border border-[#E5E5E5] bg-white px-4 py-4 text-[14px] text-[#1A1A1A] outline-none focus:border-[#1A1A1A]`}
             />
             <button
               data-scroll-reveal
               type="button"
-              className="w-full bg-[#111111] py-4 font-lato text-[16px] text-white transition-colors hover:bg-[#333333]"
+              className={`${lato.className} w-full bg-[#111111] py-4 text-[16px] text-white transition-colors hover:bg-[#333333]`}
             >
               Submit
             </button>
@@ -157,17 +168,17 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
 
           {/* Column 1: About */}
           <div className="flex w-full max-w-md flex-col items-center gap-6 text-center sm:col-span-2 lg:col-span-1 lg:w-[23%] lg:max-w-none lg:items-start lg:text-left">
-            <h3 data-scroll-reveal className="font-quattrocento text-[28px] font-bold text-[#1A1A1A]">
+            <h3 data-scroll-reveal className={`${quattrocento.className} text-[28px] font-bold text-[#1A1A1A]`}>
               About Sanskar
             </h3>
             <p
               data-scroll-reveal
-              className="font-lato text-[14px] leading-[24px] text-[#666666] max-w-[min(100%,380px)] lg:max-w-[300px]"
+              className={`${lato.className} text-[14px] leading-[24px] text-[#666666] max-w-[min(100%,380px)] lg:max-w-[300px]`}
             >
-              At Sanskar Realty, we believe that every home is more than just four walls—it is a foundation for dreams, growth, and togetherness. With a commitment to integrity, trust, and innovation, we have been shaping inspiring living spaces that bring comfort, convenience, and value to our customers. Guided by our core values of transparency and quality.
+              At Sanskar Realty, we shape homes where trust, innovation, and quality create lasting value through thoughtfully designed spaces built for comfort and growth.
             </p>
             <div className="mt-4 flex flex-col gap-4">
-              <h4 data-scroll-reveal className="font-quattrocento text-[18px] uppercase text-[#1A1A1A]">
+              <h4 data-scroll-reveal className={`${quattrocento.className} text-[18px] uppercase text-[#1A1A1A]`}>
                 FOLLOW US ON
               </h4>
               <div className="flex flex-wrap justify-center gap-3 lg:justify-start lg:text-left">
@@ -215,21 +226,21 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             <Link
               data-scroll-reveal
               href="#"
-              className="font-quattrocento text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline"
+              className={`${quattrocento.className} text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline`}
             >
               WORK WITH US
             </Link>
             <Link
               data-scroll-reveal
               href="#"
-              className="font-quattrocento text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline"
+              className={`${quattrocento.className} text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline`}
             >
               ENQUIRE NOW
             </Link>
             <Link
               data-scroll-reveal
               href="#"
-              className="font-quattrocento text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline"
+              className={`${quattrocento.className} text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline`}
             >
               SCHEDULE A SITE VISIT
             </Link>
@@ -239,7 +250,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
           <div className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
             <h4
               data-scroll-reveal
-              className="mb-2 font-quattrocento text-[18px] font-bold uppercase text-[#1A1A1A]"
+              className={`${quattrocento.className} mb-2 text-[18px] font-bold uppercase text-[#1A1A1A]`}
             >
               Company
             </h4>
@@ -247,7 +258,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
               data-scroll-reveal
               href="/about-us"
               onClick={() => scrollAboutUsToTopIfSamePage()}
-              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+              className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
               About Us
             </Link>
@@ -255,7 +266,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
               data-scroll-reveal
               href="/about-us"
               onClick={() => scrollAboutUsToTopIfSamePage()}
-              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+              className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
               Our Story
             </Link>
@@ -264,7 +275,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
               href={MISSION_VISION_HREF}
               scroll={false}
               onClick={(e) => handleMissionVisionNavClick(e, pathname)}
-              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+              className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
               Mission & Vision
             </Link>
@@ -272,7 +283,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
               data-scroll-reveal
               href="/about-us"
               onClick={() => scrollAboutUsToTopIfSamePage()}
-              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+              className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
              Our Profile
 
@@ -281,7 +292,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
               data-scroll-reveal
               href="/about-us"
               onClick={() => scrollAboutUsToTopIfSamePage()}
-              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+              className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
               Leadership
             </Link>
@@ -289,14 +300,14 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
               data-scroll-reveal
               href="/about-us"
               onClick={() => scrollAboutUsToTopIfSamePage()}
-              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+              className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
               Awards & Certifications
             </Link>
             <Link
               data-scroll-reveal
               href="/carrer"
-              className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]"
+              className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
               Careers — Join Us
             </Link>
@@ -306,29 +317,29 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
           <div className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
             <h4
               data-scroll-reveal
-              className="mb-2 font-quattrocento text-[18px] font-bold uppercase text-[#1A1A1A]"
+              className={`${quattrocento.className} mb-2 text-[18px] font-bold uppercase text-[#1A1A1A]`}
             >
               QUICK LINKS
             </h4>
-            <Link data-scroll-reveal href="/projects" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link data-scroll-reveal href="/projects" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Projects
             </Link>
-            <Link data-scroll-reveal href="/media" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link data-scroll-reveal href="/media" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Media
             </Link>
-            <Link data-scroll-reveal href="/blogs" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link data-scroll-reveal href="/blogs" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Blogs
             </Link>
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link data-scroll-reveal href="#" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Gallery
             </Link>
-            <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link data-scroll-reveal href="#" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Our Events
             </Link>
             {/* <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               NRI Corner
             </Link> */}
-            <Link data-scroll-reveal href="/contact-us" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link data-scroll-reveal href="/contact-us" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Contact Us
             </Link>
           </div>
@@ -337,11 +348,11 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
           <div className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
             <h4
               data-scroll-reveal
-              className="mb-2 font-quattrocento text-[18px] font-bold uppercase text-[#1A1A1A]"
+              className={`${quattrocento.className} mb-2 text-[18px] font-bold uppercase text-[#1A1A1A]`}
             >
               NRI CORNER
             </h4>
-            <Link data-scroll-reveal href="/nri-corner" className="font-lato text-[14px] text-[#666666] hover:text-[#1A1A1A]">
+            <Link data-scroll-reveal href="/nri-corner" className={`${lato.className} text-[14px] text-[#666666] hover:text-[#1A1A1A]`}>
               NRI
             </Link>
           </div>
@@ -354,7 +365,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
       <div className="relative z-10 border-t border-[#EAEAEA] py-5 sm:py-6">
         <div className={copyrightOuter}>
           <div className={`${copyrightInner} text-center`}>
-          <p data-scroll-reveal className="font-lato text-[13px] leading-snug text-[#00000099] sm:text-[14px] md:text-[16px]">
+          <p data-scroll-reveal className={`${lato.className} text-[13px] leading-snug text-[#00000099] sm:text-[14px] md:text-[16px]`}>
             © 2026 Sanskar Realty.  All rights reserved. Digital media planned by Ritz Media World.
           </p>
           </div>
