@@ -49,7 +49,7 @@ export function AboutSanskarGroup() {
                         <div data-scroll-reveal className="flex w-full shrink-0 flex-col items-center lg:w-[506px] lg:max-w-[506px]">
                             <div className="relative mb-6 aspect-square w-[300px] max-w-[min(100vw-2rem,506px)] shrink-0 overflow-hidden rounded-[50%] sm:w-[360px] md:w-[420px] lg:w-[506px] lg:max-w-none">
                                 <Image
-                                    src="/varun/kuldeeptyagi.jpg"
+                                    src="/varun/kuldeeptyagipro.jpg"
                                     alt="Owner Name - Chairman and Managing Director"
                                     fill
                                     sizes="(max-width: 768px) 300px, (max-width: 1024px) 420px, 506px"
