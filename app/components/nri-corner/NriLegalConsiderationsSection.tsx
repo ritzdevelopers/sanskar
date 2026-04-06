@@ -61,7 +61,7 @@ export function NriLegalConsiderationsSection() {
               return (
                 <div
                   key={item.id}
-                  className="overflow-visible rounded-[12px] bg-white px-4 py-4 pb-5 shadow-[0px_4px_20px_0px_#7272721F] md:px-6 md:py-5 md:pb-6"
+                  className="overflow-visible rounded-[12px] bg-white px-4 py-4 pb-5 md:px-6 md:py-5 md:pb-6"
                 >
                   <button
                     type="button"

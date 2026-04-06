@@ -47,7 +47,7 @@ export function FaqsSection() {
               return (
                 <div
                   key={item.id}
-                  className="bg-white px-4 py-4 shadow-[0px_4px_20px_0px_#7272721F] md:px-5 md:py-5"
+                  className="bg-white px-4 py-4 md:px-5 md:py-5"
                 >
                   <button
                     type="button"
