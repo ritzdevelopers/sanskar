@@ -15,10 +15,27 @@ const quattrocento = Quattrocento({
   weight: ["400", "700"],
 });
 
-const investCards = [
+type InvestCard = {
+  title: string;
+  description: string;
+  image: string;
+  /** If set, card body shows text only through this phrase plus "…" */
+  clipAfter?: string;
+};
+
+function cardDescriptionDisplay(card: InvestCard): string {
+  if (!card.clipAfter) return card.description;
+  const idx = card.description.indexOf(card.clipAfter);
+  if (idx === -1) return card.description;
+  return `${card.description.slice(0, idx + card.clipAfter.length)}...`;
+}
+
+const investCards: InvestCard[] = [
   {
     title: "Yatharth Legacy",
-    description: "Backed by North India’s third-largest public-listed hospital group with a name that spells trust and community care since 2008.",
+    description:
+      "Backed by North India’s third-largest public-listed hospital group with a name that spells trust and community care since 2008.",
+    clipAfter: "community care",
     image: "/assets/invest_infra.png",
   },
   {
@@ -113,9 +130,10 @@ export function WhyInvestSection() {
               </h3>
               <p
                 data-scroll-reveal
+                title={card.clipAfter ? card.description : undefined}
                 className={`${lato.className} mt-2 max-w-none text-[14px] font-normal leading-[1.45] text-[#626262] sm:mt-3 sm:text-[15px] md:max-w-[288px] md:text-[16px]  min-h-[calc(3*1.45em)]`}
               >
-                {card.description}
+                {cardDescriptionDisplay(card)}
               </p>
               <div
                 data-scroll-reveal-img

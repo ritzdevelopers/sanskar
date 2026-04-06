@@ -144,12 +144,15 @@ export function ProjectsSection() {
           </div>
 
           <div className="mt-6 w-full max-w-[1284px] sm:mt-8">
-            <div className="relative isolate aspect-[4/3] min-h-[220px] w-full overflow-hidden [transform:translateZ(0)] sm:aspect-[16/10] md:aspect-[5/3] md:min-h-[360px] lg:aspect-auto lg:h-[520px] xl:h-[580px] 2xl:h-[611px]">
+            <div className="relative isolate aspect-[4/3] min-h-[220px] w-full overflow-hidden bg-[#EAEAEA] [transform:translateZ(0)] sm:aspect-[16/10] md:aspect-[5/3] md:min-h-[360px] lg:aspect-auto lg:h-[520px] xl:h-[580px] 2xl:h-[611px]">
+              {/* While animating, hide previous slide — only placeholder + incoming panel */}
+              {incomingSlide === null && (
+                <SlideLayer
+                  slide={slides[currentSlide]}
+                  imagePriority={currentSlide === 0}
+                />
+              )}
 
-              {/* BASE LAYER — current slide, always static, never moves */}
-              <SlideLayer slide={slides[currentSlide]} />
-
-              {/* INCOMING LAYER — slides in on top, from right or left */}
               {incomingSlide !== null && (
                 <SlideLayer
                   slide={slides[incomingSlide]}
@@ -202,39 +205,51 @@ export function ProjectsSection() {
         </div>
       </div>
 
-      {/* Inline style for the wipe keyframe animation */}
+      {/* Match StorySection `data-scroll-reveal-img`: clip-path reveal + img scale (useScrollReveal.ts) */}
       <style>{`
-        @keyframes wipe-in-right {
+        @keyframes projects-story-clip-next {
           from {
-            transform: translateX(100%);
+            clip-path: inset(0% 0% 0% 100%);
           }
           to {
-            transform: translateX(0);
+            clip-path: inset(0% 0% 0% 0%);
           }
         }
-        @keyframes wipe-in-left {
+        @keyframes projects-story-clip-prev {
           from {
-            transform: translateX(-100%);
+            clip-path: inset(0% 100% 0% 0%);
           }
           to {
-            transform: translateX(0);
+            clip-path: inset(0% 0% 0% 0%);
           }
         }
-        .slide-wipe-right,
-        .slide-wipe-left {
-          transform-origin: 50% 50%;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
+        @keyframes projects-story-img-zoom {
+          from {
+            transform: scale(1.2);
+          }
+          to {
+            transform: scale(1);
+          }
         }
-        .slide-wipe-right {
-          animation: wipe-in-right 2.1s cubic-bezier(0.25, 0.46, 0.45, 0.99) forwards;
+        .projects-slide-story-next {
+          animation: projects-story-clip-next 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
         }
-        .slide-wipe-left {
-          animation: wipe-in-left 2.1s cubic-bezier(0.25, 0.46, 0.45, 0.99) forwards;
+        .projects-slide-story-next :is(img) {
+          transform-origin: center center;
+          animation: projects-story-img-zoom 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+        .projects-slide-story-prev {
+          animation: projects-story-clip-prev 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+        .projects-slide-story-prev :is(img) {
+          transform-origin: center center;
+          animation: projects-story-img-zoom 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
         }
         @media (prefers-reduced-motion: reduce) {
-          .slide-wipe-right,
-          .slide-wipe-left {
+          .projects-slide-story-next,
+          .projects-slide-story-prev,
+          .projects-slide-story-next :is(img),
+          .projects-slide-story-prev :is(img) {
             animation-duration: 0.35s;
             animation-timing-function: ease-out;
           }
@@ -250,39 +265,41 @@ function SlideLayer({
   entering = false,
   direction = "next",
   onEnterAnimationEnd,
+  imagePriority = false,
 }: {
   slide: Slide;
   entering?: boolean;
   direction?: "next" | "prev";
   onEnterAnimationEnd?: () => void;
+  imagePriority?: boolean;
 }) {
-  const handleWipeAnimationEnd = (e: AnimationEvent<HTMLDivElement>) => {
+  const handleEnterAnimationEnd = (e: AnimationEvent<HTMLDivElement>) => {
     if (!entering || !onEnterAnimationEnd) return;
     if (e.target !== e.currentTarget) return;
     const name = e.animationName;
-    if (!name.includes("wipe-in")) return;
+    if (!name.includes("projects-story-clip")) return;
     onEnterAnimationEnd();
   };
 
-  const animClass = entering
+  const storyAnimClass = entering
     ? direction === "next"
-      ? "slide-wipe-right"
-      : "slide-wipe-left"
+      ? "projects-slide-story-next"
+      : "projects-slide-story-prev"
     : "";
 
   return (
     <div
-      className={`absolute inset-0 ${animClass}`}
+      className={`absolute inset-0 bg-[#EAEAEA] ${storyAnimClass}`}
       style={{ zIndex: entering ? 10 : 0 }}
-      onAnimationEnd={handleWipeAnimationEnd}
+      onAnimationEnd={handleEnterAnimationEnd}
     >
       <Image
         src={slide.image}
         alt={slide.title}
         fill
         className="object-cover"
-        priority
-        quality={75}
+        priority={imagePriority}
+        quality={100}
         sizes="(max-width: 1284px) 100vw, 1284px"
       />
 
