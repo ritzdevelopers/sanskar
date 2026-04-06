@@ -49,7 +49,7 @@ export function AboutSanskarGroup() {
                         <div data-scroll-reveal className="flex w-full shrink-0 flex-col items-center lg:w-[506px] lg:max-w-[506px]">
                             <div className="relative mb-6 aspect-square w-[300px] max-w-[min(100vw-2rem,506px)] shrink-0 overflow-hidden rounded-[50%] sm:w-[360px] md:w-[420px] lg:w-[506px] lg:max-w-none">
                                 <Image
-                                    src="/assets/Owner.png"
+                                    src="/varun/kuldeeptyagi.jpg"
                                     alt="Owner Name - Chairman and Managing Director"
                                     fill
                                     sizes="(max-width: 768px) 300px, (max-width: 1024px) 420px, 506px"
@@ -57,7 +57,7 @@ export function AboutSanskarGroup() {
                                 />
                             </div>
                             <h3 className={`${lato.className} text-[#111111] text-[18px] md:text-[20px] font-bold text-center`}>
-                                Owner Name
+                               Kuldeep Tyagi
                             </h3>
                             <p className={`${lato.className} text-[#666666] text-[15px] md:text-[16px] font-normal text-center mt-1`}>
                                 Chairman and Managing Director
