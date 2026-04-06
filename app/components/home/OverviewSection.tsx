@@ -56,13 +56,13 @@ export function OverviewSection() {
           className={`${lato.className} max-w-[1180px] space-y-4 text-[14px] font-normal leading-[1.6] text-[#3b3b3b] sm:text-[15px] md:text-[16px] md:leading-6`}
         >
           <p>
-            Sanskar Realty, a renowned name in the luxurious <span className="text-[#F7A51D] font-bold"> Delhi NCR real</span> estate region, and comes with a pedigree that matters. As a venture of the Yatharth Group, North India’s 3rd largest public-listed healthcare company, we bring our legacy of care, honesty and community impact into every home we make.
+            Sanskar Realty, a renowned name in the luxurious <span className="text-[#F7A51D] font-bold"> Delhi NCR </span>real estate region, and comes with a pedigree that matters. As a venture of the Yatharth Group, North India’s 3rd largest public-listed healthcare company, we bring our legacy of care, honesty and community impact into every home we make.
           </p>
           <p>
             With over 17 years of real estate experience, we have been redefining premium living in <span className="text-[#F7A51D] font-bold"> Noida Extension</span>, <span className="text-[#F7A51D] font-bold">Greater Noida West</span>, <span className="text-[#F7A51D] font-bold"> Ghaziabad</span> since long. Our houses are not built, they are crafted. Each design, material, and amenity has one purpose only: to create a home that betters your life and appreciates in value with passing time.
           </p>
           <p>
-            The developer provides a diverse selection of properties from spacious <span className="text-[#F7A51D] font-bold"> 3 BHK and 4 BHK luxury apartments </span> , <span className="text-[#F7A51D] font-bold"> IKEA-furnished studio apartments </span>  to <span className="text-[#F7A51D] font-bold">exclusive gated villas</span>.
+            The developer provides a diverse selection of properties from spacious <span className="text-[#F7A51D] font-bold"> 3 BHK </span> and  <span className="text-[#F7A51D] font-bold">4 BHK luxury apartments </span> , <span className="text-[#F7A51D] font-bold"> IKEA-furnished studio apartments </span>  to <span className="text-[#F7A51D] font-bold">exclusive gated villas</span>.
           </p>
         </div>
 

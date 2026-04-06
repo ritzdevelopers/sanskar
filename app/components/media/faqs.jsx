@@ -15,30 +15,33 @@ const lato = Lato({
 });
 
 const FAQS = [
-    {
-      id: "01",
-      question: "How can I arrange a property site visit?",
-      answer:
-        "By completing the form on our website or getting in touch with us directly by phone or email, you can arrange a site visit. Our staff will assist you in scheduling a time that works for you.",
-    },
-    {
-      id: "02",
-      question: "Can i book a property online?",
-      answer:
-        "Yes, you can use our website to make reservations for a few properties. For additional information and instructions on how to secure your unit, please visit the project page.",
-    },
-    {
-      id: "03",
-      question: "What are the amenities included in Sanskar Realty projects?",
-      answer:
-        "Our projects include a multipurpose hall, indoor games area, gym, yoga and meditation room, and children's play area. In addition, we have four high-speed lifts, a 100-meter green belt, commercial stores, gated security, and plenty of parking.",
-    },
-    {
-      id: "04",
-      question: "How can I find out if a property is for sale?",
-      answer:
-        "You can use the form or give our customer service team a call to inquire about the availability of properties. We'll keep you informed about available units in real time.",
-    },
+  {
+    id: "01",
+    question: "What is the latest project launched by Sanskar Realty?",
+    answer:
+      "The most recent launch by Sanskar Realty is Eternia, a premium group housing project located at Tech Zone-4, Greater Noida West. The project provides 3 and 4 BHK residential units which combine modern amenities with communal living spaces to create a new standard of luxury.",
+  },
+  {
+    id: "02",
+    question:
+      "Where can I find official press releases and news about Sanskar Realty?",
+    answer:
+      "The Media Page contains all official press releases and news updates which share information about Sanskar Realty. The section presents current announcements together with company achievements and media reporting.",
+  },
+  {
+    id: "03",
+    question:
+      "How can media outlets contact Sanskar Realty for press inquiries?",
+    answer:
+      "The Media Page provides contact information which journalists and media outlets can use for press inquiries. We provide complete assistance for press kits together with interviews and project information.",
+  },
+  {
+    id: "04",
+    question:
+      "What kind of awards and recognitions has Sanskar Realty received?",
+    answer:
+      "The real estate development work of Sanskar Realty has received recognition because of its dedication to delivering high-quality services through transparent operations and innovative business practices. Our projects, such as Eternia and Forest Walk, have earned numerous accolades for their design and execution. For the latest awards and recognitions, check the Awards section on the Media Page.",
+  },
 ];
 
 export function FaqsSection() {
@@ -59,7 +62,7 @@ export function FaqsSection() {
               return (
                 <div
                   key={item.id}
-                  className="bg-white px-4 py-4 shadow-[0px_4px_20px_0px_#7272721F] md:px-5 md:py-5"
+                  className="bg-white px-4 py-4 md:px-5 md:py-5"
                 >
                   <button
                     type="button"

@@ -20,7 +20,7 @@ const PROJECTS = [
     title: "HighLife",
     location: "Dream Valley Tech Zone IV, Greater Noida (W)",
     description:
-      "Enjoy spacious 1 & 2 BHK apartments with modern amenities at HighLife, located near business hubs.",
+      "Enjoy spacious 1 & 2 BHK studio apartments with modern amenities at HighLife, located near business hubs.",
     image: "/assets/highlife.jpg",
     imageAlt: "HighLife residences",
     url: "https://highlife.greatvaluerealty.com/",

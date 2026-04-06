@@ -15,7 +15,7 @@ export function PressReleasesSection() {
       description: "The vision of Eternia residences comes to life through the collaboration of Great Value Realty (GVR) and Yatharth Family Office, a partnership built on trust, innovation, and...",
       date: "Jun 28, 2025",
       linkText: "Eternia: Spacious Residences For Grand Living - The Tribune",
-      linkUrl: "https://www.tribuneindia.com/",
+      linkUrl:"https://www.tribuneindia.com/news/business/eternia-spacious-residences-for-grand-living/",
     },
     {
       id: 2,
@@ -24,16 +24,16 @@ export function PressReleasesSection() {
       description: "The vision of Eternia residences comes to life through the collaboration of Great Value Realty (GVR) and Yatharth Family Office, a partnership built on trust, innovation, and...",
       date: "Jun 28, 2025",
       linkText: "Eternia: Spacious Residences For Grand Living - The Business Standard",
-      linkUrl: "https://www.business-standard.com/",
+      linkUrl: "https://www.tribuneindia.com/news/business/eternia-spacious-residences-for-grand-living/",
     },
     {
       id: 3,
       image: "/assets/3.png",
-      title: "Yatharth Hospital lists on NSE/BSE: The trust behind Sanskar Realty",
-      description: "Yatharth Hospital & Trauma Care Services Ltd. was successfully listed on NSE and BSE, which raised ₹687 Cr. This has made Yatharth Hospital the most reliable public-listed hospital...",
-      date: "Aug 07, 2023",
+      title: "Eternia: Spacious Residences For Grand Living | The Print ",
+      description: " The vision of Eternia residences comes to life through the collaboration of Great Value Realty (GVR) and Yatharth Family Office, a partnership built on trust, innovation, and…",
+      date: "Jun 28, 2025 ",
       linkText: "nse: yatharth...",
-      linkUrl: "https://www.nseindia.com/",
+      linkUrl: "https://theprint.in/ani-press-releases/eternia-spacious-residences-for-grand-living/2673731/",
     },
   ];
 

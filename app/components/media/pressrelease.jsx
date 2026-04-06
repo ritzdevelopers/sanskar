@@ -15,13 +15,36 @@ const quattrocento = Quattrocento({
   weight: ["400", "700"],
 });
 
-const bodyCopy =
-  "At Sanskar, we are dedicated to helping individuals, families, and investors navigate the real estate market with confidence. With a deep understanding of local trends and a commitment to personalized service, we turn property goals into successful outcomes.";
+const eterniaBody =
+  "The vision of Eternia residences comes to life through the collaboration of Great Value Realty (GVR) and Yatharth Family Office, a partnership built on trust, innovation, and a shared commitment to enhancing community well-being. The grand launch celebration of Eternia on June 6, 2025, marks the beginning of a new era in spacious living.";
+
+const TRIBUNE_URL =
+  "https://www.tribuneindia.com/news/business/eternia-spacious-residences-for-grand-living/";
+const THEPRINT_URL =
+  "https://theprint.in/ani-press-releases/eternia-spacious-residences-for-grand-living/2673731/";
 
 const entries = [
-  { id: 1, day: "12", monthYear: "JAN / 26" },
-  { id: 2, day: "12", monthYear: "JAN / 26" },
-  { id: 3, day: "12", monthYear: "JAN / 26" },
+  {
+    id: 1,
+    day: "28",
+    monthYear: "JUNE / 25",
+    body: eterniaBody,
+    href: TRIBUNE_URL,
+  },
+  {
+    id: 2,
+    day: "28",
+    monthYear: "JUNE / 25",
+    body: eterniaBody,
+    href: TRIBUNE_URL,
+  },
+  {
+    id: 3,
+    day: "28",
+    monthYear: "JUNE / 25",
+    body: eterniaBody,
+    href: THEPRINT_URL,
+  },
 ];
 
 export default function PressRelease() {
@@ -84,21 +107,24 @@ export default function PressRelease() {
                   {item.monthYear}
                 </p>
               </div>
-              <p
+              <div
                 data-scroll-reveal
                 className={`${lato.className} max-w-[880px] text-[16px] font-normal leading-[28px] tracking-normal text-[#00000099]`}
               >
-                {bodyCopy}
-              </p>
+                <p>{item.body}</p>
+             
+              </div>
               <div className="flex justify-start sm:col-span-2 md:col-span-1 md:justify-end">
-                <button
-                  type="button"
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   data-scroll-reveal-pop
-                  aria-label="Open press release"
+                  aria-label="Open press release in new tab"
                   className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#111111] transition-colors hover:bg-black/5"
                 >
                   <i className="ri-arrow-right-up-line text-[20px] leading-none text-[#111111]" aria-hidden="true" />
-                </button>
+                </a>
               </div>
             </li>
           ))}
