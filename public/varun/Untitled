@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contact Form</title>
+</head>
+<body>
+
+<h2>Contact Form</h2>
+
+<form id="myForm">
+  <input type="text" name="name" placeholder="Name" required><br><br>
+  
+  <input type="email" name="email" placeholder="Email" required><br><br>
+  
+  <input type="text" name="phone" placeholder="Phone"><br><br>
+  
+  <textarea name="message" placeholder="Message"></textarea><br><br>
+  
+  <button type="submit">Submit</button>
+</form>
+
+<p id="status"></p>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbw55iuzOsygQGfZXKHzJOCrRJVS0BzTiz7UJBRjx91qJFgzo1gvpz0vYdjo7tlNbNIX/exec";
+
+document.getElementById("myForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const form = this;
+  const status = document.getElementById("status");
+
+  const data = {
+    name: form.name.value,
+    email: form.email.value,
+    phone: form.phone.value,
+    message: form.message.value
+  };
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(response => {
+    status.innerHTML = "✅ Form submitted successfully!";
+    form.reset();
+  })
+  .catch(error => {
+    status.innerHTML = "❌ Error submitting form!";
+    console.error(error);
+  });
+});
+</script>
+
+</body>
+</html>
