@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { NavOverlay } from "../common/NavOverlay";
 import { scrollAboutUsToTopIfSamePage } from "../common/aboutNavigation";
 
+const ENQUIRE_API_PATH = "/api/enquire";
+
 const OFFICES = [
   {
     name: "Eternia Office",
@@ -14,9 +16,16 @@ const OFFICES = [
   },
 ];
 
+/** Keeps fields visually on #111111 (no white flash on focus / autofill). */
+const contactFieldClass =
+  "w-full border-0 border-b border-[#DCDCDC] bg-[#111111] py-2.5 font-lato text-[15px] text-white caret-white outline-none transition-colors focus:border-white focus:bg-[#111111] focus:text-white active:bg-[#111111] placeholder:font-lato placeholder:text-[14px] placeholder:font-normal placeholder:leading-[100%] placeholder:tracking-normal placeholder:text-[#494949] [&:-webkit-autofill]:[-webkit-text-fill-color:#fff] [&:-webkit-autofill]:shadow-[inset_0_0_0_1000px_#111111] [&:-webkit-autofill]:[transition:background-color_99999s_ease-out_0s]";
+
+const contactTextareaClass = `${contactFieldClass} min-h-[120px] resize-y`;
+
 export function ContactFormSection() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -26,6 +35,76 @@ export function ContactFormSection() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+
+    const name = String(fd.get("name") ?? "").trim();
+    const email = String(fd.get("email") ?? "").trim();
+    const phone = String(fd.get("phone") ?? "").trim();
+    const message = String(fd.get("message") ?? "").trim();
+    const mobile = phone.replace(/\D/g, "");
+
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        formType: "Contact Us",
+        fullName: name,
+        email,
+        mobile,
+        message,
+        details: message,
+        notes: message,
+      };
+
+      const res = await fetch(ENQUIRE_API_PATH, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const text = await res.text();
+      let parsed;
+      try {
+        parsed = text ? JSON.parse(text) : null;
+      } catch {
+        parsed = null;
+      }
+      if (!res.ok) {
+        throw new Error(
+          typeof parsed === "object" &&
+            parsed !== null &&
+            "message" in parsed &&
+            typeof parsed.message === "string"
+            ? parsed.message
+            : `Server returned ${res.status}`,
+        );
+      }
+      if (parsed && typeof parsed === "object" && "ok" in parsed && parsed.ok === false) {
+        const m =
+          "message" in parsed && typeof parsed.message === "string"
+            ? parsed.message
+            : "Submission rejected.";
+        throw new Error(m);
+      }
+      const trimmed = text.trim();
+      if (
+        trimmed.startsWith("<!DOCTYPE") ||
+        trimmed.startsWith("<html") ||
+        /Script function not found/i.test(text)
+      ) {
+        throw new Error("Apps Script: add doGet + doPost and redeploy Web app.");
+      }
+      if (form.isConnected) {
+        form.reset();
+      }
+    } catch {
+      // Keep UI unchanged; fail silently as requested.
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#111111]">
@@ -132,41 +211,42 @@ export function ContactFormSection() {
                Have Questions? We’re Ready to Assist.
               </h2>
               <form
-                className="mt-0 md:mt-8 flex w-full flex-col gap-9 sm:mt-5 sm:gap-6"
-                onSubmit={(e) => e.preventDefault()}
+                className="mt-0 md:mt-8 lg:mt-12 flex w-full flex-col gap-9 sm:mt-5 sm:gap-6 [color-scheme:dark]"
+                onSubmit={onSubmit}
               >
                 <input
                   type="text"
                   name="name"
                   placeholder="Enter Your Name"
                   autoComplete="name"
-                  className="w-full border-0 border-b border-[#DCDCDC] bg-transparent py-2.5 font-lato text-[15px] text-white placeholder:font-lato placeholder:text-[14px] placeholder:font-normal placeholder:leading-[100%] placeholder:tracking-normal placeholder:text-[#494949] outline-none transition-colors focus:border-white"
+                  className={contactFieldClass}
                 />
                 <input
                   type="email"
                   name="email"
                   placeholder="Enter Your Email"
                   autoComplete="email"
-                  className="w-full border-0 border-b border-[#DCDCDC] bg-transparent py-2.5 font-lato text-[15px] text-white placeholder:font-lato placeholder:text-[14px] placeholder:font-normal placeholder:leading-[100%] placeholder:tracking-normal placeholder:text-[#494949] outline-none transition-colors focus:border-white"
+                  className={contactFieldClass}
                 />
                 <input
                   type="tel"
                   name="phone"
                   placeholder="Enter Your Phone Number"
                   autoComplete="tel"
-                  className="w-full border-0 border-b border-[#DCDCDC] bg-transparent py-2.5 font-lato text-[15px] text-white placeholder:font-lato placeholder:text-[14px] placeholder:font-normal placeholder:leading-[100%] placeholder:tracking-normal placeholder:text-[#494949] outline-none transition-colors focus:border-white"
+                  className={contactFieldClass}
                 />
                 <textarea
                   name="message"
                   placeholder="Message"
                   rows={4}
-                  className="min-h-[120px] w-full resize-y border-0 border-b border-[#DCDCDC] bg-transparent py-2.5 font-lato text-[15px] text-white placeholder:font-lato placeholder:text-[14px] placeholder:font-normal placeholder:leading-[100%] placeholder:tracking-normal placeholder:text-[#494949] outline-none transition-colors focus:border-white"
+                  className={contactTextareaClass}
                 />
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="inline-flex w-full items-center justify-center bg-[#eeeeee] py-3.5 align-middle font-lato text-[16px] font-[500] leading-[24px] tracking-normal text-[#111111] transition-colors hover:bg-white"
                 >
-                  Submit
+                  {isSubmitting ? "Submitting..." : "Submit"}
                 </button>
               </form>
             </div>
