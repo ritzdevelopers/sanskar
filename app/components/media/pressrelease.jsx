@@ -20,6 +20,8 @@ const eterniaBody =
 
 const TRIBUNE_URL =
   "https://www.tribuneindia.com/news/business/eternia-spacious-residences-for-grand-living/";
+const BUSINESS_STANDARD_URL =
+  "https://www.business-standard.com/content/press-releases-ani/eternia-spacious-residences-for-grand-living-125062800661_1.html";
 const THEPRINT_URL =
   "https://theprint.in/ani-press-releases/eternia-spacious-residences-for-grand-living/2673731/";
 
@@ -36,7 +38,7 @@ const entries = [
     day: "28",
     monthYear: "JUNE / 25",
     body: eterniaBody,
-    href: TRIBUNE_URL,
+    href: BUSINESS_STANDARD_URL,
   },
   {
     id: 3,

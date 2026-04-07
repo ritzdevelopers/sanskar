@@ -24,7 +24,7 @@ export function PressReleasesSection() {
       description: "The vision of Eternia residences comes to life through the collaboration of Great Value Realty (GVR) and Yatharth Family Office, a partnership built on trust, innovation, and...",
       date: "Jun 28, 2025",
       linkText: "Eternia: Spacious Residences For Grand Living - The Business Standard",
-      linkUrl: "https://www.tribuneindia.com/news/business/eternia-spacious-residences-for-grand-living/",
+      linkUrl: "https://www.business-standard.com/content/press-releases-ani/eternia-spacious-residences-for-grand-living-125062800661_1.html",
     },
     {
       id: 3,

@@ -23,7 +23,7 @@ type NavOverlayProps = {
 };
 
 const NAV_LINKS = [
-  { label: "Home", href: "#" },
+  { label: "Home", href: "/" },
   {
     label: "About Us",
     href: "/about-us",

@@ -44,7 +44,7 @@ export default function MediaBanner() {
             <h1
               className={`${quattrocento.className} mt-3 text-center text-[20px] md:text-[36px] font-normal uppercase leading-[100%] tracking-normal text-[#FFFFFF] sm:mt-4`}
             >
-              Turning Spaces into Stories
+           Discover Latest Insights & Announcements
             </h1>
           </div>
         </div>
