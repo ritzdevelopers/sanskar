@@ -4,6 +4,8 @@ import Image from "next/image";
 import { type FormEvent, useCallback, useState } from "react";
 import { Lato, Quattrocento } from "next/font/google";
 
+const ENQUIRE_API_PATH = "/api/enquire";
+
 const quattrocento = Quattrocento({
   subsets: ["latin"],
   weight: ["400"],
@@ -14,9 +16,9 @@ const lato = Lato({
   weight: ["400"],
 });
 
-const inputClass = `w-full border-0 border-b border-white/40 bg-transparent font-normal outline-none transition-colors focus:border-white ${lato.className} text-[14px] leading-[100%] text-white placeholder:font-normal placeholder:text-[14px] placeholder:leading-[100%] placeholder:text-[#FFFFFF66]`;
+const inputClass = `mt-1 w-full border-0 border-b border-white/40 bg-black pt-2 pb-3 font-normal outline-none transition-colors focus:border-white focus:bg-black active:bg-black ${lato.className} text-[14px] leading-[100%] text-white caret-white placeholder:font-normal placeholder:text-[14px] placeholder:leading-[100%] placeholder:text-[#FFFFFF66] [&:-webkit-autofill]:[-webkit-text-fill-color:#fff] [&:-webkit-autofill]:shadow-[inset_0_0_0_1000px_#000000] [&:-webkit-autofill]:[transition:background-color_99999s_ease-out_0s]`;
 
-const textareaClass = `w-full border-0 border-b border-white/40 bg-transparent py-2 font-normal outline-none transition-colors focus:border-white ${lato.className} min-h-[72px] resize-y text-[14px] leading-[150%] text-white placeholder:text-[14px] placeholder:leading-[100%] placeholder:text-[#FFFFFF66]`;
+const textareaClass = `mt-1 w-full border-0 border-b border-white/40 bg-black pt-2 pb-3 font-normal outline-none transition-colors focus:border-white focus:bg-black active:bg-black ${lato.className} min-h-[72px] resize-y text-[14px] leading-[150%] text-white caret-white placeholder:text-[14px] placeholder:leading-[150%] placeholder:text-[#FFFFFF66] [&:-webkit-autofill]:[-webkit-text-fill-color:#fff] [&:-webkit-autofill]:shadow-[inset_0_0_0_1000px_#000000] [&:-webkit-autofill]:[transition:background-color_99999s_ease-out_0s]`;
 
 const errorBorder = "border-b-red-400 focus:border-red-300";
 
@@ -85,9 +87,11 @@ export function NriEnquireSection() {
     email: "",
     phone: "",
     message: "",
+    
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const clearFieldError = useCallback((field: FieldName) => {
     setErrors((prev) => {
@@ -114,7 +118,7 @@ export function NriEnquireSection() {
     });
   };
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitSuccess(false);
     const nextErrors = validateForm(values);
@@ -127,9 +131,70 @@ export function NriEnquireSection() {
       return;
     }
 
-    setSubmitSuccess(true);
-    setValues({ name: "", email: "", phone: "", message: "" });
-    setErrors({});
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        formType: "NRI Enquire",
+        fullName: values.name.trim(),
+        email: values.email.trim(),
+        mobile: digitsOnly(values.phone),
+        message: values.message.trim(),
+        details: values.message.trim(),
+        notes: values.message.trim(),
+      };
+
+      const res = await fetch(ENQUIRE_API_PATH, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const text = await res.text();
+      let parsed: unknown;
+      try {
+        parsed = text ? JSON.parse(text) : null;
+      } catch {
+        parsed = null;
+      }
+      if (!res.ok) {
+        throw new Error(
+          typeof parsed === "object" &&
+            parsed !== null &&
+            "message" in parsed &&
+            typeof (parsed as { message: string }).message === "string"
+            ? (parsed as { message: string }).message
+            : `Server returned ${res.status}`,
+        );
+      }
+      if (
+        parsed &&
+        typeof parsed === "object" &&
+        "ok" in parsed &&
+        (parsed as { ok: unknown }).ok === false
+      ) {
+        const m =
+          "message" in parsed &&
+          typeof (parsed as { message?: string }).message === "string"
+            ? (parsed as { message: string }).message
+            : "Submission rejected.";
+        throw new Error(m);
+      }
+      const trimmed = text.trim();
+      if (
+        trimmed.startsWith("<!DOCTYPE") ||
+        trimmed.startsWith("<html") ||
+        /Script function not found/i.test(text)
+      ) {
+        throw new Error("Apps Script: add doGet + doPost and redeploy Web app.");
+      }
+
+      setSubmitSuccess(true);
+      setValues({ name: "", email: "", phone: "", message: "" });
+      setErrors({});
+    } catch {
+      setSubmitSuccess(false);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -166,7 +231,7 @@ export function NriEnquireSection() {
               Enquire Now
             </h2>
             <form
-              className="flex w-full flex-col gap-[36px] lg:max-w-none"
+              className="flex w-full flex-col gap-[36px] lg:max-w-none [color-scheme:dark]"
               noValidate
               onSubmit={onSubmit}
             >
@@ -180,10 +245,7 @@ export function NriEnquireSection() {
                 </p>
               ) : null}
               <div className="flex w-full flex-col text-left">
-                <label
-                  htmlFor="nri-enquire-name"
-                  className={`${lato.className} mb-1 block text-left text-[14px] font-normal leading-[100%] tracking-normal text-[#FFFFFF66]`}
-                >
+                <label htmlFor="nri-enquire-name" className="sr-only">
                   Enter Your Name
                 </label>
                 <input
@@ -191,6 +253,7 @@ export function NriEnquireSection() {
                   type="text"
                   name="name"
                   autoComplete="name"
+                  placeholder="Enter Your Name"
                   value={values.name}
                   onChange={(e) => onFieldChange("name", e.target.value)}
                   onBlur={() => onFieldBlur("name")}
@@ -209,10 +272,7 @@ export function NriEnquireSection() {
                 ) : null}
               </div>
               <div className="flex w-full flex-col text-left">
-                <label
-                  htmlFor="nri-enquire-email"
-                  className={`${lato.className} mb-1 block text-left text-[14px] font-normal leading-[100%] tracking-normal text-[#FFFFFF66]`}
-                >
+                <label htmlFor="nri-enquire-email" className="sr-only">
                   Enter Your Email
                 </label>
                 <input
@@ -221,6 +281,7 @@ export function NriEnquireSection() {
                   name="email"
                   autoComplete="email"
                   inputMode="email"
+                  placeholder="Enter Your Email"
                   value={values.email}
                   onChange={(e) => onFieldChange("email", e.target.value)}
                   onBlur={() => onFieldBlur("email")}
@@ -239,10 +300,7 @@ export function NriEnquireSection() {
                 ) : null}
               </div>
               <div className="flex w-full flex-col text-left">
-                <label
-                  htmlFor="nri-enquire-phone"
-                  className={`${lato.className} mb-1 block text-left text-[14px] font-normal leading-[100%] tracking-normal text-[#FFFFFF66]`}
-                >
+                <label htmlFor="nri-enquire-phone" className="sr-only">
                   Enter Your Phone Number
                 </label>
                 <input
@@ -251,6 +309,7 @@ export function NriEnquireSection() {
                   name="phone"
                   autoComplete="tel"
                   inputMode="tel"
+                  placeholder="Enter Your Phone Number"
                   value={values.phone}
                   onChange={(e) => onFieldChange("phone", e.target.value)}
                   onBlur={() => onFieldBlur("phone")}
@@ -269,16 +328,14 @@ export function NriEnquireSection() {
                 ) : null}
               </div>
               <div className="flex w-full flex-col text-left">
-                <label
-                  htmlFor="nri-enquire-message"
-                  className={`${lato.className} mb-1 block text-left text-[14px] font-normal leading-[100%] tracking-normal text-[#FFFFFF66]`}
-                >
+                <label htmlFor="nri-enquire-message" className="sr-only">
                   Message
                 </label>
                 <textarea
                   id="nri-enquire-message"
                   name="message"
                   rows={3}
+                  placeholder="Message"
                   value={values.message}
                   onChange={(e) => onFieldChange("message", e.target.value)}
                   onBlur={() => onFieldBlur("message")}
@@ -298,9 +355,10 @@ export function NriEnquireSection() {
               </div>
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className={`${lato.className} w-full shrink-0 rounded-full border-0 bg-[#F5AC00] px-6 py-3.5 text-center text-[16px] font-semibold leading-normal text-white transition-opacity hover:opacity-95 sm:py-4`}
               >
-                Submit
+                {isSubmitting ? "Submitting..." : "Submit"}
               </button>
             </form>
           </div>
