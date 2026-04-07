@@ -38,7 +38,7 @@ export function OverviewSection() {
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-[1500px] px-4 pt-8 pb-10 sm:px-6 sm:pt-10 sm:pb-12 md:px-8 md:pt-12 md:pb-14 lg:px-10 lg:pt-14 lg:pb-14 xl:px-12 2xl:px-16">
-        <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-3 text-center sm:gap-4 md:items-start md:gap-4 md:text-left lg:gap-5 xl:max-w-[1320px]">
+        <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-3 text-center sm:gap-4 md:items-start md:gap-4 lg:text-left lg:gap-5 xl:max-w-[1320px]">
         <p
           data-scroll-reveal
           className={`${lato.className} w-full text-sm font-normal leading-7 text-[#111111] uppercase sm:text-[15px] md:text-[16px]`}
@@ -72,7 +72,7 @@ export function OverviewSection() {
         <button
           data-scroll-reveal
           type="button"
-          className={`${lato.className} group relative inline-flex h-11 w-full max-w-[184px] items-center justify-center gap-[10px] overflow-hidden rounded-[50px] border border-[#111111] px-[12px] py-[11px] text-[13px] font-semibold leading-[100%] capitalize transition-all duration-700 ease-out hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(17,17,17,0.18)] active:translate-y-0 active:shadow-none sm:h-[46px] sm:text-[14px] lg:mx-0`}
+          className={`${lato.className} group relative inline-flex h-11 w-full max-w-[184px] items-center justify-center gap-[10px] overflow-hidden rounded-[50px] border border-[#111111] px-[12px] py-[11px] text-[13px] font-semibold leading-[100%] capitalize transition-all duration-700 ease-out hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(17,17,17,0.18)] active:translate-y-0 active:shadow-none mx-auto lg:mx-0 sm:h-[46px] sm:text-[14px]`}
         >
           <span
             className="absolute inset-0 -translate-x-full bg-[#111111] transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0"
