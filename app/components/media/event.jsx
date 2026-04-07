@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Quattrocento } from "next/font/google";
 import { AWARDS_CERTIFICATIONS_SECTION_ID } from "../common/mediaNavigation";
 
@@ -38,17 +38,74 @@ const eventImages = [
 ];
 
 const AUTO_SLIDE_MS = 5000;
+/** Must match Tailwind `duration-500` on the slide track */
+const SLIDE_TRANSITION_MS = 500;
+
+const slideTrackClass =
+  "flex h-full transition-transform duration-500 ease-out motion-reduce:transition-none";
 
 export default function OurEvents() {
-  const [activeIndex, setActiveIndex] = useState(0);
   const n = eventImages.length;
+  const loopSlides = useMemo(
+    () => [eventImages[n - 1], ...eventImages, eventImages[0]],
+    [n]
+  );
+  const loopLen = n + 2;
+
+  /** 1..n = real slides; 0 and n+1 are clones for seamless loop */
+  const [trackPos, setTrackPos] = useState(1);
+  const [enableTransition, setEnableTransition] = useState(true);
+
+  const realIndex =
+    trackPos === 0 ? n - 1 : trackPos === n + 1 ? 0 : trackPos - 1;
+
+  const col2TrackPos = ((realIndex + 1) % n) + 1;
+
+  useEffect(() => {
+    if (trackPos !== n + 1 && trackPos !== 0) return undefined;
+    const id = window.setTimeout(() => {
+      setEnableTransition(false);
+      setTrackPos(trackPos === n + 1 ? 1 : n);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setEnableTransition(true));
+      });
+    }, SLIDE_TRANSITION_MS);
+    return () => clearTimeout(id);
+  }, [trackPos, n]);
 
   useEffect(() => {
     const id = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % n);
+      setTrackPos((prev) => {
+        if (prev === 0 || prev === n + 1) return prev;
+        if (prev === n) return n + 1;
+        return prev + 1;
+      });
     }, AUTO_SLIDE_MS);
     return () => clearInterval(id);
   }, [n]);
+
+  const goPrev = useCallback(() => {
+    setTrackPos((prev) => {
+      if (prev === 0 || prev === n + 1) return prev;
+      if (prev === 1) return 0;
+      return prev - 1;
+    });
+  }, [n]);
+
+  const goNext = useCallback(() => {
+    setTrackPos((prev) => {
+      if (prev === 0 || prev === n + 1) return prev;
+      if (prev === n) return n + 1;
+      return prev + 1;
+    });
+  }, [n]);
+
+  const trackClassName = enableTransition
+    ? slideTrackClass
+    : "flex h-full motion-reduce:transition-none";
+
+  const arrowBtnClass =
+    "pointer-events-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#111111]/15 bg-white/95 text-[#111111] shadow-md transition hover:bg-white focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#111111] sm:h-11 sm:w-11";
 
   const cardShell =
     "overflow-hidden bg-white p-1  ring-1 ring-black/[0.04]";
@@ -56,7 +113,7 @@ export default function OurEvents() {
     "overflow-hidden bg-white p-1  ring-1 ring-black/[0.04]";
 
   /** 4 tiles: prev, current (only one “active” / large), next, next+1 */
-  const slotIndex = (offset) => (activeIndex + offset - 1 + n) % n;
+  const slotIndex = (offset) => (realIndex + offset - 1 + n) % n;
 
   return (
     <section
@@ -72,136 +129,191 @@ export default function OurEvents() {
           </h2>
         </div>
 
-        {/* Full-bleed strip: images align to viewport left / right */}
-        <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-hidden">
-          {/* Mobile — height auto (intrinsic image); crossfade via stacked grid */}
+        {/* Full-bleed strip + left/right controls */}
+        <div className="relative w-full">
+          <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-hidden">
+          {/* Mobile — same card frame; images slide horizontally one by one */}
           <div className="w-full md:hidden">
-            <div className={`grid w-full ${cardShell}`}>
-              {eventImages.map((item, i) => (
-                <div
-                  key={item.src}
-                  className={`col-start-1 row-start-1 w-full transition-opacity duration-500 ease-in-out ${
-                    i === activeIndex ? "z-[1] opacity-100" : "z-0 opacity-0 pointer-events-none"
-                  }`}
-                  aria-hidden={i !== activeIndex}
-                >
-                  <div className="box-border w-full border border-[#EDEDED] p-[10px]">
-                    <Image
-                      src={item.src}
-                      alt={item.alt}
-                      width={1200}
-                      height={750}
-                      className="h-auto w-full object-cover"
-                      sizes="100vw"
-                    />
+            <div className={`w-full ${cardShell}`}>
+              <div className="box-border w-full border border-[#EDEDED] p-[10px]">
+                <div className="relative aspect-[16/10] w-full overflow-hidden">
+                  <div
+                    className={trackClassName}
+                    style={{
+                      width: `${loopLen * 100}%`,
+                      transform: `translateX(-${(trackPos / loopLen) * 100}%)`,
+                    }}
+                  >
+                    {loopSlides.map((item, i) => (
+                      <div
+                        key={`${item.src}-loop-${i}`}
+                        className="relative h-full shrink-0"
+                        style={{ width: `${100 / loopLen}%` }}
+                        aria-hidden={i !== trackPos}
+                      >
+                        <Image
+                          src={item.src}
+                          alt={item.alt}
+                          fill
+                          className="object-cover"
+                          sizes="100vw"
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
 
-          {/* md–lg: two images (active + next), height auto from image */}
+          {/* md–lg: two cards (current + next); each slides through images */}
           <div className="hidden w-full items-start justify-center gap-3 px-4 sm:gap-4 md:flex lg:hidden">
-            <div className={`grid min-w-0 flex-1 ${cardShell}`}>
-              {eventImages.map((item, i) => (
-                <div
-                  key={item.src}
-                  className={`col-start-1 row-start-1 w-full transition-opacity duration-500 ease-in-out ${
-                    i === activeIndex ? "z-[1] opacity-100" : "z-0 opacity-0 pointer-events-none"
-                  }`}
-                  aria-hidden={i !== activeIndex}
-                >
-                  <div className="box-border w-full border border-[#EDEDED] p-[10px]">
-                    <Image
-                      src={item.src}
-                      alt={item.alt}
-                      width={1200}
-                      height={750}
-                      className="h-auto w-full object-cover"
-                      sizes="(max-width: 1023px) 45vw, 400px"
-                    />
+            <div className={`min-w-0 flex-1 ${cardShell}`}>
+              <div className="box-border w-full border border-[#EDEDED] p-[10px]">
+                <div className="relative aspect-[16/10] w-full overflow-hidden">
+                  <div
+                    className={trackClassName}
+                    style={{
+                      width: `${loopLen * 100}%`,
+                      transform: `translateX(-${(trackPos / loopLen) * 100}%)`,
+                    }}
+                  >
+                    {loopSlides.map((item, i) => (
+                      <div
+                        key={`${item.src}-loop-${i}`}
+                        className="relative h-full shrink-0"
+                        style={{ width: `${100 / loopLen}%` }}
+                        aria-hidden={i !== trackPos}
+                      >
+                        <Image
+                          src={item.src}
+                          alt={item.alt}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 1023px) 45vw, 400px"
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
-            <div className={`grid min-w-0 flex-1 ${cardShell}`}>
-              {eventImages.map((item, i) => {
-                const nextIdx = (activeIndex + 1) % n;
-                return (
+            <div className={`min-w-0 flex-1 ${cardShell}`}>
+              <div className="box-border w-full border border-[#EDEDED] p-[10px]">
+                <div className="relative aspect-[16/10] w-full overflow-hidden">
                   <div
-                    key={item.src}
-                    className={`col-start-1 row-start-1 w-full transition-opacity duration-500 ease-in-out ${
-                      i === nextIdx ? "z-[1] opacity-100" : "z-0 opacity-0 pointer-events-none"
-                    }`}
-                    aria-hidden={i !== nextIdx}
+                    className={trackClassName}
+                    style={{
+                      width: `${loopLen * 100}%`,
+                      transform: `translateX(-${(col2TrackPos / loopLen) * 100}%)`,
+                    }}
                   >
-                    <div className="box-border w-full border border-[#EDEDED] p-[10px]">
-                      <Image
-                        src={item.src}
-                        alt={item.alt}
-                        width={1200}
-                        height={750}
-                        className="h-auto w-full object-cover"
-                        sizes="(max-width: 1023px) 45vw, 400px"
-                      />
-                    </div>
+                    {loopSlides.map((item, i) => (
+                      <div
+                        key={`${item.src}-loop-b-${i}`}
+                        className="relative h-full shrink-0"
+                        style={{ width: `${100 / loopLen}%` }}
+                        aria-hidden={i !== col2TrackPos}
+                      >
+                        <Image
+                          src={item.src}
+                          alt={item.alt}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 1023px) 45vw, 400px"
+                        />
+                      </div>
+                    ))}
                   </div>
-                );
-              })}
+                </div>
+              </div>
             </div>
           </div>
 
           {/* lg+ — centered row clips at viewport: first/last images peek off-screen */}
           <div className="hidden w-full items-center justify-center gap-2 px-0 lg:flex lg:gap-4">
-          {[0, 1, 2, 3].map((offset) => {
-            const idx = slotIndex(offset);
-            const item = eventImages[idx];
-            const isActive = offset === 1;
-            return (
-              <button
-                key={offset}
-                type="button"
-                className={`relative shrink-0 cursor-pointer p-0 text-left transition-[width,height,opacity,box-shadow,transform] duration-500 ease-in-out focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#111111] ${
-                  isActive
-                    ? `z-10 h-[419px] w-[584px] ${cardShellActive}`
-                    : `h-[267px] w-[372px] opacity-90 ${cardShell}`
-                }`}
-                aria-label={item.alt}
-                aria-current={isActive ? "true" : undefined}
-                onClick={() => setActiveIndex(idx)}
-              >
-                <div className="absolute inset-0 overflow-hidden">
-                  {eventImages.map((img, imgI) => (
+            {[0, 1, 2, 3].map((offset) => {
+              const idx = slotIndex(offset);
+              const item = eventImages[idx];
+              const isActive = offset === 1;
+              return (
+                <button
+                  key={offset}
+                  type="button"
+                  className={`relative shrink-0 cursor-pointer p-0 text-left transition-[width,height,opacity,box-shadow,transform] duration-500 ease-in-out focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#111111] ${
+                    isActive
+                      ? `z-10 h-[419px] w-[584px] ${cardShellActive}`
+                      : `h-[267px] w-[372px] opacity-90 ${cardShell}`
+                  }`}
+                  aria-label={item.alt}
+                  aria-current={isActive ? "true" : undefined}
+                  onClick={() => setTrackPos(idx + 1)}
+                >
+                  <div className="absolute inset-0 overflow-hidden">
                     <div
-                      key={img.src}
-                      className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
-                        imgI === idx ? "z-[1] opacity-100" : "z-0 opacity-0 pointer-events-none"
+                      className={`box-border h-full w-full p-[10px] ${
+                        isActive
+                          ? "border border-[#EDEDED]"
+                          : "border-[1px] border-solid border-[#EDEDED]"
                       }`}
-                      aria-hidden={imgI !== idx}
                     >
-                      <div
-                        className={`box-border h-full w-full p-[10px] ${
-                          isActive
-                            ? "border border-[#EDEDED]"
-                            : "border-[1px] border-solid border-[#EDEDED]"
-                        }`}
-                      >
-                        <div className="relative h-full w-full overflow-hidden">
-                          <Image
-                            src={img.src}
-                            alt={img.alt}
-                            fill
-                            className="object-cover"
-                            sizes={isActive ? "584px" : "372px"}
-                          />
+                      <div className="relative h-full w-full overflow-hidden">
+                        <div
+                          className={slideTrackClass}
+                          style={{
+                            width: `${n * 100}%`,
+                            transform: `translateX(-${(idx / n) * 100}%)`,
+                          }}
+                        >
+                          {eventImages.map((img, imgI) => (
+                            <div
+                              key={img.src}
+                              className="relative h-full shrink-0"
+                              style={{ width: `${100 / n}%` }}
+                              aria-hidden={imgI !== idx}
+                            >
+                              <Image
+                                src={img.src} 
+                                alt={img.alt} 
+                                fill 
+                                className="object-cover"
+                                sizes={isActive ? "584px" : "372px"}
+                              />
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </button>
-            );
-          })}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+          </div>
+
+          <div className="pointer-events-none absolute inset-0 z-20 mx-auto flex max-w-[100vw] items-center justify-between px-2 sm:px-4 md:px-6 lg:px-3 xl:px-8">
+            <button
+              type="button"
+              aria-label="Previous slide"
+              onClick={goPrev}
+              className={arrowBtnClass}
+            >
+              <i
+                className="ri-arrow-left-s-line text-xl leading-none sm:text-2xl"
+                aria-hidden="true"
+              />
+            </button>
+            <button
+              type="button"
+              aria-label="Next slide"
+              onClick={goNext}
+              className={arrowBtnClass}
+            >
+              <i
+                className="ri-arrow-right-s-line text-xl leading-none sm:text-2xl"
+                aria-hidden="true"
+              />
+            </button>
           </div>
         </div>
 
@@ -216,11 +328,11 @@ export default function OurEvents() {
                 key={i}
                 type="button"
                 role="tab"
-                aria-selected={i === activeIndex}
+                aria-selected={i === realIndex}
                 aria-label={`Slide ${i + 1}`}
-                onClick={() => setActiveIndex(i)}
+                onClick={() => setTrackPos(i + 1)}
                 className={`h-2 w-2 shrink-0 rounded-full transition-colors md:h-2.5 md:w-2.5 ${
-                  i === activeIndex
+                  i === realIndex
                     ? "bg-[#111111]"
                     : "bg-[#111111]/25 hover:bg-[#111111]/40"
                 }`}
