@@ -21,21 +21,24 @@ export function OverviewSection() {
   useScrollReveal(sectionRef);
 
   return (
-    <section ref={sectionRef} className="relative w-full min-w-0 overflow-x-hidden bg-white pt-2 sm:pt-3">
+    <section
+      ref={sectionRef}
+      className="relative w-full min-w-0 overflow-x-hidden bg-[url('/assets/homepageoverview.png')] bg-contain bg-center bg-no-repeat pt-2 sm:pt-3"
+    >
       <div className="pointer-events-none absolute inset-0 hidden xl:block">
         <div className="absolute left-1/2 top-0 h-full w-full max-w-[1500px] -translate-x-1/2 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
-          <div className="flex h-full w-full justify-evenly">
+          {/* <div className="flex h-full w-full justify-evenly">
             <span className="h-full w-px shrink-0 bg-[#F1F1F1]" />
             <span className="h-full w-px shrink-0 bg-[#F1F1F1]" />
             <span className="h-full w-px shrink-0 bg-[#F1F1F1]" />
             <span className="h-full w-px shrink-0 bg-[#F1F1F1]" />
             <span className="h-full w-px shrink-0 bg-[#F1F1F1]" />
-          </div>
+          </div> */}
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1500px] px-4 py-10 sm:px-6 sm:py-12 md:px-8 md:py-14 lg:px-10 lg:py-[56px] xl:px-12 2xl:px-16">
-        <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-6 text-center sm:gap-8 md:items-start md:gap-8 md:text-left lg:gap-[35px] xl:max-w-[1320px]">
+      <div className="relative z-10 mx-auto w-full max-w-[1500px] px-4 pt-8 pb-10 sm:px-6 sm:pt-10 sm:pb-12 md:px-8 md:pt-12 md:pb-14 lg:px-10 lg:pt-14 lg:pb-14 xl:px-12 2xl:px-16">
+        <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-3 text-center sm:gap-4 md:items-start md:gap-4 md:text-left lg:gap-5 xl:max-w-[1320px]">
         <p
           data-scroll-reveal
           className={`${lato.className} w-full text-sm font-normal leading-7 text-[#111111] uppercase sm:text-[15px] md:text-[16px]`}
@@ -53,7 +56,7 @@ export function OverviewSection() {
 
         <div
           data-scroll-reveal
-          className={`${lato.className} max-w-[1180px] space-y-4 text-[14px] font-normal leading-[1.6] text-[#3b3b3b] sm:text-[15px] md:text-[16px] md:leading-6`}
+          className={`${lato.className} max-w-[1180px] space-y-3 text-[14px] font-normal leading-[1.6] text-[#3b3b3b] sm:text-[15px] md:text-[16px] md:leading-6`}
         >
           <p>
             Sanskar Realty, a renowned name in the luxurious <span className="text-[#F7A51D] font-bold"> Delhi NCR </span>real estate region, and comes with a pedigree that matters. As a venture of the Yatharth Group, North India’s 3rd largest public-listed healthcare company, we bring our legacy of care, honesty and community impact into every home we make.
