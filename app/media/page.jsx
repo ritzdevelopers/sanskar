@@ -21,7 +21,7 @@ export default function MediaPage() {
         <Faqs />
         <DreamHome />
         <Testimonial />
-        <Prrelease />
+        {/* <Prrelease /> */}
         <FooterSection alignWithHeader />
       </main>
     </>
