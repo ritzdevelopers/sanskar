@@ -233,9 +233,13 @@ export default function Carrerform() {
       email,
       mobile,
       designation,
+      /** Sheet scripts often reuse Work With Us keys for the “team / role” column. */
+ 
+      teamLabel: designation,
       message,
       details,
       note: message,
+      notes: message,
       consent: true,
       resumeFileName: cv.name,
       resumeMimeType: cv.type || "application/octet-stream",
