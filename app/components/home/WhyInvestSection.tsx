@@ -87,7 +87,7 @@ export function WhyInvestSection() {
   };
 
   return (
-    <section id="why-invest" ref={sectionRef} className="bg-white/95 py-12 sm:py-14 md:py-16 lg:py-20 xl:py-24">
+    <section id="why-invest" ref={sectionRef} className="bg-white/95 py-[35px] md:py-[75px]">
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1280px] xl:max-w-[1320px]">
         <h2
