@@ -76,14 +76,14 @@ export default function PressRelease() {
                 Press Releases
               </h2>
             </div>
-            <Link
+            {/* <Link
               data-scroll-reveal
               href="#"
               className={`${lato.className} inline-flex shrink-0 items-center gap-1 align-middle text-[18px] font-normal leading-[100%] tracking-[0.05em] text-[#F5AC00] transition-opacity hover:opacity-80`}
             >
               Know More
               <i className="ri-arrow-right-up-line text-[20px] leading-none" aria-hidden="true" />
-            </Link>
+            </Link> */}
           </header>
           </div>
         </div>

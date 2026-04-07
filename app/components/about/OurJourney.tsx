@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Lato, Quattrocento } from "next/font/google";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useScrollReveal } from "../common/useScrollReveal";
 
 const lato = Lato({
@@ -114,21 +114,15 @@ function renderTimelineSubtitle(subtitle: string) {
     return subtitle;
 }
 
-/** Active underline: narrower than grid column, centered on the dot */
-function timelineActiveBarPercent(activeIndex: number, count: number) {
-    if (count <= 0) return { left: "0%", width: "0%" };
-    const colPct = 100 / count;
-    const widthPct = colPct * 0.48;
-    const leftPct = (activeIndex + 0.5) * colPct - widthPct / 2;
-    return { left: `${leftPct}%`, width: `${widthPct}%` };
-}
-
 export function OurJourney() {
     const sectionRef = useRef<HTMLElement>(null);
     const timelineScrollRef = useRef<HTMLDivElement>(null);
+    const timelineTrackRef = useRef<HTMLDivElement>(null);
     const timelineNodeRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const timelineLabelRefs = useRef<(HTMLDivElement | null)[]>([]);
     const skipTimelineScroll = useRef(true);
     const [activeIndex, setActiveIndex] = useState(getInitialTimelineIndex);
+    const [activeBarPx, setActiveBarPx] = useState({ left: 0, width: 0 });
 
     useScrollReveal(sectionRef);
 
@@ -148,6 +142,35 @@ export function OurJourney() {
             nodeRect.left + nodeRect.width / 2 - (scrollerRect.left + scrollerRect.width / 2);
         scroller.scrollBy({ left: delta, behavior: "smooth" });
     }, [activeIndex]);
+
+    const updateActiveBarLayout = useCallback(() => {
+        const track = timelineTrackRef.current;
+        const label = timelineLabelRefs.current[activeIndex];
+        if (!track || !label) return;
+        const tr = track.getBoundingClientRect();
+        const lr = label.getBoundingClientRect();
+        setActiveBarPx({ left: lr.left - tr.left, width: lr.width });
+    }, [activeIndex]);
+
+    useLayoutEffect(() => {
+        updateActiveBarLayout();
+        const track = timelineTrackRef.current;
+        const scrollEl = timelineScrollRef.current;
+        if (!track) return;
+
+        const ro = new ResizeObserver(() => updateActiveBarLayout());
+        ro.observe(track);
+        if (scrollEl) {
+            scrollEl.addEventListener("scroll", updateActiveBarLayout, { passive: true });
+            ro.observe(scrollEl);
+        }
+        window.addEventListener("resize", updateActiveBarLayout);
+        return () => {
+            ro.disconnect();
+            scrollEl?.removeEventListener("scroll", updateActiveBarLayout);
+            window.removeEventListener("resize", updateActiveBarLayout);
+        };
+    }, [updateActiveBarLayout]);
 
     const handleNext = () => {
         setActiveIndex((prev) => (prev + 1) % timelineData.length);
@@ -193,15 +216,21 @@ export function OurJourney() {
                         ref={timelineScrollRef}
                         className="-mx-4 scroll-smooth overflow-x-auto overflow-y-visible px-1.5 pb-1.5 sm:-mx-0 sm:px-0 sm:pb-2 md:overflow-visible md:px-[5%] lg:px-8 [scrollbar-width:thin]"
                     >
-                    <div className="relative w-full min-w-[460px] sm:min-w-[540px] md:min-w-0">
+                    <div
+                        ref={timelineTrackRef}
+                        className="relative w-full min-w-[460px] sm:min-w-[540px] md:min-w-0"
+                    >
                         {/* The background Track */}
                         <div className="absolute left-0 right-0 bottom-[6px] h-[2px] bg-[#E5E5E5] -z-10 sm:bottom-[7px] md:bottom-[8px]" />
 
-                        {/* Active segment — single bar animates left/width for smooth motion */}
+                        {/* Active segment — width matches the year label box above */}
                         <div
                             aria-hidden
                             className="pointer-events-none absolute bottom-[6px] z-[0] h-[2px] bg-[#111111] transition-[left,width] duration-500 ease-out sm:bottom-[7px] md:bottom-[8px]"
-                            style={timelineActiveBarPercent(activeIndex, timelineData.length)}
+                            style={{
+                                left: activeBarPx.width > 0 ? `${activeBarPx.left}px` : undefined,
+                                width: activeBarPx.width > 0 ? `${activeBarPx.width}px` : 0,
+                            }}
                         />
                         <div
                             className="relative z-10 grid w-full place-items-end justify-items-center gap-x-0 px-0 sm:gap-x-px sm:px-0 md:gap-x-4 md:px-0 lg:gap-x-5 xl:gap-x-6"
@@ -215,11 +244,14 @@ export function OurJourney() {
                                     ref={(el) => {
                                         timelineNodeRefs.current[idx] = el;
                                     }}
-                                    className="group relative flex min-w-0 w-full cursor-pointer flex-col items-center px-0 sm:px-0.5"
+                                    className="group relative flex min-w-0 w-full flex-col items-center px-0 sm:px-0.5"
                                     onClick={() => setActiveIndex(idx)}
                                 >
                                     <div
-                                        className={`mb-1 inline-flex max-w-full min-h-7 min-w-[3.75rem] shrink-0 items-center justify-center rounded-none border bg-[#FAFAFA] px-2 py-0.5 transition-colors duration-300 ease-out sm:mb-3 sm:min-h-9 sm:min-w-[5.25rem] sm:px-4 sm:py-1 md:mb-5 md:min-w-[6.75rem] md:px-6 md:py-1 ${
+                                        ref={(el) => {
+                                            timelineLabelRefs.current[idx] = el;
+                                        }}
+                                        className={`mb-1 inline-flex max-w-full min-h-7 min-w-[3.75rem] shrink-0 cursor-pointer items-center justify-center rounded-none border bg-[#FAFAFA] px-2 py-0.5 transition-colors duration-300 ease-out sm:mb-3 sm:min-h-9 sm:min-w-[5.25rem] sm:px-4 sm:py-1 md:mb-5 md:min-w-[6.75rem] md:px-6 md:py-1 ${
                                             idx === activeIndex
                                                 ? "border-[#111111] text-[#111111]"
                                                 : "border-[#CCCCCC] text-[#666666]"
@@ -299,7 +331,7 @@ export function OurJourney() {
                             onClick={handlePrev}
                             type="button"
                             aria-label="Previous timeline slide"
-                            className="relative z-20 flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[#CCCCCC] bg-[#FAFAFA] shadow-sm transition-colors hover:bg-gray-100 active:scale-[0.97] sm:h-12 sm:w-12 md:h-[52px] md:w-[52px] lg:order-1 lg:absolute lg:top-1/2 lg:h-12 lg:w-12 lg:-translate-y-1/2 lg:shadow-none lg:-left-10 xl:-left-16 2xl:-left-24"
+                            className="relative z-20 flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[#CCCCCC] bg-[#FAFAFA] shadow-sm transition-colors hover:bg-gray-100 active:scale-[0.97] sm:h-12 sm:w-12 md:h-[52px] md:w-[52px] lg:order-1 lg:absolute lg:top-1/2 lg:h-12 lg:w-12 lg:-translate-y-1/2 lg:shadow-none lg:-left-10 xl:-left-16 2xl:-left-24 cursor-pointer"
                         >
                             <i
                                 className="ri-arrow-left-line text-[20px] leading-none text-[#111111] sm:text-[22px] lg:text-2xl"
@@ -311,7 +343,7 @@ export function OurJourney() {
                             onClick={handleNext}
                             type="button"
                             aria-label="Next timeline slide"
-                            className="relative z-20 flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[#CCCCCC] bg-[#FAFAFA] shadow-sm transition-colors hover:bg-gray-100 active:scale-[0.97] sm:h-12 sm:w-12 md:h-[52px] md:w-[52px] lg:order-3 lg:absolute lg:top-1/2 lg:h-12 lg:w-12 lg:-translate-y-1/2 lg:shadow-none lg:-right-10 xl:-right-16 2xl:-right-24"
+                            className="relative z-20 flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[#CCCCCC] bg-[#FAFAFA] shadow-sm transition-colors hover:bg-gray-100 active:scale-[0.97] sm:h-12 sm:w-12 md:h-[52px] md:w-[52px] lg:order-3 lg:absolute lg:top-1/2 lg:h-12 lg:w-12 lg:-translate-y-1/2 lg:shadow-none lg:-right-10 xl:-right-16 2xl:-right-24 cursor-pointer"
                         >
                             <i
                                 className="ri-arrow-right-line text-[20px] leading-none text-[#111111] sm:text-[22px] lg:text-2xl"

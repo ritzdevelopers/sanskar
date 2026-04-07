@@ -29,6 +29,23 @@ const ALLOWED_CV_TYPES = [
 ];
 
 const MAX_CV_BYTES = 5 * 1024 * 1024;
+/** Keep under typical Apps Script body limits (same as Work With Us modal). */
+const RESUME_MAX_FOR_SHEET_UPLOAD = 1.5 * 1024 * 1024;
+
+const ENQUIRE_API_PATH = "/api/enquire";
+
+function readResumeAsBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result;
+      const comma = dataUrl.indexOf(",");
+      resolve(comma >= 0 ? dataUrl.slice(comma + 1) : dataUrl);
+    };
+    reader.onerror = () => reject(new Error("Could not read CV file."));
+    reader.readAsDataURL(file);
+  });
+}
 
 function digitsOnly(phone) {
   return phone.replace(/\D/g, "");
@@ -127,6 +144,8 @@ export default function Carrerform() {
   const [cv, setCv] = useState(null);
   const [cvLabel, setCvLabel] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const clearFieldError = useCallback((key) => {
     setErrors((prev) => {
@@ -141,6 +160,7 @@ export default function Carrerform() {
     setValues((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) clearFieldError(field);
     if (submitSuccess) setSubmitSuccess(false);
+    if (submitError) setSubmitError("");
   };
 
   const onTextBlur = (field) => {
@@ -159,11 +179,13 @@ export default function Carrerform() {
     setCvLabel(file ? file.name : "");
     clearFieldError("cv");
     if (submitSuccess) setSubmitSuccess(false);
+    if (submitError) setSubmitError("");
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setSubmitSuccess(false);
+    setSubmitError("");
     const nextErrors = validateCareerForm(values, cv);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
@@ -176,18 +198,110 @@ export default function Carrerform() {
       return;
     }
 
-    setSubmitSuccess(true);
-    setValues({
-      name: "",
-      email: "",
-      phone: "",
-      designation: "",
-      message: "",
-    });
-    setCv(null);
-    setCvLabel("");
-    setErrors({});
-    if (fileInputRef.current) fileInputRef.current.value = "";
+    if (!cv) return;
+
+    if (cv.size > RESUME_MAX_FOR_SHEET_UPLOAD) {
+      setErrors({
+        cv: "For online submission, CV must be 1.5 MB or smaller (compress PDF if needed).",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    let resumeBase64;
+    try {
+      resumeBase64 = await readResumeAsBase64(cv);
+    } catch {
+      setIsSubmitting(false);
+      setSubmitError("Could not read CV file — try another file.");
+      return;
+    }
+
+    const fullName = values.name.trim();
+    const email = values.email.trim();
+    const mobile = digitsOnly(values.phone);
+    const designation = values.designation.trim();
+    const message = values.message.trim();
+    const details = [
+      `Designation: ${designation}`,
+      `CV: ${cv.name} (${cv.type || "file"})`,
+    ].join("\n");
+
+    const payload = {
+      formType: "Career application",
+      fullName,
+      email,
+      mobile,
+      designation,
+      message,
+      details,
+      note: message,
+      consent: true,
+      resumeFileName: cv.name,
+      resumeMimeType: cv.type || "application/octet-stream",
+      resumeBase64,
+    };
+
+    try {
+      const res = await fetch(ENQUIRE_API_PATH, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const text = await res.text();
+      let parsed;
+      try {
+        parsed = text ? JSON.parse(text) : null;
+      } catch {
+        parsed = null;
+      }
+      if (!res.ok) {
+        throw new Error(
+          typeof parsed === "object" &&
+            parsed !== null &&
+            "message" in parsed &&
+            typeof parsed.message === "string"
+            ? parsed.message
+            : `Server returned ${res.status}`,
+        );
+      }
+      if (parsed && typeof parsed === "object" && "ok" in parsed && parsed.ok === false) {
+        const m =
+          "message" in parsed && typeof parsed.message === "string"
+            ? parsed.message
+            : "Submission rejected.";
+        throw new Error(m);
+      }
+      const trimmed = text.trim();
+      if (
+        trimmed.startsWith("<!DOCTYPE") ||
+        trimmed.startsWith("<html") ||
+        /Script function not found/i.test(text)
+      ) {
+        throw new Error("Apps Script: add doGet + doPost and redeploy Web app.");
+      }
+
+      setSubmitSuccess(true);
+      setValues({
+        name: "",
+        email: "",
+        phone: "",
+        designation: "",
+        message: "",
+      });
+      setCv(null);
+      setCvLabel("");
+      setErrors({});
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    } catch (err) {
+      const raw = err instanceof Error ? err.message.trim() : String(err);
+      const detail = raw.length > 280 ? `${raw.slice(0, 280)}…` : raw;
+      setSubmitError(
+        detail ? `Could not submit. ${detail}` : "Could not submit. Please try again.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   /** Hint in-field only; hides when user types. Accessible name via sr-only label. */
@@ -235,6 +349,14 @@ export default function Carrerform() {
                     role="status"
                   >
                     Thank you — we have received your application.
+                  </p>
+                ) : null}
+                {submitError ? (
+                  <p
+                    className={`${latoBody.className} text-[14px] font-normal leading-normal text-red-600`}
+                    role="alert"
+                  >
+                    {submitError}
                   </p>
                 ) : null}
 
@@ -426,9 +548,10 @@ export default function Carrerform() {
 
                 <button
                   type="submit"
-                  className={`${quattroButton.className} mx-auto w-full max-w-[280px] rounded-full border-0 bg-black px-8 py-3.5 text-center text-[15px] font-normal uppercase leading-none tracking-normal text-white transition-opacity hover:opacity-90 sm:py-4 sm:text-[16px] lg:mx-0`}
+                  disabled={isSubmitting}
+                  className={`${quattroButton.className} mx-auto w-full max-w-[280px] rounded-full border-0 bg-black px-8 py-3.5 text-center text-[15px] font-normal uppercase leading-none tracking-normal text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:opacity-60 sm:py-4 sm:text-[16px] lg:mx-0`}
                 >
-                  Interested
+                  {isSubmitting ? "Submitting…" : "Interested"}
                 </button>
               </form>
             </div>

@@ -29,7 +29,7 @@ const NAV_LINKS = [
     href: "/about-us",
     sub: [
       { label: "OUR PROFILE", href: OUR_PROFILE_HREF },
-      { label: "OUR STORY", href: OUR_PROFILE_HREF },
+      // { label: "OUR STORY", href: OUR_PROFILE_HREF },
       { label: "MISSION & VISION", href: MISSION_VISION_HREF },
       { label: "AWARDS & CERTIFICATIONS", href: AWARDS_CERTIFICATIONS_HREF },
     ],
