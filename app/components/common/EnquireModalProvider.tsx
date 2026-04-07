@@ -16,6 +16,8 @@ import {
   isValidNamePart,
 } from "./formValidation";
 
+const ENQUIRE_API_PATH = "/api/enquire";
+
 const lato = Lato({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -51,12 +53,21 @@ export function EnquireModalProvider({
 }) {
   const [open, setOpen] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitBanner, setSubmitBanner] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
   const titleId = useId();
   const close = useCallback(() => setOpen(false), []);
   const openEnquireModal = useCallback(() => setOpen(true), []);
 
   useEffect(() => {
-    if (open) setErrors({});
+    if (open) {
+      setErrors({});
+      setSubmitBanner(null);
+      setIsSubmitting(false);
+    }
   }, [open]);
 
   useEffect(() => {
@@ -123,14 +134,15 @@ export function EnquireModalProvider({
               <form
                 className="mt-6 flex flex-1 flex-col gap-4 sm:mt-8"
                 noValidate
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  const fd = new FormData(e.currentTarget);
+                  const form = e.currentTarget;
+                  const fd = new FormData(form);
                   const firstName = String(fd.get("firstName") ?? "").trim();
                   const lastName = String(fd.get("lastName") ?? "").trim();
                   const email = String(fd.get("email") ?? "").trim();
                   const mobile = String(fd.get("mobile") ?? "").trim();
-                  const consent = fd.get("consent") === "on";
+                  const consentChecked = fd.get("consent") === "on";
 
                   const next: Record<string, string> = {};
                   if (!isValidNamePart(firstName)) {
@@ -152,7 +164,7 @@ export function EnquireModalProvider({
                     next.mobile =
                       "Enter a valid 10-digit Indian mobile (e.g. 9876543210).";
                   }
-                  if (!consent) {
+                  if (!consentChecked) {
                     next.consent = "Please agree to continue.";
                   }
 
@@ -160,10 +172,115 @@ export function EnquireModalProvider({
                     setErrors(next);
                     return;
                   }
+
                   setErrors({});
-                  close();
+                  setSubmitBanner(null);
+                  setIsSubmitting(true);
+
+                  const fullName = `${firstName} ${lastName}`.trim();
+                  const payload = {
+                    formType: "Enquire",
+                    fullName,
+                    email,
+                    mobile,
+                    consent: true,
+                  };
+
+                  try {
+                    const res = await fetch(ENQUIRE_API_PATH, {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(payload),
+                    });
+                    const text = await res.text();
+                    let parsed: unknown;
+                    try {
+                      parsed = text ? JSON.parse(text) : null;
+                    } catch {
+                      parsed = null;
+                    }
+                    if (!res.ok) {
+                      throw new Error(
+                        typeof parsed === "object" &&
+                          parsed !== null &&
+                          "message" in parsed &&
+                          typeof (parsed as { message: string }).message ===
+                            "string"
+                          ? (parsed as { message: string }).message
+                          : `Server returned ${res.status}`,
+                      );
+                    }
+                    if (
+                      parsed &&
+                      typeof parsed === "object" &&
+                      "ok" in parsed &&
+                      (parsed as { ok: unknown }).ok === false
+                    ) {
+                      const m =
+                        "message" in parsed &&
+                        typeof (parsed as { message?: string }).message ===
+                          "string"
+                          ? (parsed as { message: string }).message
+                          : "Submission rejected.";
+                      throw new Error(m);
+                    }
+                    const trimmed = text.trim();
+                    if (
+                      trimmed.startsWith("<!DOCTYPE") ||
+                      trimmed.startsWith("<html") ||
+                      /Script function not found/i.test(text)
+                    ) {
+                      throw new Error(
+                        "Apps Script: add doGet + doPost and redeploy Web app.",
+                      );
+                    }
+
+                    setSubmitBanner({
+                      type: "success",
+                      message: "Submitted successfully!",
+                    });
+                    if (form.isConnected) {
+                      form.reset();
+                    }
+                    setTimeout(() => {
+                      close();
+                      setSubmitBanner(null);
+                    }, 1000);
+                  } catch (err) {
+                    const raw =
+                      err instanceof Error
+                        ? err.message.trim()
+                        : String(err);
+                    const detail =
+                      raw.length > 280 ? `${raw.slice(0, 280)}…` : raw;
+                    setSubmitBanner({
+                      type: "error",
+                      message: detail
+                        ? `Could not submit. ${detail}`
+                        : "Could not submit. Please try again.",
+                    });
+                  } finally {
+                    setIsSubmitting(false);
+                  }
                 }}
               >
+                {submitBanner ? (
+                  <div
+                    role={
+                      submitBanner.type === "error" ? "alert" : "status"
+                    }
+                    aria-live={
+                      submitBanner.type === "error" ? "assertive" : "polite"
+                    }
+                    className={`rounded-lg border px-3 py-3 font-lato text-[13px] leading-snug sm:px-4 sm:text-[14px] ${
+                      submitBanner.type === "success"
+                        ? "border-green-600/45 bg-green-50 text-green-900"
+                        : "border-red-500/55 bg-red-50 text-red-900"
+                    }`}
+                  >
+                    {submitBanner.message}
+                  </div>
+                ) : null}
                 <div className="flex flex-col gap-3">
                   <div className="grid grid-cols-2 gap-3">
                     <div className="min-w-0">
@@ -279,9 +396,10 @@ export function EnquireModalProvider({
                   </div>
                   <button
                     type="submit"
-                    className="min-h-[48px] w-full rounded-lg border border-[#111111] bg-[#111111] px-3 py-2.5 font-lato text-[14px] font-bold leading-none tracking-wide text-white transition-colors hover:bg-[#222] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111111] focus-visible:ring-offset-2 sm:text-[15px]"
+                    disabled={isSubmitting}
+                    className="min-h-[48px] w-full rounded-lg border border-[#111111] bg-[#111111] px-3 py-2.5 font-lato text-[14px] font-bold leading-none tracking-wide text-white transition-colors hover:bg-[#222] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111111] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:text-[15px]"
                   >
-                    Get a Call Back
+                    {isSubmitting ? "Submitting…" : "Get a Call Back"}
                   </button>
                 </div>
 

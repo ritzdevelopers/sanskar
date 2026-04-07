@@ -38,6 +38,30 @@ const TEAM_OPTIONS = [
   { value: "other", label: "Other" },
 ] as const;
 
+/** Base64 JSON payload limit — keep under typical server / Apps Script body limits. */
+const RESUME_MAX_FOR_SHEET_UPLOAD = 1.5 * 1024 * 1024;
+
+const ENQUIRE_API_PATH = "/api/enquire";
+
+function teamLabel(value: string): string {
+  const opt = TEAM_OPTIONS.find((o) => o.value === value);
+  return opt?.label ?? value;
+}
+
+function readResumeAsBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      const comma = dataUrl.indexOf(",");
+      resolve(comma >= 0 ? dataUrl.slice(comma + 1) : dataUrl);
+    };
+    reader.onerror = () =>
+      reject(new Error("Could not read resume file."));
+    reader.readAsDataURL(file);
+  });
+}
+
 type WorkWithUsModalContextValue = {
   openWorkWithUsModal: () => void;
 };
@@ -62,12 +86,21 @@ export function WorkWithUsModalProvider({
 }) {
   const [open, setOpen] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitBanner, setSubmitBanner] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
   const titleId = useId();
   const close = useCallback(() => setOpen(false), []);
   const openWorkWithUsModal = useCallback(() => setOpen(true), []);
 
   useEffect(() => {
-    if (open) setErrors({});
+    if (open) {
+      setErrors({});
+      setSubmitBanner(null);
+      setIsSubmitting(false);
+    }
   }, [open]);
 
   useEffect(() => {
@@ -139,17 +172,16 @@ export function WorkWithUsModalProvider({
               <form
                 className="mt-6 flex flex-col gap-4"
                 noValidate
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  const fd = new FormData(e.currentTarget);
+                  const form = e.currentTarget;
+                  const fd = new FormData(form);
                   const team = String(fd.get("team") ?? "").trim();
                   const name = String(fd.get("name") ?? "").trim();
                   const email = String(fd.get("email") ?? "").trim();
                   const mobile = String(fd.get("mobile") ?? "").trim();
                   const fileInput = (
-                    e.currentTarget.elements.namedItem(
-                      "resume",
-                    ) as HTMLInputElement | null
+                    form.elements.namedItem("resume") as HTMLInputElement | null
                   )?.files?.[0];
 
                   const next: Record<string, string> = {};
@@ -176,16 +208,157 @@ export function WorkWithUsModalProvider({
                     : "Please attach your resume.";
                   if (resumeErr) {
                     next.resume = resumeErr;
+                  } else if (
+                    fileInput &&
+                    fileInput.size > RESUME_MAX_FOR_SHEET_UPLOAD
+                  ) {
+                    next.resume =
+                      "For online submission, resume must be 1.5 MB or smaller (compress PDF if needed).";
                   }
 
                   if (Object.keys(next).length > 0) {
                     setErrors(next);
                     return;
                   }
+
+                  if (!fileInput) {
+                    setErrors({ resume: "Please attach your resume." });
+                    return;
+                  }
+
                   setErrors({});
-                  close();
+                  setSubmitBanner(null);
+                  setIsSubmitting(true);
+
+                  const teamLbl = teamLabel(team);
+                  let resumeBase64: string;
+                  try {
+                    resumeBase64 = await readResumeAsBase64(fileInput);
+                  } catch {
+                    setIsSubmitting(false);
+                    setSubmitBanner({
+                      type: "error",
+                      message:
+                        "Could not submit. Could not read resume file — try another file.",
+                    });
+                    return;
+                  }
+
+                  const details = [
+                    `Team: ${teamLbl}`,
+                    `Resume: ${fileInput.name} (${fileInput.type || "file"})`,
+                  ].join("\n");
+
+                  const payload = {
+                    formType: "Work with us",
+                    fullName: name,
+                    email,
+                    mobile,
+                    consent: true,
+                    team,
+                    teamLabel: teamLbl,
+                    resumeFileName: fileInput.name,
+                    resumeMimeType:
+                      fileInput.type || "application/octet-stream",
+                    resumeBase64,
+                    details,
+                  };
+
+                  try {
+                    const res = await fetch(ENQUIRE_API_PATH, {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(payload),
+                    });
+                    const text = await res.text();
+                    let parsed: unknown;
+                    try {
+                      parsed = text ? JSON.parse(text) : null;
+                    } catch {
+                      parsed = null;
+                    }
+                    if (!res.ok) {
+                      throw new Error(
+                        typeof parsed === "object" &&
+                          parsed !== null &&
+                          "message" in parsed &&
+                          typeof (parsed as { message: string }).message ===
+                            "string"
+                          ? (parsed as { message: string }).message
+                          : `Server returned ${res.status}`,
+                      );
+                    }
+                    if (
+                      parsed &&
+                      typeof parsed === "object" &&
+                      "ok" in parsed &&
+                      (parsed as { ok: unknown }).ok === false
+                    ) {
+                      const m =
+                        "message" in parsed &&
+                        typeof (parsed as { message?: string }).message ===
+                          "string"
+                          ? (parsed as { message: string }).message
+                          : "Submission rejected.";
+                      throw new Error(m);
+                    }
+                    const trimmed = text.trim();
+                    if (
+                      trimmed.startsWith("<!DOCTYPE") ||
+                      trimmed.startsWith("<html") ||
+                      /Script function not found/i.test(text)
+                    ) {
+                      throw new Error(
+                        "Apps Script: add doGet + doPost and redeploy Web app.",
+                      );
+                    }
+
+                    setSubmitBanner({
+                      type: "success",
+                      message: "Application sent — we’ll be in touch.",
+                    });
+                    if (form.isConnected) {
+                      form.reset();
+                    }
+                    setTimeout(() => {
+                      close();
+                      setSubmitBanner(null);
+                    }, 1000);
+                  } catch (err) {
+                    const raw =
+                      err instanceof Error
+                        ? err.message.trim()
+                        : String(err);
+                    const detail =
+                      raw.length > 280 ? `${raw.slice(0, 280)}…` : raw;
+                    setSubmitBanner({
+                      type: "error",
+                      message: detail
+                        ? `Could not submit. ${detail}`
+                        : "Could not submit. Please try again.",
+                    });
+                  } finally {
+                    setIsSubmitting(false);
+                  }
                 }}
               >
+                {submitBanner ? (
+                  <div
+                    role={
+                      submitBanner.type === "error" ? "alert" : "status"
+                    }
+                    aria-live={
+                      submitBanner.type === "error" ? "assertive" : "polite"
+                    }
+                    className={`rounded-lg border px-3 py-3 font-lato text-[13px] leading-snug sm:text-[14px] ${
+                      submitBanner.type === "success"
+                        ? "border-green-600/45 bg-green-50 text-green-900"
+                        : "border-red-500/55 bg-red-50 text-red-900"
+                    }`}
+                  >
+                    {submitBanner.message}
+                  </div>
+                ) : null}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-x-3 sm:gap-y-4">
                   <div className="min-w-0 sm:col-span-2">
                     <label htmlFor="work-team" className={labelClass}>
@@ -347,7 +520,7 @@ export function WorkWithUsModalProvider({
                       }`}
                     />
                     <p className="mt-1 font-lato text-[11px] text-[#888888] sm:text-[12px]">
-                      PDF or Word, max 5 MB recommended.
+                      PDF or Word, max 5 MB. Online submit: keep under 1.5 MB.
                     </p>
                     {errors.resume ? (
                       <p
@@ -362,9 +535,10 @@ export function WorkWithUsModalProvider({
 
                 <button
                   type="submit"
-                  className="min-h-[48px] w-full rounded-lg border border-[#111111] bg-[#111111] px-3 py-2.5 font-lato text-[14px] font-bold uppercase tracking-wide text-white transition-colors hover:bg-[#222] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111111] focus-visible:ring-offset-2 sm:text-[15px]"
+                  disabled={isSubmitting}
+                  className="min-h-[48px] w-full rounded-lg border border-[#111111] bg-[#111111] px-3 py-2.5 font-lato text-[14px] font-bold uppercase tracking-wide text-white transition-colors hover:bg-[#222] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111111] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:text-[15px]"
                 >
-                  Submit application
+                  {isSubmitting ? "Sending…" : "Submit application"}
                 </button>
               </form>
             </div>
