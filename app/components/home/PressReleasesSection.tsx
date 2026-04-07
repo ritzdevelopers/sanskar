@@ -40,7 +40,7 @@ export function PressReleasesSection() {
   return (
     <section ref={sectionRef} className="bg-[#FAFAFA] py-[35px] md:py-[75px]">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
-        <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
+        <div className="mx-auto w-full max-w-[1280px] xl:max-w-[1320px]">
         <h2
           data-scroll-reveal
           className="mb-10 text-center font-quattrocento text-[28px] font-normal uppercase leading-[100%] tracking-[0%] text-[#1A1A1A] sm:mb-12 sm:text-[32px] md:mb-14 md:text-[34px] lg:mb-[60px] lg:text-[36px]"

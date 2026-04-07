@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRef } from "react";
 import { Lato, Quattrocento } from "next/font/google";
 import { STORY_IMPACT_SECTION_ID } from "../common/aboutNavigation";
@@ -56,10 +57,10 @@ export function StorySection() {
             >
               Our journey started with a simple brief - every family deserves a home crafted with honesty, consideration, and foresight. Backed by the Yatharth Group's legacy, we are redefining luxury living throughout Delhi NCR.
             </p>
-            <button
+            <Link
+              href="/about-us"
               data-scroll-reveal
-              type="button"
-              className={`${lato.className} mx-auto inline-flex w-fit items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] sm:text-[18px] md:mx-0 md:text-[16px]`}
+              className={`${lato.className} mx-auto inline-flex w-fit cursor-pointer items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] no-underline transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3A3A3A] sm:text-[18px] md:mx-0 md:text-[16px]`}
             >
               <span className="border-b border-[#3A3A3A] pb-1">Our Story</span>
               <Image
@@ -69,7 +70,7 @@ export function StorySection() {
                 height={13}
                 aria-hidden="true"
               />
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -92,10 +93,10 @@ export function StorySection() {
 
 
             </p>
-            <button
+            <Link
+              href="/about-us"
               data-scroll-reveal
-              type="button"
-              className={`${lato.className} mx-auto inline-flex w-fit items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] sm:text-[18px] md:mx-0 md:text-[20px]`}
+              className={`${lato.className} mx-auto inline-flex w-fit cursor-pointer items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] no-underline transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3A3A3A] sm:text-[18px] md:mx-0 md:text-[20px]`}
             >
               <span className="border-b border-[#3A3A3A] pb-1">Our Impact</span>
               <Image
@@ -105,7 +106,7 @@ export function StorySection() {
                 height={13}
                 aria-hidden="true"
               />
-            </button>
+            </Link>
           </div>
 
           <div data-scroll-reveal-img className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10] md:aspect-auto md:h-[min(420px,48vw)] md:w-1/2 md:min-w-0 md:shrink-0 lg:h-[450px] lg:w-[min(100%,641px)]">
