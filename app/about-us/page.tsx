@@ -8,6 +8,7 @@ import { OurJourney } from "../components/about/OurJourney";
 import { FindDreamHomeSection } from "../components/about/FindDreamHomeSection";
 import { TestimonialsSection } from "../components/home/TestimonialsSection";
 import { PressReleasesSection } from "../components/home/PressReleasesSection";
+import { Mission } from "../components/about/Mission";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function AboutUsPage() {
 
       <AboutSanskarGroup />
       <WhoWeAre />
+      <Mission />
       <OurJourney />
       <FindDreamHomeSection />
       <TestimonialsSection />
