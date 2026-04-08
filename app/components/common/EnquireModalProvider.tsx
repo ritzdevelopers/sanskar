@@ -441,7 +441,7 @@ export function EnquireModalProvider({
             {/* Image: md+ only; hidden below md */}
             <div className="relative hidden min-h-[200px] w-full shrink-0 md:block md:w-1/2 md:min-h-[min(420px,94vh)]">
               <Image
-                src="/assets/building.jpg"
+                src="/assets/popupcontact.jpg"
                 alt="Sanskar Realty residential development"
                 fill
                 className="object-cover"

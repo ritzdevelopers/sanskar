@@ -11,24 +11,21 @@ const quattrocento = Quattrocento({
 });
 
 const galleryImages = [
-  {
-    src: "/assets/gallery-1.jpg",
-    alt: "Modern interior with sculptural pendant lighting",
-  },
-  {
-    src: "/assets/gallery-2.jpg",
-    alt: "Family on a balcony overlooking greenery",
-  },
+  { src: "/assets/womengallery.jpg", alt: "Resident on a balcony overlooking landscaped grounds" },
+  { src: "/assets/gymgallery.jpg", alt: "Modern fitness centre interior" },
+  { src: "/assets/treegallery.jpg", alt: "Landscaped courtyard with trees and water features" },
+  { src: "/assets/viewgallery.jpg", alt: "Garden walkways and central fountain" },
+  { src: "/assets/insidehomegallery.jpg", alt: "Bright indoor children's activity space" },
+  { src: "/assets/watergallery.jpg", alt: "Water feature in the community landscape" },
+  { src: "/assets/petrolpump.jpg", alt: "Electric vehicle charging area" },
+  { src: "/assets/tenisgallery.jpg", alt: "Tennis court and sports facilities" },
 ];
 
-/** Five slides alternating image order to match pagination dots */
-const slidePairs = [
-  [0, 1],
-  [1, 0],
-  [0, 1],
-  [1, 0],
-  [0, 1],
-];
+/** Each slide: left panel shows image k, right shows k+1 (wraps) — loops through all images */
+const slidePairs = Array.from({ length: galleryImages.length }, (_, k) => [
+  k,
+  (k + 1) % galleryImages.length,
+]);
 
 const AUTO_SLIDE_MS = 5000;
 
@@ -36,10 +33,12 @@ const slideTrackClass =
   "flex h-full transition-transform duration-500 ease-out motion-reduce:transition-none";
 
 export default function Gallery() {
-  const [activeSlide, setActiveSlide] = useState(2);
-  const [lightboxIndex, setLightboxIndex] = useState(null);
   const nSlides = slidePairs.length;
   const nImages = galleryImages.length;
+  const [activeSlide, setActiveSlide] = useState(() =>
+    Math.min(Math.floor(nImages / 2), Math.max(0, nSlides - 1))
+  );
+  const [lightboxIndex, setLightboxIndex] = useState(null);
 
   useEffect(() => {
     const id = setInterval(() => {

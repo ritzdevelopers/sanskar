@@ -196,7 +196,7 @@ export function ContactFormSection() {
               </p>
               <div className="relative mt-8 w-full overflow-hidden sm:mt-10">
                 <Image
-                  src="/assets/contact-us-chess-image.png"
+                  src="/assets/contact-usimage.jpg"
                   alt=""
                   width={1200}
                   height={675}

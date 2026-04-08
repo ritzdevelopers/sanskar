@@ -215,7 +215,7 @@ export function NriEnquireSection() {
             </p>
             <div className="relative mt-8 h-[min(444px,70vw)] w-full max-w-[720px] overflow-hidden sm:mt-10 lg:mt-10 lg:h-[min(444px,50vh)] lg:min-h-[320px] lg:w-full lg:max-w-none xl:h-[444px]">
               <Image
-                src="/assets/home_decor.png"
+                src="/assets/contactusimage.jpg"
                 alt="Modern interior living space"
                 fill
                 className="object-cover object-center"

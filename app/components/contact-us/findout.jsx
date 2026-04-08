@@ -18,22 +18,22 @@ export function FindoutSection() {
       <div className="mt-[10px] w-full px-4 sm:px-6 md:px-8 mb-14">
         <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 gap-[10px] md:grid-cols-4 xl:max-w-[1280px]">
           <img
-            src="/assets/building.jpg"
+            src="/assets/building1.jpg"
             alt="Modern residential towers"
             className="h-auto w-full object-cover"
           />
           <img
-            src="/assets/top-building.jpg"
+            src="/assets/advisor.jpg"
             alt="City skyline and construction"
             className="h-auto w-full object-cover"
           />
           <img
-            src="/assets/construction.jpg"
+            src="/assets/construction1.jpg"
             alt="Construction site"
             className="h-auto w-full object-cover"
           />
           <img
-            src="/assets/happy-customer.jpg"
+            src="/assets/family.jpg"
             alt="Happy family reviewing home plans"
             className="h-auto w-full object-cover"
           />
