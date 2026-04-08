@@ -23,14 +23,27 @@ export function AboutHeroSection() {
   }, []);
 
   return (
-    <section className="relative flex min-h-[min(100dvh,620px)] w-full items-center justify-center overflow-hidden sm:min-h-[640px] lg:min-h-[683px]">
+    <section className="relative flex min-h-[min(100dvh,620px)] w-full items-center justify-center overflow-hidden ssm:min-h-[640px] md:min-h-[375px] lg:min-h-[500px] xl:min-h-[750px] ">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/assets/about_us.jpg"
+          src="/assets/aboutmobilebanner.jpg"
           alt="About Us Background"
           fill
           priority
-          className="object-cover"
+          fetchPriority="high"
+          quality={60}
+          className="object-cover md:hidden"
+          sizes="100vw"
+        />
+        <Image
+          src="/assets/aboutdeskstopbanner.jpg"
+          alt="About Us Background"
+          fill
+          priority
+          fetchPriority="high"
+          quality={60}
+          className="hidden object-cover md:block"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-black/40" />
       </div>
@@ -117,7 +130,7 @@ export function AboutHeroSection() {
         <h2 className="font-lato mb-3 text-[16px] font-semibold leading-[24px] sm:mb-4 sm:text-[18px] sm:leading-[28px]">
           About Us
         </h2>
-        <h1 className="font-quattrocento text-[28px] font-normal uppercase leading-[1.1] tracking-normal sm:text-[32px] md:text-[36px] md:leading-[100%]">
+        <h1 className="font-quattrocento text-[20px] md:text-[28px] font-normal uppercase leading-[1.1] tracking-normal sm:text-[32px] md:text-[36px] md:leading-[100%]">
           Turning Spaces into Stories
         </h1>
       </div>
