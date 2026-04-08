@@ -5,16 +5,26 @@ import { HeroPageHeader } from "../common/HeroPageHeader";
 
 export function ProjectHeroSection() {
   return (
-    <section className="relative flex min-h-[min(100dvh,620px)] w-full items-center justify-center overflow-hidden sm:min-h-[640px] lg:min-h-[683px]">
+    <section className="relative flex min-h-[min(100dvh,620px)] w-full items-center justify-center overflow-hidden sm:min-h-[640px] md:min-h-[375px] lg:min-h-[500px] xl:min-h-[750px]">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/assets/project-banner.png"
+          src="/assets/projectmobilebanner.jpg"
           alt="Sanskar Realty residential projects"
           fill
           priority
           fetchPriority="high"
           quality={60}
-          className="object-cover"
+          className="object-cover md:hidden"
+          sizes="100vw"
+        />
+        <Image
+          src="/assets/projectbannerdeskstop.jpg"
+          alt="Sanskar Realty residential projects"
+          fill
+          priority
+          fetchPriority="high"
+          quality={60}
+          className="hidden object-cover md:block"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-black/40" />
@@ -28,7 +38,7 @@ export function ProjectHeroSection() {
             <p className="font-lato text-[16px] font-semibold leading-[28px] tracking-normal text-white">
            Our Projects
             </p>
-            <h1 className="font-quattrocento mt-3 text-[36px] font-normal uppercase leading-[100%] tracking-normal text-white sm:mt-4">
+            <h1 className="font-quattrocento mt-3 text-[30px] md:text-[36px] font-normal uppercase leading-[100%] tracking-normal text-white sm:mt-4">
             Where design meets exceptional quality
             </h1>
           </div>

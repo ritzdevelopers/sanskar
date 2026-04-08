@@ -17,16 +17,26 @@ const quattroCareer = Quattrocento({
 
 export default function Carrerbanner() {
   return (
-    <section className="relative flex min-h-[min(100dvh,620px)] w-full items-center justify-center overflow-hidden sm:min-h-[640px] lg:min-h-[683px]">
+    <section className="relative flex min-h-[min(100dvh,620px)] w-full items-center justify-center overflow-hidden sm:min-h-[640px] md:min-h-[375px] lg:min-h-[500px] xl:min-h-[750px]">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/assets/carrerbanner.png"
+          src="/assets/carrermobilebanner.jpg"
           alt="Careers at Sanskar Realty"
           fill
           priority
           fetchPriority="high"
           quality={60}
-          className="object-cover"
+          className="object-cover md:hidden"
+          sizes="100vw"
+        />
+        <Image
+          src="/assets/carrerdeskstopbanner.jpg"
+          alt="Careers at Sanskar Realty"
+          fill
+          priority
+          fetchPriority="high"
+          quality={60}
+          className="hidden object-cover md:block"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-black/40" />

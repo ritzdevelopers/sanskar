@@ -16,16 +16,26 @@ const quattrocento = Quattrocento({
 
 export default function MediaBanner() {
   return (
-    <section className="relative flex min-h-[min(100dvh,620px)] w-full items-center justify-center overflow-hidden sm:min-h-[640px] lg:min-h-[683px]">
+    <section className="relative flex min-h-[min(100dvh,620px)] w-full items-center justify-center overflow-hidden sm:min-h-[640px] md:min-h-[375px] lg:min-h-[500px] xl:min-h-[750px]">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/assets/mediabanner.jpg"
-          alt=""
+          src="/assets/mediamobilebanner.jpg"
+          alt="Sanskar Realty media"
           fill
           priority
           fetchPriority="high"
-          quality={75}
-          className="object-cover"
+          quality={60}
+          className="object-cover md:hidden"
+          sizes="100vw"
+        />
+        <Image
+          src="/assets/mediadeskstopbanner.jpg"
+          alt="Sanskar Realty media"
+          fill
+          priority
+          fetchPriority="high"
+          quality={60}
+          className="hidden object-cover md:block"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-black/40" />
