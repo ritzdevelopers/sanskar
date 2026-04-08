@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { type FormEvent, useCallback, useState } from "react";
+import { type FormEvent, useCallback, useRef, useState } from "react";
 import { Lato, Quattrocento } from "next/font/google";
+import { useScrollReveal } from "../common/useScrollReveal";
 
 const ENQUIRE_API_PATH = "/api/enquire";
 
@@ -82,6 +83,9 @@ function validateForm(values: Record<FieldName, string>): FormErrors {
 }
 
 export function NriEnquireSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  useScrollReveal(sectionRef);
+
   const [values, setValues] = useState<Record<FieldName, string>>({
     name: "",
     email: "",
@@ -200,10 +204,11 @@ export function NriEnquireSection() {
   return (
     <section
       id="nri-enquire"
+      ref={sectionRef}
       className="w-full scroll-mt-[50px] bg-white py-[35px] lg:py-[75px]"
     >
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
-        <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-10 text-center lg:flex-row lg:items-start lg:justify-start lg:gap-10 lg:text-left xl:max-w-[1320px] xl:gap-[60px]">
+        <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-1 lg:gap-10 text-center lg:flex-row lg:items-start lg:justify-startlg:gap-10 lg:text-left xl:max-w-[1320px] xl:gap-[60px]">
           <div className="flex w-full min-w-0 max-w-[720px] flex-col items-center lg:min-w-0 lg:max-w-none lg:flex-1 lg:items-start lg:text-left">
             <p
               className={`${lato.className} text-center text-[16px] font-normal leading-[28px] tracking-normal text-[#111111] sm:text-[17px] md:leading-[30px] lg:text-left`}
@@ -213,7 +218,7 @@ export function NriEnquireSection() {
               documentation. Contact us now to start your property investment in
               India!
             </p>
-            <div className="relative mt-8 h-[min(444px,70vw)] w-full max-w-[720px] overflow-hidden sm:mt-10 lg:mt-10 lg:h-[min(444px,50vh)] lg:min-h-[320px] lg:w-full lg:max-w-none xl:h-[444px]">
+            <div data-scroll-reveal-img className="relative mt-8 h-[min(444px,70vw)] w-full max-w-[720px] overflow-hidden sm:mt-10 lg:mt-10 lg:h-[min(444px,50vh)] lg:min-h-[320px] lg:w-full lg:max-w-none xl:h-[444px]">
               <Image
                 src="/assets/contactusimage.jpg"
                 alt="Modern interior living space"

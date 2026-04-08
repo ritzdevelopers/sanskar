@@ -6,6 +6,7 @@ import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MISSION_VISION_SECTION_ID } from "../common/aboutNavigation";
+import { useScrollReveal } from "../common/useScrollReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,8 +67,11 @@ function AnimatedNumber({
 }
 
 export function Mission() {
+  const sectionRef = useRef<HTMLElement>(null);
+  useScrollReveal(sectionRef);
+
   return (
-    <section className="relative isolate w-full min-w-0 overflow-x-hidden">
+    <section ref={sectionRef} className="relative isolate w-full min-w-0 overflow-x-hidden">
       {/* Vertical guides: full section height + width (same horizontal padding as content) */}
       <div
         aria-hidden
@@ -208,7 +212,7 @@ export function Mission() {
         </div>
 
         <div
-          data-scroll-reveal
+          data-scroll-reveal-img
           className="group relative aspect-[593/436] w-full max-w-[593px] overflow-hidden lg:mx-0 lg:min-w-0 lg:flex-1 lg:self-start lg:max-w-none xl:self-center xl:h-[436.51px] xl:w-[593.26px] xl:shrink-0 xl:aspect-auto"
         >
           <Image

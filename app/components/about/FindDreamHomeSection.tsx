@@ -53,7 +53,7 @@ export function FindDreamHomeSection({
               <div className="max-w-[560px] text-center lg:text-left">
                 <h3
                   data-scroll-reveal
-                  className={`${quattrocento.className} text-[30px] leading-[1.15] text-[#111111] sm:text-[34px] md:text-[40px] lg:text-[42px] `}
+                  className={`${quattrocento.className} text-[20px] md:text-[30px] leading-[1.15] text-[#111111] sm:text-[34px] md:text-[40px] lg:text-[42px] `}
                 >
                   FIND YOUR DREAM HOME TODAY !
                 </h3>
