@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
+import { useRef } from "react";
 import { Lato, Quattrocento } from "next/font/google";
+import { useScrollReveal } from "../common/useScrollReveal";
 
 const quattrocento = Quattrocento({
   subsets: ["latin"],
@@ -12,9 +16,13 @@ const lato = Lato({
 });
 
 export function LegalInformationSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  useScrollReveal(sectionRef);
+
   return (
     <section
       id="legal-overview"
+      ref={sectionRef}
       className="relative w-full scroll-mt-[50px] bg-[#FFFFFF] py-[35px] lg:py-[75px]"
     >
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
@@ -42,13 +50,13 @@ export function LegalInformationSection() {
             </p>
           </div>
 
-          <div className="relative mx-auto aspect-[4/3] w-full max-w-[560px] overflow-hidden  lg:mx-0 lg:max-w-none">
+          <div data-scroll-reveal-img className="relative mx-auto aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10] md:aspect-auto md:h-[min(420px,48vw)] md:w-1/2 md:min-w-0 md:shrink-0 lg:mx-0 lg:h-[450px] lg:w-[min(100%,641px)]">
             <Image
               src="/assets/legalinformation.jpg"
               alt="Legal information — scales of justice and legal symbols"
               fill
               className="object-cover"
-              sizes="(min-width: 1024px) 50vw, 100vw"
+              sizes="(max-width: 1024px) 100vw, 641px"
               priority
             />
           </div>

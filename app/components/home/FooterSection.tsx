@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Lato, Quattrocento } from "next/font/google";
 import { usePathname } from "next/navigation";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   handleMissionVisionNavClick,
   handleOurProfileNavClick,
@@ -33,6 +33,8 @@ const quattrocento = Quattrocento({
   weight: ["400", "700"],
 });
 
+const ENQUIRE_API_PATH = "/api/enquire";
+
 type FooterSectionProps = {
   alignWithHeader?: boolean;
 };
@@ -43,7 +45,40 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
   const { openWorkWithUsModal } = useWorkWithUsModal();
   const { openSiteVisitModal } = useSiteVisitModal();
   const footerRef = useRef<HTMLElement>(null);
+  const [email, setEmail] = useState("");
+  const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
   useScrollReveal(footerRef, { stagger: 0.06, duration: 0.65 });
+
+  const submitFooterEmail = async () => {
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail || isSubmittingEmail) return;
+
+    setIsSubmittingEmail(true);
+    try {
+      const payload = {
+        formType: "Footer Subscribe",
+        fullName: "",
+        email: trimmedEmail,
+        mobile: "",
+        message: "",
+        details: "Footer email subscription",
+        notes: "Footer email subscription",
+      };
+
+      const res = await fetch(ENQUIRE_API_PATH, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        setEmail("");
+      }
+    } catch {
+      // Keep footer UI unchanged.
+    } finally {
+      setIsSubmittingEmail(false);
+    }
+  };
 
   const topOuter = alignWithHeader
     ? "relative z-10 w-full px-4 py-12 sm:px-6 sm:py-16 md:px-8 md:py-16 lg:px-10 lg:py-20 xl:px-12 2xl:px-16"
@@ -131,12 +166,24 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             <input
               data-scroll-reveal
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  void submitFooterEmail();
+                }
+              }}
               placeholder="ENTER YOUR EMAIL"
               className={`${lato.className} w-full border border-[#E5E5E5] bg-white px-4 py-4 text-[14px] text-[#1A1A1A] outline-none focus:border-[#1A1A1A]`}
             />
             <button
               data-scroll-reveal
               type="button"
+              disabled={isSubmittingEmail}
+              onClick={() => {
+                void submitFooterEmail();
+              }}
               className={`${lato.className} w-full bg-[#111111] py-4 text-[16px] text-white transition-colors hover:bg-[#333333]`}
             >
               Submit

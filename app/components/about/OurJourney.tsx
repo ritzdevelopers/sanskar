@@ -62,7 +62,7 @@ const timelineData: TimelineItem[] = [
     label: "Upcoming",
     title:
       "From Vision to Reality – A Commitment to Excellence, Shaping Iconic Landmarks for the Future.",
-    image: "/assets/footer.png",
+    image: "/assets/upcomimgimage.jpg",
   },
 ];
 
@@ -202,7 +202,7 @@ export function OurJourney() {
                     <p className={`${lato.className} text-[#4A4A4A] text-[15px] font-medium sm:text-[16px] mb-3 md:mb-5`}>
                         Our Journey
                     </p>
-                    <h2 className={`${quattrocento.className} text-[26px] leading-[1.2] text-[#111111] uppercase sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[42px] mb-4 md:mb-5`}>
+                    <h2 className={`${quattrocento.className} text-[20px] md:text-[26px] leading-[1.2] text-[#111111] uppercase sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[42px] mb-4 md:mb-5`}>
                         A LEGACY CRAFTED OVER 17 YEARS
                     </h2>
                     <p className={`${lato.className} text-[#666666] text-[15px] md:text-[16px] leading-[1.6] max-w-[800px]`}>

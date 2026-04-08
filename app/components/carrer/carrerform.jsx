@@ -309,7 +309,7 @@ export default function Carrerform() {
   };
 
   /** Hint in-field only; hides when user types. Accessible name via sr-only label. */
-  const inputClassBase = `${latoBody.className} w-full border-x-0 border-t-0 border-b border-solid bg-transparent pt-0.5 pb-[10px] text-[14px] font-normal leading-[100%] text-[#111111] outline-none transition-colors placeholder:text-[#666666]`;
+  const inputClassBase = `${latoBody.className} w-full border-x-0 border-t-0 border-b border-solid bg-transparent pt-0.5 pb-[10px] lg:pb-[13px] text-[14px] font-normal leading-[100%] text-[#111111] outline-none transition-colors placeholder:text-[#666666]`;
   const inputBorderOk = "border-[#CCCCCC] focus:border-[#111111]";
   const inputBorderErr = "border-red-500 focus:border-red-500";
   const textareaClassBase = `${latoBody.className} min-h-[72px] w-full resize-y border-x-0 border-t-0 border-b border-solid bg-transparent pt-0.5 pb-[10px] text-[14px] font-normal leading-[150%] text-[#111111] outline-none transition-colors placeholder:text-[#666666]`;
@@ -553,7 +553,7 @@ export default function Carrerform() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`${quattroButton.className} mx-auto w-full max-w-[280px] rounded-full border-0 bg-black px-8 py-3.5 text-center text-[15px] font-normal uppercase leading-none tracking-normal text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:opacity-60 sm:py-4 sm:text-[16px] lg:mx-0`}
+                  className={`${quattroButton.className} mx-auto w-full max-w-[230px] mt-2 md:mt-6 rounded-full border-0 bg-black px-8 py-3.5 text-center text-[15px] font-normal uppercase leading-none tracking-normal text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:opacity-60 sm:py-4 sm:text-[16px] lg:mx-0`}
                 >
                   {isSubmitting ? "Submitting…" : "Interested"}
                 </button>
