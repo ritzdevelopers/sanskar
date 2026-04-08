@@ -20,7 +20,7 @@ const quattroButton = Quattrocento({
 });
 
 const INTRO =
-  "Build your future with a career that challenges and inspires you.";
+  "At Sanskar Realty, we are building world-class properties and are looking for passionate professionals in property development and real estate sales. Join us in our quest to build the best in real estate development!";
 
 const ALLOWED_CV_TYPES = [
   "application/pdf",
@@ -322,7 +322,7 @@ export default function Carrerform() {
             <h2
               className={`${quattroTitle.className} text-[28px] font-normal uppercase leading-[100%] tracking-normal text-[#111111] sm:text-[32px] lg:text-[36px]`}
             >
-              Apply Here for Jobs
+            Start Your Career with Us
             </h2>
             <p
               className={`${latoBody.className} mx-auto mt-4 max-w-[1000px] text-[15px] font-normal leading-[28px] tracking-normal text-[#00000099] sm:text-[16px] lg:mt-5`}
