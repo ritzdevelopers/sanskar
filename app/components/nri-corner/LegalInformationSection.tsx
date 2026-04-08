@@ -44,7 +44,7 @@ export function LegalInformationSection() {
 
           <div className="relative mx-auto aspect-[4/3] w-full max-w-[560px] overflow-hidden  lg:mx-0 lg:max-w-none">
             <Image
-              src="/assets/legal_information.png"
+              src="/assets/legalinformation.jpg"
               alt="Legal information — scales of justice and legal symbols"
               fill
               className="object-cover"
