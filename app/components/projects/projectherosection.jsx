@@ -6,7 +6,7 @@ import { HeroPageHeader } from "../common/HeroPageHeader";
 export function ProjectHeroSection() {
   return (
     <section className="relative flex min-h-[min(100dvh,620px)] w-full items-center justify-center overflow-hidden sm:min-h-[640px] md:min-h-[375px] lg:min-h-[500px] xl:min-h-[750px]">
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 bg-black">
         <Image
           src="/assets/projectmobilebanner.jpg"
           alt="Sanskar Realty residential projects"

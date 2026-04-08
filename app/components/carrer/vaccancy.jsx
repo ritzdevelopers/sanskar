@@ -35,11 +35,11 @@ export default function Vaccancy() {
       <div className="w-full px-4 py-[35px] sm:px-6 md:px-8 lg:px-10 lg:py-[70px] xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
           <h2 className="font-quattrocento text-center text-[20px] font-normal leading-[100%] tracking-normal text-[#111111] md:text-[36px] lg:text-left">
-          Start Your Career with Us
+          Apply Here for Jobs
           </h2>
           <p className="font-lato mx-auto mt-3 max-w-[720px] text-center text-[16px] font-light leading-[24px] tracking-normal text-[#00000099] sm:mt-4 lg:mx-0 lg:text-left">
-          At Sanskar Realty, we are building world-class properties and are looking for passionate professionals in property development and real estate sales.
-Join us in our quest to build the best in real estate development!
+         
+          Build your future with a career that challenges and inspires you.
 
           </p>
 
