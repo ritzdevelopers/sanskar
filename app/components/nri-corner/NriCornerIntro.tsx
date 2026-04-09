@@ -119,7 +119,7 @@ export function NriCornerIntro() {
         aria-hidden={!showFloatingNav}
       >
         <div
-          className={`${poppins.className} mx-3 max-w-[min(100%,calc(100vw-1.5rem))] rounded-full border border-white/20 bg-black/90 px-3 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.55)] backdrop-blur-md sm:px-5 sm:py-3`}
+          className={`${poppins.className} mx-3 max-w-[min(100%,calc(100vw-1.5rem))] rounded-full border border-white/20 bg-black/90 px-3 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.55)] backdrop-blur-md sm:px-10 sm:py-3`}
         >
           <nav
             className="flex max-w-full flex-wrap items-center justify-center gap-x-3 gap-y-2 sm:gap-x-5 sm:gap-y-1"
