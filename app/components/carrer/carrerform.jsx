@@ -315,7 +315,10 @@ export default function Carrerform() {
   const textareaClassBase = `${latoBody.className} min-h-[72px] w-full resize-y border-x-0 border-t-0 border-b border-solid bg-transparent pt-0.5 pb-[10px] text-[14px] font-normal leading-[150%] text-[#111111] outline-none transition-colors placeholder:text-[#666666]`;
 
   return (
-    <section className="relative w-full bg-white py-12 sm:py-14 md:py-16 lg:py-20">
+    <section
+      id="career-application-form"
+      className="relative w-full scroll-mt-[88px] bg-white py-12 sm:py-14 md:py-16 lg:py-20"
+    >
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
           <header className="mx-auto mb-10 text-center sm:mb-12 lg:mb-14">

@@ -188,7 +188,7 @@ export function ProjectShowcaseSliderSection2() {
                     </div>
                 ))}
 
-                {/* ── Mobile: sirf map pin icon → Google Maps ── */}
+                {/* ── Mobile: map pin icon → Google Maps ── */}
                 <a
                     href={activeGoogleMapsHref}
                     target="_blank"
@@ -279,7 +279,12 @@ export function ProjectShowcaseSliderSection2() {
 
                 {/* ── FLOATING INFO CARD ── */}
                 <div className="absolute z-50 inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))] w-auto max-w-none sm:inset-x-4 sm:bottom-[max(1.25rem,env(safe-area-inset-bottom,0px))] md:inset-x-auto md:bottom-auto md:left-auto md:right-8 md:top-[calc(50%+1.25rem)] md:w-[min(310px,38vw)] md:-translate-y-1/2 lg:right-10 lg:top-[calc(50%+1.5rem)] lg:w-[min(360px,34vw)] xl:right-[min(80px,6vw)] xl:top-[calc(50%+1.75rem)] xl:w-[min(380px,32vw)] 2xl:right-[min(100px,7vw)] 2xl:top-[calc(50%+2rem)]">
-                    <div className="mx-auto flex w-full max-w-[400px] flex-col rounded-[12px] bg-[#F4F4F4] shadow-2xl min-h-[min(52dvh,480px)] gap-3 px-4 pb-4 pt-2 sm:min-h-[min(50dvh,460px)] sm:max-w-[420px] sm:gap-3.5 sm:pb-5 sm:pt-2.5 md:mx-0 md:min-h-0 md:max-w-none md:gap-3 md:rounded-[14px] md:px-5 md:py-6 lg:gap-4 lg:px-6 lg:py-8 xl:px-8 xl:py-[52px]">
+                    <div
+                        className="mx-auto flex w-full max-w-[400px] cursor-pointer flex-col rounded-[12px] bg-[#F4F4F4] shadow-2xl min-h-[min(52dvh,480px)] gap-3 px-4 pb-4 pt-2 sm:min-h-[min(50dvh,460px)] sm:max-w-[420px] sm:gap-3.5 sm:pb-5 sm:pt-2.5 md:mx-0 md:min-h-0 md:max-w-none md:gap-3 md:rounded-[14px] md:px-5 md:py-6 lg:gap-4 lg:px-6 lg:py-8 xl:px-8 xl:py-[52px]"
+                        onClick={() => {
+                            window.open(activeSlide.url, "_blank", "noopener,noreferrer");
+                        }}
+                    >
 
                         {/* Counter + title */}
                         <div className="flex shrink-0 flex-col items-center gap-1.5 pt-0.5 md:gap-2 md:pt-0">
@@ -287,13 +292,7 @@ export function ProjectShowcaseSliderSection2() {
                                 {String(activeIndex + 1).padStart(2, "0")} — {String(showcaseSlides.length).padStart(2, "0")}
                             </p>
 
-                            <a
-                                href={activeGoogleMapsHref}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label={`View ${activeSlide.projectName} on Google Maps`}
-                                className="group flex items-center gap-1.5"
-                            >
+                            <div className="group flex items-center gap-1.5">
                                 <h4 className={`${quattrocento.className} text-center font-normal uppercase tracking-wider leading-[1.1] text-[#1A1A1A] transition-colors group-hover:text-[#C9A227] text-[15px] sm:text-[16px] md:text-[17px] lg:text-[19px] xl:text-[21px] 2xl:text-[24px]`}>
                                     {activeSlide.projectName}
                                 </h4>
@@ -310,17 +309,11 @@ export function ProjectShowcaseSliderSection2() {
                                         clipRule="evenodd"
                                     />
                                 </svg>
-                            </a>
+                            </div>
                         </div>
 
-                        {/* Thumbnail — same Maps URL as “View on Google Maps” / map embed */}
-                        <a
-                            href={activeGoogleMapsHref}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={`View ${activeSlide.projectName} location on Google Maps`}
-                            className="group relative block h-[132px] w-full shrink-0 overflow-hidden rounded-[6px] sm:h-[148px] md:h-[135px] lg:h-[155px] xl:h-[175px] [contain:paint]"
-                        >
+                        {/* Thumbnail — opens project site via parent card onClick */}
+                        <div className="group relative block h-[132px] w-full shrink-0 overflow-hidden rounded-[6px] sm:h-[148px] md:h-[135px] lg:h-[155px] xl:h-[175px] [contain:paint]">
                             {showcaseSlides.map((slide, index) => (
                                 <div
                                     key={`thumb-${slide.id}`}
@@ -338,7 +331,7 @@ export function ProjectShowcaseSliderSection2() {
                                     />
                                 </div>
                             ))}
-                        </a>
+                        </div>
 
                         {/* Description */}
                         <p className={`${lato.className} flex-1 text-center leading-[1.55] text-[#555555] min-h-0 overflow-y-auto overscroll-y-contain text-[11px] sm:text-[12px] md:flex-none md:overflow-visible md:text-[11px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px]`}>
@@ -352,6 +345,7 @@ export function ProjectShowcaseSliderSection2() {
                             rel="noopener noreferrer"
                             className="group mx-auto mt-auto flex shrink-0 items-center justify-center rounded-full pt-1 border border-[#8C8C8C] transition-all duration-300 hover:border-[#111] hover:bg-[#111] h-9 w-9 sm:h-9 sm:w-9 md:h-10 md:w-10 lg:h-11 lg:w-11 xl:h-[48px] xl:w-[48px]"
                             aria-label={`View ${activeSlide.projectName} project`}
+                            onClick={(e) => e.stopPropagation()}
                         >
                             <Image
                                 src="/assets/diagonal_icon.svg"
