@@ -251,10 +251,10 @@ export function OurJourney() {
                                         ref={(el) => {
                                             timelineLabelRefs.current[idx] = el;
                                         }}
-                                        className={`mb-1 inline-flex max-w-full min-h-7 min-w-[3.75rem] shrink-0 cursor-pointer items-center justify-center rounded-none border bg-[#FAFAFA] px-2 py-0.5 transition-colors duration-300 ease-out sm:mb-3 sm:min-h-9 sm:min-w-[5.25rem] sm:px-4 sm:py-1 md:mb-5 md:min-w-[6.75rem] md:px-6 md:py-1 ${
+                                        className={`mb-1 inline-flex max-w-full min-h-7 min-w-[3.75rem] shrink-0 cursor-pointer items-center justify-center rounded-none border px-2 py-0.5 transition-colors duration-300 ease-out sm:mb-3 sm:min-h-9 sm:min-w-[5.25rem] sm:px-4 sm:py-1 md:mb-5 md:min-w-[6.75rem] md:px-6 md:py-1 ${
                                             idx === activeIndex
-                                                ? "border-[#111111] text-[#111111]"
-                                                : "border-[#CCCCCC] text-[#666666]"
+                                                ? "border-[#111111] bg-[#F7A51D] text-[#111111]"
+                                                : "border-[#CCCCCC] bg-[#FAFAFA] text-[#666666]"
                                         } `}
                                     >
                                         <span

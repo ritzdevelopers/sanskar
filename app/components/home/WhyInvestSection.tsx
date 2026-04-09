@@ -119,8 +119,7 @@ export function WhyInvestSection() {
           {investCards.map((card) => (
             <article
               key={card.title}
-              className="flex w-[280px] shrink-0  flex-col items-stretch rounded-[16px] border-[0.89px] border-[#F3F4F6] bg-white p-5 text-center sm:w-[300px] sm:p-6 md:w-[340px] md:text-left lg:w-[360px] xl:w-[384px]"
-              style={{ boxShadow: "0px 2px 4px -2px #0000001A, 0px 4px 6px -1px #0000001A" }}
+              className="flex w-[280px] shrink-0 flex-col items-stretch rounded-[16px] border-[0.89px] border-[#F3F4F6] bg-white p-5 text-center shadow-none transition-shadow duration-500 ease-out hover:shadow-[0px_12px_28px_-10px_#00000024,0px_8px_16px_-6px_#00000018] sm:w-[300px] sm:p-6 md:w-[340px] md:text-left lg:w-[360px] xl:w-[384px]"
             >
               <h3
                 data-scroll-reveal
