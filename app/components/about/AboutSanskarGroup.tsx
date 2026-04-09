@@ -3,7 +3,10 @@
 import Image from "next/image";
 import { Lato, Quattrocento } from "next/font/google";
 import { useRef } from "react";
-import { ABOUT_SANSKAR_GROUP_SECTION_ID } from "../common/aboutNavigation";
+import {
+  ABOUT_SANSKAR_GROUP_INTRO_ID,
+  ABOUT_SANSKAR_GROUP_SECTION_ID,
+} from "../common/aboutNavigation";
 import { useScrollReveal } from "../common/useScrollReveal";
 
 const lato = Lato({
@@ -24,7 +27,7 @@ export function AboutSanskarGroup() {
         <section
             id={ABOUT_SANSKAR_GROUP_SECTION_ID}
             ref={sectionRef}
-            className="relative flex h-auto w-full scroll-mt-[88px] items-center bg-white pb-12 sm:pb-16 lg:h-[816px] lg:min-h-[900px] lg:py-0 "
+            className="relative flex h-auto w-full scroll-mt-[100px] items-center bg-white pb-12 sm:pb-16 lg:h-[816px] lg:min-h-[900px] lg:py-0"
             style={{
                 backgroundImage: "radial-gradient(#e5e7eb 1px, transparent 1px)",
                 backgroundSize: "24px 24px",
@@ -33,8 +36,12 @@ export function AboutSanskarGroup() {
             <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 lg:py:0 md:pt-[35px] pt-[35px]">
                 <div className="mx-auto flex w-full max-w-[1280px] flex-col xl:max-w-[1320px]">
 
-                    {/* Header Part */}
-                    <div data-scroll-reveal className="w-full  text-center lg:text-left mb-10 md:mb-[50px]">
+                    {/* Header Part — deep link / Our Profile scroll target */}
+                    <div
+                        id={ABOUT_SANSKAR_GROUP_INTRO_ID}
+                        data-scroll-reveal
+                        className="w-full scroll-mt-[100px] text-center lg:text-left mb-10 md:mb-[50px]"
+                    >
                         <p className={`${lato.className} mb-4 text-[#4A4A4A] text-[15px] font-medium sm:text-[16px] md:text-[18px]`}>
                             About Sanskar Group
                         </p>

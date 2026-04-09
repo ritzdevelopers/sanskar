@@ -122,7 +122,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
           <div className="flex flex-col items-center gap-8 text-center sm:gap-10 md:w-[min(100%,calc(50%-1rem))] md:items-center lg:w-1/3 lg:items-start lg:gap-12 lg:text-left">
             <h2
               data-scroll-reveal
-              className={`${quattrocento.className} text-[28px] font-normal uppercase leading-[50px] text-[#1A1A1A] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[36px]`}
+              className={`${quattrocento.className} text-[28px] font-normal uppercase leading-[33px] md:leading-[40px] lg:leading-[50px] text-[#1A1A1A] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[36px]`}
             >
               Our Emails Are Crafted With
               <br />

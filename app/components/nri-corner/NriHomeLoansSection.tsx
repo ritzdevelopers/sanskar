@@ -15,9 +15,9 @@ const lato = Lato({
   weight: ["400"],
 });
 
-const bodyClass = `${lato.className} text-[16px] font-normal leading-snug tracking-normal text-[#00000099] md:text-[20px]`;
+const bodyClass = `${lato.className} text-[16px] font-normal leading-[24px] tracking-normal text-[#00000099]`;
 
-const listClass = `${lato.className} list-disc space-y-2 pl-5 text-[16px] font-normal leading-snug text-[#00000099] md:text-[20px]`;
+const listClass = `${lato.className} list-disc space-y-2 pl-5 text-[16px] font-normal leading-[24px] tracking-normal text-[#00000099]`;
 
 const ITEMS: { id: string; title: string; content: ReactNode }[] = [
   {
@@ -88,7 +88,7 @@ export function NriHomeLoansSection() {
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1280px] xl:max-w-[1320px]">
           <h2
-            className={`${quattrocento.className} mx-auto max-w-[700px] text-center align-middle text-[20px] font-normal uppercase leading-normal tracking-normal text-[#111111] md:text-[36px] lg:mx-0 lg:text-left lg:leading-[50px]`}
+            className={`${quattrocento.className} mx-auto max-w-[700px] text-center align-middle text-[20px] md:text-[36px] font-normal uppercase leading-[100%] tracking-normal text-[#111111] lg:mx-0 lg:text-left`}
           >
             NRI Home Loans - Helping Your India Investment Work for You
           </h2>
@@ -107,14 +107,14 @@ export function NriHomeLoansSection() {
                     onClick={() => setOpenIndex(isOpen ? null : index)}
                     aria-expanded={isOpen}
                   >
-                    <span className="flex min-w-0 flex-1 items-start gap-3 md:gap-4">
+                    <span className="flex min-w-0 flex-1 items-baseline gap-3 md:gap-4">
                       <span
-                        className={`${lato.className} shrink-0 pt-0.5 text-[16px] font-normal leading-snug tracking-normal text-[#111111] md:text-[20px]`}
+                        className={`${lato.className} shrink-0 text-[18px] font-normal leading-[100%] tracking-normal text-[#111111]`}
                       >
                         {item.id}
                       </span>
                       <span
-                        className={`${lato.className} min-w-0 text-[16px] font-normal leading-snug tracking-normal text-[#111111] md:text-[20px]`}
+                        className={`${lato.className} min-w-0 text-[18px] font-normal leading-normal tracking-normal text-[#111111]`}
                       >
                         {item.title}
                       </span>
@@ -147,7 +147,7 @@ export function NriHomeLoansSection() {
                     >
                       <div className="flex items-start gap-3 pt-3 pb-1 md:gap-4 md:pt-4 md:pb-2">
                         <span
-                          className={`${lato.className} invisible shrink-0 select-none pt-0.5 text-[16px] font-normal leading-snug md:text-[20px]`}
+                          className={`${lato.className} invisible shrink-0 select-none text-[18px] font-normal leading-[100%]`}
                           aria-hidden
                         >
                           {item.id}

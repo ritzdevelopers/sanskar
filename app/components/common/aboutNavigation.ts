@@ -12,13 +12,19 @@ export const MISSION_VISION_SECTION_ID = "mission-vision";
 
 export const MISSION_VISION_HREF = `/about-us#${MISSION_VISION_SECTION_ID}`;
 
-/** `id` on `AboutSanskarGroup` — Our Profile (footer / nav). */
+/** Full section wrapper on `AboutSanskarGroup`. */
 export const ABOUT_SANSKAR_GROUP_SECTION_ID = "about-sanskar-group";
 
-export const OUR_PROFILE_HREF = `/about-us#${ABOUT_SANSKAR_GROUP_SECTION_ID}`;
+/** Headline block — Our Profile scroll lands here so the upper copy shows under the fixed header. */
+export const ABOUT_SANSKAR_GROUP_INTRO_ID = "about-sanskar-group-intro";
+
+export const OUR_PROFILE_HREF = `/about-us#${ABOUT_SANSKAR_GROUP_INTRO_ID}`;
 
 /** Lenis ignores CSS scroll-margin; keep section clear of fixed header. */
 const ABOUT_PAGE_SECTION_LENIS_OFFSET_PX = -80;
+
+/** Match `scroll-mt-[100px]` on About Sanskar Group intro. */
+const ABOUT_SANSKAR_GROUP_LENIS_OFFSET_PX = -100;
 
 function smoothScrollToTop() {
   const lenis = getLenisInstance();
@@ -71,14 +77,16 @@ export function smoothScrollToMissionVisionSection() {
 }
 
 export function smoothScrollToAboutSanskarGroupSection() {
-  const el = document.getElementById(ABOUT_SANSKAR_GROUP_SECTION_ID);
+  const el =
+    document.getElementById(ABOUT_SANSKAR_GROUP_INTRO_ID) ??
+    document.getElementById(ABOUT_SANSKAR_GROUP_SECTION_ID);
   if (!el) return;
   const lenis = getLenisInstance();
   if (lenis) {
     lenis.scrollTo(el, {
       duration: LENIS_PROGRAMMATIC_DURATION,
       force: true,
-      offset: ABOUT_PAGE_SECTION_LENIS_OFFSET_PX,
+      offset: ABOUT_SANSKAR_GROUP_LENIS_OFFSET_PX,
     });
     return;
   }
@@ -109,7 +117,7 @@ export function handleOurProfileNavClick(
   window.history.replaceState(
     null,
     "",
-    `/about-us#${ABOUT_SANSKAR_GROUP_SECTION_ID}`,
+    `/about-us#${ABOUT_SANSKAR_GROUP_INTRO_ID}`,
   );
 }
 

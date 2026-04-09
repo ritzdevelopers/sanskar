@@ -326,7 +326,7 @@ export default function Carrerform() {
             className="mx-auto scroll-mt-[100px] mb-10 text-center sm:mb-12 lg:mb-14"
           >
             <h2
-              className={`${quattroTitle.className} text-[28px] font-normal uppercase leading-[100%] tracking-normal text-[#111111] sm:text-[32px] lg:text-[36px]`}
+              className={`${quattroTitle.className} text-[20px] md:text-[28px] font-normal uppercase leading-[100%] tracking-normal text-[#111111] sm:text-[32px] lg:text-[36px]`}
             >
             Start Your Career with Us
             </h2>

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import {
+  ABOUT_SANSKAR_GROUP_INTRO_ID,
   ABOUT_SANSKAR_GROUP_SECTION_ID,
   MISSION_VISION_SECTION_ID,
   scrollAboutUsPageToTop,
@@ -19,7 +20,7 @@ function runAboutUsDeepLinkScrollFromHash() {
     });
     return;
   }
-  if (id === ABOUT_SANSKAR_GROUP_SECTION_ID) {
+  if (id === ABOUT_SANSKAR_GROUP_INTRO_ID || id === ABOUT_SANSKAR_GROUP_SECTION_ID) {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         smoothScrollToAboutSanskarGroupSection();
@@ -33,6 +34,7 @@ function isAboutUsDeepLinkHash(): boolean {
   const h = window.location.hash;
   return (
     h === `#${MISSION_VISION_SECTION_ID}` ||
+    h === `#${ABOUT_SANSKAR_GROUP_INTRO_ID}` ||
     h === `#${ABOUT_SANSKAR_GROUP_SECTION_ID}`
   );
 }
