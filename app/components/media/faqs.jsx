@@ -1,18 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Lato, Quattrocento } from "next/font/google";
 import { useState } from "react";
-
-const quattrocento = Quattrocento({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
-
-const lato = Lato({
-  subsets: ["latin"],
-  weight: ["400"],
-});
 
 const FAQS = [
   {
@@ -48,15 +37,14 @@ export function FaqsSection() {
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
-    <section className="bg-[#FAFAFA] py-[35px] lg:py-[75px]">
+    <section className="bg-[#FAFAFA] py-10 md:py-12">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
-          <h2
-            className={`${quattrocento.className} mb-6 text-center align-middle text-[20px] font-normal leading-[100%] tracking-normal text-[#111111] md:mb-8 md:text-left md:text-[36px]`}
-          >
+          <h2 className="align-middle text-center font-quattrocento text-[20px] md:text-[36px] font-normal leading-[100%] tracking-normal text-[#111111] md:text-left">
             FAQs
           </h2>
-          <div className="flex flex-col gap-3 md:gap-6">
+
+          <div className="mt-6 flex flex-col gap-3 md:mt-8 md:gap-6">
             {FAQS.map((item, index) => {
               const isOpen = openIndex === index;
               return (
@@ -72,15 +60,11 @@ export function FaqsSection() {
                     }
                     aria-expanded={isOpen}
                   >
-                    <span className="flex min-w-0 flex-1 items-start gap-3 md:gap-4">
-                      <span
-                        className={`${lato.className} shrink-0 pt-0.5 text-[16px] font-normal leading-snug tracking-normal text-[#111111] md:text-[20px]`}
-                      >
+                    <span className="flex min-w-0 flex-1 items-baseline gap-3 md:gap-4">
+                      <span className="shrink-0 font-lato text-[18px] font-normal leading-[100%] tracking-normal text-[#111111]">
                         {item.id}
                       </span>
-                      <span
-                        className={`${lato.className} min-w-0 break-words text-[16px] font-normal leading-snug tracking-normal text-[#111111] md:text-[20px]`}
-                      >
+                      <span className="min-w-0 font-lato text-[18px] font-normal leading-normal tracking-normal text-[#111111]">
                         {item.question}
                       </span>
                     </span>
@@ -107,16 +91,14 @@ export function FaqsSection() {
                       className="min-h-0 overflow-hidden"
                       aria-hidden={!isOpen}
                     >
-                      <div className="flex items-start gap-3 pt-3 pb-1 md:gap-4 md:pt-4 md:pb-2">
+                      <div className="flex items-start gap-3 pt-3 md:gap-4 md:pt-4">
                         <span
-                          className={`${lato.className} invisible shrink-0 select-none pt-0.5 text-[16px] font-normal leading-snug md:text-[20px]`}
+                          className="shrink-0 font-lato text-[18px] font-normal leading-[100%] invisible select-none"
                           aria-hidden
                         >
                           {item.id}
                         </span>
-                        <p
-                          className={`${lato.className} min-w-0 max-w-full flex-1 break-words pb-0.5 text-[16px] font-normal leading-snug tracking-normal text-[#00000099] md:text-[20px] xl:max-w-[1150px]`}
-                        >
+                        <p className="min-w-0 flex-1 font-lato text-[16px] font-normal leading-[24px] tracking-normal text-[#00000099] xl:max-w-[1150px]">
                           {item.answer}
                         </p>
                       </div>
