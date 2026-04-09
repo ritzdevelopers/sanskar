@@ -188,16 +188,19 @@ export function ProjectShowcaseSliderSection2() {
                     </div>
                 ))}
 
-                {/* ── Mobile: map pin icon → Google Maps ── */}
+                {/* ── Mobile: map pin icon → Google Maps (right, raised, gray circle + bounce) ── */}
                 <a
                     href={activeGoogleMapsHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pointer-events-auto absolute bottom-[max(1.25rem,env(safe-area-inset-bottom,0px))] left-5 top-auto z-[60] flex items-center justify-center md:hidden"
+                    className="map-pin-mobile-bounce pointer-events-auto absolute right-5 top-auto z-[60] flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#D1D5DB] shadow-md md:hidden"
+                    style={{
+                        bottom: "calc(350px + max(1.25rem, env(safe-area-inset-bottom, 0px)))",
+                    }}
                     aria-label={`Open ${activeSlide.projectName} in Google Maps`}
                 >
                     <i
-                        className="ri-map-pin-line text-[32px] leading-none text-black drop-shadow-[0_1px_3px_rgba(255,255,255,0.7)] not-italic sm:text-[36px]"
+                        className="ri-map-pin-line text-[22px] leading-none text-[#111111] not-italic"
                         aria-hidden
                     />
                 </a>
@@ -367,6 +370,13 @@ export function ProjectShowcaseSliderSection2() {
         }
         .animate-fadeSlideUp {
           animation: fadeSlideUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        @keyframes mapPinMobileBounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+        .map-pin-mobile-bounce {
+          animation: mapPinMobileBounce 1.15s ease-in-out infinite;
         }
       `}</style>
         </section>
