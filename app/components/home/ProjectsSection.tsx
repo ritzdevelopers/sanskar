@@ -56,7 +56,19 @@ export function ProjectsSection() {
   const sectionRef = useRef(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const promoteIndexRef = useRef<number | null>(null);
+  const [isSectionInView, setIsSectionInView] = useState(false);
   useScrollReveal(sectionRef);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setIsSectionInView(entry.isIntersecting),
+      { threshold: 0.2 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const finishSlideTransition = useCallback(() => {
     const idx = promoteIndexRef.current;
@@ -94,11 +106,18 @@ export function ProjectsSection() {
   }, [goNext]);
 
   useEffect(() => {
+    if (!isSectionInView) {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      return;
+    }
     timerRef.current = setInterval(goNext, AUTOPLAY_MS);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [goNext]);
+  }, [isSectionInView, goNext]);
 
   const handlePrev = () => { goPrev(); resetTimer(); };
   const handleNext = () => { goNext(); resetTimer(); };
