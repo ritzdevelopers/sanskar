@@ -186,7 +186,7 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
               clipPath: clip,
             }}
           >
-            <Image
+            {/* <Image
               src="/assets/banner (1).png"
               alt=""
               fill
@@ -194,7 +194,7 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
               quality={60}
               sizes="100vw"
               className="object-cover"
-            />
+            /> */}
           </div>
         ))}
       </div>
