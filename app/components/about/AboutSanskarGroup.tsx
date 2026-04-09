@@ -70,7 +70,7 @@ export function AboutSanskarGroup() {
                             className={`flex flex-1 flex-col justify-center space-y-5 text-center md:space-y-2 lg:text-left ${lato.className} text-[15px] text-[#555555] leading-[1.8] md:text-[16px] lg:mt-[-100px] mt-[0]`}
                         >
                             <p>
-                            Led by our directors, <span className="text-[#F7A51D] font-bold"> Mr. Sanskar Tyagi </span> and <span className="text-[#F7A51D] font-bold"> Mr.Kuldeep Tyagi</span>, the team brings unparalleled expertise in real estate strategy and development, driving the company's vision forward. From identifying priority projects to ensuring their seamless execution, their leadership is our key to operational success.
+                            Led by our directors, <span className="text-[#F7A51D] font-bold"> Mr. Sanskar Tyagi </span> and <span className="text-[#F7A51D] font-bold"> Mr. Kuldeep Tyagi</span>, the team brings unparalleled expertise in real estate strategy and development, driving the company's vision forward. From identifying priority projects to ensuring their seamless execution, their leadership is our key to operational success.
 
                             </p>
                             <p>

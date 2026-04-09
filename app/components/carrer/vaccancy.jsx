@@ -1,4 +1,30 @@
+"use client";
 
+import {
+  getLenisInstance,
+  LENIS_PROGRAMMATIC_DURATION,
+} from "../common/lenisInstance";
+
+const CAREER_FORM_SECTION_ID = "career-application-form";
+
+/** Lenis ignores CSS `scroll-margin`; match about/media in-page jumps (~fixed header). */
+const CAREER_FORM_LENIS_OFFSET_PX = -88;
+
+function scrollToCareerForm() {
+  if (typeof document === "undefined") return;
+  const el = document.getElementById(CAREER_FORM_SECTION_ID);
+  if (!el) return;
+  const lenis = getLenisInstance();
+  if (lenis) {
+    lenis.scrollTo(el, {
+      duration: LENIS_PROGRAMMATIC_DURATION,
+      force: true,
+      offset: CAREER_FORM_LENIS_OFFSET_PX,
+    });
+    return;
+  }
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
 const VACANCIES = [
   {
@@ -50,7 +76,11 @@ export default function Vaccancy() {
                 className="border-b border-[#E5E5E5] pt-5 pb-10 sm:pt-6 md:pb-5"
               >
                 <a
-                  href="#"
+                  href={`#${CAREER_FORM_SECTION_ID}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToCareerForm();
+                  }}
                   className="group flex flex-col items-start gap-4 text-left no-underline outline-none focus-visible:ring-2 focus-visible:ring-[#111111] focus-visible:ring-offset-2 md:flex-row md:items-center md:justify-between md:gap-4"
                 >
                   <div className="min-w-0 w-full flex-1 md:w-auto">
