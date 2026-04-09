@@ -317,11 +317,14 @@ export default function Carrerform() {
   return (
     <section
       id="career-application-form"
-      className="relative w-full scroll-mt-[88px] bg-white py-12 sm:py-14 md:py-16 lg:py-20"
+      className="relative w-full scroll-mt-[100px] bg-white py-12 sm:py-14 md:py-16 lg:py-20"
     >
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
-          <header className="mx-auto mb-10 text-center sm:mb-12 lg:mb-14">
+          <header
+            id="career-application-heading"
+            className="mx-auto scroll-mt-[100px] mb-10 text-center sm:mb-12 lg:mb-14"
+          >
             <h2
               className={`${quattroTitle.className} text-[28px] font-normal uppercase leading-[100%] tracking-normal text-[#111111] sm:text-[32px] lg:text-[36px]`}
             >
@@ -556,7 +559,7 @@ export default function Carrerform() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`${quattroButton.className} mx-auto w-full max-w-[230px] mt-2 md:mt-6 rounded-full border-0 bg-black px-8 py-3.5 text-center text-[15px] font-normal uppercase leading-none tracking-normal text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:opacity-60 sm:py-4 sm:text-[16px] lg:mx-0`}
+                  className={`${quattroButton.className} mx-auto cursor-pointer w-full max-w-[230px] mt-2 md:mt-6 rounded-full border-0 bg-black px-8 py-3.5 text-center text-[15px] font-normal uppercase leading-none tracking-normal text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:opacity-60 sm:py-4 sm:text-[16px] lg:mx-0`}
                 >
                   {isSubmitting ? "Submitting…" : "Interested"}
                 </button>

@@ -5,14 +5,15 @@ import {
   LENIS_PROGRAMMATIC_DURATION,
 } from "../common/lenisInstance";
 
-const CAREER_FORM_SECTION_ID = "career-application-form";
+/** In-page jump lands on “Start Your Career with Us” (not section top padding). */
+const CAREER_FORM_SCROLL_ID = "career-application-heading";
 
-/** Lenis ignores CSS `scroll-margin`; match about/media in-page jumps (~fixed header). */
-const CAREER_FORM_LENIS_OFFSET_PX = -88;
+/** Lenis ignores CSS `scroll-margin`; match header `scroll-mt-[100px]`. */
+const CAREER_FORM_LENIS_OFFSET_PX = -100;
 
 function scrollToCareerForm() {
   if (typeof document === "undefined") return;
-  const el = document.getElementById(CAREER_FORM_SECTION_ID);
+  const el = document.getElementById(CAREER_FORM_SCROLL_ID);
   if (!el) return;
   const lenis = getLenisInstance();
   if (lenis) {
@@ -76,7 +77,7 @@ export default function Vaccancy() {
                 className="border-b border-[#E5E5E5] pt-5 pb-10 sm:pt-6 md:pb-5"
               >
                 <a
-                  href={`#${CAREER_FORM_SECTION_ID}`}
+                  href={`#${CAREER_FORM_SCROLL_ID}`}
                   onClick={(e) => {
                     e.preventDefault();
                     scrollToCareerForm();

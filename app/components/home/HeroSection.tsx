@@ -149,17 +149,28 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
   ];
 
   return (
-    <section className="relative min-h-screen overflow-hidden">
+    <section className="relative min-h-screen overflow-hidden ssm:min-h-[640px] md:min-h-[400px] lg:min-h-[550px] xl:min-h-[750px]">
       <h1 className="sr-only">Sanskar Realty - Luxury homes and communities in NCR</h1>
       <div ref={heroImageRef} className="absolute inset-0 opacity-0">
         <Image
-          src="/assets/banner (1).png"
+          src="/assets/homepagemobilebanner.jpg"
           alt="Sanskar Realty hero"
           fill
           priority
           fetchPriority="high"
           quality={60}
-          className="object-cover"
+          className="object-cover md:hidden"
+          sizes="100vw"
+        />
+        <Image
+          src="/assets/homepagedeskstopbanner.png"
+          alt="Sanskar Realty hero"
+          fill
+          priority
+          fetchPriority="high"
+          quality={60}
+          className="hidden object-cover md:block"
+          sizes="100vw"
         />
       </div>
 

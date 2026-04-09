@@ -7,10 +7,22 @@ import { useScrollReveal } from "../common/useScrollReveal";
 export function PressReleasesSection() {
   const sectionRef = useRef<HTMLElement>(null);
   useScrollReveal(sectionRef);
-  const pressReleases = [
+  const pressReleases: {
+    id: number;
+    image: string;
+    title: string;
+    description: string;
+    date: string;
+    linkText: string;
+    linkUrl: string;
+    brandLogo?: string;
+    brandLogoAlt?: string;
+  }[] = [
     {
       id: 1,
       image: "/assets/2 (1).png",
+      brandLogo: "/assets/tribune.webp",
+      brandLogoAlt: "The Tribune India",
       title: "Eternia: Spacious Residences For Grand Living | The Tribune India",
       description: "The vision of Eternia residences comes to life through the collaboration of Great Value Realty (GVR) and Yatharth Family Office, a partnership built on trust, innovation, and...",
       date: "Jun 28, 2025",
@@ -20,6 +32,8 @@ export function PressReleasesSection() {
     {
       id: 2,
       image: "/assets/1.png",
+      brandLogo: "/assets/bussiness.webp",
+      brandLogoAlt: "Business Standard",
       title: "Eternia: Spacious Residences For Grand Living | The Business Standard",
       description: "The vision of Eternia residences comes to life through the collaboration of Great Value Realty (GVR) and Yatharth Family Office, a partnership built on trust, innovation, and...",
       date: "Jun 28, 2025",
@@ -29,6 +43,8 @@ export function PressReleasesSection() {
     {
       id: 3,
       image: "/assets/3.png",
+      brandLogo: "/assets/print.png",
+      brandLogoAlt: "The Print",
       title: "Eternia: Spacious Residences For Grand Living | The Print ",
       description: " The vision of Eternia residences comes to life through the collaboration of Great Value Realty (GVR) and Yatharth Family Office, a partnership built on trust, innovation, and…",
       date: "Jun 28, 2025 ",
@@ -50,18 +66,39 @@ export function PressReleasesSection() {
 
         <div className="grid grid-cols-1 gap-8 sm:gap-10 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-[32px]">
           {pressReleases.map((release) => (
-            <div key={release.id} className="flex flex-col gap-5">
+            <div key={release.id} className="flex flex-col gap-5 rounded-lg border border-[#E5E5E5] p-5 hover:shadow-lg">
               <div data-scroll-reveal-img className="relative aspect-[1.5] w-full overflow-hidden">
                 <Image
                   src={release.image}
                   alt={release.title}
                   fill
                   className="object-cover transition-transform duration-500 hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
+                {release.brandLogo ? (
+                  <div className="pointer-events-none absolute bottom-3 left-3 z-10 flex w-[min(140px,calc(100%-2rem))] shrink-0 items-center justify-center rounded-sm border border-black/5 bg-white/95 px-2.5 py-1.5 shadow-sm backdrop-blur-[6px] sm:bottom-5 sm:left-4 sm:w-[min(160px,calc(100%-2rem))] sm:px-3 sm:py-2">
+                    <div className="relative h-5 w-full sm:h-6">
+                      <Image
+                        src={release.brandLogo}
+                        alt={release.brandLogoAlt ?? "Publication logo"}
+                        fill
+                        className="object-contain object-center"
+                        sizes="160px"
+                      />
+                    </div>
+                  </div>
+                ) : null}
               </div>
               <div data-scroll-reveal className="flex flex-col gap-2">
                 <h3 className="font-quattrocento text-[18px] font-bold leading-[1.3] text-[#1A1A1A] sm:text-[20px]">
-                  {release.title}
+                  <a
+                    href={release.linkUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="cursor-pointer font-inherit text-inherit no-underline decoration-transparent [text-decoration-line:none] visited:text-inherit hover:text-inherit hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1A1A1A]/35"
+                  >
+                    {release.title.trim()}
+                  </a>
                 </h3>
                 <p className="font-lato text-[14px] text-[#777777]">
                   {release.date}
