@@ -22,6 +22,8 @@ import { useEnquireModal } from "../common/EnquireModalProvider";
 import { useSiteVisitModal } from "../common/SiteVisitModalProvider";
 import { useWorkWithUsModal } from "../common/WorkWithUsModalProvider";
 import { useScrollReveal } from "../common/useScrollReveal";
+import { isValidEmail } from "../common/formValidation";
+import { API_BASE } from "../../dashboard/lib";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -33,7 +35,7 @@ const quattrocento = Quattrocento({
   weight: ["400", "700"],
 });
 
-const ENQUIRE_API_PATH = "/api/enquire";
+const FOOTER_EMAIL_API_URL = `${API_BASE}/api/users/footer-Email`;
 
 type FooterSectionProps = {
   alignWithHeader?: boolean;
@@ -47,34 +49,52 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
   const footerRef = useRef<HTMLElement>(null);
   const [email, setEmail] = useState("");
   const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [apiFeedback, setApiFeedback] = useState<{
+    ok: boolean;
+    text: string;
+  } | null>(null);
   useScrollReveal(footerRef, { stagger: 0.06, duration: 0.65 });
 
   const submitFooterEmail = async () => {
     const trimmedEmail = email.trim();
-    if (!trimmedEmail || isSubmittingEmail) return;
+    if (isSubmittingEmail) return;
+
+    setApiFeedback(null);
+    if (!trimmedEmail) {
+      setEmailError("Email is required.");
+      return;
+    }
+    if (!isValidEmail(trimmedEmail)) {
+      setEmailError("Enter a valid email address.");
+      return;
+    }
+    setEmailError(null);
 
     setIsSubmittingEmail(true);
     try {
-      const payload = {
-        formType: "Footer Subscribe",
-        fullName: "",
-        email: trimmedEmail,
-        mobile: "",
-        message: "",
-        details: "Footer email subscription",
-        notes: "Footer email subscription",
-      };
-
-      const res = await fetch(ENQUIRE_API_PATH, {
+      const res = await fetch(FOOTER_EMAIL_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ email: trimmedEmail }),
       });
-      if (res.ok) {
-        setEmail("");
+      const data = (await res.json().catch(() => null)) as { message?: string } | null;
+      if (!res.ok) {
+        setApiFeedback({
+          ok: false,
+          text:
+            typeof data?.message === "string" ? data.message : "Could not save email.",
+        });
+        return;
       }
+      setEmail("");
+      setApiFeedback({
+        ok: true,
+        text:
+          typeof data?.message === "string" ? data.message : "Email saved successfully.",
+      });
     } catch {
-      // Keep footer UI unchanged.
+      setApiFeedback({ ok: false, text: "Could not save email. Please try again." });
     } finally {
       setIsSubmittingEmail(false);
     }
@@ -163,20 +183,45 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
 
           {/* Middle: Form */}
           <div className="flex w-full flex-col gap-4 md:w-[min(100%,calc(50%-1rem))] lg:w-[35.5%]">
-            <input
-              data-scroll-reveal
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  void submitFooterEmail();
-                }
-              }}
-              placeholder="ENTER YOUR EMAIL"
-              className={`${lato.className} w-full border border-[#E5E5E5] bg-white px-4 py-4 text-[14px] text-[#1A1A1A] outline-none focus:border-[#1A1A1A]`}
-            />
+            <div>
+              <input
+                data-scroll-reveal
+                type="email"
+                value={email}
+                autoComplete="email"
+                aria-invalid={emailError ? "true" : "false"}
+                aria-describedby={emailError ? "footer-email-err" : undefined}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (emailError) setEmailError(null);
+                  if (apiFeedback) setApiFeedback(null);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    void submitFooterEmail();
+                  }
+                }}
+                placeholder="ENTER YOUR EMAIL"
+                className={`${lato.className} w-full border bg-white px-4 py-4 text-[14px] text-[#1A1A1A] outline-none focus:border-[#1A1A1A] ${
+                  emailError ? "border-red-500 focus:border-red-600" : "border-[#E5E5E5]"
+                }`}
+              />
+              {emailError ? (
+                <p id="footer-email-err" className={`${lato.className} mt-1 text-[12px] text-red-600`}>
+                  {emailError}
+                </p>
+              ) : null}
+              {apiFeedback && !emailError ? (
+                <p
+                  className={`${lato.className} mt-1 text-[12px] ${
+                    apiFeedback.ok ? "text-emerald-700" : "text-red-600"
+                  }`}
+                >
+                  {apiFeedback.text}
+                </p>
+              ) : null}
+            </div>
             <button
               data-scroll-reveal
               type="button"
@@ -184,9 +229,9 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
               onClick={() => {
                 void submitFooterEmail();
               }}
-              className={`${lato.className} w-full bg-[#111111] py-4 text-[16px] text-white transition-colors hover:bg-[#333333]`}
+              className={`${lato.className} w-full bg-[#111111] py-4 text-[16px] text-white transition-colors hover:bg-[#333333] disabled:cursor-not-allowed disabled:opacity-60`}
             >
-              Submit
+              {isSubmittingEmail ? "Submitting…" : "Submit"}
             </button>
           </div>
 

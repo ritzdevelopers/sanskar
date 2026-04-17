@@ -5,8 +5,26 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { NavOverlay } from "../common/NavOverlay";
 import { scrollAboutUsToTopIfSamePage } from "../common/aboutNavigation";
+import {
+  isValidEmail,
+  isValidFullName,
+  isValidIndianMobile,
+} from "../common/formValidation";
+import { API_BASE } from "../../dashboard/lib";
 
-const ENQUIRE_API_PATH = "/api/enquire";
+const CONTACT_US_API_URL = `${API_BASE}/api/users/contact-us-page`;
+
+function normalizeIndianMobileDigits(value) {
+  let d = String(value ?? "").replace(/\D/g, "");
+  if (d.length === 12 && d.startsWith("91")) d = d.slice(2);
+  if (d.length === 11 && d.startsWith("0")) d = d.slice(1);
+  return d;
+}
+
+function isValidContactMessage(value) {
+  const t = String(value ?? "").trim();
+  return t.length >= 5 && t.length <= 5000;
+}
 
 const OFFICES = [
   {
@@ -26,6 +44,13 @@ export function ContactFormSection() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [formNotice, setFormNotice] = useState(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -45,66 +70,77 @@ export function ContactFormSection() {
     const email = String(fd.get("email") ?? "").trim();
     const phone = String(fd.get("phone") ?? "").trim();
     const message = String(fd.get("message") ?? "").trim();
-    const mobile = phone.replace(/\D/g, "");
+    const mobileDigits = normalizeIndianMobileDigits(phone);
+
+    const nextErrors = { name: "", email: "", phone: "", message: "" };
+    if (!isValidFullName(name)) {
+      nextErrors.name =
+        "Enter a valid name (letters only, 2–120 characters).";
+    }
+    if (!email) {
+      nextErrors.email = "Email is required.";
+    } else if (!isValidEmail(email)) {
+      nextErrors.email = "Enter a valid email address.";
+    }
+    if (!phone.trim()) {
+      nextErrors.phone = "Mobile number is required.";
+    } else if (!isValidIndianMobile(phone)) {
+      nextErrors.phone =
+        "Enter a valid 10-digit Indian mobile (e.g. 9876543210).";
+    }
+    if (!isValidContactMessage(message)) {
+      nextErrors.message = "Message must be at least 5 and at most 5000 characters.";
+    }
+
+    setFieldErrors(nextErrors);
+    setFormNotice(null);
+    if (Object.values(nextErrors).some(Boolean)) return;
 
     setIsSubmitting(true);
     try {
-      const payload = {
-        formType: "Contact Us",
-        fullName: name,
-        email,
-        mobile,
-        message,
-        details: message,
-        notes: message,
-      };
-
-      const res = await fetch(ENQUIRE_API_PATH, {
+      const res = await fetch(CONTACT_US_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          name,
+          email,
+          mobile: mobileDigits,
+          message: message.trim(),
+        }),
       });
-      const text = await res.text();
-      let parsed;
-      try {
-        parsed = text ? JSON.parse(text) : null;
-      } catch {
-        parsed = null;
-      }
+      const data = await res.json().catch(() => null);
       if (!res.ok) {
-        throw new Error(
-          typeof parsed === "object" &&
-            parsed !== null &&
-            "message" in parsed &&
-            typeof parsed.message === "string"
-            ? parsed.message
-            : `Server returned ${res.status}`,
-        );
-      }
-      if (parsed && typeof parsed === "object" && "ok" in parsed && parsed.ok === false) {
-        const m =
-          "message" in parsed && typeof parsed.message === "string"
-            ? parsed.message
-            : "Submission rejected.";
-        throw new Error(m);
-      }
-      const trimmed = text.trim();
-      if (
-        trimmed.startsWith("<!DOCTYPE") ||
-        trimmed.startsWith("<html") ||
-        /Script function not found/i.test(text)
-      ) {
-        throw new Error("Apps Script: add doGet + doPost and redeploy Web app.");
+        setFormNotice({
+          type: "error",
+          text:
+            data && typeof data.message === "string"
+              ? data.message
+              : `Could not submit (${res.status}).`,
+        });
+        return;
       }
       if (form.isConnected) {
         form.reset();
       }
+      setFormNotice({
+        type: "success",
+        text:
+          data && typeof data.message === "string"
+            ? data.message
+            : "Thank you — we received your message.",
+      });
     } catch {
-      // Keep UI unchanged; fail silently as requested.
+      setFormNotice({
+        type: "error",
+        text: "Could not submit. Please check your connection and try again.",
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const fieldBorder = (key) =>
+    fieldErrors[key] ? "!border-b-red-500 focus:!border-red-400" : "";
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#111111]">
@@ -213,38 +249,95 @@ export function ContactFormSection() {
               <form
                 className="mt-0 md:mt-8 lg:mt-12 flex w-full flex-col gap-9 sm:mt-5 sm:gap-6 [color-scheme:dark]"
                 onSubmit={onSubmit}
+                noValidate
               >
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Enter Your Name"
-                  autoComplete="name"
-                  className={contactFieldClass}
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter Your Email"
-                  autoComplete="email"
-                  className={contactFieldClass}
-                />
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Enter Your Phone Number"
-                  autoComplete="tel"
-                  className={contactFieldClass}
-                />
-                <textarea
-                  name="message"
-                  placeholder="Message"
-                  rows={4}
-                  className={contactTextareaClass}
-                />
+                {formNotice ? (
+                  <p
+                    role={formNotice.type === "error" ? "alert" : "status"}
+                    className={`font-lato text-[13px] leading-snug ${
+                      formNotice.type === "error" ? "text-red-400" : "text-emerald-400"
+                    }`}
+                  >
+                    {formNotice.text}
+                  </p>
+                ) : null}
+                <div>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    placeholder="Enter Your Name"
+                    autoComplete="name"
+                    aria-invalid={fieldErrors.name ? "true" : "false"}
+                    onChange={() => {
+                      setFormNotice(null);
+                      setFieldErrors((p) => ({ ...p, name: "" }));
+                    }}
+                    className={`${contactFieldClass} ${fieldBorder("name")}`}
+                  />
+                  {fieldErrors.name ? (
+                    <p className="mt-1 font-lato text-[12px] text-red-400">{fieldErrors.name}</p>
+                  ) : null}
+                </div>
+                <div>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="Enter Your Email"
+                    autoComplete="email"
+                    aria-invalid={fieldErrors.email ? "true" : "false"}
+                    onChange={() => {
+                      setFormNotice(null);
+                      setFieldErrors((p) => ({ ...p, email: "" }));
+                    }}
+                    className={`${contactFieldClass} ${fieldBorder("email")}`}
+                  />
+                  {fieldErrors.email ? (
+                    <p className="mt-1 font-lato text-[12px] text-red-400">{fieldErrors.email}</p>
+                  ) : null}
+                </div>
+                <div>
+                  <input
+                    type="tel"
+                    name="phone"
+                    required
+                    placeholder="Enter Your Phone Number"
+                    autoComplete="tel"
+                    aria-invalid={fieldErrors.phone ? "true" : "false"}
+                    onChange={() => {
+                      setFormNotice(null);
+                      setFieldErrors((p) => ({ ...p, phone: "" }));
+                    }}
+                    className={`${contactFieldClass} ${fieldBorder("phone")}`}
+                  />
+                  {fieldErrors.phone ? (
+                    <p className="mt-1 font-lato text-[12px] text-red-400">{fieldErrors.phone}</p>
+                  ) : null}
+                </div>
+                <div>
+                  <textarea
+                    name="message"
+                    required
+                    placeholder="Message"
+                    rows={4}
+                    aria-invalid={fieldErrors.message ? "true" : "false"}
+                    onChange={() => {
+                      setFormNotice(null);
+                      setFieldErrors((p) => ({ ...p, message: "" }));
+                    }}
+                    className={`${contactTextareaClass} ${fieldBorder("message")}`}
+                  />
+                  {fieldErrors.message ? (
+                    <p className="mt-1 font-lato text-[12px] text-red-400">
+                      {fieldErrors.message}
+                    </p>
+                  ) : null}
+                </div>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex w-full items-center justify-center bg-[#eeeeee] py-3.5 align-middle font-lato text-[16px] font-[500] leading-[24px] tracking-normal text-[#111111] transition-colors hover:bg-white"
+                  className="inline-flex w-full items-center justify-center bg-[#eeeeee] py-3.5 align-middle font-lato text-[16px] font-[500] leading-[24px] tracking-normal text-[#111111] transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSubmitting ? "Submitting..." : "Submit"}
                 </button>
