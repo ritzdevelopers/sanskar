@@ -51,7 +51,7 @@ export function FaqsSection() {
                 >
                   <button
                     type="button"
-                    className="flex w-full items-start gap-3 text-left md:gap-4"
+                    className="flex w-full cursor-pointer items-start gap-3 text-left md:gap-4"
                     onClick={() =>
                       setOpenIndex(isOpen ? null : index)
                     }

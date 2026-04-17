@@ -15,8 +15,9 @@ import {
   isValidIndianMobile,
   isValidNamePart,
 } from "./formValidation";
+import { API_BASE } from "../../dashboard/lib";
 
-const ENQUIRE_API_PATH = "/api/enquire";
+const ENQUIRY_SUBMIT_URL = `${API_BASE}/api/users/get-Enquire-now-Data`;
 
 const lato = Lato({
   subsets: ["latin"],
@@ -177,17 +178,15 @@ export function EnquireModalProvider({
                   setSubmitBanner(null);
                   setIsSubmitting(true);
 
-                  const fullName = `${firstName} ${lastName}`.trim();
                   const payload = {
-                    formType: "Enquire",
-                    fullName,
+                    firstName,
+                    lastName,
                     email,
                     mobile,
-                    consent: true,
                   };
 
                   try {
-                    const res = await fetch(ENQUIRE_API_PATH, {
+                    const res = await fetch(ENQUIRY_SUBMIT_URL, {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify(payload),
@@ -213,8 +212,8 @@ export function EnquireModalProvider({
                     if (
                       parsed &&
                       typeof parsed === "object" &&
-                      "ok" in parsed &&
-                      (parsed as { ok: unknown }).ok === false
+                      "success" in parsed &&
+                      (parsed as { success: unknown }).success === false
                     ) {
                       const m =
                         "message" in parsed &&
@@ -224,20 +223,19 @@ export function EnquireModalProvider({
                           : "Submission rejected.";
                       throw new Error(m);
                     }
-                    const trimmed = text.trim();
-                    if (
-                      trimmed.startsWith("<!DOCTYPE") ||
-                      trimmed.startsWith("<html") ||
-                      /Script function not found/i.test(text)
-                    ) {
-                      throw new Error(
-                        "Apps Script: add doGet + doPost and redeploy Web app.",
-                      );
-                    }
+
+                    const successMsg =
+                      parsed &&
+                      typeof parsed === "object" &&
+                      "message" in parsed &&
+                      typeof (parsed as { message?: string }).message ===
+                        "string"
+                        ? (parsed as { message: string }).message
+                        : "Submitted successfully!";
 
                     setSubmitBanner({
                       type: "success",
-                      message: "Submitted successfully!",
+                      message: successMsg,
                     });
                     if (form.isConnected) {
                       form.reset();

@@ -1,6 +1,7 @@
 "use client";
 
 import { Lato } from "next/font/google";
+import { usePathname } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useEnquireModal } from "./EnquireModalProvider";
 import { ScrollToTopButton } from "./ScrollToTopButton";
@@ -11,11 +12,16 @@ const lato = Lato({
 });
 
 export function FloatingBottomActions() {
+    const pathname = usePathname();
     const { openEnquireModal } = useEnquireModal();
     const [scrollTopShown, setScrollTopShown] = useState(false);
     const onScrollTopVisibility = useCallback((visible: boolean) => {
         setScrollTopShown(visible);
     }, []);
+
+    if (pathname?.startsWith("/dashboard")) {
+        return null;
+    }
 
     return (
         <div
