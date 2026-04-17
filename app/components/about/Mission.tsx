@@ -102,7 +102,7 @@ export function Mission() {
           <span
             className={`${lato.className} max-w-[155px] text-[14px] font-normal leading-snug text-[#555555] sm:max-w-[170px] sm:text-[15px] md:text-[16px] lg:max-w-none`}
           >
-            Years of Real Estate Excellence
+            Years of Legacy
           </span>
         </div>
         <div
@@ -149,7 +149,7 @@ export function Mission() {
           <span
             className={`${lato.className} text-[14px] font-normal leading-snug text-[#555555] sm:text-[15px] md:text-[16px]`}
           >
-            States Covered
+          Project Configurations
           </span>
         </div>
       </div>
