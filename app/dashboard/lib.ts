@@ -1,7 +1,7 @@
 export const API_BASE =
   (typeof process !== "undefined" &&
     process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "")) ||
-  "https://sanskar-backend-7xrl.onrender.com/";
+  "https://sanskar-backend-7xrl.onrender.com";
 
 /** Blog `image` from API: relative path under API origin, or absolute URL — for `<img>` / `next/image`. */
 export function blogImageUrlFromApi(
