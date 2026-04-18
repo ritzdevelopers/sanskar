@@ -143,11 +143,10 @@ export default function DashboardRegisterPage() {
 
               {tokenHint ? (
                 <p
-                  className="animate-register-fade-up mb-3 rounded-lg border border-white/30 bg-white/15 px-3 py-2 text-xs text-white/85"
-                  style={staggerClass(2)}
+                 
                 >
-                  Token preview:{" "}
-                  <code className="font-mono text-white">{tokenHint}</code>
+                  {/* Token preview:{" "} */}
+                  {/* <code className="font-mono text-white">{tokenHint}</code> */}
                 </p>
               ) : null}
 
