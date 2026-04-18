@@ -202,7 +202,7 @@ export function ContactFormSection() {
                     type="button"
                     aria-label="Open menu"
                     onClick={() => setMenuOpen(true)}
-                    className="flex h-8 w-8 items-center justify-center"
+                    className="flex h-8 w-8 items-center justify-center cursor-pointer"
                   >
                     <Image
                       src="/assets/hamburger_menu.svg"
