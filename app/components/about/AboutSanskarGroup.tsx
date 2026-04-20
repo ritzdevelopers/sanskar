@@ -68,7 +68,7 @@ export function AboutSanskarGroup() {
                                     Mr.Kuldeep Tyagi
                                 </h3>
                                 <p className={`${lato.className} mt-1 text-center text-[18px] font-normal text-[#4f4f4f]`}>
-                                    Chairman and Managing Director
+                                   Director
                                 </p>
                             </div>
 
@@ -78,16 +78,18 @@ export function AboutSanskarGroup() {
                                 className={`flex flex-1 flex-col gap-1 lg:mt-4 mt-0 lg:text-[16px] xl:text-[17px] text-center lg:text-left ${lato.className} text-[17px] md:leading-[1.65] leading-[1.5] text-[#555555]`}
                             >
                                 <p>
-                                Led by our directors, <span className="font-bold text-[#F7A51D]"> Mr. Sanskar Tyagi </span> and <span className="font-bold text-[#F7A51D]"> Mr. Kuldeep Tyagi</span>, the team brings unparalleled expertise in real estate strategy and development, driving the company's vision forward. From identifying priority projects to ensuring their seamless execution, their leadership is our key to operational success.
+                               <span className="font-bold text-[#F7A51D]"> Mr. Kuldeep Tyagi</span> is a dynamic real estate leader with over 21 years of hands-on experience across the Delhi NCR market. Armed with a B.Tech and MBA, he combines technical expertise with sharp business acumen to drive results in both commercial and residential real estate.
+Known for his strong sales instinct and relationship-driven approach, he has built an extensive network that fuels growth opportunities and strategic partnerships. His deep understanding of land acquisition, joint ventures, and project development enables him to identify value and unlock potential in every deal.
+At the core of his work is a forward-thinking mindset, focused on <i>innovation</i>, <i>scalability</i>, and delivering <i> impactful real estate solutions</i>.
 
                                 </p>
-                                <p className="md:mt-0 mt-2">
+                                {/* <p className="md:mt-0 mt-2">
                                 With over 17 years of legacy, we are committed to delivering <span className="font-bold text-[#F7A51D]"> landmarks residential</span> and <span className="font-bold text-[#F7A51D]"> commercial spaces</span>, reshaping the real estate landscape. Our vision is to create sustainable, value-driven developments enhancing the quality of life in every community we serve.
 
                                 </p>
                                 <p className="md:mt-0 mt-2">
                                 As we move forward, our aim is to set new benchmarks in the real estate industry while fostering trust and building long-term relationships with our clients.
-                                </p>
+                                </p> */}
                             </div>
                         </div>
                     </div>
@@ -110,10 +112,10 @@ export function AboutSanskarGroup() {
       </div>
 
       <h3 className={`${lato.className} text-center text-[19px] font-semibold text-[#111111]`}>
-        Mr. Kuldeep Tyagi
+      Mr. Sanskar Tyagi
       </h3>
       <p className={`${lato.className} mt-1 text-center text-[18px] font-normal text-[#4f4f4f]`}>
-        Chairman and Managing Director
+         Director
       </p>
     </div>
 
@@ -123,16 +125,18 @@ export function AboutSanskarGroup() {
                                 className={`flex flex-1 flex-col gap-1 lg:mt-4 mt-0 lg:text-[16px] xl:text-[17px] text-center lg:text-left ${lato.className} text-[17px] md:leading-[1.65] leading-[1.5] text-[#555555]`}
                             >
                                 <p>
-                                Led by our directors, <span className="font-bold text-[#F7A51D]"> Mr. Sanskar Tyagi </span> and <span className="font-bold text-[#F7A51D]"> Mr. Kuldeep Tyagi</span>, the team brings unparalleled expertise in real estate strategy and development, driving the company's vision forward. From identifying priority projects to ensuring their seamless execution, their leadership is our key to operational success.
+                                <span className="font-bold text-[#F7A51D]">  Mr. Sanskar Tyagi</span>, an alumnus of <i>University College London (UCL)</i>, holds a graduate degree in Management and Finance and brings a fresh, data-driven perspective to Sanskar Realty. He combines his financial expertise with strong real estate insight to guide the company’s strategic direction and growth.
+
+He focuses on aligning financial planning with development, ensuring each project delivers long-term value. His vision is to enhance the potential of every asset while creating sustainable, profitable outcomes and building lasting client relationships.
 
                                 </p>
-                                <p className="md:mt-0 mt-2">
+                                {/* <p className="md:mt-0 mt-2">
                                 With over 17 years of legacy, we are committed to delivering <span className="font-bold text-[#F7A51D]"> landmarks residential</span> and <span className="font-bold text-[#F7A51D]"> commercial spaces</span>, reshaping the real estate landscape. Our vision is to create sustainable, value-driven developments enhancing the quality of life in every community we serve.
 
                                 </p>
                                 <p className="md:mt-0 mt-2">
                                 As we move forward, our aim is to set new benchmarks in the real estate industry while fostering trust and building long-term relationships with our clients.
-                                </p>
+                                </p> */}
                             </div>
 
   </div>
