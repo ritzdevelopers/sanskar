@@ -36,7 +36,7 @@ export default function BlogBanner() {
         <div className="mx-auto w-full max-w-[1480px] xl:max-w-[1520px]">
           <div className="mx-auto flex w-full max-w-[900px] flex-col items-center justify-center text-center text-white">
             <p className="font-lato text-[18px] font-semibold leading-[28px] tracking-normal text-[#FFFFFF]">
-              Blog
+              Blogs
             </p>
             <h1 className="font-quattrocento mt-3 text-[20px] md:text-[36px] font-normal uppercase leading-[100%] tracking-normal text-[#FFFFFF] sm:mt-4">
               Turning Spaces into Stories
