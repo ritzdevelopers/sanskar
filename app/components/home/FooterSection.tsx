@@ -447,9 +447,9 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             <Link data-scroll-reveal href="/media" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Media
             </Link>
-            {/* <Link data-scroll-reveal href="/blogs" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
+            <Link data-scroll-reveal href="/blogs" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Blogs
-            </Link> */}
+            </Link>
             <Link
               data-scroll-reveal
               href={MEDIA_GALLERY_HREF}
