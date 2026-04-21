@@ -11,6 +11,7 @@ const PROJECTS = [
     location: "Tech Zone IV, Greater Noida (W)",
     description:
       "Experience luxury 3 & 4 BHK apartments at Eternia, with world-class amenities. Luxury & convenience at your best!",
+    videoEmbedUrl: "https://www.youtube.com/embed/sibHed6fWig?si=O6OJiRHAJknmvd-j",
     image: "/assets/eternia.jpg",
     imageAlt: "Eternia residences",
     url: "https://eternia.greatvaluerealty.com/",
@@ -21,6 +22,7 @@ const PROJECTS = [
     location: "Dream Valley Tech Zone IV, Greater Noida (W)",
     description:
       "Enjoy spacious 1 & 2 BHK studio apartments with modern amenities at HighLife, located near business hubs.",
+    videoEmbedUrl: "https://www.youtube.com/embed/sdaU4DYqOOw?si=LxXT_zrtDvSaXN21",
     image: "/assets/highlife.jpg",
     imageAlt: "HighLife residences",
     url: "https://highlife.greatvaluerealty.com/",
@@ -31,6 +33,7 @@ const PROJECTS = [
     location: "NH-24, Eastern Peripheral Expressway, Ghaziabad",
     description:
       "Enjoy a gated community lifestyle with luxury and nature at Forest Walk. Connects you with serenity and nature both!",
+    videoSrc: "/assets/theforestwalk.mp4",
     image: "/assets/projectforestwalk.png",
     imageAlt: "Forest Walk",
     url: "https://theforestwalk.com/",
@@ -43,6 +46,8 @@ function ProjectRow({
   description,
   image,
   imageAlt,
+  videoEmbedUrl,
+  videoSrc,
   url,
 }) {
   const sectionRef = useRef(null);
@@ -139,7 +144,7 @@ function ProjectRow({
                 aria-hidden
               />
               <span className="relative z-10 inline-flex items-center gap-2.5 text-[#333333] transition-colors duration-300 group-hover:text-white">
-                Explore More
+                Download Brochure
                 <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-current bg-white transition-[background,border-color] group-hover:border-white group-hover:bg-transparent">
                   <Image
                     src="/assets/diagonal_icon.svg"
@@ -162,40 +167,37 @@ function ProjectRow({
               data-scroll-reveal-img
               className="relative aspect-[16/10] w-full overflow-hidden sm:aspect-[5/3]"
             >
-              <Image
-                src={image}
-                alt={imageAlt}
-                title={imageAlt}
-                fill
-                className="object-cover transition-transform duration-500 hover:scale-105"
-                sizes="(max-width: 1024px) 100vw, (max-width: 1279px) 58vw, 66vw"
-              />
-              <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`View ${title} project`}
-                className="group absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-white text-lg text-[#111111] transition-transform hover:scale-105 sm:right-6 sm:top-6 sm:h-11 sm:w-11 sm:text-xl md:right-8 md:top-8"
-              >
-                <Image
-                  src="/assets/diagonal_icon.svg"
-                  alt="Arrow icon"
-                  title="Arrow icon"
-                  width={15}
-                  height={15}
-                  className="absolute transition-transform duration-[400ms] ease-in-out group-hover:translate-x-[200%] group-hover:-translate-y-[200%]"
-                  aria-hidden="true"
+              {videoEmbedUrl ? (
+                <iframe
+                  src={videoEmbedUrl}
+                  title={`${title} video`}
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  className="h-full w-full cursor-pointer border-0 object-cover pointer-events-none"
                 />
-                <Image
-                  src="/assets/diagonal_icon.svg"
-                  alt="Arrow icon"
-                  title="Arrow icon"
-                  width={15}
-                  height={15}
-                  className="absolute -translate-x-[200%] translate-y-[200%] transition-transform duration-[400ms] ease-in-out group-hover:translate-x-0 group-hover:translate-y-0"
-                  aria-hidden="true"
+              ) : videoSrc ? (
+                <video
+                  src={videoSrc}
+                  title={`${title} video`}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="h-full w-full cursor-pointer object-cover pointer-events-none"
                 />
-              </a>
+              ) : (
+                <Image
+                  src={image}
+                  alt={imageAlt}
+                  title={imageAlt}
+                  fill
+                  className="object-cover transition-transform duration-500 hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, (max-width: 1279px) 58vw, 66vw"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -215,6 +217,8 @@ export function ProjectSection() {
           description={p.description}
           image={p.image}
           imageAlt={p.imageAlt}
+          videoEmbedUrl={p.videoEmbedUrl}
+          videoSrc={p.videoSrc}
           url={p.url}
         />
       ))}
