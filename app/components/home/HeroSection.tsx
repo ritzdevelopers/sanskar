@@ -245,6 +245,8 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
               >
                 <Link
                   href="/about-us"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => scrollAboutUsToTopIfSamePage()}
                   className={`group relative text-center text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] cursor-pointer ${isScrolled ? "text-black" : "text-white"
                     }`}
@@ -261,6 +263,8 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
               >
                 <Link
                   href="/projects"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`group relative text-center text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] cursor-pointer ${isScrolled ? "text-black" : "text-white"
                     }`}
                 >
@@ -277,7 +281,7 @@ export function HeroSection({ startIntroAnimation = false }: HeroSectionProps) {
                   type="button"
                   aria-label="Open menu"
                   onClick={() => setMenuOpen(true)}
-                  className="flex h-8 w-8 items-center justify-center"
+                  className="flex h-8 w-8 items-center justify-center cursor-pointer"
                 >
                   <Image
                     src="/assets/hamburger_menu.svg"

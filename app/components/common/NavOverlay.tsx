@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   handleMissionVisionNavClick,
   handleOurProfileNavClick,
@@ -36,7 +36,7 @@ const NAV_LINKS = [
   },
   { label: "Careers", href: "/carrer" },
   { label: "Media", href: "/media" },
-  { label: "Blogs", href: "/blogs" },
+  // { label: "Blogs", href: "/blogs" },
   { label: "Contact Us", href: "/contact-us" },
 ];
 
@@ -64,12 +64,44 @@ const SOCIAL_LINKS = [
   },
 ];
 
+const PROJECT_SEARCH_ITEMS = [
+  {
+    id: "eternia",
+    title: "Eternia",
+    location: "Tech Zone IV, Greater Noida (W)",
+    url: "https://eternia.greatvaluerealty.com/",
+  },
+  {
+    id: "highlife",
+    title: "HighLife",
+    location: "Dream Valley Tech Zone IV, Greater Noida (W)",
+    url: "https://highlife.greatvaluerealty.com/",
+  },
+  {
+    id: "forest-walk",
+    title: "Forest Walk",
+    location: "NH-24, Eastern Peripheral Expressway, Ghaziabad",
+    url: "https://theforestwalk.com/",
+  },
+] as const;
+
 export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
   const pathname = usePathname() ?? "";
   const panelRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const navFooterRef = useRef<HTMLDivElement>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [projectQuery, setProjectQuery] = useState("");
+
+  const filteredProjects = useMemo(() => {
+    const q = projectQuery.trim().toLowerCase();
+    if (!q) return [];
+    return PROJECT_SEARCH_ITEMS.filter(
+      (item) =>
+        item.title.toLowerCase().includes(q) ||
+        item.location.toLowerCase().includes(q),
+    );
+  }, [projectQuery]);
 
   useEffect(() => {
     if (isOpen) setIsMounted(true);
@@ -82,6 +114,7 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
     if (!panel || !content) return;
 
     if (isOpen) {
+      setProjectQuery("");
       document.body.style.overflow = "hidden";
       gsap.killTweensOf(panel);
       if (footer) gsap.killTweensOf(footer);
@@ -152,7 +185,7 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex justify-end"
+      className="fixed inset-0 z-[120] flex justify-end"
       aria-hidden={!isOpen}
       role="dialog"
       aria-modal="true"
@@ -179,9 +212,12 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
           <div className="flex w-full shrink-0 items-center justify-between gap-3 pb-2 sm:gap-4">
             <div className="hidden lg:block lg:flex-1" />
             <div className="min-w-0 flex-1 max-w-[min(100%,640px)] lg:flex-none lg:w-[640px] lg:max-w-[640px]">
-              <div className="flex items-center gap-2 rounded-full bg-[#D9D9D9] px-3 py-2.5 sm:gap-3 sm:px-5 sm:py-3">
+              <div className="relative">
+                <div className="flex items-center gap-2 rounded-full bg-[#D9D9D9] px-3 py-2.5 sm:gap-3 sm:px-5 sm:py-3">
                 <input
-                  type="search"
+                  type="text"
+                  value={projectQuery}
+                  onChange={(e) => setProjectQuery(e.target.value)}
                   placeholder="Search a project name or location"
                   className="min-w-0 flex-1 bg-transparent font-lato text-[13px] text-[#1A1A1A] placeholder:text-[#666666] outline-none sm:text-[15px] md:text-base"
                 />
@@ -201,6 +237,29 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
                     <path d="m21 21-4.35-4.35" />
                   </svg>
                 </span>
+                </div>
+                {filteredProjects.length > 0 ? (
+                  <div className="absolute left-0 right-0 z-20 mt-2 max-h-64 overflow-y-auto rounded-2xl border border-white/20 bg-[#101010] p-2 shadow-xl">
+                    {filteredProjects.map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => {
+                          window.open(item.url, "_blank", "noopener,noreferrer");
+                          onClose();
+                        }}
+                        className="w-full rounded-xl px-3 py-2 text-left hover:bg-white/10"
+                      >
+                        <p className="font-lato text-sm font-semibold text-white">
+                          {item.title}
+                        </p>
+                        <p className="font-lato text-xs text-white/70">
+                          {item.location}
+                        </p>
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
               </div>
             </div>
             <div className="flex shrink-0 items-center lg:flex-1 lg:justify-end">
@@ -212,10 +271,12 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
               >
                 <Image
                   src="/assets/cross_menu.svg"
-                  alt=""
+                  alt="Close navigation menu"
+                  title="Close navigation menu"
                   width={13}
                   height={13}
-                  className="h-[13px] w-[13px] object-contain"
+                  className="h-[13px] w-[13px] object-contain cursor-pointer"
+                  aria-hidden
                 />
               </button>
             </div>
@@ -231,6 +292,8 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
                 >
                   <Link
                     href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     scroll={item.href.startsWith("#") ? false : true}
                     onClick={() => {
                       if (item.href === "/about-us") scrollAboutUsToTopIfSamePage();
@@ -246,6 +309,8 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
                         <span key={s.label} className="flex items-center gap-1">
                           <Link
                             href={s.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             scroll={!s.href.includes("#")}
                             onClick={(e) => {
                               if (s.href === MISSION_VISION_HREF) {
@@ -286,10 +351,12 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
                   >
                     <Image
                       src="/assets/calling.png"
-                      alt=""
+                      alt="Phone"
+                      title="Phone"
                       width={26}
                       height={26}
                       className="object-contain"
+                      aria-hidden
                     />
                   </span>
                   <div className="text-center lg:text-left">
@@ -325,6 +392,7 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
                         <Image
                           src={social.src}
                           alt={social.alt}
+                          title={social.alt}
                           width={35}
                           height={35}
                         />

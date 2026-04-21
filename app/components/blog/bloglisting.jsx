@@ -4,7 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { API_BASE, blogImageUrlFromApi, parseJson } from "../../dashboard/lib";
+import {
+  API_BASE,
+  blogImageUrlFromApi,
+  parseJson,
+  stripHtmlToPlainText,
+} from "../../dashboard/lib";
 
 const EXCERPT =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo Ut enim ad minim veniam";
@@ -86,7 +91,7 @@ export default function BlogListing() {
             title: String(item.title ?? "Untitled"),
             author: "admin",
             date: formatBlogDate(item.uploadDate ?? item.createdAt),
-            excerpt: String(item.description ?? EXCERPT),
+            excerpt: stripHtmlToPlainText(item.description) || EXCERPT,
             image:
               item.image && typeof item.image === "string"
                 ? `${API_BASE}/${item.image.replace(/^\/+/, "")}`
@@ -126,7 +131,7 @@ export default function BlogListing() {
             id: String(item._id ?? `recent-${idx}`),
             title: String(item.title ?? "Untitled"),
             date: formatBlogDate(item.uploadDate ?? item.createdAt),
-            excerpt: String(item.description ?? ""),
+            excerpt: stripHtmlToPlainText(item.description),
             image:
               item.image && typeof item.image === "string"
                 ? `${API_BASE}/${item.image.replace(/^\/+/, "")}`
@@ -198,7 +203,8 @@ export default function BlogListing() {
                   <div className="block overflow-hidden">
                     <Image
                       src={post.image}
-                      alt={post.title || "Blog cover"}
+                      alt={`Blog cover: ${post.title || "Sanskar Realty article"}`}
+                      title={post.title || "Sanskar Realty blog article"}
                       width={900}
                       height={506}
                       className="h-[450px] w-full object-cover"
@@ -273,7 +279,8 @@ export default function BlogListing() {
                   <span className="inline-flex shrink-0 items-center leading-none">
                     <Image
                       src="/assets/arrow.svg"
-                      alt=""
+                      alt="Arrow icon"
+                      title="Read more"
                       width={20}
                       height={13}
                       className="block h-[13px] w-5 object-contain"
@@ -297,10 +304,12 @@ export default function BlogListing() {
               >
                 <Image
                   src="/assets/leftarrow.svg"
-                  alt=""
+                  alt="Previous page"
+                  title="Previous page"
                   width={8}
                   height={12}
                   className="block object-contain"
+                  aria-hidden
                 />
               </button>
               <button
@@ -321,10 +330,12 @@ export default function BlogListing() {
               >
                 <Image
                   src="/assets/rightarrrow.svg"
-                  alt=""
+                  alt="Next page"
+                  title="Next page"
                   width={8}
                   height={12}
                   className="block object-contain"
+                  aria-hidden
                 />
               </button>
             </nav>
@@ -370,7 +381,8 @@ export default function BlogListing() {
                             <Image
                               key={`search-${b.id}-${b.image}`}
                               src={b.image}
-                              alt={b.title || "Blog"}
+                              alt={`Thumbnail: ${b.title || "Blog post"}`}
+                              title={b.title || "Blog post"}
                               fill
                               className="object-cover"
                               sizes="64px"
@@ -401,7 +413,8 @@ export default function BlogListing() {
                       <div className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-[5px] sm:h-[80px] sm:w-[80px]">
                         <Image
                           src={item.image || "/assets/recentpost2.jpg"}
-                          alt={item.title || "Recent post"}
+                          alt={`Recent post: ${item.title || "Sanskar Realty blog"}`}
+                          title={item.title || "Recent blog post"}
                           fill
                           className="object-cover"
                           sizes="80px"
@@ -412,7 +425,7 @@ export default function BlogListing() {
                           {wordPreview(item.title, 4, "Untitled")}
                         </p>
                         <p className="mt-1 line-clamp-3 break-words font-lato text-[14px] font-normal leading-[19px] tracking-normal text-[#111111]">
-                          {wordPreview(item.excerpt, 10)}
+                          {wordPreview(stripHtmlToPlainText(item.excerpt), 10)}
                         </p>
                         <p className="mt-1.5 font-quattrocento text-[14px] font-normal leading-[19px] tracking-normal text-[#00000099]">
                           {item.date || "—"}
@@ -434,7 +447,8 @@ export default function BlogListing() {
                 </span>
                 <Image
                   src="/assets/latest-property-image.jpg"
-                  alt=""
+                  alt="Latest Sanskar Realty property — premium residential development"
+                  title="Latest Sanskar Realty property"
                   width={340}
                   height={220}
                   className="h-auto w-full object-cover"

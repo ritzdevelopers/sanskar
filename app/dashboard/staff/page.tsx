@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import JoditEditor from "jodit-react";
+import "jodit/es2021/jodit.min.css";
 
 import { API_BASE, downloadCareerResumeFromPath, parseJson } from "../lib";
 
@@ -40,6 +42,16 @@ function fmtDate(value: unknown) {
   const d = new Date(String(value));
   if (Number.isNaN(d.getTime())) return "-";
   return d.toLocaleString();
+}
+
+/** True if rich-text HTML has visible text (not only empty tags). */
+function blogDescriptionHasContent(html: string) {
+  const text = html
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text.length > 0;
 }
 
 function fmtSubmittedAt(row: Row) {
@@ -107,6 +119,14 @@ function asPagination(payload: Record<string, unknown>): PaginationMeta {
   };
 }
 
+function stripHtmlForPreview(text: unknown): string {
+  return String(text ?? "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function blogWordPreview(text: unknown, maxWords: number): string {
   const words = String(text ?? "")
     .trim()
@@ -145,6 +165,48 @@ export default function StaffDashboardPage() {
   const [editingBlog, setEditingBlog] = useState<Row | null>(null);
   const [previewBlog, setPreviewBlog] = useState<Row | null>(null);
   const [deletingBlogId, setDeletingBlogId] = useState<string | null>(null);
+
+  const joditConfig = useMemo(
+    () => ({
+      readonly: false,
+      height: 300,
+      toolbarAdaptive: false,
+      askBeforePasteHTML: false,
+      askBeforePasteFromWord: false,
+      defaultActionOnPaste: "insert_only_text" as const,
+      defaultActionOnPasteFromWord: "insert_only_text" as const,
+      editorClassName: "jodit-staff-rich",
+      buttons: [
+        "bold",
+        "italic",
+        "underline",
+        "strikethrough",
+        "|",
+        "ul",
+        "ol",
+        "outdent",
+        "indent",
+        "|",
+        "font",
+        "fontsize",
+        "brush",
+        "paragraph",
+        "|",
+        "align",
+        "undo",
+        "redo",
+        "|",
+        "link",
+        "image",
+        "table",
+        "|",
+        "hr",
+        "eraser",
+        "fullsize",
+      ],
+    }),
+    [],
+  );
 
   const [enquiryPage, setEnquiryPage] = useState(1);
   const [contactPage, setContactPage] = useState(1);
@@ -440,7 +502,7 @@ export default function StaffDashboardPage() {
     setBlogFormErr(null);
     const title = addTitle.trim();
     const description = addDescription.trim();
-    if (!title || !description) {
+    if (!title || !blogDescriptionHasContent(description)) {
       setBlogFormErr("Title and description are required.");
       return;
     }
@@ -1095,9 +1157,9 @@ export default function StaffDashboardPage() {
                               </td>
                               <td
                                 className="max-w-[360px] px-3 py-2"
-                                title={String(r.description || "")}
+                                title={stripHtmlForPreview(r.description)}
                               >
-                                {blogWordPreview(r.description, 8)}
+                                {blogWordPreview(stripHtmlForPreview(r.description), 8)}
                               </td>
                               <td className="px-3 py-2">
                                 {typeof r.image === "string" && r.image ? (
@@ -1233,7 +1295,7 @@ export default function StaffDashboardPage() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="add-blog-title"
-            className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-amber-200 bg-white p-6 shadow-xl"
+            className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-amber-200 bg-white p-6 shadow-xl"
           >
             <h3 id="add-blog-title" className="text-lg font-bold text-amber-950">
               {editingBlog ? "Edit blog" : "Add blog"}
@@ -1253,19 +1315,19 @@ export default function StaffDashboardPage() {
                 />
               </div>
               <div>
-                <label
-                  className="block text-xs font-semibold text-zinc-700"
-                  htmlFor="add-blog-description"
-                >
+                <span className="block text-xs font-semibold text-zinc-700" id="add-blog-description-label">
                   Description
-                </label>
-                <textarea
-                  id="add-blog-description"
-                  value={addDescription}
-                  onChange={(e) => setAddDescription(e.target.value)}
-                  rows={4}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm"
-                />
+                </span>
+                <div
+                  className="mt-1 overflow-hidden rounded-lg border border-zinc-300 bg-white [&_.jodit-container]:!border-0"
+                  aria-labelledby="add-blog-description-label"
+                >
+                  <JoditEditor
+                    value={addDescription}
+                    config={joditConfig}
+                    onChange={(html) => setAddDescription(html)}
+                  />
+                </div>
               </div>
               <div>
                 <label
@@ -1335,6 +1397,8 @@ export default function StaffDashboardPage() {
                 onClick={() => {
                   setAddBlogOpen(false);
                   setBlogFormErr(null);
+                  setAddTitle("");
+                  setAddDescription("");
                   setAddImageFile(null);
                   setAddMetaDescription("");
                   setAddMetaKeywords("");
@@ -1382,9 +1446,12 @@ export default function StaffDashboardPage() {
                 Close
               </button>
             </div>
-            <p className="mt-3 whitespace-pre-wrap text-sm text-zinc-800">
-              {String(previewBlog.description || "-")}
-            </p>
+            <div
+              className="staff-blog-html mt-3 overflow-x-auto text-sm leading-relaxed text-zinc-800 [&_img]:max-h-[50vh] [&_img]:max-w-full [&_img]:rounded-lg [&_a]:text-emerald-700 [&_a]:underline [&_table]:min-w-full [&_table]:border [&_table]:border-zinc-300 [&_table_th]:border [&_table_th]:border-zinc-300 [&_table_th]:bg-zinc-100 [&_table_th]:px-3 [&_table_th]:py-2 [&_table_td]:border [&_table_td]:border-zinc-300 [&_table_td]:px-3 [&_table_td]:py-2"
+              dangerouslySetInnerHTML={{
+                __html: String(previewBlog.description || ""),
+              }}
+            />
             {String(previewBlog.metaDescription ?? "").trim() ? (
               <p className="mt-3 text-xs text-zinc-600">
                 <span className="font-semibold text-zinc-700">Meta description: </span>

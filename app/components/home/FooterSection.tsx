@@ -22,7 +22,6 @@ import { useEnquireModal } from "../common/EnquireModalProvider";
 import { useSiteVisitModal } from "../common/SiteVisitModalProvider";
 import { useWorkWithUsModal } from "../common/WorkWithUsModalProvider";
 import { useScrollReveal } from "../common/useScrollReveal";
-import { isValidEmail } from "../common/formValidation";
 import { API_BASE } from "../../dashboard/lib";
 
 const lato = Lato({
@@ -36,6 +35,13 @@ const quattrocento = Quattrocento({
 });
 
 const FOOTER_EMAIL_API_URL = `${API_BASE}/api/users/footer-Email`;
+const FOOTER_EMAIL_REGEX =
+  /^(?!\d)[A-Za-z][A-Za-z0-9._%+-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}$/;
+
+function isStrictFooterEmail(value: string): boolean {
+  const t = value.trim();
+  return FOOTER_EMAIL_REGEX.test(t) && !t.includes("..");
+}
 
 type FooterSectionProps = {
   alignWithHeader?: boolean;
@@ -65,7 +71,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
       setEmailError("Email is required.");
       return;
     }
-    if (!isValidEmail(trimmedEmail)) {
+    if (!isStrictFooterEmail(trimmedEmail)) {
       setEmailError("Enter a valid email address.");
       return;
     }
@@ -157,6 +163,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
                   <Image
                     src="/assets/Frame 105725 (1).svg"
                     alt="Phone"
+                    title="Phone"
                     width={59}
                     height={59}
                   />
@@ -170,6 +177,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
                   <Image
                     src="/assets/Frame 105725 (2).svg"
                     alt="Email"
+                    title="Email"
                     width={59}
                     height={59}
                   />
@@ -240,7 +248,8 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             <div data-scroll-reveal-img className="relative aspect-[3/4] w-full overflow-hidden">
               <Image
                 src="/assets/footer.png"
-                alt="Interior"
+                alt="Sanskar Realty — luxury interior living space"
+                title="Sanskar Realty — luxury interior living space"
                 fill
                 className="object-cover"
               />
@@ -265,6 +274,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
           <Image
             src="/assets/whatsapp 1.svg"
             alt="WhatsApp"
+            title="WhatsApp"
             width={46}
             height={46}
           />
@@ -295,7 +305,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
                   rel="noopener noreferrer"
                   className="inline-flex transition-transform hover:scale-110"
                 >
-                  <Image src="/assets/Frame 105725.svg" alt="Facebook" width={35} height={35} />
+                  <Image src="/assets/Frame 105725.svg" alt="Facebook" title="Facebook" width={35} height={35} />
                 </Link>
                 <Link
                   data-scroll-reveal-pop
@@ -304,7 +314,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
                   rel="noopener noreferrer"
                   className="inline-flex transition-transform hover:scale-110"
                 >
-                  <Image src="/assets/Frame 105726.svg" alt="X" width={35} height={35} />
+                  <Image src="/assets/Frame 105726.svg" alt="X" title="X" width={35} height={35} />
                 </Link>
                 <Link
                   data-scroll-reveal-pop
@@ -313,7 +323,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
                   rel="noopener noreferrer"
                   className="inline-flex transition-transform hover:scale-110"
                 >
-                  <Image src="/assets/Frame 105727.svg" alt="LinkedIn" width={35} height={35} />
+                  <Image src="/assets/Frame 105727.svg" alt="LinkedIn" title="LinkedIn" width={35} height={35} />
                 </Link>
                 <Link
                   data-scroll-reveal-pop
@@ -322,7 +332,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
                   rel="noopener noreferrer"
                   className="inline-flex transition-transform hover:scale-110"
                 >
-                  <Image src="/assets/Frame 105728.svg" alt="Instagram" width={35} height={35} />
+                  <Image src="/assets/Frame 105728.svg" alt="Instagram" title="Instagram" width={35} height={35} />
                 </Link>
                 <Link
                   data-scroll-reveal-pop
@@ -331,7 +341,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
                   rel="noopener noreferrer"
                   className="inline-flex transition-transform hover:scale-110"
                 >
-                  <Image src="/assets/Frame 105729.svg" alt="YouTube" width={35} height={35} />
+                  <Image src="/assets/Frame 105729.svg" alt="YouTube" title="YouTube" width={35} height={35} />
                 </Link>
               </div>
             </div>
@@ -376,6 +386,8 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             <Link
               data-scroll-reveal
               href="/about-us"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => scrollAboutUsToTopIfSamePage()}
               className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
@@ -392,6 +404,8 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             <Link
               data-scroll-reveal
               href={MISSION_VISION_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
               scroll={false}
               onClick={(e) => handleMissionVisionNavClick(e, pathname)}
               className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
@@ -401,6 +415,8 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             <Link
               data-scroll-reveal
               href={OUR_PROFILE_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
               scroll={false}
               onClick={(e) => handleOurProfileNavClick(e, pathname)}
               className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
@@ -418,6 +434,8 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             <Link
               data-scroll-reveal
               href={AWARDS_CERTIFICATIONS_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
               scroll={false}
               onClick={(e) => handleAwardsCertificationsNavClick(e, pathname)}
               className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
@@ -427,6 +445,8 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             <Link
               data-scroll-reveal
               href="/carrer"
+              target="_blank"
+              rel="noopener noreferrer"
               className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
             >
               Careers
@@ -441,18 +461,20 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             >
               QUICK LINKS
             </h4>
-            <Link data-scroll-reveal href="/projects" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
+            <Link data-scroll-reveal href="/projects" target="_blank" rel="noopener noreferrer" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Projects
             </Link>
-            <Link data-scroll-reveal href="/media" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
+            <Link data-scroll-reveal href="/media" target="_blank" rel="noopener noreferrer" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Media
             </Link>
-            <Link data-scroll-reveal href="/blogs" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
+            {/* <Link data-scroll-reveal href="/blogs" target="_blank" rel="noopener noreferrer" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Blogs
-            </Link>
+            </Link> */}
             <Link
               data-scroll-reveal
               href={MEDIA_GALLERY_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
               scroll={false}
               onClick={(e) => handleMediaGalleryNavClick(e, pathname)}
               className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}
@@ -465,7 +487,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             {/* <Link data-scroll-reveal href="#" className="font-lato text-[16px] text-[#666666] hover:text-[#1A1A1A]">
               NRI Corner
             </Link> */}
-            <Link data-scroll-reveal href="/contact-us" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
+            <Link data-scroll-reveal href="/contact-us" target="_blank" rel="noopener noreferrer" className={`${lato.className} text-[16px] text-[#666666] hover:text-[#1A1A1A]`}>
               Contact Us
             </Link>
           </div>
@@ -478,7 +500,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             >
               NRI CORNER
             </h4>
-            <Link data-scroll-reveal href="/nri-corner" className={`${lato.className} text-[14px] text-[#666666] hover:text-[#1A1A1A]`}>
+            <Link data-scroll-reveal href="/nri-corner" target="_blank" rel="noopener noreferrer" className={`${lato.className} text-[14px] text-[#666666] hover:text-[#1A1A1A]`}>
               NRI
             </Link>
           </div>

@@ -59,6 +59,8 @@ export function StorySection() {
             </p>
             <Link
               href="/about-us"
+              target="_blank"
+              rel="noopener noreferrer"
               data-scroll-reveal
               className={`${lato.className} mx-auto inline-flex w-fit cursor-pointer items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] no-underline transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3A3A3A] sm:text-[18px] md:mx-0 md:text-[16px]`}
             >
@@ -95,6 +97,8 @@ export function StorySection() {
             </p>
             <Link
               href="/about-us"
+              target="_blank"
+              rel="noopener noreferrer"
               data-scroll-reveal
               className={`${lato.className} mx-auto inline-flex w-fit cursor-pointer items-center gap-2 text-[17px] font-bold uppercase leading-none text-[#3A3A3A] no-underline transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3A3A3A] sm:text-[18px] md:mx-0 md:text-[20px]`}
             >

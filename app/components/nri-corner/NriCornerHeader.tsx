@@ -38,12 +38,16 @@ export function NriCornerHeader() {
             >
               <Link
                 href="/"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Sanskar Realty — Home"
                 className="flex min-w-0 shrink cursor-pointer items-center py-0.5"
               >
                 {isScrolled ? (
                   <Image
                     src="/assets/sanskar_logo.png"
                     alt="Sanskar Realty logo"
+                    title="Sanskar Realty — Home"
                     width={153}
                     height={50}
                     priority
@@ -54,6 +58,7 @@ export function NriCornerHeader() {
                   <Image
                     src="/assets/sanskar_logo_white.png"
                     alt="Sanskar Realty logo"
+                    title="Sanskar Realty — Home"
                     width={153}
                     height={50}
                     priority
@@ -66,6 +71,9 @@ export function NriCornerHeader() {
                 <div className="hidden md:block">
                   <Link
                     href="/about-us"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Our Story — About Sanskar Realty"
                     onClick={() => scrollAboutUsToTopIfSamePage()}
                     className={`group relative text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] ${
                       isScrolled ? "text-black" : "text-white"
@@ -78,6 +86,9 @@ export function NriCornerHeader() {
                 <div className="hidden md:block">
                   <Link
                     href="/projects"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Projects — Sanskar Realty"
                     className={`group relative text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] ${
                       isScrolled ? "text-black" : "text-white"
                     }`}
@@ -91,11 +102,12 @@ export function NriCornerHeader() {
                     type="button"
                     aria-label="Open menu"
                     onClick={() => setMenuOpen(true)}
-                    className="flex h-8 w-8 cursor-pointer items-center justify-center"
+                    className="flex h-8 w-8 cursor-pointer items-center justify-center cursor-pointer"
                   >
                     <Image
                       src="/assets/hamburger_menu.svg"
-                      alt=""
+                      alt="Open navigation menu"
+                      title="Open navigation menu"
                       width={52}
                       height={52}
                       className={`transition duration-300 ${
@@ -103,6 +115,7 @@ export function NriCornerHeader() {
                           ? "brightness-0"
                           : "brightness-0 invert"
                       }`}
+                      aria-hidden
                     />
                   </button>
                 </div>

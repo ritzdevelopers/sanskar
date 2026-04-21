@@ -53,7 +53,8 @@ export function LegalInformationSection() {
           <div data-scroll-reveal-img className="relative mx-auto aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10] md:aspect-auto md:h-[min(420px,48vw)] md:w-1/2 md:min-w-0 md:shrink-0 lg:mx-0 lg:h-[450px] lg:w-[min(100%,641px)]">
             <Image
               src="/assets/legalinformation.jpg"
-              alt="Legal information — scales of justice and legal symbols"
+              alt="Legal information for NRIs — scales of justice and Indian property law context"
+              title="Legal information for NRIs buying property in India"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 641px"

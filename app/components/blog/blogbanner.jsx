@@ -9,7 +9,8 @@ export default function BlogBanner() {
       <div className="absolute inset-0 z-0">
         <Image
           src="/assets/blogmobilebanner.jpg"
-          alt="Sanskar Realty blog"
+          alt="Sanskar Realty blog — real estate insights and investment tips"
+          title="Sanskar Realty blog — real estate insights and investment tips"
           fill
           priority
           fetchPriority="high"
@@ -19,7 +20,8 @@ export default function BlogBanner() {
         />
         <Image
           src="/assets/blogdeskatopbanner.jpg"
-          alt="Sanskar Realty blog"
+          alt="Sanskar Realty blog — real estate insights and investment tips"
+          title="Sanskar Realty blog — real estate insights and investment tips"
           fill
           priority
           fetchPriority="high"

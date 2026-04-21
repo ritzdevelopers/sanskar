@@ -68,19 +68,29 @@ export function PressReleasesSection() {
           {pressReleases.map((release) => (
             <div key={release.id} className="flex flex-col gap-5 rounded-lg border border-[#E5E5E5] p-5 hover:shadow-lg">
               <div data-scroll-reveal-img className="relative aspect-[1.5] w-full overflow-hidden">
-                <Image
-                  src={release.image}
-                  alt={release.title}
-                  fill
-                  className="object-cover transition-transform duration-500 hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
+                <a
+                  href={release.linkUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block h-full w-full cursor-pointer"
+                  aria-label={`Open press release: ${release.title}`}
+                >
+                  <Image
+                    src={release.image}
+                    alt={release.title}
+                    title={release.title}
+                    fill
+                    className="object-cover transition-transform duration-500 hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                </a>
                 {release.brandLogo ? (
                   <div className="pointer-events-none absolute bottom-3 left-3 z-10 flex w-[min(140px,calc(100%-2rem))] shrink-0 items-center justify-center rounded-sm border border-black/5 bg-white/95 px-2.5 py-1.5 shadow-sm backdrop-blur-[6px] sm:bottom-5 sm:left-4 sm:w-[min(160px,calc(100%-2rem))] sm:px-3 sm:py-2">
                     <div className="relative h-5 w-full sm:h-6">
                       <Image
                         src={release.brandLogo}
                         alt={release.brandLogoAlt ?? "Publication logo"}
+                        title={release.brandLogoAlt ?? "Publication logo"}
                         fill
                         className="object-contain object-center"
                         sizes="160px"
@@ -94,7 +104,7 @@ export function PressReleasesSection() {
                   <a
                     href={release.linkUrl}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="cursor-pointer font-inherit text-inherit no-underline decoration-transparent [text-decoration-line:none] visited:text-inherit hover:text-inherit hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1A1A1A]/35"
                   >
                     {release.title.trim()}
@@ -108,7 +118,7 @@ export function PressReleasesSection() {
                   <a
                     href={release.linkUrl}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="font-bold text-[#1A1A1A] underline transition-colors duration-300 hover:text-[#F5AC00]"
                   >
                     Read more

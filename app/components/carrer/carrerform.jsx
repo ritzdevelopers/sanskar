@@ -33,6 +33,12 @@ const MAX_CV_BYTES = 5 * 1024 * 1024;
 const RESUME_MAX_FOR_SHEET_UPLOAD = 1.5 * 1024 * 1024;
 
 const ENQUIRE_API_PATH = "/api/enquire";
+const DESIGNATION_OPTIONS = [
+  { value: "", label: "Select Designation" },
+  { value: "Sales Manager", label: "Sales Manager" },
+  { value: "Project Manager", label: "Project Manager" },
+  { value: "Marketing Manager", label: "Marketing Manager" },
+];
 
 function readResumeAsBase64(file) {
   return new Promise((resolve, reject) => {
@@ -51,8 +57,21 @@ function digitsOnly(phone) {
   return phone.replace(/\D/g, "");
 }
 
+function isValidFullName(name) {
+  const value = name.trim();
+  // Full name: letters and spaces only, with at least first + last name.
+  return /^[A-Za-z]+(?:\s+[A-Za-z]+)+$/.test(value);
+}
+
+const EMAIL_REGEX =
+  /^(?!\d)[A-Za-z][A-Za-z0-9._%+-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}$/;
+
 function isValidEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email.trim());
+  const value = email.trim();
+  if (!EMAIL_REGEX.test(value)) return false;
+  // Extra guard: no consecutive dots anywhere in email.
+  if (value.includes("..")) return false;
+  return true;
 }
 
 /** @typedef {"name" | "email" | "phone" | "designation" | "message"} TextField */
@@ -73,7 +92,8 @@ function validateTextField(field, textValues) {
     case "name": {
       const name = textValues.name.trim();
       if (!name) return "Please enter your name.";
-      if (name.length < 2) return "Name must be at least 2 characters.";
+      if (!isValidFullName(name))
+        return "Enter full name using letters only (no numbers or symbols).";
       return;
     }
     case "email": {
@@ -85,15 +105,21 @@ function validateTextField(field, textValues) {
     case "phone": {
       const phoneDigits = digitsOnly(textValues.phone);
       if (!phoneDigits) return "Please enter your phone number.";
-      if (phoneDigits.length < 10 || phoneDigits.length > 15)
-        return "Enter a valid number (10–15 digits).";
+      const digitCounts = [...phoneDigits].reduce((acc, d) => {
+        acc[d] = (acc[d] || 0) + 1;
+        return acc;
+      }, {});
+      if (Object.values(digitCounts).some((count) => Number(count) > 5))
+        return "Any single digit cannot repeat more than 5 times.";
+      if (!/^[6-9]\d{9}$/.test(phoneDigits))
+        return "Enter a valid Indian mobile number (starts with 6-9).";
       return;
     }
     case "designation": {
       const designation = textValues.designation.trim();
-      if (!designation) return "Please enter a designation.";
-      if (designation.length < 2)
-        return "Designation must be at least 2 characters.";
+      if (!designation) return "Please select a designation.";
+      if (!DESIGNATION_OPTIONS.some((o) => o.value === designation))
+        return "Please select a valid designation.";
       return;
     }
     case "message": {
@@ -342,7 +368,8 @@ export default function Carrerform() {
               <div className="relative mx-auto w-full max-w-[420px] md:max-w-[480px] lg:max-w-[550px]">
                 <Image
                   src="/assets/applystar.png"
-                  alt="Professional working on a laptop — join our team"
+                  alt="Career application at Sanskar Realty — professional working on a laptop"
+                  title="Career application at Sanskar Realty — join our team"
                   width={520}
                   height={520}
                   className="mx-auto h-auto w-full object-contain"
@@ -381,7 +408,9 @@ export default function Carrerform() {
                     autoComplete="name"
                     placeholder="Enter Your Name"
                     value={values.name}
-                    onChange={(e) => onTextChange("name", e.target.value)}
+                    onChange={(e) =>
+                      onTextChange("name", e.target.value.replace(/\d+/g, ""))
+                    }
                     onBlur={() => onTextBlur("name")}
                     maxLength={120}
                     aria-invalid={errors.name ? true : undefined}
@@ -439,9 +468,11 @@ export default function Carrerform() {
                     inputMode="tel"
                     placeholder="Enter Your Phone"
                     value={values.phone}
-                    onChange={(e) => onTextChange("phone", e.target.value)}
+                    onChange={(e) =>
+                      onTextChange("phone", digitsOnly(e.target.value).slice(0, 10))
+                    }
                     onBlur={() => onTextBlur("phone")}
-                    maxLength={22}
+                    maxLength={10}
                     aria-invalid={errors.phone ? true : undefined}
                     aria-describedby={errors.phone ? "career-phone-err" : undefined}
                     className={`${inputClassBase} ${errors.phone ? inputBorderErr : inputBorderOk}`}
@@ -460,22 +491,24 @@ export default function Carrerform() {
                   <label htmlFor="career-designation" className="sr-only">
                     Designation
                   </label>
-                  <input
+                  <select
                     id="career-designation"
                     name="designation"
-                    type="text"
-                    autoComplete="organization-title"
-                    placeholder="Designation"
                     value={values.designation}
                     onChange={(e) => onTextChange("designation", e.target.value)}
                     onBlur={() => onTextBlur("designation")}
-                    maxLength={120}
                     aria-invalid={errors.designation ? true : undefined}
                     aria-describedby={
                       errors.designation ? "career-designation-err" : undefined
                     }
                     className={`${inputClassBase} ${errors.designation ? inputBorderErr : inputBorderOk}`}
-                  />
+                  >
+                    {DESIGNATION_OPTIONS.map((opt) => (
+                      <option key={opt.value || "placeholder"} value={opt.value} disabled={opt.value === ""}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
                   {errors.designation ? (
                     <p
                       id="career-designation-err"
