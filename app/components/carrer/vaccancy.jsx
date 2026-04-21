@@ -5,7 +5,7 @@ import {
   getLenisInstance,
   LENIS_PROGRAMMATIC_DURATION,
 } from "../common/lenisInstance";
-import { API_BASE } from "../../dashboard/lib";
+import { API_BASE, parseJson } from "../../dashboard/lib";
 
 /** In-page jump lands on “Start Your Career with Us” (not section top padding). */
 const CAREER_FORM_SCROLL_ID = "career-application-heading";
@@ -29,34 +29,29 @@ function scrollToCareerForm() {
   el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function careerPageJobApiBases() {
-  const isLocal =
-    typeof window !== "undefined" && window.location.hostname === "localhost";
-  const bases = isLocal
-    ? ["http://localhost:3001", API_BASE]
-    : [API_BASE, "https://sanskar-backend-7xrl.onrender.com"];
-  return Array.from(new Set(bases.map((base) => String(base).replace(/\/+$/, ""))));
-}
-
 export default function Vaccancy() {
   const [vacancies, setVacancies] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     let active = true;
     const loadVacancies = async () => {
-      const endpoints = careerPageJobApiBases().flatMap((base) => [
-        `${base}/api/users/get-careerpagejob-data?page=1&limit=100`,
-        `${base}/api/users/get-carrerpagejob-data?page=1&limit=100`,
-      ]);
+      setError("");
+      const endpoints = [
+        `${API_BASE}/api/users/get-careerpagejob-data?page=1&limit=100`,
+        `${API_BASE}/api/users/get-carrerpagejob-data?page=1&limit=100`,
+      ];
       try {
         let normalized = [];
         for (const endpoint of endpoints) {
-          const res = await fetch(endpoint, { credentials: "include" });
+          const res = await fetch(endpoint, { cache: "no-store" });
+          const data = await parseJson(res).catch(() => ({}));
           if (!res.ok) continue;
-          const ct = res.headers.get("content-type") || "";
-          if (!ct.includes("application/json")) continue;
-          const data = await res.json();
-          const list = Array.isArray(data?.data) ? data.data : [];
+          const list = Array.isArray(data?.data)
+            ? data.data
+            : Array.isArray(data?.rows)
+              ? data.rows
+              : [];
           normalized = list
             .map((item) => ({
               title: String(item?.profile ?? "").trim(),
@@ -67,8 +62,11 @@ export default function Vaccancy() {
           if (normalized.length > 0) break;
         }
         if (active) setVacancies(normalized);
-      } catch {
-        if (active) setVacancies([]);
+      } catch (e) {
+        if (active) {
+          setVacancies([]);
+          setError(e instanceof Error ? e.message : "Failed to load jobs");
+        }
       }
     };
     void loadVacancies();
@@ -91,6 +89,11 @@ export default function Vaccancy() {
           Build your future with a career that challenges and inspires you.
 
           </p>
+          {error ? (
+            <p className="mt-3 rounded-md border border-red-200 bg-red-50 px-4 py-3 font-lato text-sm text-red-800">
+              {error}
+            </p>
+          ) : null}
 
           <div className="mt-8 grid grid-cols-1 gap-0 sm:mt-10 lg:grid-cols-2 lg:gap-x-10 xl:gap-x-[130px]">
             {vacancies.map((job, index) => (
