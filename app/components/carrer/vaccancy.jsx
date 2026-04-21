@@ -5,6 +5,7 @@ import {
   getLenisInstance,
   LENIS_PROGRAMMATIC_DURATION,
 } from "../common/lenisInstance";
+import { API_BASE } from "../../dashboard/lib";
 
 /** In-page jump lands on “Start Your Career with Us” (not section top padding). */
 const CAREER_FORM_SCROLL_ID = "career-application-heading";
@@ -28,16 +29,13 @@ function scrollToCareerForm() {
   el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function resolveApiBase() {
-  const envBase =
-    typeof process !== "undefined"
-      ? process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "")
-      : "";
-  if (envBase) return envBase;
-  if (typeof window !== "undefined" && window.location.hostname === "localhost") {
-    return "http://localhost:3001";
-  }
-  return "https://sanskar-backend-7xrl.onrender.com";
+function careerPageJobApiBases() {
+  const isLocal =
+    typeof window !== "undefined" && window.location.hostname === "localhost";
+  const bases = isLocal
+    ? ["http://localhost:3001", API_BASE]
+    : [API_BASE, "https://sanskar-backend-7xrl.onrender.com"];
+  return Array.from(new Set(bases.map((base) => String(base).replace(/\/+$/, ""))));
 }
 
 export default function Vaccancy() {
@@ -46,16 +44,17 @@ export default function Vaccancy() {
   useEffect(() => {
     let active = true;
     const loadVacancies = async () => {
-      const API_BASE = resolveApiBase();
-      const endpoints = [
-        `${API_BASE}/api/users/get-careerpagejob-data?page=1&limit=100`,
-        `${API_BASE}/api/users/get-carrerpagejob-data?page=1&limit=100`,
-      ];
+      const endpoints = careerPageJobApiBases().flatMap((base) => [
+        `${base}/api/users/get-careerpagejob-data?page=1&limit=100`,
+        `${base}/api/users/get-carrerpagejob-data?page=1&limit=100`,
+      ]);
       try {
         let normalized = [];
         for (const endpoint of endpoints) {
-          const res = await fetch(endpoint);
+          const res = await fetch(endpoint, { credentials: "include" });
           if (!res.ok) continue;
+          const ct = res.headers.get("content-type") || "";
+          if (!ct.includes("application/json")) continue;
           const data = await res.json();
           const list = Array.isArray(data?.data) ? data.data : [];
           normalized = list
