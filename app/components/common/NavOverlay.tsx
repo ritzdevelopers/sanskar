@@ -266,7 +266,7 @@ export function NavOverlay({ isOpen, onClose }: NavOverlayProps) {
               <button
                 type="button"
                 onClick={onClose}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 bg-black/30 backdrop-blur-sm transition-opacity hover:opacity-80 sm:h-10 sm:w-10"
+                className="flex cursor-pointer h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 bg-black/30 backdrop-blur-sm transition-opacity hover:opacity-80 sm:h-10 sm:w-10"
                 aria-label="Close menu"
               >
                 <Image

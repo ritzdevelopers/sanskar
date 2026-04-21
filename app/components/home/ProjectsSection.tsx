@@ -217,7 +217,7 @@ export function ProjectsSection() {
             </div>
 
             {/* Dot indicators */}
-            <div className="mt-5 flex items-center justify-center gap-2.5">
+            <div className="mt-5 flex items-center justify-center gap-2.5 cursor-pointer">
               {slides.map((slide, index) => (
                 <button
                   key={slide.id}
