@@ -137,7 +137,7 @@ export function EnquireModalProvider({
                 className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full text-[#111111]/70 transition-colors hover:bg-black/[0.06] hover:text-[#111111] sm:right-4 sm:top-4"
                 aria-label="Close"
               >
-                <i className="ri-close-line text-2xl leading-none" aria-hidden />
+                <i className="ri-close-line text-2xl leading-none cursor-pointer" aria-hidden />
               </button>
 
               <h2
@@ -429,7 +429,7 @@ export function EnquireModalProvider({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="min-h-[48px] w-full rounded-lg border border-[#111111] bg-[#111111] px-3 py-2.5 font-lato text-[14px] font-bold leading-none tracking-wide text-white transition-colors hover:bg-[#222] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111111] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:text-[15px]"
+                    className="min-h-[48px] w-full cursor-pointer rounded-lg border border-[#111111] bg-[#111111] px-3 py-2.5 font-lato text-[14px] font-bold leading-none tracking-wide text-white transition-colors hover:bg-[#222] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111111] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:text-[15px]"
                   >
                     {isSubmitting ? "Submitting…" : "Get a Call Back"}
                   </button>
@@ -451,7 +451,7 @@ export function EnquireModalProvider({
                           return r;
                         })
                       }
-                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-[#D1D5DB] text-[#111111] focus:ring-[#111111]"
+                      className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#D1D5DB] text-[#111111] focus:ring-[#111111]"
                     />
                     <span>
                       I agree to receive news, updates &amp; other content from

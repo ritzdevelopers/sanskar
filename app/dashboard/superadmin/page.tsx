@@ -95,7 +95,15 @@ type SummaryInfo = {
   totalAccess: number;
 };
 
-type DataSection = "staff" | "enquiry" | "contact" | "career" | "nri" | "blog" | "footer";
+type DataSection =
+  | "staff"
+  | "enquiry"
+  | "contact"
+  | "career"
+  | "nri"
+  | "blog"
+  | "footer"
+  | "careerpost";
 
 type EnquiryRow = {
   _id?: string;
@@ -149,11 +157,24 @@ type BlogRow = {
   createdAt?: string;
 };
 
+type CareerPostRow = {
+  _id?: string;
+  profile?: string;
+  description?: string;
+  createdAt?: string;
+};
+
 function blogTwoWordPreview(text: string | undefined): string {
   const words = String(text ?? "").trim().split(/\s+/).filter(Boolean);
   if (words.length === 0) return "—";
   if (words.length <= 2) return words.join(" ");
   return `${words[0]} ${words[1]}...`;
+}
+
+function careerPostApiBases(): string[] {
+  const isLocal = typeof window !== "undefined" && window.location.hostname === "localhost";
+  const bases = isLocal ? ["http://localhost:3001", API_BASE] : [API_BASE];
+  return Array.from(new Set(bases.map((b) => b.replace(/\/+$/, ""))));
 }
 
 type FormOverviewCounts = {
@@ -220,6 +241,11 @@ export default function SuperAdminHomePage() {
   const [previewBlog, setPreviewBlog] = useState<BlogRow | null>(null);
   const [editingBlog, setEditingBlog] = useState<BlogRow | null>(null);
   const [deletingBlogId, setDeletingBlogId] = useState<string | null>(null);
+  const [careerPostSubmitting, setCareerPostSubmitting] = useState(false);
+  const [careerPostFormErr, setCareerPostFormErr] = useState<string | null>(null);
+  const [careerPostSavedMsg, setCareerPostSavedMsg] = useState<string | null>(null);
+  const [careerPostProfile, setCareerPostProfile] = useState("");
+  const [careerPostDescription, setCareerPostDescription] = useState("");
   const [formOverview, setFormOverview] = useState<FormOverviewCounts>({
     enquiry: 0,
     contact: 0,
@@ -240,6 +266,7 @@ export default function SuperAdminHomePage() {
     { key: "contact", label: "Contact Us Form Data" },
     { key: "career", label: "Career Form Data" },
     { key: "nri", label: "NRI Form Data" },
+    { key: "careerpost", label: "Carrer Data Post" },
     { key: "blog", label: "Blog" },
     { key: "footer", label: "Footer Enquire" },
   ];
@@ -558,6 +585,55 @@ export default function SuperAdminHomePage() {
       setLoading(false);
     }
   }, [limit]);
+
+  const submitCareerPostData = useCallback(async () => {
+    setCareerPostFormErr(null);
+    setCareerPostSavedMsg(null);
+    const profile = careerPostProfile.trim();
+    const description = careerPostDescription.trim();
+    if (!profile || !description) {
+      setCareerPostFormErr("Profile and description are required.");
+      return;
+    }
+    setCareerPostSubmitting(true);
+    try {
+      const endpoints = careerPostApiBases().flatMap((base) => [
+        `${base}/api/users/send-careerpagejob-data`,
+        `${base}/api/users/send-carrerpagejob-data`,
+      ]);
+      let ok = false;
+      let data: Record<string, unknown> | null = null;
+      for (const endpoint of endpoints) {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ profile, description }),
+          credentials: "include",
+        });
+        const ct = res.headers.get("content-type") || "";
+        if (ct.includes("application/json")) {
+          data = (await res.json()) as Record<string, unknown>;
+        } else {
+          const text = await res.text();
+          data = { message: text || `HTTP ${res.status}` };
+        }
+        if (res.ok) {
+          ok = true;
+          break;
+        }
+      }
+      if (!ok) {
+        throw new Error(String(data?.message || "Save failed"));
+      }
+      setCareerPostProfile("");
+      setCareerPostDescription("");
+      setCareerPostSavedMsg("Saved successfully.");
+    } catch (e) {
+      setCareerPostFormErr(e instanceof Error ? e.message : "Error");
+    } finally {
+      setCareerPostSubmitting(false);
+    }
+  }, [careerPostDescription, careerPostProfile]);
 
   const submitAddBlog = useCallback(async () => {
     setBlogFormErr(null);
@@ -1483,6 +1559,61 @@ export default function SuperAdminHomePage() {
                   </div>
                 </div>
               ) : null}
+            </div>
+          ) : null}
+
+          {activeSection === "careerpost" && !loading ? (
+            <div className="space-y-4">
+              <div className="rounded-xl border border-amber-300/80 bg-white p-4">
+                <p className="text-sm font-semibold text-amber-950">Post career data</p>
+                <div className="mt-3 space-y-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-700" htmlFor="careerpost-profile">
+                      Profile
+                    </label>
+                    <input
+                      id="careerpost-profile"
+                      type="text"
+                      value={careerPostProfile}
+                      onChange={(e) => setCareerPostProfile(e.target.value)}
+                      className="mt-1 w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-700" htmlFor="careerpost-description">
+                      Description
+                    </label>
+                    <textarea
+                      id="careerpost-description"
+                      value={careerPostDescription}
+                      onChange={(e) => setCareerPostDescription(e.target.value)}
+                      rows={3}
+                      className="mt-1 w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm"
+                    />
+                  </div>
+                  {careerPostFormErr ? (
+                    <p className="rounded-md border border-red-200 bg-red-50 px-2 py-1.5 text-xs text-red-800">
+                      {careerPostFormErr}
+                    </p>
+                  ) : null}
+                  {careerPostSavedMsg ? (
+                    <p className="rounded-md border border-emerald-200 bg-emerald-50 px-2 py-1.5 text-xs text-emerald-800">
+                      {careerPostSavedMsg}
+                    </p>
+                  ) : null}
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      disabled={careerPostSubmitting}
+                      onClick={() => void submitCareerPostData()}
+                      className="cursor-pointer rounded-lg border-2 border-emerald-600 bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
+                    >
+                      {careerPostSubmitting ? "Saving..." : "Save post"}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           ) : null}
 
