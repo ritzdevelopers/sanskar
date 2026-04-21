@@ -35,19 +35,19 @@ const VACANCIES = [
     meta: "GLOBAL / HYBRID",
   },
   {
-    title: "Sales Manager",
+    title: "Project Manager",
     description:
       "Driving strategic acquisitions and high-value client relations.",
     meta: "GLOBAL / HYBRID",
   },
   {
-    title: "Sales Manager",
+    title: "Marketing Manager",
     description:
       "Driving strategic acquisitions and high-value client relations.",
     meta: "GLOBAL / HYBRID",
   },
   {
-    title: "Sales Manager",
+    title: " Manager",
     description:
       "Driving strategic acquisitions and high-value client relations.",
     meta: "GLOBAL / HYBRID",

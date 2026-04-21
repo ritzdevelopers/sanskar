@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 import { HeroPageHeader } from "../../components/common/HeroPageHeader";
 import { FooterSection } from "../../components/home/FooterSection";
-import { API_BASE } from "../../dashboard/lib";
+import { API_BASE, stripHtmlToPlainText } from "../../dashboard/lib";
 
 import BlogDetailHeroImage from "./BlogDetailHeroImage";
 import BlogDetailSearch from "./BlogDetailSearch";
@@ -62,10 +62,7 @@ export async function generateMetadata({ params }) {
   const metaDesc = String(json.data.metaDescription || "").trim();
   const desc =
     metaDesc ||
-    String(json.data.description || "")
-      .replace(/\s+/g, " ")
-      .trim()
-      .slice(0, 160);
+    stripHtmlToPlainText(json.data.description).slice(0, 160);
   const kw = String(json.data.metaKeywords || "").trim();
   return {
     title: `${title} | Blog`,
@@ -104,7 +101,7 @@ export default async function BlogDetailPage({ params }) {
     .map((item, idx) => ({
       id: String(item?._id ?? `recent-${idx}`),
       title: String(item?.title ?? "Untitled"),
-      excerpt: String(item?.description ?? ""),
+      excerpt: stripHtmlToPlainText(item?.description ?? ""),
       image:
         item?.image && typeof item.image === "string"
           ? `${API_BASE}/${String(item.image).replace(/^\/+/, "")}`
@@ -229,9 +226,10 @@ export default async function BlogDetailPage({ params }) {
                 {title}
               </h2>
 
-              <div className="mt-2 font-lato text-base leading-[1.75] text-[#333333]">
-                <div className="whitespace-pre-wrap">{body}</div>
-              </div>
+              <div
+                className="blog-html-body mt-2 overflow-x-auto font-lato text-base leading-[1.75] text-[#333333] [&_a]:text-[#0a6d4a] [&_a]:underline [&_img]:max-w-full [&_p]:mb-3 [&_ul]:mb-3 [&_ul]:list-disc [&_ul]:pl-6 [&_table]:min-w-full [&_table]:border [&_table]:border-zinc-300 [&_table_th]:border [&_table_th]:border-zinc-300 [&_table_th]:bg-zinc-100 [&_table_th]:px-3 [&_table_th]:py-2 [&_table_td]:border [&_table_td]:border-zinc-300 [&_table_td]:px-3 [&_table_td]:py-2"
+                dangerouslySetInnerHTML={{ __html: body }}
+              />
 
               {/* <div className="mt-10 grid gap-4 border-t border-[#E5E5E5] pt-8 sm:grid-cols-2">
                 <div className="min-w-0">
@@ -317,7 +315,7 @@ export default async function BlogDetailPage({ params }) {
                             {shortHeading(item.title)}
                           </p>
                           <p className="mt-1 line-clamp-3 break-words font-lato text-[14px] font-normal leading-[19px] tracking-normal text-[#111111]">
-                            {wordPreview(item.excerpt, 10)}
+                            {wordPreview(stripHtmlToPlainText(item.excerpt), 10)}
                           </p>
                         </div>
                       </Link>

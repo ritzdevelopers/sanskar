@@ -72,7 +72,9 @@ export function OverviewSection() {
 
         <Link
           data-scroll-reveal
-          href="/about-us"
+          href="/about-us "
+          target="_blank"
+          rel="noopener noreferrer"
           className={`${lato.className} group relative inline-flex h-11 w-full max-w-[184px] items-center justify-center gap-[10px] overflow-hidden rounded-[50px] border border-[#111111] px-[12px] py-[11px] text-[13px] font-semibold leading-[100%] capitalize transition-all duration-700 ease-out hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(17,17,17,0.18)] active:translate-y-0 active:shadow-none mx-auto lg:mx-0 sm:h-[46px] sm:text-[14px]`}
         >
           <span

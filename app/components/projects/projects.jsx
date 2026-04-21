@@ -95,10 +95,12 @@ function ProjectRow({
                 <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-current bg-white transition-[background,border-color] group-hover:border-white group-hover:bg-transparent">
                   <Image
                     src="/assets/diagonal_icon.svg"
-                    alt=""
+                    alt="Arrow icon"
+                    title="Arrow icon"
                     width={14}
                     height={14}
                     className="h-3.5 w-3.5 transition-[filter] duration-300 group-hover:brightness-0 group-hover:invert"
+                    aria-hidden
                   />
                 </span>
               </span>
@@ -115,6 +117,7 @@ function ProjectRow({
               <Image
                 src={image}
                 alt={imageAlt}
+                title={imageAlt}
                 fill
                 className="object-cover transition-transform duration-500 hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, (max-width: 1279px) 58vw, 66vw"
@@ -128,7 +131,8 @@ function ProjectRow({
               >
                 <Image
                   src="/assets/diagonal_icon.svg"
-                  alt=""
+                  alt="Arrow icon"
+                  title="Arrow icon"
                   width={15}
                   height={15}
                   className="absolute transition-transform duration-[400ms] ease-in-out group-hover:translate-x-[200%] group-hover:-translate-y-[200%]"
@@ -136,7 +140,8 @@ function ProjectRow({
                 />
                 <Image
                   src="/assets/diagonal_icon.svg"
-                  alt=""
+                  alt="Arrow icon"
+                  title="Arrow icon"
                   width={15}
                   height={15}
                   className="absolute -translate-x-[200%] translate-y-[200%] transition-transform duration-[400ms] ease-in-out group-hover:translate-x-0 group-hover:translate-y-0"

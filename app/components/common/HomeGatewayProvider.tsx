@@ -8,6 +8,10 @@ function pathIsHome(path: string) {
   return path === "" || path === "/";
 }
 
+function pathIsDashboard(path: string) {
+  return path.startsWith("/dashboard");
+}
+
 const HomeGatewayIntroContext = createContext(false);
 const HomeHeroMountKeyContext = createContext(0);
 
@@ -50,11 +54,12 @@ export function HomeGatewayProvider({ children }: { children: React.ReactNode })
   useLayoutEffect(() => {
     const prevStored = prevPathRef.current;
     const nowHome = pathIsHome(pathname);
+    const nowDashboard = pathIsDashboard(pathname);
 
     if (prevStored === null) {
       prevPathRef.current = pathname;
 
-      if (shouldShowGatewayOnFullPageLoad()) {
+      if (shouldShowGatewayOnFullPageLoad() && !nowDashboard) {
         setSession((s) => ({
           ...s,
           open: true,

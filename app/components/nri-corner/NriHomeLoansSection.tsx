@@ -129,10 +129,12 @@ export function NriHomeLoansSection() {
                             ? "/assets/subtract-line.svg"
                             : "/assets/add-line.svg"
                         }
-                        alt=""
+                        alt={isOpen ? "Collapse section" : "Expand section"}
+                        title={isOpen ? "Collapse section" : "Expand section"}
                         width={24}
                         height={24}
                         className="block h-6 w-6 brightness-0"
+                        aria-hidden
                       />
                     </span>
                   </button>

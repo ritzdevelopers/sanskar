@@ -154,6 +154,7 @@ export default function OurEvents() {
                         <Image
                           src={item.src}
                           alt={item.alt}
+                          title={item.alt}
                           fill
                           className="object-cover"
                           sizes="100vw"
@@ -188,6 +189,7 @@ export default function OurEvents() {
                         <Image
                           src={item.src}
                           alt={item.alt}
+                          title={item.alt}
                           fill
                           className="object-cover"
                           sizes="(max-width: 1023px) 45vw, 400px"
@@ -218,6 +220,7 @@ export default function OurEvents() {
                         <Image
                           src={item.src}
                           alt={item.alt}
+                          title={item.alt}
                           fill
                           className="object-cover"
                           sizes="(max-width: 1023px) 45vw, 400px"
@@ -273,9 +276,10 @@ export default function OurEvents() {
                               aria-hidden={imgI !== idx}
                             >
                               <Image
-                                src={img.src} 
-                                alt={img.alt} 
-                                fill 
+                                src={img.src}
+                                alt={img.alt}
+                                title={img.alt}
+                                fill
                                 className="object-cover"
                                 sizes={isActive ? "584px" : "372px"}
                               />

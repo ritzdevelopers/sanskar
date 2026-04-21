@@ -9,7 +9,8 @@ export function ProjectHeroSection() {
       <div className="absolute inset-0 z-0 bg-black">
         <Image
           src="/assets/projectmobilebanner.jpg"
-          alt="Sanskar Realty residential projects"
+          alt="Sanskar Realty residential projects — luxury apartments and villas in NCR"
+          title="Sanskar Realty residential projects — luxury apartments and villas in NCR"
           fill
           priority
           fetchPriority="high"
@@ -19,7 +20,8 @@ export function ProjectHeroSection() {
         />
         <Image
           src="/assets/projectbannerdeskstop.jpg"
-          alt="Sanskar Realty residential projects"
+          alt="Sanskar Realty residential projects — luxury apartments and villas in NCR"
+          title="Sanskar Realty residential projects — luxury apartments and villas in NCR"
           fill
           priority
           fetchPriority="high"

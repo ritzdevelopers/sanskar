@@ -65,7 +65,7 @@ export function AboutHeroSection() {
               }`}
             >
               <div className="flex min-w-0 shrink cursor-pointer items-center py-0.5" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                <Link href="/">
+                <Link href="/" target="_blank" rel="noopener noreferrer">
                   <Image
                     src="/assets/sanskar_logo.png"
                     alt="Sanskar Realty logo"
@@ -85,6 +85,8 @@ export function AboutHeroSection() {
                 <div className="hidden md:block">
                   <Link
                     href="/about-us"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => scrollAboutUsToTopIfSamePage()}
                     className={`group relative text-center text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] cursor-pointer ${isScrolled ? "text-black" : "text-white"
                       }`}
@@ -96,6 +98,8 @@ export function AboutHeroSection() {
                 <div className="hidden md:block">
                   <Link
                     href="/projects"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={`group relative text-center text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] cursor-pointer ${isScrolled ? "text-black" : "text-white"
                       }`}
                   >
@@ -108,7 +112,7 @@ export function AboutHeroSection() {
                     type="button"
                     aria-label="Open menu"
                     onClick={() => setMenuOpen(true)}
-                    className="flex h-8 w-8 items-center justify-center cursur-pointer"
+                    className="flex h-8 w-8 items-center justify-center cursor-pointer"
                   >
                     <Image
                       src="/assets/hamburger_menu.svg"

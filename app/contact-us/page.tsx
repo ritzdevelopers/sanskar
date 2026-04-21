@@ -11,6 +11,25 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
 });
 
+export const metadata = {
+  title: "Contact Sanskar Realty | Property Inquiries & Site Visits",
+  description:
+    "Reach out to Sanskar Realty for inquiries, site visits, or partnership opportunities. Visit our Eternia Office in Greater Noida or contact us for assistance.",
+  keywords: [
+    "Contact Sanskar Realty",
+    "property inquiries in Greater Noida",
+    "property site visit request",
+    "book property online",
+    "Sanskar Realty amenities",
+    "availability of properties in Noida",
+    "site visit arrangements",
+    "partnership opportunities with Sanskar Realty",
+    "customer service for Sanskar Realty",
+    "real estate office Greater Noida",
+    "project information requests",
+  ],
+};
+
 const lato = Lato({
   subsets: ["latin"],
   weight: ["400", "700"],

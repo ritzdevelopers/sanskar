@@ -121,7 +121,8 @@ function TestimonialCard({ item, compact = false }: { item: Testimonial; compact
       >
         <Image
           src={item.image}
-          alt={person}
+          alt={`${person} — Sanskar Realty customer`}
+          title={`${person} — Sanskar Realty customer`}
           fill
           quality={90}
           className="object-cover"

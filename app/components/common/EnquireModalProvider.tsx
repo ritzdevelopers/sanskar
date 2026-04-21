@@ -10,14 +10,33 @@ import {
   useState,
 } from "react";
 import { Lato, Quattrocento } from "next/font/google";
-import {
-  isValidEmail,
-  isValidIndianMobile,
-  isValidNamePart,
-} from "./formValidation";
 import { API_BASE } from "../../dashboard/lib";
 
 const ENQUIRY_SUBMIT_URL = `${API_BASE}/api/users/get-Enquire-now-Data`;
+const ENQUIRE_EMAIL_REGEX =
+  /^(?!\d)[A-Za-z][A-Za-z0-9._%+-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}$/;
+
+function digitsOnly(value: string): string {
+  return value.replace(/\D/g, "");
+}
+
+function isStrictNamePart(value: string): boolean {
+  const t = value.trim();
+  return /^[A-Za-z]{1,60}$/.test(t);
+}
+
+function isStrictEmail(value: string): boolean {
+  const t = value.trim();
+  return ENQUIRE_EMAIL_REGEX.test(t) && !t.includes("..");
+}
+
+function hasDigitRepeatedMoreThanFive(value: string): boolean {
+  const digitCounts = [...value].reduce<Record<string, number>>((acc, d) => {
+    acc[d] = (acc[d] || 0) + 1;
+    return acc;
+  }, {});
+  return Object.values(digitCounts).some((count) => count > 5);
+}
 
 const lato = Lato({
   subsets: ["latin"],
@@ -146,22 +165,26 @@ export function EnquireModalProvider({
                   const consentChecked = fd.get("consent") === "on";
 
                   const next: Record<string, string> = {};
-                  if (!isValidNamePart(firstName)) {
+                  if (!isStrictNamePart(firstName)) {
                     next.firstName =
                       "Enter a valid first name (letters only, 1–60 characters).";
                   }
-                  if (!isValidNamePart(lastName)) {
+                  if (!isStrictNamePart(lastName)) {
                     next.lastName =
                       "Enter a valid last name (letters only, 1–60 characters).";
                   }
                   if (!email) {
                     next.email = "Email is required.";
-                  } else if (!isValidEmail(email)) {
+                  } else if (!isStrictEmail(email)) {
                     next.email = "Enter a valid email address.";
                   }
+                  const mobileDigits = digitsOnly(mobile);
                   if (!mobile) {
                     next.mobile = "Mobile number is required.";
-                  } else if (!isValidIndianMobile(mobile)) {
+                  } else if (hasDigitRepeatedMoreThanFive(mobileDigits)) {
+                    next.mobile =
+                      "Any single digit cannot repeat more than 5 times.";
+                  } else if (!/^[6-9]\d{9}$/.test(mobileDigits)) {
                     next.mobile =
                       "Enter a valid 10-digit Indian mobile (e.g. 9876543210).";
                   }
@@ -182,7 +205,7 @@ export function EnquireModalProvider({
                     firstName,
                     lastName,
                     email,
-                    mobile,
+                    mobile: digitsOnly(mobile),
                   };
 
                   try {
@@ -291,12 +314,16 @@ export function EnquireModalProvider({
                         aria-describedby={
                           errors.firstName ? "enquire-firstName-err" : undefined
                         }
-                        onInput={() =>
+                        onInput={(e) => {
+                          e.currentTarget.value = e.currentTarget.value.replace(
+                            /[^A-Za-z]/g,
+                            "",
+                          );
                           setErrors((p) => {
                             const { firstName: _, ...r } = p;
                             return r;
-                          })
-                        }
+                          });
+                        }}
                         className={`min-h-[48px] w-full rounded-lg border bg-white px-3 py-2.5 font-lato text-[14px] font-normal text-[#111111] outline-none ring-1 ring-transparent placeholder:text-[#9CA3AF] focus:ring-2 sm:px-4 sm:text-[15px] ${fieldBorder("firstName")}`}
                       />
                       {errors.firstName ? (
@@ -318,12 +345,16 @@ export function EnquireModalProvider({
                         aria-describedby={
                           errors.lastName ? "enquire-lastName-err" : undefined
                         }
-                        onInput={() =>
+                        onInput={(e) => {
+                          e.currentTarget.value = e.currentTarget.value.replace(
+                            /[^A-Za-z]/g,
+                            "",
+                          );
                           setErrors((p) => {
                             const { lastName: _, ...r } = p;
                             return r;
-                          })
-                        }
+                          });
+                        }}
                         className={`min-h-[48px] w-full rounded-lg border bg-white px-3 py-2.5 font-lato text-[14px] font-normal text-[#111111] outline-none ring-1 ring-transparent placeholder:text-[#9CA3AF] focus:ring-2 sm:px-4 sm:text-[15px] ${fieldBorder("lastName")}`}
                       />
                       {errors.lastName ? (
@@ -374,12 +405,15 @@ export function EnquireModalProvider({
                         aria-describedby={
                           errors.mobile ? "enquire-mobile-err" : undefined
                         }
-                        onInput={() =>
+                        onInput={(e) => {
+                          e.currentTarget.value = digitsOnly(
+                            e.currentTarget.value,
+                          ).slice(0, 10);
                           setErrors((p) => {
                             const { mobile: _, ...r } = p;
                             return r;
-                          })
-                        }
+                          });
+                        }}
                         className={`min-h-[48px] w-full rounded-lg border bg-white px-3 py-2.5 font-lato text-[14px] font-normal text-[#111111] outline-none ring-1 ring-transparent placeholder:text-[#9CA3AF] focus:ring-2 sm:px-4 sm:text-[15px] ${fieldBorder("mobile")}`}
                       />
                       {errors.mobile ? (

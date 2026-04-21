@@ -221,7 +221,8 @@ export function NriEnquireSection() {
             <div data-scroll-reveal-img className="relative mt-8 h-[min(444px,70vw)] w-full max-w-[720px] overflow-hidden sm:mt-10 lg:mt-10 lg:h-[min(444px,50vh)] lg:min-h-[320px] lg:w-full lg:max-w-none xl:h-[444px]">
               <Image
                 src="/assets/contactusimage.jpg"
-                alt="Modern interior living space"
+                alt="NRI property enquiry — modern luxury interior at Sanskar Realty"
+                title="NRI property investment — contact Sanskar Realty"
                 fill
                 className="object-cover object-center"
                 sizes="(max-width: 1023px) 100vw, 50vw"

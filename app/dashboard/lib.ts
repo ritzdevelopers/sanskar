@@ -3,6 +3,40 @@ export const API_BASE =
     process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "")) ||
   "https://sanskar-backend-7xrl.onrender.com";
 
+/** Strip HTML tags for excerpts, previews, and meta text (blog body is HTML). */
+export function stripHtmlToPlainText(html: unknown): string {
+  let s = String(html ?? "");
+  if (!s) return "";
+  s = s.replace(/<br\s*\/?>/gi, " ");
+  s = s.replace(/<\/(p|div|h[1-6]|li|tr)>/gi, " ");
+  let prev = "";
+  while (prev !== s) {
+    prev = s;
+    s = s.replace(/<[^>]+>/g, " ");
+  }
+  s = s
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+  s = s.replace(/&#x([0-9a-f]+);/gi, (_, hex) => {
+    const code = parseInt(hex, 16);
+    return Number.isFinite(code) ? String.fromCodePoint(code) : "";
+  });
+  s = s.replace(/&#(\d+);/g, (_, dec) => {
+    const code = parseInt(dec, 10);
+    return Number.isFinite(code) ? String.fromCodePoint(code) : "";
+  });
+  prev = "";
+  while (prev !== s) {
+    prev = s;
+    s = s.replace(/<[^>]+>/g, " ");
+  }
+  return s.replace(/\s+/g, " ").trim();
+}
+
 /** Blog `image` from API: relative path under API origin, or absolute URL — for `<img>` / `next/image`. */
 export function blogImageUrlFromApi(
   imageField: unknown,

@@ -20,7 +20,8 @@ export default function MediaBanner() {
       <div className="absolute inset-0 z-0">
         <Image
           src="/assets/mediamobilebanner.jpg"
-          alt="Sanskar Realty media"
+          alt="Sanskar Realty media — news, press releases and project updates"
+          title="Sanskar Realty media — news, press releases and project updates"
           fill
           priority
           fetchPriority="high"
@@ -30,7 +31,8 @@ export default function MediaBanner() {
         />
         <Image
           src="/assets/mediadeskstopbanner.jpg"
-          alt="Sanskar Realty media"
+          alt="Sanskar Realty media — news, press releases and project updates"
+          title="Sanskar Realty media — news, press releases and project updates"
           fill
           priority
           fetchPriority="high"

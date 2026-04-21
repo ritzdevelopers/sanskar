@@ -40,7 +40,8 @@ export function FindDreamHomeSection({
         >
           <Image
             src="/assets/find_dream_home.png"
-            alt="Find your dream home"
+            alt="Find your dream home with Sanskar Realty"
+            title="Find your dream home with Sanskar Realty"
             fill
             priority={false}
             className="object-cover w-full h-full"
@@ -75,7 +76,8 @@ export function FindDreamHomeSection({
                     <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-current  transition-[background,border-color] group-hover:border-white group-hover:bg-transparent">
                       <Image
                         src="/assets/diagonal_icon.svg"
-                        alt=""
+                        alt="Arrow icon"
+                        title="Arrow icon"
                         width={14}
                         height={14}
                         className="h-3.5 w-3.5 transition-[filter] duration-300 group-hover:brightness-0 group-hover:invert"

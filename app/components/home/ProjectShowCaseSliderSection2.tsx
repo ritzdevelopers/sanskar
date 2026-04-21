@@ -69,8 +69,18 @@ const showcaseSlides = [
     },
 ];
 
+/** Index of the slide whose image is fully settled — updates only after each scrubbed transition ends (not mid-wipe). */
+function settledSlideIndexFromProgress(progress: number, totalSlides: number): number {
+    if (totalSlides <= 1) return 0;
+    const numTrans = totalSlides - 1;
+    return Math.min(totalSlides - 1, Math.floor(progress * numTrans + 1e-9));
+}
+
 export function ProjectShowcaseSliderSection2() {
     const [activeIndex, setActiveIndex] = useState(0);
+    /** 1 = advancing slides (scroll down), -1 = going back (scroll up) — drives headline motion */
+    const [slideEnterDir, setSlideEnterDir] = useState<1 | -1>(1);
+    const prevActiveIndexRef = useRef(0);
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const stickyRef = useRef<HTMLDivElement>(null);
@@ -84,6 +94,7 @@ export function ProjectShowcaseSliderSection2() {
 
         const totalSlides = showcaseSlides.length;
         const scrollPerSlide = () => sticky.offsetHeight || window.innerHeight;
+        prevActiveIndexRef.current = 0;
 
         bgLayersRef.current.forEach((el, i) => {
             if (!el) return;
@@ -106,10 +117,11 @@ export function ProjectShowcaseSliderSection2() {
                     scrub: 0.65,
                     anticipatePin: 1,
                     onUpdate(self) {
-                        const idx = Math.min(
-                            totalSlides - 1,
-                            Math.floor(self.progress * totalSlides + 0.01)
-                        );
+                        const idx = settledSlideIndexFromProgress(self.progress, totalSlides);
+                        if (idx !== prevActiveIndexRef.current) {
+                            setSlideEnterDir(idx > prevActiveIndexRef.current ? 1 : -1);
+                            prevActiveIndexRef.current = idx;
+                        }
                         setActiveIndex(idx);
                     },
                 },
@@ -266,14 +278,18 @@ export function ProjectShowcaseSliderSection2() {
                 {/* ── HEADLINE + SUBTEXT ── */}
                 <div className="absolute z-40 text-left max-md:pointer-events-none max-md:bottom-auto max-md:left-1/2 max-md:right-auto max-md:top-[max(5.25rem,env(safe-area-inset-top,0px)+4.25rem)] max-md:w-[min(92vw,22rem)] max-md:max-w-none max-md:-translate-x-1/2 max-md:px-2 max-md:text-center max-md:drop-shadow-[0_2px_14px_rgba(0,0,0,0.82)] sm:max-md:top-[max(5.5rem,env(safe-area-inset-top,0px)+4.5rem)] md:bottom-[40%] md:left-10 md:top-auto md:max-w-[42vw] md:translate-x-0 md:text-left lg:bottom-auto lg:left-12 lg:top-1/2 lg:z-50 lg:max-w-[40vw] lg:-translate-y-1/2 xl:left-14 xl:max-w-[38vw] 2xl:left-20 2xl:max-w-[34vw]">
                     <h3
-                        key={`h2-${activeIndex}`}
-                        className={`${quattrocento.className} animate-fadeSlideUp font-bold leading-[1.15] text-white text-[16px] sm:text-[20px] md:text-[27px] lg:text-[32px] xl:text-[36px] xl:leading-[1.1] 2xl:text-[42px]`}
+                        key={`h2-${activeIndex}-${slideEnterDir}`}
+                        className={`${quattrocento.className} font-bold leading-[1.15] text-white text-[16px] sm:text-[20px] md:text-[27px] lg:text-[32px] xl:text-[36px] xl:leading-[1.1] 2xl:text-[42px] ${
+                            slideEnterDir === -1 ? "animate-fadeSlideDown" : "animate-fadeSlideUp"
+                        }`}
                     >
                         {activeSlide.headline}
                     </h3>
                     <p
-                        key={`p2-${activeIndex}`}
-                        className={`${lato.className} animate-fadeSlideUp mt-1 leading-snug text-white/80 text-[11px] sm:text-[13px] md:text-[16px] xl:text-[18px] 2xl:text-[20px]`}
+                        key={`p2-${activeIndex}-${slideEnterDir}`}
+                        className={`${lato.className} mt-1 leading-snug text-white/80 text-[11px] sm:text-[13px] md:text-[16px] xl:text-[18px] 2xl:text-[20px] ${
+                            slideEnterDir === -1 ? "animate-fadeSlideDown" : "animate-fadeSlideUp"
+                        }`}
                         style={{ animationDelay: "80ms" }}
                     >
                         {activeSlide.subtext}
@@ -370,6 +386,13 @@ export function ProjectShowcaseSliderSection2() {
         }
         .animate-fadeSlideUp {
           animation: fadeSlideUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        @keyframes fadeSlideDown {
+          from { opacity: 0; transform: translateY(-16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeSlideDown {
+          animation: fadeSlideDown 0.5s cubic-bezier(0.22,1,0.36,1) both;
         }
         @keyframes mapPinMobileBounce {
           0%, 100% { transform: translateY(0); }

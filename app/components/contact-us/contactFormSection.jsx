@@ -5,20 +5,42 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { NavOverlay } from "../common/NavOverlay";
 import { scrollAboutUsToTopIfSamePage } from "../common/aboutNavigation";
-import {
-  isValidEmail,
-  isValidFullName,
-  isValidIndianMobile,
-} from "../common/formValidation";
 import { API_BASE } from "../../dashboard/lib";
 
 const CONTACT_US_API_URL = `${API_BASE}/api/users/contact-us-page`;
+const CONTACT_EMAIL_REGEX =
+  /^(?!\d)[A-Za-z][A-Za-z0-9._%+-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}$/;
+
+function isStrictEmail(value) {
+  const t = String(value ?? "").trim();
+  return CONTACT_EMAIL_REGEX.test(t) && !t.includes("..");
+}
+
+function isStrictFullName(value) {
+  const t = String(value ?? "").trim();
+  return /^[A-Za-z]+(?:\s+[A-Za-z]+)+$/.test(t);
+}
+
+function hasDigitRepeatedMoreThanFive(value) {
+  const digitCounts = [...value].reduce((acc, d) => {
+    acc[d] = (acc[d] || 0) + 1;
+    return acc;
+  }, {});
+  return Object.values(digitCounts).some((count) => Number(count) > 5);
+}
 
 function normalizeIndianMobileDigits(value) {
   let d = String(value ?? "").replace(/\D/g, "");
   if (d.length === 12 && d.startsWith("91")) d = d.slice(2);
   if (d.length === 11 && d.startsWith("0")) d = d.slice(1);
   return d;
+}
+
+function isStrictIndianMobile(value) {
+  const d = normalizeIndianMobileDigits(value);
+  if (!/^[6-9]\d{9}$/.test(d)) return false;
+  if (hasDigitRepeatedMoreThanFive(d)) return false;
+  return true;
 }
 
 function isValidContactMessage(value) {
@@ -73,18 +95,20 @@ export function ContactFormSection() {
     const mobileDigits = normalizeIndianMobileDigits(phone);
 
     const nextErrors = { name: "", email: "", phone: "", message: "" };
-    if (!isValidFullName(name)) {
+    if (!isStrictFullName(name)) {
       nextErrors.name =
         "Enter a valid name (letters only, 2–120 characters).";
     }
     if (!email) {
       nextErrors.email = "Email is required.";
-    } else if (!isValidEmail(email)) {
+    } else if (!isStrictEmail(email)) {
       nextErrors.email = "Enter a valid email address.";
     }
     if (!phone.trim()) {
       nextErrors.phone = "Mobile number is required.";
-    } else if (!isValidIndianMobile(phone)) {
+    } else if (hasDigitRepeatedMoreThanFive(mobileDigits)) {
+      nextErrors.phone = "Any single digit cannot repeat more than 5 times.";
+    } else if (!isStrictIndianMobile(phone)) {
       nextErrors.phone =
         "Enter a valid 10-digit Indian mobile (e.g. 9876543210).";
     }
@@ -160,11 +184,15 @@ export function ContactFormSection() {
             >
               <Link
                 href="/"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Sanskar Realty — Home"
                 className="flex min-w-0 shrink cursor-pointer items-center py-0.5"
               >
                 <Image
                   src="/assets/sanskar_logo.png"
                   alt="Sanskar Realty logo"
+                  title="Sanskar Realty — Home"
                   width={153}
                   height={50}
                   priority
@@ -179,6 +207,9 @@ export function ContactFormSection() {
                 <div className="hidden md:block">
                   <Link
                     href="/about-us"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Our Story — About Sanskar Realty"
                     onClick={() => scrollAboutUsToTopIfSamePage()}
                     className={`group relative text-center text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] cursor-pointer ${isScrolled ? "text-black" : "text-white"
                       }`}
@@ -189,7 +220,10 @@ export function ContactFormSection() {
                 </div>
                 <div className="hidden md:block">
                   <Link
-                    href="/project"
+                    href="/projects"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Projects — Sanskar Realty"
                     className={`group relative text-center text-sm font-medium leading-7 transition-colors duration-300 md:text-[15px] lg:text-[16px] cursor-pointer ${isScrolled ? "text-black" : "text-white"
                       }`}
                   >
@@ -206,11 +240,13 @@ export function ContactFormSection() {
                   >
                     <Image
                       src="/assets/hamburger_menu.svg"
-                      alt=""
+                      alt="Open navigation menu"
+                      title="Open navigation menu"
                       width={52}
                       height={52}
                       className={`transition duration-300 ${isScrolled ? "brightness-0" : ""
                         }`}
+                      aria-hidden
                     />
                   </button>
                 </div>
@@ -233,7 +269,8 @@ export function ContactFormSection() {
               <div className="relative mt-8 w-full overflow-hidden sm:mt-10">
                 <Image
                   src="/assets/contact-usimage.jpg"
-                  alt=""
+                  alt="Contact Sanskar Realty — modern residential interior and welcoming atmosphere"
+                  title="Contact Sanskar Realty — property inquiries and site visits"
                   width={1200}
                   height={675}
                   className="h-auto w-full object-cover"
@@ -269,7 +306,11 @@ export function ContactFormSection() {
                     placeholder="Enter Your Name"
                     autoComplete="name"
                     aria-invalid={fieldErrors.name ? "true" : "false"}
-                    onChange={() => {
+                    onChange={(e) => {
+                      e.currentTarget.value = e.currentTarget.value.replace(
+                        /[^A-Za-z\s]/g,
+                        "",
+                      );
                       setFormNotice(null);
                       setFieldErrors((p) => ({ ...p, name: "" }));
                     }}
@@ -305,7 +346,10 @@ export function ContactFormSection() {
                     placeholder="Enter Your Phone Number"
                     autoComplete="tel"
                     aria-invalid={fieldErrors.phone ? "true" : "false"}
-                    onChange={() => {
+                    onChange={(e) => {
+                      e.currentTarget.value = normalizeIndianMobileDigits(
+                        e.currentTarget.value,
+                      ).slice(0, 10);
                       setFormNotice(null);
                       setFieldErrors((p) => ({ ...p, phone: "" }));
                     }}

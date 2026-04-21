@@ -21,7 +21,8 @@ export default function Carrerbanner() {
       <div className="absolute inset-0 z-0">
         <Image
           src="/assets/carrermobilebanner.jpg"
-          alt="Careers at Sanskar Realty"
+          alt="Careers at Sanskar Realty — join our real estate team"
+          title="Careers at Sanskar Realty — join our real estate team"
           fill
           priority
           fetchPriority="high"
@@ -31,7 +32,8 @@ export default function Carrerbanner() {
         />
         <Image
           src="/assets/carrerdeskstopbanner.jpg"
-          alt="Careers at Sanskar Realty"
+          alt="Careers at Sanskar Realty — join our real estate team"
+          title="Careers at Sanskar Realty — join our real estate team"
           fill
           priority
           fetchPriority="high"

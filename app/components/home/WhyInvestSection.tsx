@@ -30,6 +30,29 @@ function cardDescriptionDisplay(card: InvestCard): string {
   return `${card.description.slice(0, idx + card.clipAfter.length)}...`;
 }
 
+function getWhyInvestCardElements(container: HTMLDivElement): HTMLElement[] {
+  return Array.from(container.querySelectorAll<HTMLElement>("article"));
+}
+
+/**
+ * Which card is “current” for stepping — nearest by scroll position.
+ * (The old `offsetLeft <= scrollLeft + 2` rule broke after smooth scroll
+ * stopped a few px short, so the 2nd Next click thought we were still on 0.)
+ */
+function getActiveCardIndex(container: HTMLDivElement, cards: HTMLElement[]): number {
+  const sl = container.scrollLeft;
+  let bestIdx = 0;
+  let bestDist = Infinity;
+  for (let i = 0; i < cards.length; i++) {
+    const dist = Math.abs(cards[i].offsetLeft - sl);
+    if (dist < bestDist) {
+      bestDist = dist;
+      bestIdx = i;
+    }
+  }
+  return bestIdx;
+}
+
 const investCards: InvestCard[] = [
   {
     title: "Yatharth Legacy",
@@ -71,19 +94,23 @@ export function WhyInvestSection() {
   useScrollReveal(sectionRef, { stagger: 0.08, duration: 0.65 });
 
   const scrollNext = () => {
-    if (scrollRef.current) {
-      const cardWidth = (scrollRef.current.children[0] as HTMLElement)?.offsetWidth || 300;
-      const gap = 24;
-      scrollRef.current.scrollBy({ left: cardWidth + gap, behavior: "smooth" });
-    }
+    const el = scrollRef.current;
+    if (!el) return;
+    const cards = getWhyInvestCardElements(el);
+    if (cards.length < 2) return;
+    const idx = getActiveCardIndex(el, cards);
+    const next = Math.min(cards.length - 1, idx + 1);
+    el.scrollTo({ left: Math.round(cards[next].offsetLeft), behavior: "smooth" });
   };
 
   const scrollPrev = () => {
-    if (scrollRef.current) {
-      const cardWidth = (scrollRef.current.children[0] as HTMLElement)?.offsetWidth || 300;
-      const gap = 24;
-      scrollRef.current.scrollBy({ left: -(cardWidth + gap), behavior: "smooth" });
-    }
+    const el = scrollRef.current;
+    if (!el) return;
+    const cards = getWhyInvestCardElements(el);
+    if (cards.length < 2) return;
+    const idx = getActiveCardIndex(el, cards);
+    const prev = Math.max(0, idx - 1);
+    el.scrollTo({ left: Math.round(cards[prev].offsetLeft), behavior: "smooth" });
   };
 
   return (
@@ -105,21 +132,26 @@ export function WhyInvestSection() {
 
         </p>
 
-        <div
-          ref={scrollRef}
-          className="mt-8 flex overflow-x-auto snap-x snap-mandatory gap-5 sm:mt-10 lg:gap-6 xl:gap-8 pb-4"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          <style dangerouslySetInnerHTML={{
-            __html: `
-            #why-invest .overflow-x-auto::-webkit-scrollbar {
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            #why-invest .why-invest-scroll::-webkit-scrollbar {
               display: none;
             }
-          `}} />
+          `,
+        }} />
+        <div
+          ref={scrollRef}
+          className="why-invest-scroll mt-8 flex overflow-x-auto snap-x snap-mandatory gap-5 sm:mt-10 lg:gap-6 xl:gap-8 pb-4 pe-6 sm:pe-8 md:pe-10"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            scrollPaddingInlineEnd: "max(1.5rem, env(safe-area-inset-right, 0px))",
+          }}
+        >
           {investCards.map((card) => (
             <article
               key={card.title}
-              className="flex w-[280px] shrink-0 flex-col items-stretch rounded-[16px] border-[0.89px] border-[#F3F4F6] bg-white p-5 text-center shadow-none transition-shadow duration-500 ease-out hover:shadow-[0px_12px_28px_-10px_#00000024,0px_8px_16px_-6px_#00000018] sm:w-[300px] sm:p-6 md:w-[340px] md:text-left lg:w-[360px] xl:w-[384px]"
+              className="snap-start flex w-[280px] shrink-0 flex-col items-stretch rounded-[16px] border-[0.89px] border-[#F3F4F6] bg-white p-5 text-center shadow-none transition-shadow duration-500 ease-out hover:shadow-[0px_12px_28px_-10px_#00000024,0px_8px_16px_-6px_#00000018] sm:w-[300px] sm:p-6 md:w-[340px] md:text-left lg:w-[calc((100%-3rem)/3)] lg:min-w-0 lg:max-w-none xl:w-[calc((100%-4rem)/3)]"
             >
               <h3
                 data-scroll-reveal
@@ -159,7 +191,7 @@ export function WhyInvestSection() {
             aria-label="Previous cards"
             data-scroll-reveal-pop
             onClick={scrollPrev}
-            className="flex h-[50px] w-[50px] shrink-0 items-center justify-center rounded-full border border-[#E2E2E2] bg-[#EDEDED]  transition-colors hover:bg-neutral-200"
+            className="flex h-[50px] w-[50px] shrink-0 cursor-pointer items-center justify-center rounded-full border border-[#E2E2E2] bg-[#EDEDED] transition-colors hover:bg-neutral-200"
           >
             <Image src="/assets/left_arrow 2.svg" alt="" width={12} height={20} className="scale-90 sm:scale-100" />
           </button>
@@ -168,7 +200,7 @@ export function WhyInvestSection() {
             aria-label="Next cards"
             data-scroll-reveal-pop
             onClick={scrollNext}
-            className="flex h-[50px] w-[50px] shrink-0 items-center justify-center rounded-full border border-[#E2E2E2] bg-[#EDEDED]  transition-colors hover:bg-neutral-200"
+            className="flex h-[50px] w-[50px] shrink-0 cursor-pointer items-center justify-center rounded-full border border-[#E2E2E2] bg-[#EDEDED] transition-colors hover:bg-neutral-200"
           >
             <Image src="/assets/right_arrow 2.svg" alt="" width={12} height={20} className="scale-90 sm:scale-100" />
           </button>

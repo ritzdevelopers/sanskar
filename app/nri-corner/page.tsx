@@ -12,6 +12,27 @@ import { TestimonialsSection } from "../components/home/TestimonialsSection";
 import { PressReleasesSection } from "../components/home/PressReleasesSection";
 import { FindDreamHomeSection } from "../components/about/FindDreamHomeSection";
 
+export const metadata = {
+  title: "NRI Property Investment in India | Sanskar Realty Guide",
+  description:
+    "Looking to buy property in India as an NRI? Discover key legal considerations, payment processes, and NRI home loan eligibility with Sanskar Realty.",
+  keywords: [
+    "NRI property investment in India",
+    "legal aspects of buying property in India",
+    "NRI home loans",
+    "NRI property buying process",
+    "FEMA regulations for NRIs",
+    "RBI approval for property investment",
+    "NRE and FCNR accounts for property purchase",
+    "legal documents for property investment",
+    "property documents required for NRIs",
+    "property ownership and clearance for NRIs",
+    "selling property in India as an NRI",
+    "repatriation benefit for NRIs",
+    "NRIs FAQ on property purchase in India",
+  ],
+};
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],

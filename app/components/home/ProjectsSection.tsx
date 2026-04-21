@@ -10,6 +10,7 @@ import {
 } from "react";
 import { Lato, Quattrocento } from "next/font/google";
 import { useScrollReveal } from "../common/useScrollReveal";
+import Link from "next/link";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -137,12 +138,14 @@ export function ProjectsSection() {
       <div className="relative z-10 mx-auto w-full max-w-[1500px] px-4 py-10 sm:px-6 sm:py-12 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
         <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center xl:max-w-[1320px]">
           <div className="flex w-full max-w-[1004px] flex-col items-center gap-5 text-center sm:gap-6 md:gap-[27px]">
-            <p
-              data-scroll-reveal
-              className={`${lato.className} text-[15px] font-normal uppercase leading-[100%] tracking-[0.05em] text-[#111111] sm:text-[16px] md:text-[18px]`}
-            >
-              Our Projects
-            </p>
+          <Link href="/projects" target="_blank">
+  <p
+    data-scroll-reveal
+    className={`${lato.className} text-[15px] font-normal uppercase leading-[100%] tracking-[0.05em] text-[#111111] sm:text-[16px] md:text-[18px]`}
+  >
+    Our Projects
+  </p>
+</Link>
 
             <h2
               data-scroll-reveal
@@ -164,6 +167,13 @@ export function ProjectsSection() {
 
           <div className="mt-6 w-full max-w-[1284px] sm:mt-8">
             <div className="relative isolate aspect-[4/3] min-h-[220px] w-full overflow-hidden bg-[#EAEAEA] [transform:translateZ(0)] sm:aspect-[16/10] md:aspect-[5/3] md:min-h-[360px] lg:aspect-auto lg:h-[520px] xl:h-[580px] 2xl:h-[611px]">
+              <a
+                href={slides[activeDot].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Open ${slides[activeDot].title}`}
+                className="absolute inset-0 z-10 cursor-pointer"
+              />
               {/* While animating, hide previous slide — only placeholder + incoming panel */}
               {incomingSlide === null && (
                 <SlideLayer

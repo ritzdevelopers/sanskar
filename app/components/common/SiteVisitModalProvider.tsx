@@ -36,6 +36,13 @@ const TIME_SLOT_OPTIONS = [
   { value: "flexible", label: "Flexible — call me to confirm" },
 ] as const;
 
+const PROJECT_OPTIONS = [
+  { value: "", label: "Select project / location *" },
+  { value: "Eternia", label: "Eternia" },
+  { value: "HighLife", label: "HighLife" },
+  { value: "Forest Walk", label: "Forest Walk" },
+] as const;
+
 const ENQUIRE_API_PATH = "/api/enquire";
 
 function timeSlotLabel(value: string): string {
@@ -524,23 +531,32 @@ export function SiteVisitModalProvider({
                       <label htmlFor="site-project" className={labelClass}>
                         Project / location *
                       </label>
-                      <input
+                      <select
                         id="site-project"
                         name="project"
-                        type="text"
-                        placeholder="e.g. Eternia, Greater Noida West"
+                        defaultValue=""
                         aria-invalid={!!errors.project}
                         aria-describedby={
                           errors.project ? "site-project-err" : undefined
                         }
-                        onInput={() =>
+                        onChange={() =>
                           setErrors((p) => {
                             const { project: _, ...r } = p;
                             return r;
                           })
                         }
                         className={`${inputBase} ${fieldBorder("project")}`}
-                      />
+                      >
+                        {PROJECT_OPTIONS.map((opt) => (
+                          <option
+                            key={opt.value || "ph"}
+                            value={opt.value}
+                            disabled={opt.value === ""}
+                          >
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
                       {errors.project ? (
                         <p
                           id="site-project-err"

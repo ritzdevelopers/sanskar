@@ -66,11 +66,14 @@ export function HeroPageHeader({
               {contactPageStyle ? (
                 <Link
                   href="/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex min-w-0 shrink cursor-pointer items-center py-0.5"
                 >
                   <Image
                     src="/assets/sanskar_logo.png"
                     alt="Sanskar Realty logo"
+                    title="Sanskar Realty — Home"
                     width={153}
                     height={50}
                     priority
@@ -81,11 +84,14 @@ export function HeroPageHeader({
               ) : (
                 <Link
                   href="/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex min-w-0 shrink cursor-pointer items-center py-0.5"
                 >
                   <Image
                     src="/assets/sanskar_logo.png"
                     alt="Sanskar Realty logo"
+                    title="Sanskar Realty — Home"
                     width={153}
                     height={50}
                     priority
@@ -98,6 +104,8 @@ export function HeroPageHeader({
                 <div className="hidden md:block">
                   <Link
                     href="/about-us"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     {...(contactPageStyle
                       ? { onClick: () => scrollAboutUsToTopIfSamePage() }
                       : {})}
@@ -110,6 +118,8 @@ export function HeroPageHeader({
                 <div className="hidden md:block">
                   <Link
                     href={projectsHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={linkClass}
                     {...(useProjectsCurrent ? { "aria-current": "page" } : {})}
                   >
@@ -132,12 +142,14 @@ export function HeroPageHeader({
                   >
                     <Image
                       src="/assets/hamburger_menu.svg"
-                      alt=""
+                      alt="Open navigation menu"
+                      title="Open navigation menu"
                       width={52}
                       height={52}
                       className={`transition duration-300 ${
                         isScrolled ? "brightness-0" : ""
                       }`}
+                      aria-hidden
                     />
                   </button>
                 </div>

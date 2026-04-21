@@ -10,6 +10,27 @@ import { TestimonialsSection } from "../components/home/TestimonialsSection";
 import { PressReleasesSection } from "../components/home/PressReleasesSection";
 import { Mission } from "../components/about/Mission";
 
+export const metadata = {
+  title: "Sanskar Realty | Real Estate Developer in Delhi NCR",
+  description:
+    "Sanskar Realty, a trusted real estate developer in Delhi NCR, creating sustainable, luxury homes and commercial spaces with quality, integrity, and value.",
+  keywords: [
+    "Sanskar Realty",
+    "real estate developer in Delhi NCR",
+    "residential and commercial spaces",
+    "luxury homes in Noida Extension",
+    "premium apartments in Greater Noida West",
+    "gated villas in Ghaziabad",
+    "sustainable real estate",
+    "innovative designs in NCR",
+    "1 BHK apartments in Noida Extension",
+    "2 BHK apartments in Noida Extension",
+    "commercial properties NCR",
+    "real estate strategy and development",
+    "modern living spaces",
+  ],
+};
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
