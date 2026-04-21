@@ -137,13 +137,27 @@ function blogWordPreview(text: unknown, maxWords: number): string {
   return `${words.slice(0, maxWords).join(" ")}...`;
 }
 
+function careerPostApiBases(): string[] {
+  const isLocal = typeof window !== "undefined" && window.location.hostname === "localhost";
+  const bases = isLocal ? ["http://localhost:3001", API_BASE] : [API_BASE];
+  return Array.from(new Set(bases.map((b) => b.replace(/\/+$/, ""))));
+}
+
 export default function StaffDashboardPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [user, setUser] = useState<StaffUser | null>(null);
   const [activeTab, setActiveTab] = useState<
-    "dashboard" | "enquiry" | "contact" | "career" | "nri" | "staff" | "footer" | "blog"
+    | "dashboard"
+    | "enquiry"
+    | "contact"
+    | "career"
+    | "careerpost"
+    | "nri"
+    | "staff"
+    | "footer"
+    | "blog"
   >("dashboard");
 
   const [enquiryRows, setEnquiryRows] = useState<Row[]>([]);
@@ -228,6 +242,11 @@ export default function StaffDashboardPage() {
   const [listsError, setListsError] = useState<string | null>(null);
   const [refreshTick, setRefreshTick] = useState(0);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [careerPostProfile, setCareerPostProfile] = useState("");
+  const [careerPostDescription, setCareerPostDescription] = useState("");
+  const [careerPostSubmitting, setCareerPostSubmitting] = useState(false);
+  const [careerPostFormErr, setCareerPostFormErr] = useState<string | null>(null);
+  const [careerPostSavedMsg, setCareerPostSavedMsg] = useState<string | null>(null);
 
   const role = String(user?.role || "").toLowerCase();
   const canAccess = Boolean(user?.permissions);
@@ -345,7 +364,8 @@ export default function StaffDashboardPage() {
         const makeUrl = (path: string, page: number) =>
           `${API_BASE}${path}?page=${page}&limit=${LIST_LIMIT}`;
 
-        const [enqRes, conRes, carRes, nriRes, stfRes, footRes, blogRes] = await Promise.all([
+        const [enqRes, conRes, carRes, nriRes, stfRes, footRes, blogRes] =
+          await Promise.all([
           fetch(makeUrl("/api/users/get-all-users", enquiryPage), {
             credentials: "include",
           }),
@@ -496,6 +516,55 @@ export default function StaffDashboardPage() {
     }
     setBlogRows(asList(data));
     setBlogPg(asPagination(data));
+  }
+
+  async function submitCareerPost() {
+    setCareerPostFormErr(null);
+    setCareerPostSavedMsg(null);
+    const profile = careerPostProfile.trim();
+    const description = careerPostDescription.trim();
+    if (!profile || !description) {
+      setCareerPostFormErr("Profile and description are required.");
+      return;
+    }
+    setCareerPostSubmitting(true);
+    try {
+      const endpoints = careerPostApiBases().flatMap((base) => [
+        `${base}/api/users/send-careerpagejob-data`,
+        `${base}/api/users/send-carrerpagejob-data`,
+      ]);
+      let ok = false;
+      let data: Record<string, unknown> = {};
+      for (const endpoint of endpoints) {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ profile, description }),
+          credentials: "include",
+        });
+        const ct = res.headers.get("content-type") || "";
+        if (ct.includes("application/json")) {
+          data = (await res.json()) as Record<string, unknown>;
+        } else {
+          const text = await res.text();
+          data = { message: text || `HTTP ${res.status}` };
+        }
+        if (res.ok) {
+          ok = true;
+          break;
+        }
+      }
+      if (!ok) {
+        throw new Error(String(data.message || "Save failed"));
+      }
+      setCareerPostProfile("");
+      setCareerPostDescription("");
+      setCareerPostSavedMsg("Saved successfully.");
+    } catch (err) {
+      setCareerPostFormErr(err instanceof Error ? err.message : "Error");
+    } finally {
+      setCareerPostSubmitting(false);
+    }
   }
 
   async function submitBlog() {
@@ -697,6 +766,7 @@ export default function StaffDashboardPage() {
                       { id: "enquiry", label: "Enquiry" },
                       { id: "contact", label: "Contact" },
                       { id: "career", label: "Career" },
+                      { id: "careerpost", label: "Carrer Data Post" },
                       { id: "nri", label: "NRI" },
                       { id: "staff", label: "Staff" },
                       { id: "footer", label: "Footer Enquire" },
@@ -714,6 +784,7 @@ export default function StaffDashboardPage() {
                           | "enquiry"
                           | "contact"
                           | "career"
+                          | "careerpost"
                           | "nri"
                           | "blog"
                           | "staff"
@@ -934,6 +1005,16 @@ export default function StaffDashboardPage() {
                           Add blog
                         </button>
                       ) : null}
+                      {activeTab === "careerpost" && role === "admin" ? (
+                        <button
+                          type="button"
+                          onClick={() => void submitCareerPost()}
+                          disabled={listsLoading || careerPostSubmitting}
+                          className="cursor-pointer rounded-lg border-2 border-emerald-600 bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white disabled:opacity-50"
+                        >
+                          {careerPostSubmitting ? "Saving..." : "Save post"}
+                        </button>
+                      ) : null}
                       <button
                         type="button"
                         onClick={() => setRefreshTick((n) => n + 1)}
@@ -1054,6 +1135,39 @@ export default function StaffDashboardPage() {
                           ))}
                         </tbody>
                       </table>
+                    </div>
+                  ) : null}
+
+                  {!listsLoading && activeTab === "careerpost" && role === "admin" ? (
+                    <div className="space-y-3">
+                      <div className="rounded-xl border border-zinc-200 p-3">
+                        <div className="grid gap-3 md:grid-cols-2">
+                          <input
+                            type="text"
+                            value={careerPostProfile}
+                            onChange={(e) => setCareerPostProfile(e.target.value)}
+                            placeholder="Profile"
+                            className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm"
+                          />
+                          <textarea
+                            value={careerPostDescription}
+                            onChange={(e) => setCareerPostDescription(e.target.value)}
+                            rows={2}
+                            placeholder="Description"
+                            className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm"
+                          />
+                        </div>
+                        {careerPostFormErr ? (
+                          <p className="mt-2 rounded-md border border-red-200 bg-red-50 px-2 py-1.5 text-xs text-red-800">
+                            {careerPostFormErr}
+                          </p>
+                        ) : null}
+                        {careerPostSavedMsg ? (
+                          <p className="mt-2 rounded-md border border-emerald-200 bg-emerald-50 px-2 py-1.5 text-xs text-emerald-800">
+                            {careerPostSavedMsg}
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
                   ) : null}
 

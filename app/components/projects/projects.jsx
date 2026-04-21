@@ -79,6 +79,54 @@ function ProjectRow({
             >
               {description}
             </p>
+            {title === "Eternia" ? (
+              <ul className="mt-6 max-w-[520px] list-disc space-y-2 pl-5 text-left marker:text-[#00000099]">
+                <li className="font-lato text-[15px] md:text-[16px] leading-[22px] text-[#00000099]">
+                Prime area location on a 130m road, opening onto green belt
+                </li>
+                <li className="font-lato text-[15px] md:text-[16px] leading-[22px] text-[#00000099]">
+                6 acre gated community with luxury amenities.
+                </li>
+                <li className="font-lato text-[15px] md:text-[16px] leading-[22px] text-[#00000099]">
+                Vastu compliant construction, 4 lifts per tower.
+                </li>
+                <li className="font-lato text-[15px] md:text-[16px] leading-[22px] text-[#00000099]">
+                Near schools, hospitals, malls, & everyday amenities for convenience.
+                </li>
+              </ul>
+            ) : null}
+            {title === "HighLife" ? (
+              <ul className="mt-6 max-w-[520px] list-disc space-y-2 pl-5 text-left marker:text-[#00000099]">
+                <li className="font-lato text-[15px] md:text-[16px] leading-[22px] text-[#00000099]">
+                Earthquake-resistant RCC frame structure for superior safety and stability.
+                </li>
+                <li className="font-lato text-[15px] md:text-[16px] leading-[22px] text-[#00000099]">
+                Well connected through Noida-Greater Noida expressway.
+                </li>
+                <li className="font-lato text-[15px] md:text-[16px] leading-[22px] text-[#00000099]">
+                Great investment potential due to increased connectivity & growth in demand.
+                </li>
+                <li className="font-lato text-[15px] md:text-[16px] leading-[22px] text-[#00000099]">
+                Exclusive integrated commercial spaces.
+                </li>
+              </ul>
+            ) : null}
+            {title === "Forest Walk" ? (
+              <ul className="mt-6 max-w-[520px] list-disc space-y-2 pl-5 text-left marker:text-[#00000099]">
+                <li className="font-lato text-[15px] md:text-[16px] leading-[22px] text-[#00000099]">
+                Luxury villas set in a nature-like environment.
+                </li>
+                <li className="font-lato text-[15px] md:text-[16px] leading-[22px] text-[#00000099]">
+                Landscaped walking tracks, water features, and theme forests.
+                </li>
+                <li className="font-lato text-[15px] md:text-[16px] leading-[22px] text-[#00000099]">
+                Good connectivity to NH-24, Delhi, Noida, and proposed metro.
+                </li>
+                <li className="font-lato text-[15px] md:text-[16px] leading-[22px] text-[#00000099]">
+                Quality construction & finishes for comfort and durability over time.
+                </li>
+              </ul>
+            ) : null}
             <a
               data-scroll-reveal
               href={url}

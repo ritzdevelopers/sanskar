@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   getLenisInstance,
   LENIS_PROGRAMMATIC_DURATION,
@@ -27,34 +28,56 @@ function scrollToCareerForm() {
   el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-const VACANCIES = [
-  {
-    title: "Sales Manager",
-    description:
-      "Driving strategic acquisitions and high-value client relations.",
-    meta: "GLOBAL / HYBRID",
-  },
-  {
-    title: "Project Manager",
-    description:
-      "Driving strategic acquisitions and high-value client relations.",
-    meta: "GLOBAL / HYBRID",
-  },
-  {
-    title: "Marketing Manager",
-    description:
-      "Driving strategic acquisitions and high-value client relations.",
-    meta: "GLOBAL / HYBRID",
-  },
-  {
-    title: " Manager",
-    description:
-      "Driving strategic acquisitions and high-value client relations.",
-    meta: "GLOBAL / HYBRID",
-  },
-];
+function resolveApiBase() {
+  const envBase =
+    typeof process !== "undefined"
+      ? process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "")
+      : "";
+  if (envBase) return envBase;
+  if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+    return "http://localhost:3001";
+  }
+  return "https://sanskar-backend-7xrl.onrender.com";
+}
 
 export default function Vaccancy() {
+  const [vacancies, setVacancies] = useState([]);
+
+  useEffect(() => {
+    let active = true;
+    const loadVacancies = async () => {
+      const API_BASE = resolveApiBase();
+      const endpoints = [
+        `${API_BASE}/api/users/get-careerpagejob-data?page=1&limit=100`,
+        `${API_BASE}/api/users/get-carrerpagejob-data?page=1&limit=100`,
+      ];
+      try {
+        let normalized = [];
+        for (const endpoint of endpoints) {
+          const res = await fetch(endpoint);
+          if (!res.ok) continue;
+          const data = await res.json();
+          const list = Array.isArray(data?.data) ? data.data : [];
+          normalized = list
+            .map((item) => ({
+              title: String(item?.profile ?? "").trim(),
+              description: String(item?.description ?? "").trim(),
+              meta: "GLOBAL / HYBRID",
+            }))
+            .filter((item) => item.title && item.description);
+          if (normalized.length > 0) break;
+        }
+        if (active) setVacancies(normalized);
+      } catch {
+        if (active) setVacancies([]);
+      }
+    };
+    void loadVacancies();
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <>
     <section className="w-full border-t border-[#8B8B8B] bg-white">
@@ -71,7 +94,7 @@ export default function Vaccancy() {
           </p>
 
           <div className="mt-8 grid grid-cols-1 gap-0 sm:mt-10 lg:grid-cols-2 lg:gap-x-10 xl:gap-x-[130px]">
-            {VACANCIES.map((job, index) => (
+            {vacancies.map((job, index) => (
               <article
                 key={index}
                 className="border-b border-[#E5E5E5] pt-5 pb-10 sm:pt-6 md:pb-5"
