@@ -39,7 +39,7 @@ export default function Vaccancy() {
       setError("");
       const endpoints = [
         `${API_BASE}/api/users/get-careerpagejob-data?page=1&limit=100`,
-        `${API_BASE}/api/users/get-carrerpagejob-data?page=1&limit=100`,
+        `${API_BASE}/api/users/get-careerpagejob-data?page=1&limit=100`,
       ];
       try {
         let normalized = [];
