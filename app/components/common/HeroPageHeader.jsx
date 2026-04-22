@@ -66,8 +66,8 @@ export function HeroPageHeader({
               {contactPageStyle ? (
                 <Link
                   href="/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  // target="_blank"
+                  // rel="noopener noreferrer"
                   className="flex min-w-0 shrink cursor-pointer items-center py-0.5"
                 >
                   <Image
@@ -84,8 +84,7 @@ export function HeroPageHeader({
               ) : (
                 <Link
                   href="/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+              
                   className="flex min-w-0 shrink cursor-pointer items-center py-0.5"
                 >
                   <Image
