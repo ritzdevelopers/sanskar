@@ -165,7 +165,16 @@ type CareerPostRow = {
 };
 
 function blogTwoWordPreview(text: string | undefined): string {
-  const words = String(text ?? "").trim().split(/\s+/).filter(Boolean);
+  const rawText = String(text ?? "").trim();
+  const plainText =
+    typeof window !== "undefined"
+      ? (() => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(rawText, "text/html");
+          return doc.body.textContent ?? "";
+        })()
+      : rawText.replace(/<[^>]+>/g, " ");
+  const words = plainText.trim().split(/\s+/).filter(Boolean);
   if (words.length === 0) return "—";
   if (words.length <= 2) return words.join(" ");
   return `${words[0]} ${words[1]}...`;
@@ -2021,9 +2030,14 @@ export default function SuperAdminHomePage() {
                     Close
                   </button>
                 </div>
-                <p className="mt-3 whitespace-pre-wrap text-sm text-zinc-800">
-                  {previewBlog.description ?? "—"}
-                </p>
+                {previewBlog.description?.trim() ? (
+                  <div
+                    className="mt-3 text-sm text-zinc-800 [&_a]:text-blue-600 [&_a]:underline [&_img]:max-h-[40vh] [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
+                    dangerouslySetInnerHTML={{ __html: previewBlog.description }}
+                  />
+                ) : (
+                  <p className="mt-3 text-sm text-zinc-400">—</p>
+                )}
                 {previewBlog.image && typeof previewBlog.image === "string" ? (
                   <div className="mt-4">
                     <p className="text-xs font-semibold text-zinc-600">Image</p>
