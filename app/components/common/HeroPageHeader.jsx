@@ -79,7 +79,7 @@ export function HeroPageHeader({
                     priority
                     quality={100}
                     className={logoImgClass}
-                  />
+                  /> 
                 </Link>
               ) : (
                 <Link
