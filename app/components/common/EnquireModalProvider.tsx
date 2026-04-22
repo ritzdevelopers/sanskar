@@ -13,6 +13,9 @@ import { Lato, Quattrocento } from "next/font/google";
 import { API_BASE } from "../../dashboard/lib";
 
 const ENQUIRY_SUBMIT_URL = `${API_BASE}/api/users/get-Enquire-now-Data`;
+const FOURQT_WEB_CREATE_URL = "https://eternia04.4erealty.com/WebCreate.aspx";
+const FOURQT_UID = "fourqt";
+const FOURQT_PWD = "wn9mxO76f34=";
 const ENQUIRE_EMAIL_REGEX =
   /^(?!\d)[A-Za-z][A-Za-z0-9._%+-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}$/;
 
@@ -20,9 +23,9 @@ function digitsOnly(value: string): string {
   return value.replace(/\D/g, "");
 }
 
-function isStrictNamePart(value: string): boolean {
+function isStrictFullName(value: string): boolean {
   const t = value.trim();
-  return /^[A-Za-z]{1,60}$/.test(t);
+  return /^(?=.{2,120}$)[A-Za-z]+(?: [A-Za-z]+)*$/.test(t);
 }
 
 function isStrictEmail(value: string): boolean {
@@ -38,6 +41,80 @@ function hasDigitRepeatedMoreThanFive(value: string): boolean {
   return Object.values(digitCounts).some((count) => count > 5);
 }
 
+function urlWithoutProtocolAndQuery(urlValue: string): string {
+  try {
+    const parsed = new URL(urlValue);
+    return `${parsed.host}${parsed.pathname}`;
+  } catch {
+    return "";
+  }
+}
+
+function projectFromPath(pathname: string): string {
+  const p = pathname.toLowerCase();
+  if (p.includes("eternia")) return "Eternia Sanskar";
+  if (p.includes("high-life") || p.includes("highlife")) return "High Life Sanskar";
+  if (p.includes("forest-walk") || p.includes("forestwalk")) return "Forest Walk Sanskar";
+  return "Sanskar Website";
+}
+
+function pageLabelFromPath(pathname: string): string {
+  const clean = pathname.replace(/^\/+|\/+$/g, "");
+  if (!clean) return "Home Page";
+  const parts = clean.split("/").filter(Boolean);
+  const segment = parts[parts.length - 1] || "Page";
+  const pretty = segment
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return `${pretty.charAt(0).toUpperCase()}${pretty.slice(1)} Page`;
+}
+
+async function submitLeadToFourQt(payload: {
+  fullName: string;
+  email: string;
+  mobile: string;
+  projectName?: string;
+  sourcePage?: string;
+}): Promise<void> {
+  const currentHref = typeof window !== "undefined" ? window.location.href : "";
+  const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
+  const query = typeof window !== "undefined" ? window.location.search : "";
+  const qs = new URLSearchParams(query);
+  const uniqueId = `${Date.now()}`;
+  const pageLabel = payload.sourcePage || pageLabelFromPath(currentPath);
+  const requestParams = new URLSearchParams({
+    UID: FOURQT_UID,
+    PWD: FOURQT_PWD,
+    Channel: "MS",
+    Src: pageLabel,
+    ISD: "91",
+    Mob: payload.mobile,
+    Email: payload.email,
+    name: payload.fullName,
+    City: "",
+    Location: pageLabel,
+    Project: payload.projectName || projectFromPath(currentPath),
+    Remark: payload.projectName
+      ? `Enquiry from ${pageLabel} for ${payload.projectName}`
+      : `Enquiry from ${pageLabel} callback form`,
+    url: urlWithoutProtocolAndQuery(currentHref),
+    UniqueId: uniqueId,
+    fld1: qs.get("utm_source") ?? "",
+    fld2: qs.get("utm_campaign") ?? "",
+    fld3: qs.get("utm_medium") ?? "",
+    fld4: qs.get("utm_keyword") ?? qs.get("utm_term") ?? "",
+  });
+
+  const leadRes = await fetch(`${FOURQT_WEB_CREATE_URL}?${requestParams.toString()}`, {
+    method: "GET",
+    cache: "no-store",
+  });
+  if (!leadRes.ok) {
+    throw new Error(`4QT lead API failed (${leadRes.status}).`);
+  }
+}
+
 const lato = Lato({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -51,7 +128,10 @@ const quattrocento = Quattrocento({
 });
 
 type EnquireModalContextValue = {
-  openEnquireModal: () => void;
+  openEnquireModal: (options?: {
+    projectName?: string;
+    sourcePage?: string;
+  }) => void;
 };
 
 const EnquireModalContext = createContext<EnquireModalContextValue | null>(
@@ -78,9 +158,25 @@ export function EnquireModalProvider({
     type: "success" | "error";
     message: string;
   } | null>(null);
+  const [leadContext, setLeadContext] = useState<{
+    projectName?: string;
+    sourcePage?: string;
+  }>({});
   const titleId = useId();
-  const close = useCallback(() => setOpen(false), []);
-  const openEnquireModal = useCallback(() => setOpen(true), []);
+  const close = useCallback(() => {
+    setOpen(false);
+    setLeadContext({});
+  }, []);
+  const openEnquireModal = useCallback(
+    (options?: { projectName?: string; sourcePage?: string }) => {
+      setLeadContext({
+        projectName: options?.projectName?.trim() || undefined,
+        sourcePage: options?.sourcePage?.trim() || undefined,
+      });
+      setOpen(true);
+    },
+    [],
+  );
 
   useEffect(() => {
     if (open) {
@@ -158,20 +254,17 @@ export function EnquireModalProvider({
                   e.preventDefault();
                   const form = e.currentTarget;
                   const fd = new FormData(form);
-                  const firstName = String(fd.get("firstName") ?? "").trim();
-                  const lastName = String(fd.get("lastName") ?? "").trim();
+                  const fullName = String(fd.get("fullName") ?? "")
+                    .trim()
+                    .replace(/\s+/g, " ");
                   const email = String(fd.get("email") ?? "").trim();
                   const mobile = String(fd.get("mobile") ?? "").trim();
                   const consentChecked = fd.get("consent") === "on";
 
                   const next: Record<string, string> = {};
-                  if (!isStrictNamePart(firstName)) {
-                    next.firstName =
-                      "Enter a valid first name (letters only, 1–60 characters).";
-                  }
-                  if (!isStrictNamePart(lastName)) {
-                    next.lastName =
-                      "Enter a valid last name (letters only, 1–60 characters).";
+                  if (!isStrictFullName(fullName)) {
+                    next.fullName =
+                      "Enter a valid full name (letters and spaces only, 2-120 characters).";
                   }
                   if (!email) {
                     next.email = "Email is required.";
@@ -202,8 +295,7 @@ export function EnquireModalProvider({
                   setIsSubmitting(true);
 
                   const payload = {
-                    firstName,
-                    lastName,
+                    fullName,
                     email,
                     mobile: digitsOnly(mobile),
                   };
@@ -256,10 +348,17 @@ export function EnquireModalProvider({
                         ? (parsed as { message: string }).message
                         : "Submitted successfully!";
 
+                    await submitLeadToFourQt({
+                      ...payload,
+                      projectName: leadContext.projectName,
+                      sourcePage: leadContext.sourcePage,
+                    });
+
                     setSubmitBanner({
                       type: "success",
                       message: successMsg,
                     });
+
                     if (form.isConnected) {
                       form.reset();
                     }
@@ -303,69 +402,35 @@ export function EnquireModalProvider({
                   </div>
                 ) : null}
                 <div className="flex flex-col gap-3">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="min-w-0">
-                      <input
-                        name="firstName"
-                        type="text"
-                        autoComplete="given-name"
-                        placeholder="First name"
-                        aria-invalid={!!errors.firstName}
-                        aria-describedby={
-                          errors.firstName ? "enquire-firstName-err" : undefined
-                        }
-                        onInput={(e) => {
-                          e.currentTarget.value = e.currentTarget.value.replace(
-                            /[^A-Za-z]/g,
-                            "",
-                          );
-                          setErrors((p) => {
-                            const { firstName: _, ...r } = p;
-                            return r;
-                          });
-                        }}
-                        className={`min-h-[48px] w-full rounded-lg border bg-white px-3 py-2.5 font-lato text-[14px] font-normal text-[#111111] outline-none ring-1 ring-transparent placeholder:text-[#9CA3AF] focus:ring-2 sm:px-4 sm:text-[15px] ${fieldBorder("firstName")}`}
-                      />
-                      {errors.firstName ? (
-                        <p
-                          id="enquire-firstName-err"
-                          className="mt-1 font-lato text-[11px] text-red-600 sm:text-[12px]"
-                        >
-                          {errors.firstName}
-                        </p>
-                      ) : null}
-                    </div>
-                    <div className="min-w-0">
-                      <input
-                        name="lastName"
-                        type="text"
-                        autoComplete="family-name"
-                        placeholder="Last name"
-                        aria-invalid={!!errors.lastName}
-                        aria-describedby={
-                          errors.lastName ? "enquire-lastName-err" : undefined
-                        }
-                        onInput={(e) => {
-                          e.currentTarget.value = e.currentTarget.value.replace(
-                            /[^A-Za-z]/g,
-                            "",
-                          );
-                          setErrors((p) => {
-                            const { lastName: _, ...r } = p;
-                            return r;
-                          });
-                        }}
-                        className={`min-h-[48px] w-full rounded-lg border bg-white px-3 py-2.5 font-lato text-[14px] font-normal text-[#111111] outline-none ring-1 ring-transparent placeholder:text-[#9CA3AF] focus:ring-2 sm:px-4 sm:text-[15px] ${fieldBorder("lastName")}`}
-                      />
-                      {errors.lastName ? (
-                        <p
-                          id="enquire-lastName-err"
-                          className="mt-1 font-lato text-[11px] text-red-600 sm:text-[12px]"
-                        >
-                          {errors.lastName}
-                        </p>
-                      ) : null}
-                    </div>
+                  <div className="min-w-0">
+                    <input
+                      name="fullName"
+                      type="text"
+                      autoComplete="name"
+                      placeholder="Full name"
+                      aria-invalid={!!errors.fullName}
+                      aria-describedby={
+                        errors.fullName ? "enquire-fullName-err" : undefined
+                      }
+                      onInput={(e) => {
+                        e.currentTarget.value = e.currentTarget.value
+                          .replace(/[^A-Za-z ]/g, "")
+                          .replace(/\s{2,}/g, " ");
+                        setErrors((p) => {
+                          const { fullName: _, ...r } = p;
+                          return r;
+                        });
+                      }}
+                      className={`min-h-[48px] w-full rounded-lg border bg-white px-3 py-2.5 font-lato text-[14px] font-normal text-[#111111] outline-none ring-1 ring-transparent placeholder:text-[#9CA3AF] focus:ring-2 sm:px-4 sm:text-[15px] ${fieldBorder("fullName")}`}
+                    />
+                    {errors.fullName ? (
+                      <p
+                        id="enquire-fullName-err"
+                        className="mt-1 font-lato text-[11px] text-red-600 sm:text-[12px]"
+                      >
+                        {errors.fullName}
+                      </p>
+                    ) : null}
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="min-w-0">

@@ -52,7 +52,7 @@ const OFFICES = [
   {
     name: "Eternia Office",
     address:
-      "3, Plot No. GH-09, Greater Noida W Rd, Techzone 4, Amrapali Leisure Valley, Greater Noida, Uttar Pradesh 201318",
+      "81, Noida-Greater Noida Link Rd, Amrapali Dream Valley, Greater Noida, Ithaira, Uttar Pradesh 201318",
   },
 ];
 
@@ -406,18 +406,18 @@ export function ContactFormSection() {
                 </p>
                 <div className="mt-3 flex w-full flex-col space-y-4 md:mt-8 md:flex-none lg:space-y-5">
                   <div className="flex flex-wrap items-center justify-center gap-x-4 font-quattrocento text-[14px] font-normal leading-[100%] tracking-normal text-[#FFFFFF] sm:gap-x-5 justify-start">
-                    <span>Monday - Friday</span>
+                    <span>Monday to Sunday</span>
                     <span
                       className="h-[14px] w-px shrink-0 bg-[#FFFFFF]/45 sm:h-4"
                       aria-hidden
                     />
-                    <span>10:00 am - 6:30 pm</span>
+                    <span>10:00 am - 8:00 pm</span>
                   </div>
                   <a
                     href="tel:+919876543210"
                     className="inline-flex max-w-full items-center gap-[15px] font-quattrocento text-[20px] font-normal leading-[28px] tracking-normal text-[#FFFFFF] transition-opacity hover:opacity-80 md:text-[18px]"
                   >
-                    <span>+91 98765 43210</span>
+                    <span>+91 7838700316</span>
                     <i
                       className="ri-arrow-right-long-line shrink-0 text-[20px] leading-none not-italic"
                       aria-hidden
@@ -427,7 +427,7 @@ export function ContactFormSection() {
                     href="mailto:contact@sanskar.in"
                     className="inline-flex max-w-full items-center gap-[15px] font-quattrocento text-[20px] font-normal leading-[28px] tracking-normal text-[#FFFFFF] transition-opacity hover:opacity-80 md:text-[18px]"
                   >
-                    <span>contact@sanskar.in</span>
+                    <span>info@sanskarrealty.co.in</span>
                     <i
                       className="ri-arrow-right-long-line shrink-0 text-[20px] leading-none not-italic"
                       aria-hidden
