@@ -67,7 +67,7 @@ export function OverviewSection() {
           </p> */}
           <p>Sanskar Realty, a leading real estate developer in <span className="text-[#F7A51D] font-bold"> Delhi NCR </span>, dedicated to delivering quality and thoughtfully designed homes that fit modern living standards. With over 17 years of legacy, we have been crafting <span className="text-[#F7A51D] font-bold"> residential and commercial spaces </span> emphasizing trust, integrity and quality that holds lasting value and comfort.</p>
           <p>
-          Our portfolio encompasses <span className="text-[#F7A51D] font-bold"> Noida Extension</span>, <span className="text-[#F7A51D] font-bold"> Greater Noida West </span> and <span className="text-[#F7A51D] font-bold"> Ghaziabad </span> , with projects that offer prime location, world-class amenities and innovative designs. Our premium spacious <i>1 & 2 BHK apartments, studio homes,</i>  and <i>gated villas</i> are designed to enhance your lifestyle through effortless living, socializing, and health.
+          Our portfolio encompasses <span className="text-[#F7A51D] font-bold"> Noida Extension</span>, <span className="text-[#F7A51D] font-bold"> Greater Noida West </span> and <span className="text-[#F7A51D] font-bold"> Ghaziabad </span> , with projects that offer prime location, world-class amenities and innovative designs. Our premium spacious <i>3 & 4 BHK apartments, studio homes,</i>  and <i>gated villas</i> are designed to enhance your lifestyle through effortless living, socializing, and health.
           </p>
         </div>
 
