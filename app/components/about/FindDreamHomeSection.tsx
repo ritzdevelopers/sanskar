@@ -64,7 +64,7 @@ export function FindDreamHomeSection({
                 <button
                   data-scroll-reveal-pop
                   type="button"
-                  onClick={openEnquireModal}
+                  onClick={() => openEnquireModal()}
                   className={`${lato.className} group relative mx-auto mt-5 inline-flex h-11 cursor-pointer items-center overflow-hidden rounded-full border border-[#111111] bg-transparent px-5 text-[14px] font-semibold capitalize leading-[100%] tracking-normal sm:h-12 sm:pr-3 sm:pl-6 lg:mx-0`}
                 >
                   <span
