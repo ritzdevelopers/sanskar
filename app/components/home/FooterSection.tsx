@@ -183,7 +183,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
                   />
                 </span>
                 <span data-scroll-reveal className={`${lato.className} text-[15px] text-[#555555] sm:text-[16px] md:text-[18px] break-all sm:break-normal`}>
-                  info@sanskarrealty.co.in
+                info@sanskarrealty.co.in
                 </span>
               </div>
             </div>
@@ -360,7 +360,7 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
             <button
               type="button"
               data-scroll-reveal
-              onClick={openEnquireModal}
+              onClick={() => openEnquireModal()}
               className={`${quattrocento.className} cursor-pointer border-0 bg-transparent text-[18px] font-bold uppercase text-[#1A1A1A] hover:underline`}
             >
               ENQUIRE NOW
