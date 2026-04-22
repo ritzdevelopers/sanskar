@@ -168,9 +168,13 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
                     height={59}
                   />
                 </span>
-                <span data-scroll-reveal className={`${lato.className} text-[15px] text-[#555555] sm:text-[16px] md:text-[18px]`}>
+                <a
+                  data-scroll-reveal
+                  href="tel:+917838700316"
+                  className={`${lato.className} text-[15px] text-[#555555] hover:text-[#1A1A1A] sm:text-[16px] md:text-[18px]`}
+                >
                   +91 783 870 0316
-                </span>
+                </a>
               </div>
               <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:flex-row lg:justify-start">
                 <span data-scroll-reveal-pop className="inline-flex shrink-0">
@@ -182,9 +186,13 @@ export function FooterSection({ alignWithHeader = false }: FooterSectionProps = 
                     height={59}
                   />
                 </span>
-                <span data-scroll-reveal className={`${lato.className} text-[15px] text-[#555555] sm:text-[16px] md:text-[18px] break-all sm:break-normal`}>
-                info@sanskarrealty.co.in
-                </span>
+                <a
+                  data-scroll-reveal
+                  href="mailto:info@sanskarrealty.co.in"
+                  className={`${lato.className} text-[15px] text-[#555555] hover:text-[#1A1A1A] sm:text-[16px] md:text-[18px] break-all sm:break-normal`}
+                >
+                  info@sanskarrealty.co.in
+                </a>
               </div>
             </div>
           </div>

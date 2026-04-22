@@ -414,7 +414,7 @@ export function ContactFormSection() {
                     <span>10:00 am - 8:00 pm</span>
                   </div>
                   <a
-                    href="tel:+919876543210"
+                    href="tel:+917838700316"
                     className="inline-flex max-w-full items-center gap-[15px] font-quattrocento text-[20px] font-normal leading-[28px] tracking-normal text-[#FFFFFF] transition-opacity hover:opacity-80 md:text-[18px]"
                   >
                     <span>+91 7838700316</span>
@@ -424,7 +424,7 @@ export function ContactFormSection() {
                     />
                   </a>
                   <a
-                    href="mailto:contact@sanskar.in"
+                    href="mailto:info@sanskarrealty.co.in"
                     className="inline-flex max-w-full items-center gap-[15px] font-quattrocento text-[20px] font-normal leading-[28px] tracking-normal text-[#FFFFFF] transition-opacity hover:opacity-80 md:text-[18px]"
                   >
                     <span>info@sanskarrealty.co.in</span>
