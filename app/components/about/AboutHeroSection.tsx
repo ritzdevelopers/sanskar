@@ -65,7 +65,7 @@ export function AboutHeroSection() {
               }`}
             >
               <div className="flex min-w-0 shrink cursor-pointer items-center py-0.5" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                <Link href="/" target="_blank" rel="noopener noreferrer">
+                <Link href="/" >
                   <Image
                     src="/assets/sanskar_logo.png"
                     alt="Sanskar Realty logo"

@@ -38,8 +38,7 @@ export function NriCornerHeader() {
             >
               <Link
                 href="/"
-                target="_blank"
-                rel="noopener noreferrer"
+                
                 title="Sanskar Realty — Home"
                 className="flex min-w-0 shrink cursor-pointer items-center py-0.5"
               >
