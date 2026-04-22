@@ -15,6 +15,7 @@ const PROJECTS = [
     image: "/assets/eternia.jpg",
     imageAlt: "Eternia residences",
     url: "https://eternia.greatvaluerealty.com/",
+    brochure: "/assets/Eternia-brochure.pdf",
   },
   {
     id: "highlife",
@@ -26,6 +27,7 @@ const PROJECTS = [
     image: "/assets/highlife.jpg",
     imageAlt: "HighLife residences",
     url: "https://highlife.greatvaluerealty.com/",
+    brochure: "/assets/Highlife-brochure.pdf",
   },
   {
     id: "forest-walk",
@@ -37,6 +39,7 @@ const PROJECTS = [
     image: "/assets/projectforestwalk.png",
     imageAlt: "Forest Walk",
     url: "https://theforestwalk.com/",
+    brochure: "/assets/forest-brochure.pdf",
   },
 ];
 
@@ -49,6 +52,7 @@ function ProjectRow({
   videoEmbedUrl,
   videoSrc,
   url,
+  brochure,
 }) {
   const sectionRef = useRef(null);
   useScrollReveal(sectionRef);
@@ -132,8 +136,9 @@ function ProjectRow({
                 </li>
               </ul>
             ) : null}
-            <button
-              type="button"
+            <a
+              href={brochure}
+              download
               data-scroll-reveal
               className="group relative mx-auto mt-3 inline-flex h-11 cursor-pointer items-center overflow-hidden rounded-full border border-[#111111] bg-transparent px-5 text-[14px] font-semibold capitalize leading-[100%] tracking-normal sm:mt-6 sm:h-12 sm:pr-3 sm:pl-6 md:mx-0"
             >
@@ -155,7 +160,7 @@ function ProjectRow({
                   />
                 </span>
               </span>
-            </button>
+            </a>
           </div>
 
           <div
@@ -218,6 +223,7 @@ export function ProjectSection() {
           videoEmbedUrl={p.videoEmbedUrl}
           videoSrc={p.videoSrc}
           url={p.url}
+          brochure={p.brochure}
         />
       ))}
     </>
