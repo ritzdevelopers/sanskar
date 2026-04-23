@@ -6,7 +6,7 @@ import Image from "next/image";
 import { API_BASE } from "../../dashboard/lib";
 import { useScrollReveal } from "../common/useScrollReveal";
 
-const BROCHURE_LEAD_URL = `${API_BASE}/api/users/download-brachure-data`;
+const BROCHURE_LEAD_URL = `${API_BASE}/api/users/brachure`;
 
 const FOURQT_WEB_CREATE_URL = "https://eternia04.4erealty.com/WebCreate.aspx";
 const FOURQT_UID = "fourqt";
