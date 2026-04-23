@@ -142,7 +142,7 @@ const PROJECTS = [
     image: "/assets/eternia.jpg",
     imageAlt: "Eternia residences",
     url: "https://eternia.greatvaluerealty.com/",
-    brochure: "/assets/Eternia-brochure.pdf",
+    brochure: "/assets/Eternia-brachoure.pdf",
   },
   {
     id: "highlife",
@@ -154,7 +154,7 @@ const PROJECTS = [
     image: "/assets/highlife.jpg",
     imageAlt: "HighLife residences",
     url: "https://highlife.greatvaluerealty.com/",
-    brochure: "/assets/Highlife-brochure.pdf",
+    brochure: "/assets/Highlife-brachoure.pdf",
   },
   {
     id: "forest-walk",
@@ -166,7 +166,7 @@ const PROJECTS = [
     image: "/assets/projectforestwalk.png",
     imageAlt: "Forest Walk",
     url: "https://theforestwalk.com/",
-    brochure: "/assets/forest-brochure.pdf",
+    brochure: "/assets/FOREST-WALK.pdf",
   },
 ];
 
