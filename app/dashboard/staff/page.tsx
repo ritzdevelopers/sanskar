@@ -158,6 +158,7 @@ export default function StaffDashboardPage() {
     | "staff"
     | "footer"
     | "blog"
+    | "brochure"
   >("dashboard");
 
   const [enquiryRows, setEnquiryRows] = useState<Row[]>([]);
@@ -166,6 +167,7 @@ export default function StaffDashboardPage() {
   const [nriRows, setNriRows] = useState<Row[]>([]);
   const [staffRows, setStaffRows] = useState<Row[]>([]);
   const [footerRows, setFooterRows] = useState<Row[]>([]);
+  const [brochureRows, setBrochureRows] = useState<Row[]>([]);
   const [blogRows, setBlogRows] = useState<Row[]>([]);
   const [addBlogOpen, setAddBlogOpen] = useState(false);
   const [blogSubmitting, setBlogSubmitting] = useState(false);
@@ -228,6 +230,7 @@ export default function StaffDashboardPage() {
   const [nriPage, setNriPage] = useState(1);
   const [staffPage, setStaffPage] = useState(1);
   const [footerPage, setFooterPage] = useState(1);
+  const [brochurePage, setBrochurePage] = useState(1);
   const [blogPage, setBlogPage] = useState(1);
 
   const [enquiryPg, setEnquiryPg] = useState<PaginationMeta>(defaultPagination);
@@ -236,6 +239,7 @@ export default function StaffDashboardPage() {
   const [nriPg, setNriPg] = useState<PaginationMeta>(defaultPagination);
   const [staffPg, setStaffPg] = useState<PaginationMeta>(defaultPagination);
   const [footerPg, setFooterPg] = useState<PaginationMeta>(defaultPagination);
+  const [brochurePg, setBrochurePg] = useState<PaginationMeta>(defaultPagination);
   const [blogPg, setBlogPg] = useState<PaginationMeta>(defaultPagination);
 
   const [listsLoading, setListsLoading] = useState(false);
@@ -293,10 +297,12 @@ export default function StaffDashboardPage() {
         return footerPg;
       case "blog":
         return blogPg;
+      case "brochure":
+        return brochurePg;
       default:
         return defaultPagination;
     }
-  }, [activeTab, enquiryPg, contactPg, careerPg, nriPg, staffPg, footerPg, blogPg]);
+  }, [activeTab, enquiryPg, contactPg, careerPg, nriPg, staffPg, footerPg, blogPg, brochurePg]);
   let currentAngle = 0;
   const pieColors = [
     "#4f46e5",
@@ -364,7 +370,7 @@ export default function StaffDashboardPage() {
         const makeUrl = (path: string, page: number) =>
           `${API_BASE}${path}?page=${page}&limit=${LIST_LIMIT}`;
 
-        const [enqRes, conRes, carRes, nriRes, stfRes, footRes, blogRes] =
+        const [enqRes, conRes, carRes, nriRes, stfRes, footRes, blogRes, brRes] =
           await Promise.all([
           fetch(makeUrl("/api/users/get-all-users", enquiryPage), {
             credentials: "include",
@@ -387,9 +393,13 @@ export default function StaffDashboardPage() {
           fetch(makeUrl("/api/users/get-blog-data", blogPage), {
             credentials: "include",
           }),
+          fetch(makeUrl("/api/users/get-project-dropdown-brachure-data", brochurePage), {
+            credentials: "include",
+          }),
         ]);
 
-        const [enqData, conData, carData, nriData, stfData, footData, blogData] = await Promise.all([
+        const [enqData, conData, carData, nriData, stfData, footData, blogData, brData] =
+          await Promise.all([
           parseJson(enqRes),
           parseJson(conRes),
           parseJson(carRes),
@@ -397,6 +407,7 @@ export default function StaffDashboardPage() {
           parseJson(stfRes),
           parseJson(footRes),
           parseJson(blogRes),
+          parseJson(brRes),
         ]);
 
         const allOk =
@@ -406,7 +417,8 @@ export default function StaffDashboardPage() {
           nriRes.ok &&
           stfRes.ok &&
           footRes.ok &&
-          blogRes.ok;
+          blogRes.ok &&
+          brRes.ok;
         if (!allOk) {
           const msg =
             String(
@@ -417,6 +429,7 @@ export default function StaffDashboardPage() {
                 stfData.message ||
                 footData.message ||
                 blogData.message ||
+                brData.message ||
                 "Unable to fetch dashboard data",
             ) || "Unable to fetch dashboard data";
           throw new Error(msg);
@@ -429,6 +442,7 @@ export default function StaffDashboardPage() {
         setStaffRows(asList(stfData));
         setFooterRows(asList(footData));
         setBlogRows(asList(blogData));
+        setBrochureRows(asList(brData));
 
         setEnquiryPg(asPagination(enqData));
         setContactPg(asPagination(conData));
@@ -437,6 +451,7 @@ export default function StaffDashboardPage() {
         setStaffPg(asPagination(stfData));
         setFooterPg(asPagination(footData));
         setBlogPg(asPagination(blogData));
+        setBrochurePg(asPagination(brData));
       } catch (err) {
         if (!mounted) return;
         setListsError(err instanceof Error ? err.message : "Failed to load data");
@@ -458,6 +473,7 @@ export default function StaffDashboardPage() {
     staffPage,
     footerPage,
     blogPage,
+    brochurePage,
     refreshTick,
   ]);
 
@@ -760,6 +776,7 @@ export default function StaffDashboardPage() {
                       { id: "dashboard", label: "Dashboard" },
                       { id: "blog", label: "Blog" },
                       { id: "staff", label: "Staff" },
+                      { id: "brochure", label: "Download Brochure" },
                     ]
                   : [
                       { id: "dashboard", label: "Dashboard" },
@@ -770,6 +787,7 @@ export default function StaffDashboardPage() {
                       { id: "nri", label: "NRI" },
                       { id: "staff", label: "Staff" },
                       { id: "footer", label: "Footer Enquire" },
+                      { id: "brochure", label: "Download Brochure" },
                     ]),
               ].map((t) => {
                 const isActive = activeTab === t.id;
@@ -788,7 +806,8 @@ export default function StaffDashboardPage() {
                           | "nri"
                           | "blog"
                           | "staff"
-                          | "footer",
+                          | "footer"
+                          | "brochure",
                       );
                       if (typeof window !== "undefined") {
                         const mq = window.matchMedia("(max-width: 1023px)");
@@ -1092,6 +1111,33 @@ export default function StaffDashboardPage() {
                     </div>
                   ) : null}
 
+                  {!listsLoading && activeTab === "brochure" ? (
+                    <div className="overflow-x-auto rounded-xl border border-zinc-200">
+                      <table className="min-w-full text-left text-[17px]">
+                        <thead className="bg-zinc-100 text-zinc-700">
+                          <tr>
+                            <th className="px-3 py-2">Name</th>
+                            <th className="px-3 py-2">Email</th>
+                            <th className="px-3 py-2">Mobile</th>
+                            <th className="px-3 py-2">Project</th>
+                            <th className="px-3 py-2">Submitted At</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {brochureRows.map((r, i) => (
+                            <tr key={String(r._id || i)} className="border-t">
+                              <td className="px-3 py-2">{String(r.name || "-")}</td>
+                              <td className="px-3 py-2">{String(r.email || "-")}</td>
+                              <td className="px-3 py-2">{String(r.mobile || "-")}</td>
+                              <td className="px-3 py-2">{String(r.project || "-")}</td>
+                              <td className="px-3 py-2">{fmtDate(r.createdAt)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : null}
+
                   {!listsLoading && activeTab === "career" ? (
                     <div className="overflow-x-auto rounded-xl border border-zinc-200">
                       <table className="min-w-full text-left text-[17px]">
@@ -1101,6 +1147,7 @@ export default function StaffDashboardPage() {
                             <th className="px-3 py-2">Email</th>
                             <th className="px-3 py-2">Mobile</th>
                             <th className="px-3 py-2">Designation</th>
+                            <th className="min-w-[200px] max-w-[320px] px-3 py-2">Message</th>
                             <th className="px-3 py-2">Resume</th>
                             <th className="px-3 py-2">Submitted At</th>
                           </tr>
@@ -1112,6 +1159,16 @@ export default function StaffDashboardPage() {
                               <td className="px-3 py-2">{String(r.email || "-")}</td>
                               <td className="px-3 py-2">{String(r.mobile || "-")}</td>
                               <td className="px-3 py-2">{String(r.designation || "-")}</td>
+                              <td className="min-w-[200px] max-w-[320px] px-3 py-2 align-top text-xs">
+                                <span
+                                  className="line-clamp-4 whitespace-pre-wrap break-words"
+                                  title={String(r.message || "")}
+                                >
+                                  {r.message && String(r.message).trim()
+                                    ? String(r.message)
+                                    : "-"}
+                                </span>
+                              </td>
                               <td className="px-3 py-2">
                                 <div className="flex flex-wrap items-center gap-2">
                                   <span className="max-w-[200px] truncate">
@@ -1359,6 +1416,8 @@ export default function StaffDashboardPage() {
                             setFooterPage((p) => p - 1);
                           if (activeTab === "blog" && blogPg.hasPrevPage)
                             setBlogPage((p) => p - 1);
+                          if (activeTab === "brochure" && brochurePg.hasPrevPage)
+                            setBrochurePage((p) => p - 1);
                         }}
                         className={`rounded-lg border border-zinc-300 px-3 py-1.5 text-sm ${
                           activeListPagination.hasPrevPage
@@ -1386,6 +1445,8 @@ export default function StaffDashboardPage() {
                             setFooterPage((p) => p + 1);
                           if (activeTab === "blog" && blogPg.hasNextPage)
                             setBlogPage((p) => p + 1);
+                          if (activeTab === "brochure" && brochurePg.hasNextPage)
+                            setBrochurePage((p) => p + 1);
                         }}
                         className={`rounded-lg border border-zinc-300 px-3 py-1.5 text-sm ${
                           activeListPagination.hasNextPage
