@@ -6,10 +6,6 @@ export const API_BASE =
 // export const API_BASE = "http://localhost:3001";
 
 
-
-
-
-
 /** Strip HTML tags for excerpts, previews, and meta text (blog body is HTML). */
 export function stripHtmlToPlainText(html: unknown): string {
   let s = String(html ?? "");
