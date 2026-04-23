@@ -8,6 +8,10 @@ import { useScrollReveal } from "../common/useScrollReveal";
 
 const BROCHURE_LEAD_URL = `${API_BASE}/api/users/send-project-dropdown-brachure-data`;
 
+const FOURQT_WEB_CREATE_URL = "https://eternia04.4erealty.com/WebCreate.aspx";
+const FOURQT_UID = "fourqt";
+const FOURQT_PWD = "wn9mxO76f34=";
+
 const ENQUIRE_EMAIL_REGEX =
   /^(?!\d)[A-Za-z][A-Za-z0-9._%+-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}$/;
 
@@ -64,9 +68,7 @@ function brochureFieldClass(hasError) {
     : "border-[#111111]/20 focus:border-[#111111] focus:ring-2 ring-[#111111]";
 }
 
-const FOURQT_WEB_CREATE_URL = "https://eternia04.4erealty.com/WebCreate.aspx";
-const FOURQT_UID = "fourqt";
-const FOURQT_PWD = "wn9mxO76f34=";
+
 
 function brochureLeadUrlHostPath(href) {
   try {
