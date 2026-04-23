@@ -480,7 +480,7 @@ export default function SuperAdminHomePage() {
         limit: String(limit),
       });
       const res = await fetch(
-        `${API_BASE}/api/users/get-project-dropdown-brachure-data?${query.toString()}`,
+        `${API_BASE}/api/users/dropdown-brachure-data?${query.toString()}`,
         {
           credentials: "include",
         },

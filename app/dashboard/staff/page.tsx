@@ -393,7 +393,7 @@ export default function StaffDashboardPage() {
           fetch(makeUrl("/api/users/get-blog-data", blogPage), {
             credentials: "include",
           }),
-          fetch(makeUrl("/api/users/get-project-dropdown-brachure-data", brochurePage), {
+          fetch(makeUrl("/api/users/dropdown-brachure-data", brochurePage), {
             credentials: "include",
           }),
         ]);
