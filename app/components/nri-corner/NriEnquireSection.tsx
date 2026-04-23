@@ -3,9 +3,14 @@
 import Image from "next/image";
 import { type FormEvent, useCallback, useRef, useState } from "react";
 import { Lato, Quattrocento } from "next/font/google";
+import { usePathname } from "next/navigation";
 import { useScrollReveal } from "../common/useScrollReveal";
 
 const ENQUIRE_API_PATH = "/api/enquire";
+
+const FOURQT_WEB_CREATE_URL = "https://eternia04.4erealty.com/WebCreate.aspx";
+const FOURQT_UID = "fourqt";
+const FOURQT_PWD = "wn9mxO76f34=";
 
 const quattrocento = Quattrocento({
   subsets: ["latin"],
@@ -27,16 +32,121 @@ type FieldName = "name" | "email" | "phone" | "message";
 
 type FormErrors = Partial<Record<FieldName, string>>;
 
-function digitsOnly(phone: string) {
-  return phone.replace(/\D/g, "");
+const EMAIL_REGEX =
+  /^(?!\d)[A-Za-z][A-Za-z0-9._%+-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}$/;
+
+function isStrictEmail(email: string) {
+  const t = email.trim();
+  if (!EMAIL_REGEX.test(t)) return false;
+  if (t.includes("..")) return false;
+  return true;
 }
 
-/** Basic email check; avoids the worst false negatives for real users. */
-function isValidEmail(email: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email.trim());
+function normalizeIndianMobileDigits(value: string) {
+  let d = value.replace(/\D/g, "");
+  if (d.length === 12 && d.startsWith("91")) d = d.slice(2);
+  if (d.length === 11 && d.startsWith("0")) d = d.slice(1);
+  return d;
+}
+
+function hasDigitRepeatedMoreThanFive(value: string) {
+  const digitCounts = [...value].reduce<Record<string, number>>((acc, d) => {
+    acc[d] = (acc[d] || 0) + 1;
+    return acc;
+  }, {});
+  return Object.values(digitCounts).some((count) => count > 5);
+}
+
+/** Same as contact/career: trim, spaces, strip digits, 2–120 chars. */
+function normalizeNriName(name: string) {
+  return name
+    .trim()
+    .replace(/\s+/g, " ")
+    .replace(/\d/g, "");
 }
 
 const FIELD_ORDER: FieldName[] = ["name", "email", "phone", "message"];
+
+function fourQtUrlHostPath(href: string) {
+  try {
+    const u = new URL(href);
+    return `${u.host}${u.pathname}`;
+  } catch {
+    return "";
+  }
+}
+
+function crmPageLocationLabel(pathname: string) {
+  const raw = pathname && pathname !== "/" ? pathname.replace(/\/+$/, "") : "/";
+  const segments = raw.split("/").filter(Boolean);
+  const first = (segments[0] ?? "").toLowerCase();
+  const bySlug: Record<string, string> = {
+    "contact-us": "Contact Us",
+    carrer: "Career",
+    career: "Career",
+    projects: "Projects",
+    "about-us": "About Us",
+    nri: "NRI",
+    "nri-corner": "NRI Corner",
+    blog: "Blog",
+  };
+  const title =
+    bySlug[first] ??
+    (first
+      ? first
+          .split("-")
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+          .join(" ")
+      : "Home");
+  const pathPart = raw === "/" ? "/" : raw;
+  return `${title} — ${pathPart}`;
+}
+
+async function submitNriLeadToFourQt(payload: {
+  fullName: string;
+  email: string;
+  mobile: string;
+  pathname: string;
+  message: string;
+}) {
+  const href = typeof window !== "undefined" ? window.location.href : "";
+  const qs =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search)
+      : new URLSearchParams();
+  const pageLoc = crmPageLocationLabel(payload.pathname || "/");
+  const msgShort =
+    payload.message.length > 280
+      ? `${payload.message.slice(0, 280)}…`
+      : payload.message;
+  const requestParams = new URLSearchParams({
+    UID: FOURQT_UID,
+    PWD: FOURQT_PWD,
+    Channel: "MS",
+    Src: "Website",
+    ISD: "91",
+    Mob: payload.mobile,
+    Email: payload.email,
+    name: payload.fullName,
+    City: "",
+    Location: pageLoc,
+    Project: "",
+    Remark: `NRI enquiry — ${pageLoc}. ${msgShort}`,
+    url: fourQtUrlHostPath(href),
+    UniqueId: String(Date.now()),
+    fld1: qs.get("utm_source") ?? "",
+    fld2: qs.get("utm_campaign") ?? "",
+    fld3: qs.get("utm_medium") ?? "",
+    fld4: qs.get("utm_keyword") ?? qs.get("utm_term") ?? "",
+  });
+  const leadRes = await fetch(
+    `${FOURQT_WEB_CREATE_URL}?${requestParams.toString()}`,
+    { method: "GET", cache: "no-store" },
+  );
+  if (!leadRes.ok) {
+    throw new Error(`4QT lead API failed (${leadRes.status}).`);
+  }
+}
 
 function fieldError(
   field: FieldName,
@@ -44,22 +154,25 @@ function fieldError(
 ): string | undefined {
   switch (field) {
     case "name": {
-      const name = values.name.trim();
+      const name = normalizeNriName(values.name);
       if (!name) return "Please enter your name.";
-      if (name.length < 2) return "Name must be at least 2 characters.";
+      if (name.length < 2 || name.length > 120)
+        return "Please enter your name (2–120 characters).";
       return;
     }
     case "email": {
       const email = values.email.trim();
       if (!email) return "Please enter your email.";
-      if (!isValidEmail(email)) return "Please enter a valid email address.";
+      if (!isStrictEmail(email)) return "Please enter a valid email address.";
       return;
     }
     case "phone": {
-      const phoneDigits = digitsOnly(values.phone);
-      if (!phoneDigits) return "Please enter your phone number.";
-      if (phoneDigits.length < 10 || phoneDigits.length > 15)
-        return "Enter a valid number (10–15 digits).";
+      const phoneDigits = normalizeIndianMobileDigits(values.phone);
+      if (!phoneDigits) return "Mobile number is required.";
+      if (hasDigitRepeatedMoreThanFive(phoneDigits))
+        return "Any single digit cannot repeat more than 5 times.";
+      if (!/^[6-9]\d{9}$/.test(phoneDigits))
+        return "Enter a valid 10-digit Indian mobile (e.g. 9876543210).";
       return;
     }
     case "message": {
@@ -83,6 +196,7 @@ function validateForm(values: Record<FieldName, string>): FormErrors {
 }
 
 export function NriEnquireSection() {
+  const pathname = usePathname() || "/";
   const sectionRef = useRef<HTMLElement>(null);
   useScrollReveal(sectionRef);
 
@@ -91,10 +205,10 @@ export function NriEnquireSection() {
     email: "",
     phone: "",
     message: "",
-    
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const clearFieldError = useCallback((field: FieldName) => {
@@ -110,6 +224,7 @@ export function NriEnquireSection() {
     setValues((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) clearFieldError(field);
     if (submitSuccess) setSubmitSuccess(false);
+    if (submitError) setSubmitError("");
   };
 
   const onFieldBlur = (field: FieldName) => {
@@ -125,6 +240,7 @@ export function NriEnquireSection() {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitSuccess(false);
+    setSubmitError("");
     const nextErrors = validateForm(values);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
@@ -136,15 +252,20 @@ export function NriEnquireSection() {
     }
 
     setIsSubmitting(true);
+    const fullName = normalizeNriName(values.name);
+    const email = values.email.trim();
+    const mobile = normalizeIndianMobileDigits(values.phone);
+    const message = values.message.trim();
+
     try {
       const payload = {
         formType: "NRI Enquire",
-        fullName: values.name.trim(),
-        email: values.email.trim(),
-        mobile: digitsOnly(values.phone),
-        message: values.message.trim(),
-        details: values.message.trim(),
-        notes: values.message.trim(),
+        fullName,
+        email,
+        mobile,
+        message,
+        details: message,
+        notes: message,
       };
 
       const res = await fetch(ENQUIRE_API_PATH, {
@@ -191,11 +312,35 @@ export function NriEnquireSection() {
         throw new Error("Apps Script: add doGet + doPost and redeploy Web app.");
       }
 
+      try {
+        await submitNriLeadToFourQt({
+          fullName,
+          email,
+          mobile,
+          pathname,
+          message,
+        });
+      } catch (err) {
+        const detail =
+          err instanceof Error ? err.message.trim() : String(err);
+        setSubmitError(
+          detail.length > 0
+            ? `Saved, but CRM sync failed: ${detail.length > 200 ? `${detail.slice(0, 200)}…` : detail}`
+            : "Saved, but CRM sync failed. Please try again later.",
+        );
+        return;
+      }
+
       setSubmitSuccess(true);
       setValues({ name: "", email: "", phone: "", message: "" });
       setErrors({});
-    } catch {
+    } catch (err) {
       setSubmitSuccess(false);
+      const raw = err instanceof Error ? err.message.trim() : String(err);
+      const detail = raw.length > 280 ? `${raw.slice(0, 280)}…` : raw;
+      setSubmitError(
+        detail ? `Could not submit. ${detail}` : "Could not submit. Please try again.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -250,6 +395,14 @@ export function NriEnquireSection() {
                   soon.
                 </p>
               ) : null}
+              {submitError ? (
+                <p
+                  className={`${lato.className} m-0 text-[14px] font-normal leading-normal text-red-400`}
+                  role="alert"
+                >
+                  {submitError}
+                </p>
+              ) : null}
               <div className="flex w-full flex-col text-left">
                 <label htmlFor="nri-enquire-name" className="sr-only">
                   Enter Your Name
@@ -261,7 +414,13 @@ export function NriEnquireSection() {
                   autoComplete="name"
                   placeholder="Enter Your Name"
                   value={values.name}
-                  onChange={(e) => onFieldChange("name", e.target.value)}
+                  onChange={(e) => {
+                    let v = e.target.value
+                      .replace(/\d/g, "")
+                      .replace(/\s{2,}/g, " ");
+                    if (v.length > 120) v = v.slice(0, 120);
+                    onFieldChange("name", v);
+                  }}
                   onBlur={() => onFieldBlur("name")}
                   aria-invalid={errors.name ? true : undefined}
                   aria-describedby={errors.name ? "nri-enquire-name-err" : undefined}
@@ -317,11 +476,16 @@ export function NriEnquireSection() {
                   inputMode="tel"
                   placeholder="Enter Your Phone Number"
                   value={values.phone}
-                  onChange={(e) => onFieldChange("phone", e.target.value)}
+                  onChange={(e) =>
+                    onFieldChange(
+                      "phone",
+                      normalizeIndianMobileDigits(e.target.value).slice(0, 10),
+                    )
+                  }
                   onBlur={() => onFieldBlur("phone")}
                   aria-invalid={errors.phone ? true : undefined}
                   aria-describedby={errors.phone ? "nri-enquire-phone-err" : undefined}
-                  maxLength={22}
+                  maxLength={10}
                   className={`${inputClass} ${errors.phone ? errorBorder : ""}`}
                 />
                 {errors.phone ? (

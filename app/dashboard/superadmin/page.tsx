@@ -103,7 +103,8 @@ type DataSection =
   | "nri"
   | "blog"
   | "footer"
-  | "careerpost";
+  | "careerpost"
+  | "brochure";
 
 type EnquiryRow = {
   _id?: string;
@@ -129,6 +130,7 @@ type CareerRow = {
   email?: string;
   mobile?: string;
   designation?: string;
+  message?: string;
   resume?: string;
   createdAt?: string;
 };
@@ -161,6 +163,15 @@ type CareerPostRow = {
   _id?: string;
   profile?: string;
   description?: string;
+  createdAt?: string;
+};
+
+type BrochureRow = {
+  _id?: string;
+  name?: string;
+  email?: string;
+  mobile?: string;
+  project?: string;
   createdAt?: string;
 };
 
@@ -216,6 +227,13 @@ export default function SuperAdminHomePage() {
     null,
   );
   contactPageRef.current = contactPage;
+  const [brochureData, setBrochureData] = useState<BrochureRow[] | null>(null);
+  const [brochurePage, setBrochurePage] = useState(1);
+  const brochurePageRef = useRef(brochurePage);
+  const [brochurePagination, setBrochurePagination] = useState<PaginationInfo | null>(
+    null,
+  );
+  brochurePageRef.current = brochurePage;
   const [careerData, setCareerData] = useState<CareerRow[] | null>(null);
   const [careerPage, setCareerPage] = useState(1);
   const careerPageRef = useRef(careerPage);
@@ -278,6 +296,7 @@ export default function SuperAdminHomePage() {
     { key: "careerpost", label: "Carrer Data Post" },
     { key: "blog", label: "Blog" },
     { key: "footer", label: "Footer Enquire" },
+    { key: "brochure", label: "Download Brochure" },
   ];
 
   const loadStaff = useCallback(async (targetPage = page) => {
@@ -446,6 +465,42 @@ export default function SuperAdminHomePage() {
       setErr(e instanceof Error ? e.message : "Error");
       setContactData(null);
       setContactPagination(null);
+    } finally {
+      setLoading(false);
+    }
+  }, [limit]);
+
+  const loadBrochureData = useCallback(async (targetPage?: number) => {
+    const pageToFetch = targetPage ?? brochurePageRef.current;
+    setErr(null);
+    setLoading(true);
+    try {
+      const query = new URLSearchParams({
+        page: String(pageToFetch),
+        limit: String(limit),
+      });
+      const res = await fetch(
+        `${API_BASE}/api/users/get-project-dropdown-brachure-data?${query.toString()}`,
+        {
+          credentials: "include",
+        },
+      );
+      const data = await parseJson(res);
+      if (!res.ok) {
+        throw new Error(String(data.message || "Failed to fetch brochure data"));
+      }
+      const list = data.data;
+      setBrochureData(Array.isArray(list) ? (list as BrochureRow[]) : []);
+      if (data.pagination && typeof data.pagination === "object") {
+        setBrochurePagination(data.pagination as PaginationInfo);
+      } else {
+        setBrochurePagination(null);
+      }
+      setBrochurePage(pageToFetch);
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Error");
+      setBrochureData(null);
+      setBrochurePagination(null);
     } finally {
       setLoading(false);
     }
@@ -759,9 +814,14 @@ export default function SuperAdminHomePage() {
       await loadFooterEmailData();
       return;
     }
+    if (section === "brochure") {
+      await loadBrochureData();
+      return;
+    }
   }, [
     activeSection,
     loadBlogData,
+    loadBrochureData,
     loadCareerData,
     loadContactData,
     loadEnquiryData,
@@ -1167,8 +1227,8 @@ export default function SuperAdminHomePage() {
                 Select a section from the left sidebar
               </h3>
               <p className="mt-2 text-sm text-amber-900/80">
-                Use the full-screen menu to open Staff, Enquiry, Contact, Career, NRI, Blog, or
-                Footer Enquire data.
+                Use the full-screen menu to open Staff, Enquiry, Contact, Career, NRI, Blog,
+                Footer Enquire, or Download Brochure data.
               </p>
             </div>
           ) : (
@@ -1485,6 +1545,77 @@ export default function SuperAdminHomePage() {
             </div>
           ) : null}
 
+          {activeSection === "brochure" &&
+          !loading &&
+          brochurePagination &&
+          brochurePagination.totalItems === 0 ? (
+            <p className="text-sm font-medium text-amber-900/80">
+              No brochure download submissions found.
+            </p>
+          ) : null}
+          {activeSection === "brochure" &&
+          !loading &&
+          brochureData &&
+          brochureData.length > 0 ? (
+            <div>
+              <div className="overflow-x-auto rounded-xl border border-amber-300/80 bg-white/95 shadow-inner">
+                <table className="w-full min-w-[720px] text-left text-sm">
+                  <thead className="border-b border-amber-200 bg-amber-100/90 text-amber-950">
+                    <tr>
+                      <th className="px-3 py-2 font-semibold">Name</th>
+                      <th className="px-3 py-2 font-semibold">Email</th>
+                      <th className="px-3 py-2 font-semibold">Mobile</th>
+                      <th className="px-3 py-2 font-semibold">Project</th>
+                      <th className="px-3 py-2 font-semibold">Submitted At</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {brochureData.map((row) => (
+                      <tr
+                        key={String(row._id ?? row.email)}
+                        className="border-b border-amber-100/80 last:border-0"
+                      >
+                        <td className="px-3 py-2 font-medium text-zinc-900">{row.name ?? "—"}</td>
+                        <td className="px-3 py-2 text-zinc-800">{row.email ?? "—"}</td>
+                        <td className="px-3 py-2 text-zinc-800">{row.mobile ?? "—"}</td>
+                        <td className="px-3 py-2 text-zinc-800">{row.project ?? "—"}</td>
+                        <td className="min-w-[200px] px-3 py-2 text-xs text-zinc-600">
+                          {formatSubmittedAtDisplay(row)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {brochurePagination ? (
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-300/70 bg-white/70 px-3 py-2 text-sm text-amber-950">
+                  <p className="text-xs font-medium">
+                    Page {brochurePagination.page} of {brochurePagination.totalPages} · Total{" "}
+                    {brochurePagination.totalItems}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      disabled={!brochurePagination.hasPrevPage || loading}
+                      onClick={() => void loadBrochureData(brochurePage - 1)}
+                      className="cursor-pointer rounded-md border border-amber-300 bg-white px-3 py-1.5 text-xs font-semibold hover:bg-amber-50 disabled:opacity-50"
+                    >
+                      Previous
+                    </button>
+                    <button
+                      type="button"
+                      disabled={!brochurePagination.hasNextPage || loading}
+                      onClick={() => void loadBrochureData(brochurePage + 1)}
+                      className="cursor-pointer rounded-md border border-amber-300 bg-white px-3 py-1.5 text-xs font-semibold hover:bg-amber-50 disabled:opacity-50"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+
           {activeSection === "career" &&
           !loading &&
           careerPagination &&
@@ -1499,13 +1630,14 @@ export default function SuperAdminHomePage() {
           careerData.length > 0 ? (
             <div>
               <div className="overflow-x-auto rounded-xl border border-amber-300/80 bg-white/95 shadow-inner">
-                <table className="w-full min-w-[960px] text-left text-sm">
+                <table className="w-full min-w-[1100px] text-left text-sm">
                   <thead className="border-b border-amber-200 bg-amber-100/90 text-amber-950">
                     <tr>
                       <th className="px-3 py-2 font-semibold">Name</th>
                       <th className="px-3 py-2 font-semibold">Email</th>
                       <th className="px-3 py-2 font-semibold">Mobile</th>
                       <th className="px-3 py-2 font-semibold">Designation</th>
+                      <th className="min-w-[200px] max-w-[320px] px-3 py-2 font-semibold">Message</th>
                       <th className="px-3 py-2 font-semibold">Resume</th>
                       <th className="px-3 py-2 font-semibold">Submitted At</th>
                     </tr>
@@ -1520,6 +1652,11 @@ export default function SuperAdminHomePage() {
                         <td className="px-3 py-2 text-zinc-800">{row.email ?? "—"}</td>
                         <td className="px-3 py-2 text-zinc-800">{row.mobile ?? "—"}</td>
                         <td className="px-3 py-2 text-zinc-800">{row.designation ?? "—"}</td>
+                        <td className="min-w-[200px] max-w-[320px] px-3 py-2 align-top text-xs text-zinc-800">
+                          <span className="line-clamp-4 whitespace-pre-wrap break-words" title={row.message}>
+                            {row.message?.trim() ? row.message : "—"}
+                          </span>
+                        </td>
                         <td className="max-w-[280px] px-3 py-2 text-zinc-800">
                           <div className="flex items-center gap-2">
                             <span className="min-w-0 truncate">{row.resume ?? "—"}</span>

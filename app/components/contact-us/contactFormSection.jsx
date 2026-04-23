@@ -2,12 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NavOverlay } from "../common/NavOverlay";
 import { scrollAboutUsToTopIfSamePage } from "../common/aboutNavigation";
 import { API_BASE } from "../../dashboard/lib";
 
 const CONTACT_US_API_URL = `${API_BASE}/api/users/contact-us-page`;
+
+const FOURQT_WEB_CREATE_URL = "https://eternia04.4erealty.com/WebCreate.aspx";
+const FOURQT_UID = "fourqt";
+const FOURQT_PWD = "wn9mxO76f34=";
 const CONTACT_EMAIL_REGEX =
   /^(?!\d)[A-Za-z][A-Za-z0-9._%+-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}$/;
 
@@ -16,9 +21,9 @@ function isStrictEmail(value) {
   return CONTACT_EMAIL_REGEX.test(t) && !t.includes("..");
 }
 
-function isStrictFullName(value) {
-  const t = String(value ?? "").trim();
-  return /^[A-Za-z]+(?:\s+[A-Za-z]+)+$/.test(t);
+function isValidContactName(value) {
+  const t = String(value ?? "").trim().replace(/\s+/g, " ");
+  return t.length >= 2 && t.length <= 120;
 }
 
 function hasDigitRepeatedMoreThanFive(value) {
@@ -48,6 +53,92 @@ function isValidContactMessage(value) {
   return t.length >= 5 && t.length <= 5000;
 }
 
+function fourQtUrlHostPath(href) {
+  try {
+    const u = new URL(href);
+    return `${u.host}${u.pathname}`;
+  } catch {
+    return "";
+  }
+}
+
+/** Pretty page title + path for CRM `Location` (e.g. Career — /carrer). */
+function crmPageLocationLabel(pathname) {
+  const raw = pathname && pathname !== "/" ? pathname.replace(/\/+$/, "") : "/";
+  const segments = raw.split("/").filter(Boolean);
+  const first = (segments[0] ?? "").toLowerCase();
+  const bySlug = {
+    "contact-us": "Contact Us",
+    carrer: "Career",
+    career: "Career",
+    projects: "Projects",
+    "about-us": "About Us",
+    nri: "NRI",
+    blog: "Blog",
+  };
+  const title =
+    bySlug[first] ??
+    (first
+      ? first
+          .split("-")
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+          .join(" ")
+      : "Home");
+  const pathPart = raw === "/" ? "/" : raw;
+  return `${title} — ${pathPart}`;
+}
+
+/**
+ * Same WebCreate.aspx pipe as enquiry / brochure: GET with UID, PWD, Channel=MS, Src=Website.
+ * `Location` / `Remark` include current route; `Project` is left blank for this form.
+ */
+async function submitContactLeadToFourQt({
+  fullName,
+  email,
+  mobile,
+  pathname,
+  message,
+}) {
+  const href = typeof window !== "undefined" ? window.location.href : "";
+  const qs =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search)
+      : new URLSearchParams();
+  const pageLoc = crmPageLocationLabel(pathname || "/");
+  const remarkBody =
+    message.length > 280 ? `${message.slice(0, 280)}…` : message;
+  const requestParams = new URLSearchParams({
+    UID: FOURQT_UID,
+    PWD: FOURQT_PWD,
+    Channel: "MS",
+    Src: "Website",
+    ISD: "91",
+    Mob: mobile,
+    Email: email,
+    name: fullName,
+    City: "",
+    Location: pageLoc,
+    Project: "",
+    Remark: `Contact form — ${pageLoc}. ${remarkBody}`,
+    url: fourQtUrlHostPath(href),
+    UniqueId: String(Date.now()),
+    fld1: qs.get("utm_source") ?? "",
+    fld2: qs.get("utm_campaign") ?? "",
+    fld3: qs.get("utm_medium") ?? "",
+    fld4: qs.get("utm_keyword") ?? qs.get("utm_term") ?? "",
+  });
+  const leadRes = await fetch(
+    `${FOURQT_WEB_CREATE_URL}?${requestParams.toString()}`,
+    {
+      method: "GET",
+      cache: "no-store",
+    },
+  );
+  if (!leadRes.ok) {
+    throw new Error(`4QT lead API failed (${leadRes.status}).`);
+  }
+}
+
 const OFFICES = [
   {
     name: "Eternia Office",
@@ -63,6 +154,7 @@ const contactFieldClass =
 const contactTextareaClass = `${contactFieldClass} min-h-[120px] resize-y`;
 
 export function ContactFormSection() {
+  const pathname = usePathname() || "/";
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -88,16 +180,18 @@ export function ContactFormSection() {
     const form = e.currentTarget;
     const fd = new FormData(form);
 
-    const name = String(fd.get("name") ?? "").trim();
+    const name = String(fd.get("name") ?? "")
+      .trim()
+      .replace(/\s+/g, " ")
+      .replace(/\d/g, "");
     const email = String(fd.get("email") ?? "").trim();
     const phone = String(fd.get("phone") ?? "").trim();
     const message = String(fd.get("message") ?? "").trim();
     const mobileDigits = normalizeIndianMobileDigits(phone);
 
     const nextErrors = { name: "", email: "", phone: "", message: "" };
-    if (!isStrictFullName(name)) {
-      nextErrors.name =
-        "Enter a valid name (letters only, 2–120 characters).";
+    if (!isValidContactName(name)) {
+      nextErrors.name = "Please enter your name (2–120 characters).";
     }
     if (!email) {
       nextErrors.email = "Email is required.";
@@ -140,6 +234,26 @@ export function ContactFormSection() {
             data && typeof data.message === "string"
               ? data.message
               : `Could not submit (${res.status}).`,
+        });
+        return;
+      }
+      try {
+        await submitContactLeadToFourQt({
+          fullName: name,
+          email,
+          mobile: mobileDigits,
+          pathname,
+          message: message.trim(),
+        });
+      } catch (err) {
+        const detail =
+          err instanceof Error ? err.message.trim() : String(err);
+        setFormNotice({
+          type: "error",
+          text:
+            detail.length > 0
+              ? `Saved, but CRM sync failed: ${detail.length > 200 ? `${detail.slice(0, 200)}…` : detail}`
+              : "Saved, but CRM sync failed. Please try again later.",
         });
         return;
       }
@@ -306,10 +420,11 @@ export function ContactFormSection() {
                     autoComplete="name"
                     aria-invalid={fieldErrors.name ? "true" : "false"}
                     onChange={(e) => {
-                      e.currentTarget.value = e.currentTarget.value.replace(
-                        /[^A-Za-z\s]/g,
-                        "",
-                      );
+                      let v = e.currentTarget.value
+                        .replace(/\d/g, "")
+                        .replace(/\s{2,}/g, " ");
+                      if (v.length > 120) v = v.slice(0, 120);
+                      e.currentTarget.value = v;
                       setFormNotice(null);
                       setFieldErrors((p) => ({ ...p, name: "" }));
                     }}
@@ -380,7 +495,7 @@ export function ContactFormSection() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex w-full items-center justify-center bg-[#eeeeee] py-3.5 align-middle font-lato text-[16px] font-[500] leading-[24px] tracking-normal text-[#111111] transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex w-full cursor-pointer items-center justify-center bg-[#eeeeee] py-3.5 align-middle font-lato text-[16px] font-[500] leading-[24px] tracking-normal text-[#111111] transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSubmitting ? "Submitting..." : "Submit"}
                 </button>

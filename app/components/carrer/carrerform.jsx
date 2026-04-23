@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import { Lato, Quattrocento } from "next/font/google";
+import { usePathname } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
+import { API_BASE } from "../../dashboard/lib";
 
 const quattroTitle = Quattrocento({
   subsets: ["latin"],
@@ -29,10 +31,13 @@ const ALLOWED_CV_TYPES = [
 ];
 
 const MAX_CV_BYTES = 5 * 1024 * 1024;
-/** Keep under typical Apps Script body limits (same as Work With Us modal). */
-const RESUME_MAX_FOR_SHEET_UPLOAD = 1.5 * 1024 * 1024;
 
-const ENQUIRE_API_PATH = "/api/enquire";
+const CAREER_SUBMIT_URL = `${API_BASE}/api/users/send-carrer-data`;
+
+const FOURQT_WEB_CREATE_URL = "https://eternia04.4erealty.com/WebCreate.aspx";
+const FOURQT_UID = "fourqt";
+const FOURQT_PWD = "wn9mxO76f34=";
+
 const DESIGNATION_OPTIONS = [
   { value: "", label: "Select Designation" },
   { value: "Sales Manager", label: "Sales Manager" },
@@ -40,27 +45,19 @@ const DESIGNATION_OPTIONS = [
   { value: "Marketing Manager", label: "Marketing Manager" },
 ];
 
-function readResumeAsBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = reader.result;
-      const comma = dataUrl.indexOf(",");
-      resolve(comma >= 0 ? dataUrl.slice(comma + 1) : dataUrl);
-    };
-    reader.onerror = () => reject(new Error("Could not read CV file."));
-    reader.readAsDataURL(file);
-  });
+function normalizeIndianMobileDigits(value) {
+  let d = String(value ?? "").replace(/\D/g, "");
+  if (d.length === 12 && d.startsWith("91")) d = d.slice(2);
+  if (d.length === 11 && d.startsWith("0")) d = d.slice(1);
+  return d;
 }
 
-function digitsOnly(phone) {
-  return phone.replace(/\D/g, "");
-}
-
-function isValidFullName(name) {
-  const value = name.trim();
-  // Full name: letters and spaces only, with at least first + last name.
-  return /^[A-Za-z]+(?:\s+[A-Za-z]+)+$/.test(value);
+/** Same rules as contact form: trim, single spaces, no digits, 2–120 chars. */
+function normalizeCareerName(name) {
+  return String(name ?? "")
+    .trim()
+    .replace(/\s+/g, " ")
+    .replace(/\d/g, "");
 }
 
 const EMAIL_REGEX =
@@ -90,10 +87,10 @@ const FIELD_ORDER = /** @type {const} */ ([
 function validateTextField(field, textValues) {
   switch (field) {
     case "name": {
-      const name = textValues.name.trim();
+      const name = normalizeCareerName(textValues.name);
       if (!name) return "Please enter your name.";
-      if (!isValidFullName(name))
-        return "Enter full name using letters only (no numbers or symbols).";
+      if (name.length < 2 || name.length > 120)
+        return "Please enter your name (2–120 characters).";
       return;
     }
     case "email": {
@@ -103,8 +100,8 @@ function validateTextField(field, textValues) {
       return;
     }
     case "phone": {
-      const phoneDigits = digitsOnly(textValues.phone);
-      if (!phoneDigits) return "Please enter your phone number.";
+      const phoneDigits = normalizeIndianMobileDigits(textValues.phone);
+      if (!phoneDigits) return "Mobile number is required.";
       const digitCounts = [...phoneDigits].reduce((acc, d) => {
         acc[d] = (acc[d] || 0) + 1;
         return acc;
@@ -112,7 +109,7 @@ function validateTextField(field, textValues) {
       if (Object.values(digitCounts).some((count) => Number(count) > 5))
         return "Any single digit cannot repeat more than 5 times.";
       if (!/^[6-9]\d{9}$/.test(phoneDigits))
-        return "Enter a valid Indian mobile number (starts with 6-9).";
+        return "Enter a valid 10-digit Indian mobile (e.g. 9876543210).";
       return;
     }
     case "designation": {
@@ -154,7 +151,95 @@ function validateCareerForm(textValues, cv) {
   return errors;
 }
 
+function fourQtUrlHostPath(href) {
+  try {
+    const u = new URL(href);
+    return `${u.host}${u.pathname}`;
+  } catch {
+    return "";
+  }
+}
+
+/** Same labels as contact form CRM helper (e.g. Career — /carrer). */
+function crmPageLocationLabel(pathname) {
+  const raw = pathname && pathname !== "/" ? pathname.replace(/\/+$/, "") : "/";
+  const segments = raw.split("/").filter(Boolean);
+  const first = (segments[0] ?? "").toLowerCase();
+  const bySlug = {
+    "contact-us": "Contact Us",
+    carrer: "Career",
+    career: "Career",
+    projects: "Projects",
+    "about-us": "About Us",
+    nri: "NRI",
+    blog: "Blog",
+  };
+  const title =
+    bySlug[first] ??
+    (first
+      ? first
+          .split("-")
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+          .join(" ")
+      : "Home");
+  const pathPart = raw === "/" ? "/" : raw;
+  return `${title} — ${pathPart}`;
+}
+
+/**
+ * FourQT WebCreate.aspx — same query pattern as contact/brochure (name, Email, Mob, ISD=91).
+ */
+async function submitCareerLeadToFourQt({
+  fullName,
+  email,
+  mobile,
+  pathname,
+  designation,
+  message,
+}) {
+  const href = typeof window !== "undefined" ? window.location.href : "";
+  const qs =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search)
+      : new URLSearchParams();
+  const pageLoc = crmPageLocationLabel(pathname || "/");
+  const msgShort =
+    message.length > 220 ? `${message.slice(0, 220)}…` : message;
+  const remark = `Career form — ${pageLoc}. Designation: ${designation}. ${msgShort}`;
+  const requestParams = new URLSearchParams({
+    UID: FOURQT_UID,
+    PWD: FOURQT_PWD,
+    Channel: "MS",
+    Src: "Website",
+    ISD: "91",
+    Mob: mobile,
+    Email: email,
+    name: fullName,
+    City: "",
+    Location: pageLoc,
+    Project: "",
+    Remark: remark,
+    url: fourQtUrlHostPath(href),
+    UniqueId: String(Date.now()),
+    fld1: qs.get("utm_source") ?? "",
+    fld2: qs.get("utm_campaign") ?? "",
+    fld3: qs.get("utm_medium") ?? "",
+    fld4: qs.get("utm_keyword") ?? qs.get("utm_term") ?? "",
+  });
+  const leadRes = await fetch(
+    `${FOURQT_WEB_CREATE_URL}?${requestParams.toString()}`,
+    {
+      method: "GET",
+      cache: "no-store",
+    },
+  );
+  if (!leadRes.ok) {
+    throw new Error(`4QT lead API failed (${leadRes.status}).`);
+  }
+}
+
 export default function Carrerform() {
+  const pathname = usePathname() || "/";
   const fileInputRef = useRef(null);
 
   /** @type {[Record<TextField, string>, function]} */
@@ -226,57 +311,26 @@ export default function Carrerform() {
 
     if (!cv) return;
 
-    if (cv.size > RESUME_MAX_FOR_SHEET_UPLOAD) {
-      setErrors({
-        cv: "For online submission, CV must be 1.5 MB or smaller (compress PDF if needed).",
-      });
-      return;
-    }
-
     setIsSubmitting(true);
-    let resumeBase64;
-    try {
-      resumeBase64 = await readResumeAsBase64(cv);
-    } catch {
-      setIsSubmitting(false);
-      setSubmitError("Could not read CV file — try another file.");
-      return;
-    }
 
-    const fullName = values.name.trim();
+    const fullName = normalizeCareerName(values.name);
     const email = values.email.trim();
-    const mobile = digitsOnly(values.phone);
+    const mobile = normalizeIndianMobileDigits(values.phone);
     const designation = values.designation.trim();
     const message = values.message.trim();
-    const details = [
-      `Designation: ${designation}`,
-      `CV: ${cv.name} (${cv.type || "file"})`,
-    ].join("\n");
 
-    const payload = {
-      formType: "Career application",
-      fullName,
-      email,
-      mobile,
-      designation,
-      /** Sheet scripts often reuse Work With Us keys for the “team / role” column. */
- 
-      teamLabel: designation,
-      message,
-      details,
-      note: message,
-      notes: message,
-      consent: true,
-      resumeFileName: cv.name,
-      resumeMimeType: cv.type || "application/octet-stream",
-      resumeBase64,
-    };
+    const fd = new FormData();
+    fd.append("name", fullName);
+    fd.append("email", email);
+    fd.append("mobile", mobile);
+    fd.append("designation", designation);
+    fd.append("message", message);
+    fd.append("resume", cv, cv.name);
 
     try {
-      const res = await fetch(ENQUIRE_API_PATH, {
+      const res = await fetch(CAREER_SUBMIT_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: fd,
       });
       const text = await res.text();
       let parsed;
@@ -295,20 +349,25 @@ export default function Carrerform() {
             : `Server returned ${res.status}`,
         );
       }
-      if (parsed && typeof parsed === "object" && "ok" in parsed && parsed.ok === false) {
-        const m =
-          "message" in parsed && typeof parsed.message === "string"
-            ? parsed.message
-            : "Submission rejected.";
-        throw new Error(m);
-      }
-      const trimmed = text.trim();
-      if (
-        trimmed.startsWith("<!DOCTYPE") ||
-        trimmed.startsWith("<html") ||
-        /Script function not found/i.test(text)
-      ) {
-        throw new Error("Apps Script: add doGet + doPost and redeploy Web app.");
+
+      try {
+        await submitCareerLeadToFourQt({
+          fullName,
+          email,
+          mobile,
+          pathname,
+          designation,
+          message,
+        });
+      } catch (err) {
+        const detail =
+          err instanceof Error ? err.message.trim() : String(err);
+        setSubmitError(
+          detail.length > 0
+            ? `Saved, but CRM sync failed: ${detail.length > 200 ? `${detail.slice(0, 200)}…` : detail}`
+            : "Saved, but CRM sync failed. Please try again later.",
+        );
+        return;
       }
 
       setSubmitSuccess(true);
@@ -408,9 +467,13 @@ export default function Carrerform() {
                     autoComplete="name"
                     placeholder="Enter Your Name"
                     value={values.name}
-                    onChange={(e) =>
-                      onTextChange("name", e.target.value.replace(/\d+/g, ""))
-                    }
+                    onChange={(e) => {
+                      let v = e.target.value
+                        .replace(/\d/g, "")
+                        .replace(/\s{2,}/g, " ");
+                      if (v.length > 120) v = v.slice(0, 120);
+                      onTextChange("name", v);
+                    }}
                     onBlur={() => onTextBlur("name")}
                     maxLength={120}
                     aria-invalid={errors.name ? true : undefined}
@@ -469,7 +532,10 @@ export default function Carrerform() {
                     placeholder="Enter Your Phone"
                     value={values.phone}
                     onChange={(e) =>
-                      onTextChange("phone", digitsOnly(e.target.value).slice(0, 10))
+                      onTextChange(
+                        "phone",
+                        normalizeIndianMobileDigits(e.target.value).slice(0, 10),
+                      )
                     }
                     onBlur={() => onTextBlur("phone")}
                     maxLength={10}
