@@ -58,6 +58,20 @@ function projectFromPath(pathname: string): string {
   return "Sanskar Website";
 }
 
+///project ke naam se tha ab project ke naam ke aage sanskar add kiya hai
+
+function normalizeProjectName(projectName: string | undefined, pathname: string): string {
+  const raw = String(projectName ?? "").trim().toLowerCase();
+  if (raw.includes("eternia")) return "Eternia Sanskar";
+  if (raw.includes("high life") || raw.includes("high-life") || raw.includes("highlife")) {
+    return "High Life Sanskar";
+  }
+  if (raw.includes("forest walk") || raw.includes("forest-walk") || raw.includes("forestwalk")) {
+    return "Forest Walk Sanskar";
+  }
+  return projectFromPath(pathname);
+}
+
 function splitFullNameForApi(fullName: string): {
   firstName: string;
   lastName: string;
@@ -93,20 +107,21 @@ async function submitLeadToFourQt(payload: {
   const qs = new URLSearchParams(query);
   const uniqueId = `${Date.now()}`;
   const pageLabel = payload.sourcePage || pageLabelFromPath(currentPath);
+  const projectLabel = normalizeProjectName(payload.projectName, currentPath);
   const requestParams = new URLSearchParams({
     UID: FOURQT_UID,
     PWD: FOURQT_PWD,
     Channel: "MS",
-    Src: pageLabel,
+    Src: "Sanskar Website",
     ISD: "91",
     Mob: payload.mobile,
     Email: payload.email,
     name: payload.fullName,
     City: "",
-    Location: pageLabel,
-    Project: payload.projectName || projectFromPath(currentPath),
+    Location: "Sanskar Website",
+    Project: projectLabel,
     Remark: payload.projectName
-      ? `Enquiry from ${pageLabel} for ${payload.projectName}`
+      ? `Enquiry from ${pageLabel} for ${projectLabel}`
       : `Enquiry from ${pageLabel} callback form`,
     url: urlWithoutProtocolAndQuery(currentHref),
     UniqueId: uniqueId,

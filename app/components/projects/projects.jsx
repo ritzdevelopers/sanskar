@@ -79,6 +79,18 @@ function brochureLeadUrlHostPath(href) {
   }
 }
 
+function normalizeProjectLabel(project) {
+  const p = String(project ?? "").trim().toLowerCase();
+  if (p.includes("eternia")) return "Eternia Sanskar";
+  if (p.includes("high life") || p.includes("high-life") || p.includes("highlife")) {
+    return "High Life Sanskar";
+  }
+  if (p.includes("forest walk") || p.includes("forest-walk") || p.includes("forestwalk")) {
+    return "Forest Walk Sanskar";
+  }
+  return String(project ?? "").trim();
+}
+
 /** Same WebCreate.aspx lead pipe as enquiry modal; fire after brochure PDF download. */
 async function submitBrochureLeadToFourQt({ name, email, mobile, project }) {
   const href = typeof window !== "undefined" ? window.location.href : "";
@@ -86,6 +98,7 @@ async function submitBrochureLeadToFourQt({ name, email, mobile, project }) {
     typeof window !== "undefined"
       ? new URLSearchParams(window.location.search)
       : new URLSearchParams();
+  const projectLabel = normalizeProjectLabel(project);
   const requestParams = new URLSearchParams({
     UID: FOURQT_UID,
     PWD: FOURQT_PWD,
@@ -97,8 +110,8 @@ async function submitBrochureLeadToFourQt({ name, email, mobile, project }) {
     name,
     City: "",
     Location: "Projects page",
-    Project: project,
-    Remark: `Brochure download — ${project}`,
+    Project: projectLabel,
+    Remark: `Brochure download — ${projectLabel}`,
     url: brochureLeadUrlHostPath(href),
     UniqueId: String(Date.now()),
     fld1: query.get("utm_source") ?? "",
